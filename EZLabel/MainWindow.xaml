@@ -1,0 +1,63 @@
+﻿<Window x:Class="EZLabel.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EZLabel"
+	   xmlns:custom="clr-namespace:EZLabel.Custom_Control.Image_View"
+	   xmlns:ann="clr-namespace:EZLabel.Windows.Annotation_List"
+	   xmlns:canv="clr-namespace:EZLabel.Windows.Main_Canvas"
+	   xmlns:toolbx="clr-namespace:EZLabel.Windows.Toolbar_Window"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="720" Width="1280">
+	<Window.InputBindings>
+		<KeyBinding Modifiers="Control"
+                    Key="N"
+                  Command="{Binding MenuItem_NewFile_Click}" />
+	</Window.InputBindings>
+	<Grid>
+		<DockPanel HorizontalAlignment="Stretch">
+			<!-- Menu Bar -->
+			<Menu DockPanel.Dock="Top" Height="20">
+				<MenuItem Header="_File">
+					<MenuItem Header="_New" Click="MenuItem_NewFile_Click"/>
+					<MenuItem Header="_Open" />
+					<MenuItem Header="_Save All" />
+					<Separator />
+					<MenuItem Header="_Close" />
+				</MenuItem>
+			</Menu>
+
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="30"></RowDefinition>
+					<RowDefinition Height="*"/>
+					<RowDefinition Height="175"></RowDefinition>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="1*"></ColumnDefinition>
+					<ColumnDefinition Width="200"></ColumnDefinition>
+				</Grid.ColumnDefinitions>
+				
+				<!-- Tool Bar -->
+				<toolbx:AnnotationToolBar Grid.Column="0" Grid.Row="0"  DockPanel.Dock="Top" ></toolbx:AnnotationToolBar>
+
+				<!-- Main Canvas -->
+				<canv:MainCanvas Grid.Column="0" Grid.Row="1"
+							  x:Name="main_canvas"></canv:MainCanvas>
+
+				<!-- Image Files View -->
+				<custom:ImageListWindow x:Name="ilw"  
+								    Grid.Column="0" Grid.Row="2"/>
+
+				<DockPanel Grid.Column="1" Grid.Row="0" Grid.RowSpan="4">
+					<!-- 图片的属性栏-->
+					<custom:ImagePropertiesWindow x:Name="ipw" DockPanel.Dock="Top"></custom:ImagePropertiesWindow>
+
+					<!-- Annotation Lists -->
+					<ann:AnnoListPanel  DockPanel.Dock="Top"></ann:AnnoListPanel>
+				</DockPanel>
+			</Grid>
+		</DockPanel>
+	</Grid>
+</Window>

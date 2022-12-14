@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="EZLabel.Windows.Main_Canvas.Annotation_Elements.DraggableDot"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EZLabel.Windows.Main_Canvas.Annotation_Elements"
+             mc:Ignorable="d" 
+             d:DesignHeight="10" d:DesignWidth="10">
+	<!-- 一个简单的圆圈 -->
+	<Ellipse 
+		Name="dot"
+		Fill="#FFB5DCFF" 
+		Stroke="#FF6A20D4" 
+		StrokeThickness="1"
+		PreviewMouseDown="dot_PreviewMouseDown"
+		PreviewMouseMove="dot_PreviewMouseMove"
+		PreviewMouseUp="dot_PreviewMouseUp"
+		></Ellipse>
+</UserControl>

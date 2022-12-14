@@ -1,0 +1,8 @@
+﻿<a href="https://www.flaticon.com/free-icons/perimeter" title="Perimeter icons">Perimeter icons created by Voysla - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/rectangle" title="rectangle icons">Rectangle icons created by Voysla - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/rhombus" title="rhombus icons">Rhombus icons created by Voysla - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/circle" title="circle icons">Circle icons created by Voysla - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/segment" title="segment icons">Segment icons created by Voysla - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/polygonal" title="polygonal icons">Polygonal icons created by Voysla - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/crop" title="crop icons">Crop icons created by joalfa - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/select" title="select icons">Select icons created by juicy_fish - Flaticon</a>

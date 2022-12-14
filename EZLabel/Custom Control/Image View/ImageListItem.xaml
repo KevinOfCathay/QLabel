@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="EZLabel.Custom_Control.Image_View.ImageListItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EZLabel.Custom_Control.Image_View"
+             mc:Ignorable="d" 
+             d:DesignHeight="120" d:DesignWidth="120">
+	<Grid>
+		<StackPanel HorizontalAlignment="Center" Name="ViewImageContainer">
+			<Border Name="thumbnail_image_border" BorderThickness="2" BorderBrush="LightGray">
+				<Button BorderThickness="0" Background="Transparent" Click="ImageButtonClick">
+					<Image  Name="thumbnail_image" Height="100" Width="100"></Image>
+				</Button>
+			</Border>
+			<TextBlock Name="image_name" Width="100" TextWrapping="NoWrap">Image Name</TextBlock>
+		</StackPanel>
+	</Grid>
+</UserControl>
