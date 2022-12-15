@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EZLabel.Scripts.AnnotationData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace EZLabel.Windows.Main_Canvas.Annotation_Elements {
 	public partial class DraggableRectangle : UserControl {
@@ -21,6 +17,7 @@ namespace EZLabel.Windows.Main_Canvas.Annotation_Elements {
 		/// </summary>
 		public Action<DraggableRectangle, double, double> eRedraw;
 
+		public AnnoData data;
 		public DraggableDot[] dots = new DraggableDot[5];
 		public DraggableRectangle () {
 			InitializeComponent();

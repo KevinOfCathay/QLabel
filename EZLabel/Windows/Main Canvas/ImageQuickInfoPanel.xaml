@@ -3,16 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:EZLabel.Windows.Main_Canvas"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             xmlns:local="clr-namespace:EZLabel.Windows.Main_Canvas">
 	<!-- 最底部显示打开图片的信息 -->
 	<StackPanel 
 			DockPanel.Dock="Bottom"
 			Orientation="Horizontal"
 			HorizontalAlignment="Right"
-			MaxHeight="25">
+			MaxHeight="30">
 		<TextBlock 
+					VerticalAlignment="Center"
 					FontSize="8.5" 
 					 Margin="5">
 				
@@ -27,5 +26,13 @@
 				<Run>y:</Run>
 				<Run  Name="mouse_y">0</Run>
 		</TextBlock>
+		<Button Width="40" Margin="3"
+			   Name="one_one_ratio"
+			   Click="one_one_ratio_Click"
+			   >1:1</Button>
+		<Button Width="40" Margin="3"
+			   Name="fill_canvas"
+			   Click="fill_canvas_Click"
+			   >Fill</Button>
 	</StackPanel>
 </UserControl>

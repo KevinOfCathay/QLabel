@@ -24,6 +24,7 @@ namespace EZLabel.Windows.Main_Canvas {
 		public MainCanvas () {
 			InitializeComponent();
 			tool.Activate(this);
+			this.image_quick_info_panel.canvas = this.annotation_canvas;
 		}
 		public Point GetImageSize () {
 			return new Point(canvas_image.ActualWidth, canvas_image.ActualHeight);
@@ -31,6 +32,7 @@ namespace EZLabel.Windows.Main_Canvas {
 		public Point GetImagePosition () {
 			return new Point(Canvas.GetTop(canvas_grid), Canvas.GetLeft(canvas_grid));
 		}
+
 		public void LoadImage (ImageFileData data) {
 			var hscale = data.height / annotation_canvas.ActualHeight;
 			var wscale = data.width / annotation_canvas.ActualWidth;
