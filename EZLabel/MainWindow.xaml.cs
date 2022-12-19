@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using EZLabel.Custom_Control.Image_View;
 using System.IO;
 using EZLabel.Windows.Main_Canvas;
+using System.Diagnostics;
 
 namespace EZLabel {
 	/// <summary>
@@ -69,6 +70,11 @@ namespace EZLabel {
 			main_canvas.eImageLoaded += (MainCanvas m, ImageFileData data) => {
 				ipw.SetImageUIProperties(data);
 			};
+		}
+
+		private void TestFunction (object sender, RoutedEventArgs e) {
+			Debug.WriteLine("测试用函数被触发");
+			main_canvas.tool.DrawRectangle(main_canvas, new System.Windows.Point(150, 50), new System.Windows.Point(200, 250));
 		}
 	}
 }

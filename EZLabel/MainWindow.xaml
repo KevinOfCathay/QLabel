@@ -14,6 +14,9 @@
 		<KeyBinding Modifiers="Control"
                     Key="N"
                   Command="{Binding MenuItem_NewFile_Click}" />
+		<KeyBinding Modifiers="Control"
+                    Key="X"
+                  Command="{Binding TestFunction}" />
 	</Window.InputBindings>
 	<Grid>
 		<DockPanel HorizontalAlignment="Stretch">
@@ -24,6 +27,7 @@
 					<MenuItem Header="_Open" />
 					<MenuItem Header="_Save All" />
 					<Separator />
+					<MenuItem Header="_Test" Click="TestFunction" />
 					<MenuItem Header="_Close" />
 				</MenuItem>
 			</Menu>

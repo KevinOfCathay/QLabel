@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenCvSharp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -62,3 +63,4 @@ namespace EZLabel.Windows.Main_Canvas {
 		}
 	}
 }
+

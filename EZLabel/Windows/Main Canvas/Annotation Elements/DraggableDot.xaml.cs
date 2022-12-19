@@ -17,7 +17,7 @@ namespace EZLabel.Windows.Main_Canvas.Annotation_Elements {
 	/// <summary>
 	/// Interaction logic for DraggableDot.xaml
 	/// </summary>
-	public partial class DraggableDot : UserControl {
+	public partial class DraggableDot : UserControl, IAnnotationElement {
 		public Action<DraggableDot, MouseEventArgs> eMouseDown, eMouseMove, eMouseUp;
 		public bool activate { private set; get; } = false;
 
@@ -45,6 +45,10 @@ namespace EZLabel.Windows.Main_Canvas.Annotation_Elements {
 
 		private void Drag () {
 
+		}
+
+		public void Delete () {
+			throw new NotImplementedException();
 		}
 	}
 }

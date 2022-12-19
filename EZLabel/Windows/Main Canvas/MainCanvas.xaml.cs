@@ -26,6 +26,7 @@ namespace EZLabel.Windows.Main_Canvas {
 			tool.Activate(this);
 			this.image_quick_info_panel.canvas = this.annotation_canvas;
 		}
+
 		public Point GetImageSize () {
 			return new Point(canvas_image.ActualWidth, canvas_image.ActualHeight);
 		}
@@ -64,9 +65,6 @@ namespace EZLabel.Windows.Main_Canvas {
 			eMouseDown?.Invoke(this, e);
 		}
 
-		private void UserControl_Loaded (object sender, RoutedEventArgs e) {
-
-		}
 
 		private void annotation_canvas_PreviewMouseMove (object sender, MouseEventArgs e) {
 			eMouseMove?.Invoke(this, e);

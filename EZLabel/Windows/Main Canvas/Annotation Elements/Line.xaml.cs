@@ -17,9 +17,13 @@ namespace EZLabel.Windows.Main_Canvas.Annotation_Elements {
 	/// <summary>
 	/// Interaction logic for Line.xaml
 	/// </summary>
-	public partial class Line : UserControl {
+	public partial class Line : UserControl, IAnnotationElement {
 		public Line () {
 			InitializeComponent();
+		}
+
+		public void Delete () {
+			throw new NotImplementedException();
 		}
 	}
 }

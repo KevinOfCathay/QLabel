@@ -18,11 +18,14 @@ namespace EZLabel.Windows.Main_Canvas.Annotation_Elements
     /// <summary>
     /// Interaction logic for SelectionBox.xaml
     /// </summary>
-    public partial class SelectionBox : UserControl
-    {
+    public partial class SelectionBox : UserControl, IAnnotationElement {
         public SelectionBox()
         {
             InitializeComponent();
         }
+
+		public void Delete () {
+			throw new NotImplementedException();
+		}
 	}
 }

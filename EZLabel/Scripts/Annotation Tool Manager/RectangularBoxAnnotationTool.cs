@@ -27,8 +27,10 @@ namespace EZLabel.Scripts.AnnotationToolManager {
 			canvas.eMouseUp -= StopDraw;
 		}
 
-		public void DrawRectangle (MainCanvas canvas, Point position, Point size) {
-
+		public void DrawRectangle (MainCanvas canvas, Point tl, Point br) {
+			rect = new DraggableRectangle();
+			rect.Redraw(canvas.annotation_canvas, tl, br);
+			canvas.annotation_canvas.Children.Add(rect);
 		}
 
 		public void CreateNewRectangle (MainCanvas canvas, MouseEventArgs e) {
@@ -52,7 +54,9 @@ namespace EZLabel.Scripts.AnnotationToolManager {
 			if ( dragging ) {
 				var p = e.GetPosition(canvas.annotation_canvas);
 
-				if ( rect != null ) { rect.Resize(p.X - x, p.Y - y); }
+				if ( rect != null ) {
+					rect.Resize(canvas.annotation_canvas, p.X - x, p.Y - y);
+				}
 			}
 		}
 		public void StopDraw (MainCanvas canvas, MouseEventArgs e) {
