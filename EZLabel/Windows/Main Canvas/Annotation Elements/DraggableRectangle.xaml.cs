@@ -62,6 +62,21 @@ namespace EZLabel.Windows.Main_Canvas.Annotation_Elements {
 		}
 
 		/// <summary>
+		/// 在画布上绘制/重新绘制
+		/// 矩形区域的大小与位置由左上角的顶点 tl 与右下角的顶点 br 确定
+		/// </summary>
+		public void Redraw (Canvas canvas, Point tl, double width, double height) {
+			// 定义矩形 (左上角) 的位置 
+			Canvas.SetTop(this, tl.X);
+			Canvas.SetLeft(this, tl.Y);
+
+			container.Width = Math.Abs(width);
+			container.Height = Math.Abs(height);
+
+			eRedraw?.Invoke(this, width, height);
+		}
+
+		/// <summary>
 		/// 设置标签（显示）
 		/// </summary>
 		public void SetLabel (string label) {
