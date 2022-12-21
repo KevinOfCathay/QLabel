@@ -40,6 +40,10 @@ namespace EZLabel.Windows.Main_Canvas {
 
 			_img.Width = data.Width;
 			_img.Height = data.Height;
+
+			_canvas.Width = data.Width;
+			_canvas.Height = data.Height;
+
 			SetZoomText(1.0);
 		}
 		public void FillRatio () {

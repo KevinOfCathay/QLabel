@@ -14,27 +14,33 @@
 		<local:ImageQuickInfoPanel 
 			x:Name="image_quick_info_panel"
 			DockPanel.Dock="Bottom"></local:ImageQuickInfoPanel>
+		
+		<ScrollViewer 
+					Name="scroll"
+					DockPanel.Dock="Bottom"
+					IsHitTestVisible="True"
+					Panel.ZIndex="10"
+					VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible"
+					ScrollChanged="scroll_ScrollChanged">
+			<Canvas 
+				Name="annotation_canvas"
+				PreviewMouseMove="annotation_canvas_PreviewMouseMove"
+				PreviewMouseDown="canvas_PreviewMouseDown"
+				PreviewMouseUp="canvas_PreviewMouseUp" Background="#FFC3C3C3">
 
-		<Canvas 
-			Name="annotation_canvas"
-			DockPanel.Dock="Bottom"
-			PreviewMouseMove="annotation_canvas_PreviewMouseMove"
-			PreviewMouseDown="canvas_PreviewMouseDown"
-			PreviewMouseUp="canvas_PreviewMouseUp" Background="#FFC3C3C3">
-			<!-- 使用 Grid 来使图片居中 -->
-			<Grid Name="canvas_grid"
+				<!-- 使用 Grid 来使图片居中 -->
+				<Grid Name="canvas_grid"
 					Width="{Binding ActualWidth, ElementName=annotation_canvas}" 
 					Height="{Binding ActualHeight, ElementName=annotation_canvas}">
-				<ScrollViewer 
-				VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+
 					<Image 
 					Name="canvas_image"
 					HorizontalAlignment="Center"
 					VerticalAlignment="Center"
 					Stretch="Uniform" 
 					StretchDirection="DownOnly" />
-				</ScrollViewer>
-			</Grid>
-		</Canvas>
+				</Grid>
+			</Canvas>
+		</ScrollViewer>
 	</DockPanel>
 </UserControl>
