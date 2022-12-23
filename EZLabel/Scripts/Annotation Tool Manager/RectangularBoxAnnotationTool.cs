@@ -69,16 +69,14 @@ namespace EZLabel.Scripts.AnnotationToolManager {
 		public void StopDraw (MainCanvas canvas, MouseEventArgs e) {
 			dragging = false;
 			e.Handled = true;
-
-			// 计算矩形四个点的实际位置
-			var img_size = canvas.GetImageSize();
-			var img_pos = canvas.GetImagePosition();
-
-			// 当前没有图片被加载
-			if ( img_pos.X == double.NaN || img_pos.Y == double.NaN ) {
-				return;
-			} else {
-
+			if ( rect != null ) {
+				// 计算矩形四个点的实际位置
+				double left = Canvas.GetLeft(rect);
+				double top = Canvas.GetTop(rect);
+				var tl_real = canvas.RealPosition(new Point(left, top));    // 左上角
+				var tr_real = canvas.RealPosition(new Point(left + rect.ActualWidth, top));     // 右上角
+				var bl_real = canvas.RealPosition(new Point(left, top + rect.ActualHeight));     // 左下角
+				var br_real = canvas.RealPosition(new Point(left + rect.ActualWidth, top + rect.ActualHeight));     // 右下角
 			}
 		}
 	}

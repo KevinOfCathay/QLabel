@@ -14,17 +14,23 @@
 					VerticalAlignment="Center"
 					FontSize="8.5" 
 					 Margin="5">
-				
+				<!-- 鼠标的坐标 -->
+				<Run>x: </Run>
+				<Run  Name="mouse_x_pos">0</Run>
+			
+				<Run>y: </Run>
+				<Run  Name="mouse_y_pos">0</Run>
+		</TextBlock>
+
+		<!--中间隔开一定的距离-->
+		
+		<TextBlock	
+			VerticalAlignment="Center"
+			FontSize="8.5" 
+			Margin="5">
 				<!-- 图片的缩放比例 -->
 				<Run>zoom:</Run>
 				<Run  Name="zoom_level">0%</Run>
-				
-				<!-- 鼠标的坐标 -->
-				<Run>x:</Run>
-				<Run  Name="mouse_x">0</Run>
-				
-				<Run>y:</Run>
-				<Run  Name="mouse_y">0</Run>
 		</TextBlock>
 		<Button Width="40" Margin="3"
 			   Name="one_one_ratio"

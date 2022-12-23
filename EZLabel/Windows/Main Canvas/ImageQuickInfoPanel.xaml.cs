@@ -1,18 +1,10 @@
-﻿using OpenCvSharp;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace EZLabel.Windows.Main_Canvas {
 	/// <summary>
@@ -26,23 +18,21 @@ namespace EZLabel.Windows.Main_Canvas {
 				_img = value.FindName("canvas_image") as Image;
 			}
 		}
+
 		private Canvas _canvas;
 		private Image _img;
 
 		public ImageQuickInfoPanel () {
 			InitializeComponent();
 		}
-		public void SetZoomText (double zoom) {
-			zoom_level.Text = ( zoom * 100.0 ).ToString("N3") + "%";
-		}
+		public void SetZoomText (double zoom) { zoom_level.Text = ( zoom * 100.0 ).ToString("N3") + "%"; }
+		public void SetMousePositionText (Point mouse_pos) { mouse_x_pos.Text = ( (int) mouse_pos.X ).ToString(); mouse_y_pos.Text = ( (int) mouse_pos.Y ).ToString(); }
+
 		public void OneToOneRatio () {
 			var data = _img.Source;
 
 			_img.Width = data.Width;
 			_img.Height = data.Height;
-
-			_canvas.Width = data.Width;
-			_canvas.Height = data.Height;
 
 			SetZoomText(1.0);
 		}
@@ -65,6 +55,7 @@ namespace EZLabel.Windows.Main_Canvas {
 		private void fill_canvas_Click (object sender, RoutedEventArgs e) {
 			FillRatio();
 		}
+
 	}
 }
 

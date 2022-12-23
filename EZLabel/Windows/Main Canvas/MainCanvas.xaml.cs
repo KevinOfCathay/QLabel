@@ -16,7 +16,7 @@ using System.Windows.Media;
 
 namespace EZLabel.Windows.Main_Canvas {
 	public partial class MainCanvas : UserControl {
-		private double zoom;          // zoom level
+		private double image_scale;          // image scale level
 		public Point image_size { get; private set; } = new Point(0, 0);      // 图片大小，用于计算annotation的位置，在未加载时图片大小为 0
 		public Point image_offset { get; private set; } = new Point(0, 0);      // 图片在画布上的偏移量，用于计算annotation的位置，在未加载时图片，或者图片居中时大小为 0
 		public Action<MainCanvas, ImageFileData> eImageLoaded;
@@ -27,13 +27,44 @@ namespace EZLabel.Windows.Main_Canvas {
 			InitializeComponent();
 			tool.Activate(this);
 			this.image_quick_info_panel.canvas = this.annotation_canvas;
+			eMouseMove += (MainCanvas c, MouseEventArgs e) => {
+				this.image_quick_info_panel.SetMousePositionText(e.GetPosition(this));
+			};
 		}
 
 		public Point GetImageSize () {
 			return new Point(canvas_image.ActualWidth, canvas_image.ActualHeight);
 		}
-		public Point GetImagePosition () {
-			return new Point(Canvas.GetTop(canvas_grid), Canvas.GetLeft(canvas_grid));
+
+		public Point GetCanvasSize () {
+			return new Point(annotation_canvas.ActualWidth, annotation_canvas.ActualHeight);
+		}
+
+		/// <summary>
+		/// 画布上的点对应的图片的实际点
+		/// </summary>
+		public Point RealPosition (Point point) {
+			// 1. 首先获得图片左上角的点对应的位置，
+			// 不考虑 scrollview 的 offset
+			// 例如：图片尺寸为 128×128 且居中，
+			// 左上角的点为 (画布宽W-128)/2,  (画布高H-128)/2
+			// 即，点 （  (画布宽W-128)/2,  (画布高H-128)/2 ）--> （0, 0）
+			Point canvas_sz = GetCanvasSize();
+			Point img_sz = GetImageSize();
+
+			Vector tl = ( canvas_sz - img_sz ) / 2.0;
+
+			// 2. 考虑 scroll offset 的影响
+			// 例如：当 x offset = 10 时，坐标 （0, 0）所对应的实际点为 （10, 0）
+
+			// 3.  计算点与左上角点的差
+			var diff = point - tl;
+
+			return diff;
+		}
+
+		public void ResizeImage () {
+
 		}
 
 		public void LoadImage (ImageFileData data) {
@@ -45,12 +76,12 @@ namespace EZLabel.Windows.Main_Canvas {
 			if ( hscale <= 1 && wscale <= 1 ) {
 				target_height = data.height;
 				target_width = data.width;
-				zoom = 1.0;
+				image_scale = 1.0;
 			} else {
 				var scale = hscale > wscale ? hscale : wscale;
 				target_height = annotation_canvas.ActualHeight;
 				target_width = annotation_canvas.ActualWidth;
-				zoom = 1 / scale;
+				image_scale = 1 / scale;
 			}
 			canvas_image.Width = target_width;
 			canvas_image.Height = target_height;
@@ -60,7 +91,7 @@ namespace EZLabel.Windows.Main_Canvas {
 			image_offset = GetOffsetFromScroll();
 
 			// 设置底层信息栏的文字
-			image_quick_info_panel.SetZoomText(zoom);
+			image_quick_info_panel.SetZoomText(image_scale);
 
 			eImageLoaded?.Invoke(this, data);
 		}
@@ -92,5 +123,6 @@ namespace EZLabel.Windows.Main_Canvas {
 			Debug.WriteLine("canvas mouse up");
 			eMouseUp?.Invoke(this, e);
 		}
+
 	}
 }
