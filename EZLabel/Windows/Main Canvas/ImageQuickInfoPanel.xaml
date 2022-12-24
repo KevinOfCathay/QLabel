@@ -10,9 +10,10 @@
 			Orientation="Horizontal"
 			HorizontalAlignment="Right"
 			MaxHeight="30">
+
 		<TextBlock 
 					VerticalAlignment="Center"
-					FontSize="8.5" 
+					FontSize="9" 
 					 Margin="5">
 				<!-- 鼠标的坐标 -->
 				<Run>x: </Run>
@@ -23,15 +24,46 @@
 		</TextBlock>
 
 		<!--中间隔开一定的距离-->
+
+		<TextBlock 
+					VerticalAlignment="Center"
+					FontSize="9"
+					 Margin="5" Foreground="#FF744EC0">
+				<!-- 鼠标的相对坐标 -->
+				<Run>(x): </Run>
+				<Run  Name="real_x_pos">0</Run>
+			
+				<Run>(y): </Run>
+				<Run  Name="real_y_pos">0</Run>
+		</TextBlock>
+
+		<!--中间隔开一定的距离-->
+		
+		<TextBlock 
+					VerticalAlignment="Center"
+					FontSize="9" 
+					 Margin="5">
+				<!-- 鼠标的坐标 -->
+				<Run>w: </Run>
+				<Run  Name="image_width">0</Run>
+			
+				<Run>h: </Run>
+				<Run  Name="image_height">0</Run>
+		</TextBlock>
+
+		<!--中间隔开一定的距离-->
 		
 		<TextBlock	
 			VerticalAlignment="Center"
-			FontSize="8.5" 
+			FontSize="9" 
 			Margin="5">
 				<!-- 图片的缩放比例 -->
 				<Run>zoom:</Run>
 				<Run  Name="zoom_level">0%</Run>
 		</TextBlock>
+
+		<!--一些按钮-->
+		
 		<Button Width="40" Margin="3"
 			   Name="one_one_ratio"
 			   Click="one_one_ratio_Click"

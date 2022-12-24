@@ -73,10 +73,10 @@ namespace EZLabel.Scripts.AnnotationToolManager {
 				// 计算矩形四个点的实际位置
 				double left = Canvas.GetLeft(rect);
 				double top = Canvas.GetTop(rect);
-				var tl_real = canvas.RealPosition(new Point(left, top));    // 左上角
-				var tr_real = canvas.RealPosition(new Point(left + rect.ActualWidth, top));     // 右上角
-				var bl_real = canvas.RealPosition(new Point(left, top + rect.ActualHeight));     // 左下角
-				var br_real = canvas.RealPosition(new Point(left + rect.ActualWidth, top + rect.ActualHeight));     // 右下角
+				var tl_real = canvas.RelativePosition(new Point(left, top));    // 左上角
+				var tr_real = canvas.RelativePosition(new Point(left + rect.ActualWidth, top));     // 右上角
+				var bl_real = canvas.RelativePosition(new Point(left, top + rect.ActualHeight));     // 左下角
+				var br_real = canvas.RelativePosition(new Point(left + rect.ActualWidth, top + rect.ActualHeight));     // 右下角
 			}
 		}
 	}

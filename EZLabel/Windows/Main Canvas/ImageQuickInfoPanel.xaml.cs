@@ -27,9 +27,16 @@ namespace EZLabel.Windows.Main_Canvas {
 		}
 		public void SetZoomText (double zoom) { zoom_level.Text = ( zoom * 100.0 ).ToString("N3") + "%"; }
 		public void SetMousePositionText (Point mouse_pos) { mouse_x_pos.Text = ( (int) mouse_pos.X ).ToString(); mouse_y_pos.Text = ( (int) mouse_pos.Y ).ToString(); }
+		public void SetRelativePositionText (Point relative_pos) { real_x_pos.Text = ( (int) relative_pos.X ).ToString(); real_y_pos.Text = ( (int) relative_pos.Y ).ToString(); }
+		public void SetImageSize (double width, double height) { image_width.Text = ( (int) width ).ToString(); image_height.Text = ( (int) height ).ToString(); }
+		public void SetImageSize (int width, int height) { image_width.Text = width.ToString(); image_height.Text = height.ToString(); }
 
 		public void OneToOneRatio () {
 			var data = _img.Source;
+
+			// 改变 canvas 的尺寸（否则 scrollbar 不会出现）
+			canvas.Width = data.Width;
+			canvas.Height = data.Height;
 
 			_img.Width = data.Width;
 			_img.Height = data.Height;

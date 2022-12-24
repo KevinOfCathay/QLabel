@@ -28,7 +28,12 @@ namespace EZLabel.Windows.Main_Canvas {
 			tool.Activate(this);
 			this.image_quick_info_panel.canvas = this.annotation_canvas;
 			eMouseMove += (MainCanvas c, MouseEventArgs e) => {
-				this.image_quick_info_panel.SetMousePositionText(e.GetPosition(this));
+				Point pos = e.GetPosition(this);
+				this.image_quick_info_panel.SetMousePositionText(pos);
+				this.image_quick_info_panel.SetRelativePositionText(RelativePosition(pos));
+			};
+			eImageLoaded += (MainCanvas c, ImageFileData img) => {
+				image_quick_info_panel.SetImageSize(img.width, img.height);
 			};
 		}
 
@@ -42,8 +47,9 @@ namespace EZLabel.Windows.Main_Canvas {
 
 		/// <summary>
 		/// 画布上的点对应的图片的实际点
+		/// (position relative to the image)
 		/// </summary>
-		public Point RealPosition (Point point) {
+		public Point RelativePosition (Point point) {
 			// 1. 首先获得图片左上角的点对应的位置，
 			// 不考虑 scrollview 的 offset
 			// 例如：图片尺寸为 128×128 且居中，
@@ -56,9 +62,10 @@ namespace EZLabel.Windows.Main_Canvas {
 
 			// 2. 考虑 scroll offset 的影响
 			// 例如：当 x offset = 10 时，坐标 （0, 0）所对应的实际点为 （10, 0）
+			Vector offset = new Vector(x: scroll.HorizontalOffset, y: scroll.VerticalOffset);
 
 			// 3.  计算点与左上角点的差
-			var diff = point - tl;
+			var diff = point - ( tl + offset );
 
 			return diff;
 		}
@@ -85,6 +92,7 @@ namespace EZLabel.Windows.Main_Canvas {
 			}
 			canvas_image.Width = target_width;
 			canvas_image.Height = target_height;
+
 			canvas_image.Source = data.source;
 
 			// 重置图像的 offset

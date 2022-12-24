@@ -25,18 +25,6 @@
 						</TextBlock>
 					</StackPanel>
 				</Expander>
-				<Expander Header="Info" IsExpanded="True">
-					<StackPanel Margin="20,4,0,0">
-						<TextBlock FontSize="10.5">
-							<Run>X:</Run>
-							<Run Name="mouse_x_coord"></Run>
-						</TextBlock>
-						<TextBlock FontSize="10.5">
-							<Run>Y:</Run>
-							<Run Name="mouse_y_coord"></Run>
-						</TextBlock>
-					</StackPanel>
-				</Expander>
 			</StackPanel>
 		</Border>
 

@@ -67,9 +67,6 @@ namespace EZLabel {
 					main_canvas.LoadImage(i.data);          // Click button to load image onto canvas
 				};
 			};
-			main_canvas.eImageLoaded += (MainCanvas m, ImageFileData data) => {
-				ipw.SetImageUIProperties(data);
-			};
 		}
 
 		private void TestFunction (object sender, RoutedEventArgs e) {
