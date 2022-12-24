@@ -10,14 +10,21 @@
 		Orientation="Horizontal"
 		DockPanel.Dock="Left" 
 		Width="260">
-		<Button Name="SquareTool_Button" Height="26" Width="26" BorderBrush="Transparent">
-			<Image Source="/Resources/Icons/square.png"/>
+		<Button
+			Name="DotTool_Button" Height="26" Width="26"
+			BorderBrush="Transparent"
+			Click="DotTool_Button_Click">
+			<Image Source="/Resources/Icons/button.png"/>
 		</Button>
 		<Button
 			Name="RectangleTool_Button" Height="26" Width="26"
 			BorderBrush="Transparent"
 			Click="RectangleTool_Button_Click">
 			<Image Source="/Resources/Icons/rectangle.png"/>
+		</Button>
+		<Button 
+			Name="SquareTool_Button" Height="26" Width="26" BorderBrush="Transparent">
+			<Image Source="/Resources/Icons/square.png"/>
 		</Button>
 		<Button Name="Rhombus_Button" Height="26" Width="26" BorderBrush="Transparent">
 			<Image Source="/Resources/Icons/rhombus.png"/>
@@ -30,10 +37,6 @@
 		</Button>
 		<Button Name="Selection_Button" Height="26" Width="26" BorderBrush="Transparent">
 			<Image Source="/Resources/Icons/selection.png"/>
-		</Button>
-
-		<Button Name="Crop_Button" Height="26" BorderBrush="Transparent" Width="34">
-			Crop
 		</Button>
 	</StackPanel>
 </UserControl>

@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="EZLabel.Windows.Main_Canvas.Annotation_Elements.DraggableRectangle"
+﻿<UserControl x:Class="EZLabel.Windows.Main_Canvas.Annotation_Elements.DraggableSquare"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EZLabel.Windows.Main_Canvas.Annotation_Elements"
              mc:Ignorable="d" 
-             d:DesignHeight="120" d:DesignWidth="180">
+             d:DesignHeight="250" d:DesignWidth="200">
 	<Grid
 		MouseEnter="container_MouseEnter"
 		MouseLeave="container_MouseLeave"
@@ -47,9 +47,8 @@
 			></local:DraggableDot>
 		<Label Name="class_label" BorderThickness="1"
 			FontSize="7.5"
-			Foreground="#FF6FA46F"
+			Foreground="DarkSeaGreen"
 			HorizontalAlignment="Right"
-			VerticalAlignment="Bottom" FontWeight="Bold">[Empty]</Label>
+			VerticalAlignment="Bottom">[Empty]</Label>
 	</Grid>
-
 </UserControl>

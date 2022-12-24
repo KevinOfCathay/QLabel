@@ -1,5 +1,4 @@
-﻿using EZLabel.Scripts.AnnotationData;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,18 +15,16 @@ using System.Windows.Shapes;
 
 namespace EZLabel.Windows.Main_Canvas.Annotation_Elements {
 	/// <summary>
-	/// Interaction logic for Line.xaml
+	/// 正方形
 	/// </summary>
-	public partial class Line : UserControl, IAnnotationElement {
-		public Line () {
+	public partial class DraggableSquare : UserControl {
+		public DraggableSquare () {
 			InitializeComponent();
 		}
+		private void container_MouseEnter (object sender, MouseEventArgs e) {
+		}
 
-		AnnoData _data;   // 这个矩形所对应的注释数据
-		public AnnoData data { get { return _data; } set { _data = value; } }
-
-		public void Delete () {
-			throw new NotImplementedException();
+		private void container_MouseLeave (object sender, MouseEventArgs e) {
 		}
 	}
 }

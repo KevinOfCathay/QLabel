@@ -20,17 +20,16 @@ namespace EZLabel.Windows.Main_Canvas {
 	public partial class MainCanvas : UserControl {
 		private float image_scale = 0f;          // image scale level
 		private ImageFileData cur_file;
+		public bool can_annotate { get; private set; } = true;      // 当前画布是否可以进行标注
 		public Point image_size { get; private set; } = new Point(0, 0);      // 图片大小，用于计算annotation的位置，在未加载时图片大小为 0
 		public Point image_offset { get; private set; } = new Point(0, 0);      // 图片在画布上的偏移量，用于计算annotation的位置，在未加载时图片，或者图片居中时大小为 0
 		public Action<MainCanvas, ImageFileData> eImageLoaded;
 		public Action<MainCanvas, IAnnotationElement> eAnnotationElementAdded, eAnnotationElementRemoved;
 		public Action<MainCanvas, MouseEventArgs> eMouseDown, eMouseUp, eMouseMove;
 		public AnnotationCollections annotation_collections = new AnnotationCollections();        // 用于存放所有 annotation 的地方
-		public RectangularBoxAnnotationTool tool = new RectangularBoxAnnotationTool();
 
 		public MainCanvas () {
 			InitializeComponent();
-			tool.Activate(this);
 			this.image_quick_info_panel.canvas = this.annotation_canvas;
 			eMouseMove += (MainCanvas c, MouseEventArgs e) => {
 				Point pos = e.GetPosition(this);

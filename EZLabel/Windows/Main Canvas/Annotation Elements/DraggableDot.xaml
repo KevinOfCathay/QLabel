@@ -15,5 +15,5 @@
 		PreviewMouseDown="dot_PreviewMouseDown"
 		PreviewMouseMove="dot_PreviewMouseMove"
 		PreviewMouseUp="dot_PreviewMouseUp"
-		></Ellipse>
+		/>
 </UserControl>

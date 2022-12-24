@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace EZLabel.Scripts.AnnotationData {
 	public record AnnoData {
-		public enum Type { Dot, Rectangle, Square, Line, }
+		public enum Type { Dot, Rectangle, Square, Line, Circle }
 
 		public AnnoData () { createtime = DateTime.Now; }
 

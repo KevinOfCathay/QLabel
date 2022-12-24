@@ -12,7 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace EZLabel.Scripts.AnnotationToolManager {
-	public class RectangularBoxAnnotationTool : AnnotationToolBase {
+	public class RectangularBoxAnnotationTool : ToolBase {
 		DraggableRectangle rect;
 		bool dragging = false;
 		double x, y;
@@ -35,24 +35,26 @@ namespace EZLabel.Scripts.AnnotationToolManager {
 		}
 
 		public void CreateNewRectangle (MainCanvas canvas, MouseEventArgs e) {
-			rect = new DraggableRectangle();
+			if ( canvas.can_annotate ) {
+				rect = new DraggableRectangle();
 
-			// 记录下起始时刻的 x, y
-			var p = e.GetPosition(canvas.annotation_canvas);
-			this.x = p.X;
-			this.y = p.Y;
+				// 记录下起始时刻的 x, y
+				var p = e.GetPosition(canvas.annotation_canvas);
+				this.x = p.X;
+				this.y = p.Y;
 
-			Canvas.SetLeft(rect, x);
-			Canvas.SetTop(rect, y);
+				Canvas.SetLeft(rect, x);
+				Canvas.SetTop(rect, y);
 
-			canvas.annotation_canvas.Children.Add(rect);
+				canvas.annotation_canvas.Children.Add(rect);
 
-			// 开始拖动
-			dragging = true;
-			e.Handled = true;
+				// 开始拖动
+				dragging = true;
+				e.Handled = true;
+			}
 		}
 		public void ResizeRectangle (MainCanvas canvas, MouseEventArgs e) {
-			if ( dragging ) {
+			if ( canvas.can_annotate && dragging ) {
 				var cur_p = e.GetPosition(canvas.annotation_canvas);
 				if ( rect != null ) {
 					double top = y, bottom = cur_p.Y, left = x, right = cur_p.X;
@@ -70,19 +72,22 @@ namespace EZLabel.Scripts.AnnotationToolManager {
 		public void StopDraw (MainCanvas canvas, MouseEventArgs e) {
 			dragging = false;
 			e.Handled = true;
-			if ( rect != null ) {
-				// 计算矩形四个点的实际位置
-				double left = Canvas.GetLeft(rect);
-				double top = Canvas.GetTop(rect);
-				var tl_real = canvas.RelativePosition(new Point(left, top));    // 左上角
-				var tr_real = canvas.RelativePosition(new Point(left + rect.ActualWidth, top));     // 右上角
-				var bl_real = canvas.RelativePosition(new Point(left, top + rect.ActualHeight));     // 左下角
-				var br_real = canvas.RelativePosition(new Point(left + rect.ActualWidth, top + rect.ActualHeight));     // 右下角
 
-				// 创建 anno 数据
-				rect.data = new AnnotationData.ADRect() {
-					points = new Vector2[] { tl_real, tr_real, bl_real, br_real }
-				};
+			if ( canvas.can_annotate ) {
+				if ( rect != null ) {
+					// 计算矩形四个点的实际位置
+					double left = Canvas.GetLeft(rect);
+					double top = Canvas.GetTop(rect);
+					var tl_real = canvas.RelativePosition(new Point(left, top));    // 左上角
+					var tr_real = canvas.RelativePosition(new Point(left + rect.ActualWidth, top));     // 右上角
+					var bl_real = canvas.RelativePosition(new Point(left, top + rect.ActualHeight));     // 左下角
+					var br_real = canvas.RelativePosition(new Point(left + rect.ActualWidth, top + rect.ActualHeight));     // 右下角
+
+					// 创建 anno 数据
+					rect.data = new AnnotationData.ADRect() {
+						points = new Vector2[] { tl_real, tr_real, bl_real, br_real }
+					};
+				}
 			}
 		}
 	}

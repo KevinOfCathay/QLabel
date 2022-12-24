@@ -13,7 +13,7 @@ using OpenCvSharp;
 using System.Numerics;
 
 namespace EZLabel.Scripts.AnnotationToolManager {
-	public class DotAnnotationTool : AnnotationToolBase {
+	public class DotAnnotationTool : ToolBase {
 		DraggableDot dot;
 		public override void Activate (MainCanvas canvas) {
 			canvas.eMouseDown += CreateNewDot;
@@ -24,14 +24,17 @@ namespace EZLabel.Scripts.AnnotationToolManager {
 		}
 
 		public void CreateNewDot (MainCanvas canvas, MouseEventArgs e) {
-			dot = new DraggableDot();
+			dot = new DraggableDot { Width = 8, Height = 8 };		// 初始化大小（否则不会在画布上显示）
 
 			// 在鼠标的位置放置点
 			var p = e.GetPosition(canvas.annotation_canvas);
+
 			Canvas.SetLeft(dot, p.X);
 			Canvas.SetTop(dot, p.Y);
+			Canvas.SetZIndex(dot, 10);
 
 			var pos = canvas.RelativePosition(p);    // 坐标转换
+
 			// 创建 anno 数据
 			dot.data = new AnnotationData.ADSingleDot() {
 				points = new Vector2[] { pos }

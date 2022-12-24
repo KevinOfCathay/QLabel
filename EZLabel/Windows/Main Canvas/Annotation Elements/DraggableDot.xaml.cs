@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 
 namespace EZLabel.Windows.Main_Canvas.Annotation_Elements {
 	/// <summary>
-	/// Interaction logic for DraggableDot.xaml
+	/// 点
 	/// </summary>
 	public partial class DraggableDot : UserControl, IAnnotationElement {
 		public Action<DraggableDot, MouseEventArgs> eMouseDown, eMouseMove, eMouseUp;

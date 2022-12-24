@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EZLabel.Scripts.AnnotationToolManager;
+using EZLabel.Windows.Main_Canvas;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,12 +20,20 @@ namespace EZLabel.Windows.Toolbar_Window {
 	/// Interaction logic for AnnotationToolBar.xaml
 	/// </summary>
 	public partial class AnnotationToolBar : UserControl {
+		private ToolManager manager = new ToolManager();
+
 		public AnnotationToolBar () {
 			InitializeComponent();
 		}
-
+		public void Init (MainCanvas mc) {
+			manager.mc = mc;
+		}
 		private void RectangleTool_Button_Click (object sender, RoutedEventArgs e) {
+			manager.SwitchTool(new RectangularBoxAnnotationTool());
+		}
 
+		private void DotTool_Button_Click (object sender, RoutedEventArgs e) {
+			manager.SwitchTool(new DotAnnotationTool());
 		}
 	}
 }

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace EZLabel.Scripts.AnnotationToolManager {
-	public abstract class AnnotationToolBase {
+	public abstract class ToolBase {
 		public abstract void Activate (MainCanvas canvas);
 		public abstract void Deactivate (MainCanvas canvas);
 	}

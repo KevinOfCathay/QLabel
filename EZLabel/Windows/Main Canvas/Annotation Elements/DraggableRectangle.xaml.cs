@@ -12,6 +12,9 @@ using System.Windows.Input;
 using System.Windows.Media.Media3D;
 
 namespace EZLabel.Windows.Main_Canvas.Annotation_Elements {
+	/// <summary>
+	/// 矩形
+	/// </summary>
 	public partial class DraggableRectangle : UserControl, IAnnotationElement {
 		/// <summary>
 		/// 当长方形被重新绘制时触发
@@ -85,9 +88,6 @@ namespace EZLabel.Windows.Main_Canvas.Annotation_Elements {
 			class_label.Content = label;
 		}
 
-		private void DragBottomRightDot () {
-
-		}
 
 		private void container_MouseEnter (object sender, MouseEventArgs e) {
 			// 改变四个点的透明度
@@ -95,6 +95,7 @@ namespace EZLabel.Windows.Main_Canvas.Annotation_Elements {
 				dot.dot.Stroke = Brushes.brush_dot_stroke_solid;
 				dot.dot.Fill = Brushes.brush_dot_fill_solid;
 			}
+			class_label.Foreground = Brushes.brush_label_text_foreground_solid;
 		}
 
 		private void container_MouseLeave (object sender, MouseEventArgs e) {
@@ -103,6 +104,7 @@ namespace EZLabel.Windows.Main_Canvas.Annotation_Elements {
 				dot.dot.Stroke = Brushes.brush_dot_stroke_transparent;
 				dot.dot.Fill = Brushes.brush_dot_fill_transparent;
 			}
+			class_label.Foreground = Brushes.brush_label_text_foreground_transparent;
 		}
 
 		public void Delete () {

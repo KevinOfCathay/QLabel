@@ -11,8 +11,10 @@
 
   <ItemGroup>
     <None Remove="Credit.txt" />
+    <None Remove="Resources\Icons\button.png" />
     <None Remove="Resources\Icons\circle.png" />
     <None Remove="Resources\Icons\crop.png" />
+    <None Remove="Resources\Icons\nodes.png" />
     <None Remove="Resources\Icons\polygon.png" />
     <None Remove="Resources\Icons\rectangle.png" />
     <None Remove="Resources\Icons\rhombus.png" />
@@ -33,10 +35,16 @@
     <Resource Include="Resources\Credits.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Icons\button.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Icons\circle.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Icons\crop.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Icons\nodes.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Icons\polygon.png">
@@ -62,7 +70,7 @@
   <ItemGroup>
     <Folder Include="Converters\" />
     <Folder Include="Custom Control\General Custom Control\" />
-    <Folder Include="Custom Control\Status Bar\" />
+    <Folder Include="Scripts\Utils\" />
     <Folder Include="Windows\Operations Window\" />
   </ItemGroup>
 
