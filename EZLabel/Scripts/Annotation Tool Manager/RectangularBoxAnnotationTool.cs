@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -77,6 +78,11 @@ namespace EZLabel.Scripts.AnnotationToolManager {
 				var tr_real = canvas.RelativePosition(new Point(left + rect.ActualWidth, top));     // 右上角
 				var bl_real = canvas.RelativePosition(new Point(left, top + rect.ActualHeight));     // 左下角
 				var br_real = canvas.RelativePosition(new Point(left + rect.ActualWidth, top + rect.ActualHeight));     // 右下角
+
+				// 创建 anno 数据
+				rect.data = new AnnotationData.ADRect() {
+					points = new Vector2[] { tl_real, tr_real, bl_real, br_real }
+				};
 			}
 		}
 	}

@@ -20,30 +20,30 @@
 			x:Name="center_dot"
 			HorizontalAlignment="Center"
 			VerticalAlignment="Center"
-			Width="10" Height="10"></local:DraggableDot>
+			Width="8" Height="8"></local:DraggableDot>
 		<local:DraggableDot 
 			x:Name="top_left_dot" 
 			HorizontalAlignment="Left"
 			VerticalAlignment="Top"
-			Width="10" Height="10" Margin="-5,-5,-5,-5" 
+			Width="8" Height="8" Margin="-5,-5,-5,-5" 
 			/>
 		<local:DraggableDot 
 			x:Name="top_right_dot" 
 			HorizontalAlignment="Right"
 			VerticalAlignment="Top"
-			Width="10" Height="10" Margin="5,-5,-5,-5"
+			Width="8" Height="8" Margin="5,-5,-5,-5"
 			></local:DraggableDot>
 		<local:DraggableDot 
 			x:Name="bottom_left_dot" 
 			HorizontalAlignment="Left"
 			VerticalAlignment="Bottom"
-			Width="10" Height="10" Margin="-5,-5,-5,-5"
+			Width="8" Height="8" Margin="-5,-5,-5,-5"
 			/>
 		<local:DraggableDot 
 			x:Name="bottom_right_dot" 
 			HorizontalAlignment="Right"
 			VerticalAlignment="Bottom"
-			Width="10" Height="10" Margin="5,-5,-5,-5"
+			Width="8" Height="8" Margin="5,-5,-5,-5"
 			></local:DraggableDot>
 		<Label Name="class_label" BorderThickness="1"
 			FontSize="7.5"

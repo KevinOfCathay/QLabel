@@ -6,8 +6,17 @@
              xmlns:local="clr-namespace:QLabel.Custom_Control.Small_Tools"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-		<Button Name="button" Height="26" Width="26" BorderBrush="Transparent">
+    <StackPanel 
+	    Orientation="Vertical"
+	    HorizontalAlignment="Center">
+	    
+		<Button 
+			Name="button"
+			Height="26" 
+			Width="26" 
+			BorderBrush="Transparent"
+			Click="button_Click">
+			
 			<Image Source="/Resources/Icons/rhombus.png"/>
 		</Button>
 		<TextBlock Name="text">Text</TextBlock>

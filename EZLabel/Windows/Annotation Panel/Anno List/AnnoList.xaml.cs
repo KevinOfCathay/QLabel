@@ -13,16 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace EZLabel.Windows.Annotation_List.Anno_List
-{
-    /// <summary>
-    /// Interaction logic for AnnoList.xaml
-    /// </summary>
-    public partial class AnnoList : UserControl
-    {
-        public AnnoList()
-        {
-            InitializeComponent();
-        }
-    }
+namespace EZLabel.Windows.Annotation_List.Anno_List {
+	/// <summary>
+	/// Interaction logic for AnnoList.xaml
+	/// </summary>
+	public partial class AnnoList : UserControl {
+		public AnnoList () {
+			InitializeComponent();
+		}
+
+		public void AddItemToList () { }
+		public void ClearList () { }
+
+	}
 }

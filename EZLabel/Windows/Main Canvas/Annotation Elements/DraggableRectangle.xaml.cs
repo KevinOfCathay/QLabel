@@ -17,9 +17,11 @@ namespace EZLabel.Windows.Main_Canvas.Annotation_Elements {
 		/// 当长方形被重新绘制时触发
 		/// </summary>
 		public Action<DraggableRectangle, double, double> eRedraw;
-
-		public AnnoData data;
 		public DraggableDot[] dots = new DraggableDot[5];
+
+		AnnoData _data;   // 这个矩形所对应的注释数据
+		public AnnoData data { get { return _data; } set { _data = value; } }
+
 		public DraggableRectangle () {
 			InitializeComponent();
 
@@ -104,6 +106,10 @@ namespace EZLabel.Windows.Main_Canvas.Annotation_Elements {
 		}
 
 		public void Delete () {
+			throw new NotImplementedException();
+		}
+
+		void IAnnotationElement.Delete () {
 			throw new NotImplementedException();
 		}
 	}

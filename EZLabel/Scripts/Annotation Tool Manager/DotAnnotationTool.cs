@@ -9,6 +9,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows;
+using OpenCvSharp;
+using System.Numerics;
 
 namespace EZLabel.Scripts.AnnotationToolManager {
 	public class DotAnnotationTool : AnnotationToolBase {
@@ -29,8 +31,13 @@ namespace EZLabel.Scripts.AnnotationToolManager {
 			Canvas.SetLeft(dot, p.X);
 			Canvas.SetTop(dot, p.Y);
 
-			canvas.annotation_canvas.Children.Add(dot);
+			var pos = canvas.RelativePosition(p);    // 坐标转换
+			// 创建 anno 数据
+			dot.data = new AnnotationData.ADSingleDot() {
+				points = new Vector2[] { pos }
+			};
 
+			canvas.annotation_canvas.Children.Add(dot);
 			e.Handled = true;
 		}
 	}

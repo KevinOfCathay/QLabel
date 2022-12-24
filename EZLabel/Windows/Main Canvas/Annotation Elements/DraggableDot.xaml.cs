@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EZLabel.Scripts.AnnotationData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,9 @@ namespace EZLabel.Windows.Main_Canvas.Annotation_Elements {
 		public Action<DraggableDot, MouseEventArgs> eMouseDown, eMouseMove, eMouseUp;
 		public bool activate { private set; get; } = false;
 
+		AnnoData _data;   // 这个点所对应的注释数据
+		public AnnoData data { get { return _data; } set { _data = value; } }
+
 		public DraggableDot () {
 			InitializeComponent();
 		}
@@ -41,10 +45,6 @@ namespace EZLabel.Windows.Main_Canvas.Annotation_Elements {
 			eMouseDown?.Invoke(this, e);
 
 			e.Handled = true;
-		}
-
-		private void Drag () {
-
 		}
 
 		public void Delete () {

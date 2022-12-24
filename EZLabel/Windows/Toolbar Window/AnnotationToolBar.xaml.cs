@@ -21,5 +21,9 @@ namespace EZLabel.Windows.Toolbar_Window {
 		public AnnotationToolBar () {
 			InitializeComponent();
 		}
+
+		private void RectangleTool_Button_Click (object sender, RoutedEventArgs e) {
+
+		}
 	}
 }
