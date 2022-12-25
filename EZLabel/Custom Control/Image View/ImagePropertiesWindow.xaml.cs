@@ -12,12 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using QLabel.Scripts.Projects;
 
-namespace EZLabel.Custom_Control.Image_View {
-	/// <summary>
-	/// Interaction logic for ImagePropertiesWindow.xaml
-	/// </summary>
-	public partial class ImagePropertiesWindow : UserControl {
+namespace EZLabel.Custom_Control.Image_View
+{
+    /// <summary>
+    /// Interaction logic for ImagePropertiesWindow.xaml
+    /// </summary>
+    public partial class ImagePropertiesWindow : UserControl {
 		public ImagePropertiesWindow () {
 			InitializeComponent();
 		}

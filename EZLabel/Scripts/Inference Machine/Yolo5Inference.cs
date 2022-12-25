@@ -10,7 +10,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EZLabel.Scripts.Inference_Machine {
+namespace QLabel.Scripts.Inference_Machine {
 	public class Yolo5Inference {
 		public string model_path;
 		public int width, height, classes;

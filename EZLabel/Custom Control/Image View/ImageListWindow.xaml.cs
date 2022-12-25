@@ -14,12 +14,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
+using QLabel.Scripts.Projects;
 
-namespace EZLabel.Custom_Control.Image_View {
-	/// <summary>
-	/// Interaction logic for ImageListPanel.xaml
-	/// </summary>
-	public partial class ImageListWindow : UserControl {
+namespace EZLabel.Custom_Control.Image_View
+{
+    /// <summary>
+    /// Interaction logic for ImageListPanel.xaml
+    /// </summary>
+    public partial class ImageListWindow : UserControl {
 		private HashSet<string> accepted_ext = new HashSet<string> { ".bmp", ".jpg", ".png", ".jpeg" };
 		public Action<ImageListWindow, ImageListItem> eImageListUICreated;
 		public List<ImageFileData> ifd_list;
@@ -51,7 +53,7 @@ namespace EZLabel.Custom_Control.Image_View {
 				ImageListItem ili = new ImageListItem { data = data };
 				ili.thumbnail_image.Source = data.source;
 				ili.image_name.Text = data.filename;
-				ili.eImageButtonClick += (b) => { Trace.WriteLine("Image button clicked"); };
+				ili.eSwitchImage += (b) => { Trace.WriteLine("Image button clicked"); };
 				eImageListUICreated?.Invoke(this, ili);
 
 				this.image_view_listbox.Items.Add(ili);

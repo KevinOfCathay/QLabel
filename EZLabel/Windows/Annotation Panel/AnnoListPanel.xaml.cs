@@ -17,17 +17,12 @@ using EZLabel.Scripts.AnnotationData;
 namespace EZLabel.Windows.Annotation_List
 {
     /// <summary>
-    /// Interaction logic for AnnoListPanel.xaml
+    /// 所有注释数据的列表
     /// </summary>
     public partial class AnnoListPanel : UserControl {
-		public List<AnnoData> anno_data_list;
 		public AnnoListPanel () {
 			InitializeComponent();
-			anno_data_list = new List<AnnoData>();
 		}
 
-		public void AddAnnotation (AnnoData anno_data) {
-			anno_data_list.Add(anno_data);
-		}
 	}
 }

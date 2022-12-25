@@ -87,6 +87,8 @@ namespace EZLabel.Scripts.AnnotationToolManager {
 					rect.data = new AnnotationData.ADRect() {
 						points = new Vector2[] { tl_real, tr_real, bl_real, br_real }
 					};
+
+					canvas.AddAnnoElements(rect);
 				}
 			}
 		}

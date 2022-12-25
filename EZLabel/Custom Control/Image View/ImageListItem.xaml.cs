@@ -12,20 +12,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using QLabel.Scripts.Projects;
 
 namespace EZLabel.Custom_Control.Image_View {
 	/// <summary>
 	/// Interaction logic for ImageListItem.xaml
 	/// </summary>
 	public partial class ImageListItem : UserControl {
-		public Action<ImageListItem> eImageButtonClick;
+		public Action<ImageListItem> eSwitchImage;
 		public ImageFileData data;
 		public ImageListItem () {
 			InitializeComponent();
 		}
 
 		private void ImageButtonClick (object sender, RoutedEventArgs e) {
-			eImageButtonClick?.Invoke(this);
+			eSwitchImage?.Invoke(this);
 		}
 	}
 }

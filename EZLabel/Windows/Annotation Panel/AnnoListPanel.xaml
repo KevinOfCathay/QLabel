@@ -11,8 +11,5 @@
 		<TabItem Header="Annos">
 			<annolist:AnnoList/>
 		</TabItem>
-		<TabItem Header="Labels">
-			<annolist:LabelList/>
-		</TabItem>
 	</TabControl>
 </UserControl>

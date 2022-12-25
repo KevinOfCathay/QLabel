@@ -26,6 +26,8 @@ namespace QLabel {
 	/// </summary>
 	public partial class MainWindow : Window {
 		public MainWindow () {
+			App.main = this;
+
 			InitializeComponent();
 			InitEvents();
 			InitComponents();
@@ -33,8 +35,8 @@ namespace QLabel {
 
 		public void InitEvents () {
 			ilw.eImageListUICreated += (ImageListWindow window, ImageListItem item) => {
-				item.eImageButtonClick += (i) => {
-					main_canvas.LoadImage(i.data);          // Click button to load image onto canvas
+				item.eSwitchImage += (i) => {
+					main_canvas.LoadImage(i.data);          // 点击 List 中的 image 图像来加载图片
 				};
 			};
 		}

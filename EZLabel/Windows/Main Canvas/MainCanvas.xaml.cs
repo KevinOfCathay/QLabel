@@ -1,7 +1,7 @@
-﻿using EZLabel.Custom_Control.Image_View;
-using EZLabel.Scripts.AnnotationData;
+﻿using EZLabel.Scripts.AnnotationData;
 using EZLabel.Scripts.AnnotationToolManager;
 using EZLabel.Windows.Main_Canvas.Annotation_Elements;
+using QLabel.Scripts.Projects;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,7 +20,7 @@ namespace EZLabel.Windows.Main_Canvas {
 	public partial class MainCanvas : UserControl {
 		private float image_scale = 0f;          // image scale level
 		private ImageFileData cur_file;
-		public bool can_annotate { get; private set; } = true;      // 当前画布是否可以进行标注
+		public bool can_annotate { get; private set; } = false;      // 当前画布是否可以进行标注
 		public Point image_size { get; private set; } = new Point(0, 0);      // 图片大小，用于计算annotation的位置，在未加载时图片大小为 0
 		public Point image_offset { get; private set; } = new Point(0, 0);      // 图片在画布上的偏移量，用于计算annotation的位置，在未加载时图片，或者图片居中时大小为 0
 		public Action<MainCanvas, ImageFileData> eImageLoaded;
@@ -44,11 +44,9 @@ namespace EZLabel.Windows.Main_Canvas {
 		public Vector2 GetImageSize () {
 			return new Vector2((float) canvas_image.ActualWidth, (float) canvas_image.ActualHeight);
 		}
-
 		public Vector2 GetCanvasSize () {
 			return new Vector2((float) annotation_canvas.ActualWidth, (float) annotation_canvas.ActualHeight);
 		}
-
 		/// <summary>
 		/// 画布上的点对应的图片的实际点
 		/// (position relative to the image)
@@ -77,10 +75,12 @@ namespace EZLabel.Windows.Main_Canvas {
 
 			return diff;
 		}
-
 		public void ResizeImage () {
 
 		}
+		/// <summary>
+		/// 将图片加载到画布上
+		/// </summary>
 		public void LoadImage (ImageFileData data) {
 			var hscale = data.height / annotation_canvas.ActualHeight;
 			var wscale = data.width / annotation_canvas.ActualWidth;
@@ -100,8 +100,6 @@ namespace EZLabel.Windows.Main_Canvas {
 			canvas_image.Width = target_width;
 			canvas_image.Height = target_height;
 
-			canvas_image.Source = data.source;
-
 			// 重置图像的 offset
 			image_offset = GetOffsetFromScroll();
 
@@ -109,18 +107,24 @@ namespace EZLabel.Windows.Main_Canvas {
 			image_quick_info_panel.SetZoomText(image_scale);
 
 			// 设置当前的图像为 data
+			canvas_image.Source = data.source;
 			cur_file = data;
 
+			can_annotate = true;
 			eImageLoaded?.Invoke(this, data);
 		}
 		public void AddAnnoElements (IAnnotationElement element) {
-			annotation_collections.AddElement(cur_file, element);
-			eAnnotationElementAdded?.Invoke(this, element);
+			if ( can_annotate ) {          // 只有在画布上有内容时才会加入 element
+				annotation_collections.AddElement(cur_file, element);
+				eAnnotationElementAdded?.Invoke(this, element);
+			}
 		}
 		public void RemoveAnnoElements (IAnnotationElement element) {
-			annotation_collections.RemoveElement(cur_file, element);
-			element.Delete();
-			eAnnotationElementRemoved?.Invoke(this, element);
+			if ( can_annotate ) {
+				annotation_collections.RemoveElement(cur_file, element);
+				element.Delete();
+				eAnnotationElementRemoved?.Invoke(this, element);
+			}
 		}
 		/// <summary>
 		/// 从 scrollbar 中获取当前的 offset
@@ -129,7 +133,6 @@ namespace EZLabel.Windows.Main_Canvas {
 		private Point GetOffsetFromScroll () {
 			return new Point(scroll.HorizontalOffset, scroll.VerticalOffset);
 		}
-
 		private void canvas_PreviewMouseDown (object sender, MouseButtonEventArgs e) {
 			Debug.WriteLine("canvas mouse down");
 			eMouseDown?.Invoke(this, e);

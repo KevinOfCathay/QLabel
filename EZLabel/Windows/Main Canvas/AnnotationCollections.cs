@@ -1,13 +1,14 @@
-﻿using EZLabel.Custom_Control.Image_View;
-using EZLabel.Windows.Main_Canvas.Annotation_Elements;
+﻿using EZLabel.Windows.Main_Canvas.Annotation_Elements;
+using QLabel.Scripts.Projects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EZLabel.Windows.Main_Canvas {
-	public class AnnotationCollections {
+namespace EZLabel.Windows.Main_Canvas
+{
+    public class AnnotationCollections {
 		public Dictionary<ImageFileData, List<IAnnotationElement>> elements { get; private set; } =
 			new Dictionary<ImageFileData, List<IAnnotationElement>>();
 
