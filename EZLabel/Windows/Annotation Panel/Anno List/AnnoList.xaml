@@ -16,13 +16,17 @@
 		<ListView.View>
 			<GridView>
 				<!-- 索引 -->
-				<GridViewColumn Header="Index" DisplayMemberBinding="{Binding Index}">
+				<GridViewColumn Header="Index" DisplayMemberBinding="{Binding Path=Index}">
 				</GridViewColumn>
 
 				<!-- 标记的类型 -->
-				<GridViewColumn Header="Type" DisplayMemberBinding="{Binding Type}">
+				<GridViewColumn Header="Type" DisplayMemberBinding="{Binding Path=Type}">
 				</GridViewColumn>
 
+				<!-- 标记的点的位置 -->
+				<GridViewColumn Header="Points" DisplayMemberBinding="{Binding Path=Points}">
+				</GridViewColumn>
+				
 				<!-- 标记的类别 -->
 				<GridViewColumn Header="Class"  DisplayMemberBinding="{Binding Path=Class}">
 				</GridViewColumn>

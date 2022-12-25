@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
+using QLabel.Scripts.Utils;
 
 namespace EZLabel.Windows.Annotation_List.Anno_List {
 	/// <summary>
@@ -28,6 +29,7 @@ namespace EZLabel.Windows.Annotation_List.Anno_List {
 			public string Type { get; set; }
 			public string Class { get; set; }
 			public string Label { get; set; }
+			public string Points { get; set; }
 		}
 		public ObservableCollection<Row> rows { get; } = new ObservableCollection<Row>();
 
@@ -40,7 +42,13 @@ namespace EZLabel.Windows.Annotation_List.Anno_List {
 		/// 在列表中加入一行
 		/// </summary>
 		public void AddItemToList (AnnoData data) {
-			var row = new Row { Index = this.listview.Items.Count.ToString(), Type = data.type.ToString(), Class = data.clas.ToString(), Label = data.label };
+			var row = new Row {
+				Index = this.listview.Items.Count.ToString(),
+				Type = data.type.ToString(),
+				Class = data.clas.ToString(),
+				Points = data.points.to_string(),
+				Label = data.label
+			};
 			rows.Add(row);
 		}
 		/// <summary>
