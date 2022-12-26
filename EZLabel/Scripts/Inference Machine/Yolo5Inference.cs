@@ -9,29 +9,26 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using QLabel.Scripts.Projects;
 
 namespace QLabel.Scripts.Inference_Machine {
-	public class Yolo5Inference {
+	public class Yolo5Inference : BaseInferenceMachine {
 		public string model_path;
 		public int width, height, classes;
+		public string[] labels;
 
 		/// <summary>
-		/// 初始化参数
+		/// 初始化所有参数
 		/// </summary>
+		/// <param name="path">模型的路径</param>
 		public Yolo5Inference (string path, int width = 640, int height = 640, int classes = 80) {
 			model_path = path;
 			this.width = width;
 			this.height = height;
 			this.classes = classes;
+			this.labels = ClassLabels.coco80;
 		}
 
-		/// <summary>
-		/// 加载图片并且 resampling
-		/// </summary>
-		public Bitmap LoadImage (string path) {
-			return new Bitmap(Image.FromFile(path),
-				   width, height);
-		}
 
 		/// <summary>
 		/// 将图片转换为 Dense Tensor
@@ -91,6 +88,10 @@ namespace QLabel.Scripts.Inference_Machine {
 			CvDnn.NMSBoxes(boxes, scores, 0.3f, 0.45f, out ind);
 
 			return (ind, scores, boxes, classes);
+		}
+
+		public override Bitmap LoadImage (ImageFileData data) {
+			return new Bitmap(Image.FromFile(data.filename), width, height);
 		}
 	}
 }

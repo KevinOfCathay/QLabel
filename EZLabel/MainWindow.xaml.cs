@@ -44,5 +44,11 @@ namespace QLabel {
 			this.toolbar.Init(this.main_canvas);
 			this.main_menu.Init(this);
 		}
+
+		private void Window_KeyDown (object sender, KeyEventArgs e) {
+			if ( e.Key == Key.Z ) {
+				Debug.WriteLine("触发了按键Z");
+			}
+		}
 	}
 }
