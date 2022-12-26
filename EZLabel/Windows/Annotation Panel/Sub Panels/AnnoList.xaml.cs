@@ -57,12 +57,14 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 			this.listview.Items.Clear();
 		}
 		public void RegisterEvents () {
-			var canvas = QLabel.App.main.main_canvas;
-			if ( canvas != null ) {
-				canvas.eAnnotationElementAdded += (MainCanvas mc, IAnnotationElement iae) => {
-					var annodata = iae.data;
-					AddItemToList(annodata);
-				};
+			if ( QLabel.App.main != null ) {
+				var canvas = QLabel.App.main.main_canvas;
+				if ( canvas != null ) {
+					canvas.eAnnotationElementAdded += (MainCanvas mc, IAnnotationElement iae) => {
+						var annodata = iae.data;
+						AddItemToList(annodata);
+					};
+				}
 			}
 		}
 	}

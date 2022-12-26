@@ -7,6 +7,7 @@
              mc:Ignorable="d"
 		   DataContext="{Binding RelativeSource={RelativeSource Self}}"
              d:DesignHeight="450" d:DesignWidth="400">
+	
 	<ListView 
 		ScrollViewer.VerticalScrollBarVisibility="Auto"
 		ScrollViewer.HorizontalScrollBarVisibility="Visible"
@@ -38,4 +39,5 @@
 
 		</ListView.View>
 	</ListView>
+	
 </UserControl>
