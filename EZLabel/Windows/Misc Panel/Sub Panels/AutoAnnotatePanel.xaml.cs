@@ -13,16 +13,24 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace EZLabel.Windows.Annotation_List.Anno_List
+namespace QLabel.Windows.Misc_Panel.Sub_Panels
 {
     /// <summary>
-    /// Interaction logic for LabelList.xaml
+    /// Interaction logic for AutoAnnotatePanel.xaml
     /// </summary>
-    public partial class LabelList : UserControl
+    public partial class AutoAnnotatePanel : UserControl
     {
-        public LabelList()
+        public AutoAnnotatePanel()
         {
             InitializeComponent();
         }
-    }
+
+		private void apply_button_Click (object sender, RoutedEventArgs e) {
+
+		}
+
+		private void apply_all_button_Click (object sender, RoutedEventArgs e) {
+
+		}
+	}
 }

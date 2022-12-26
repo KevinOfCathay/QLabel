@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
-namespace EZLabel.Scripts.AnnotationData {
+namespace QLabel.Scripts.AnnotationData {
 	public record AnnoData {
 		public enum Type { Dot, Rectangle, Square, Line, Circle }
 

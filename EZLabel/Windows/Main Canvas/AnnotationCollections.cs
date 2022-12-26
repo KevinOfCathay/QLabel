@@ -1,4 +1,4 @@
-﻿using EZLabel.Windows.Main_Canvas.Annotation_Elements;
+﻿using QLabel.Windows.Main_Canvas.Annotation_Elements;
 using QLabel.Scripts.Projects;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EZLabel.Windows.Main_Canvas
+namespace QLabel.Windows.Main_Canvas
 {
     public class AnnotationCollections {
 		public Dictionary<ImageFileData, List<IAnnotationElement>> elements { get; private set; } =

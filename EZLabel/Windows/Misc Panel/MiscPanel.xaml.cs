@@ -13,13 +13,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace QLabel.Windows.Annotation_Panel
-{
-    /// <summary>
-    /// 所有注释数据的列表
-    /// </summary>
-    public partial class AnnoListPanel : UserControl {
-		public AnnoListPanel () {
+namespace QLabel.Windows.Misc_Panel {
+	/// <summary>
+	/// Interaction logic for ToolPanel.xaml
+	/// </summary>
+	public partial class MiscPanel : UserControl {
+		public MiscPanel () {
 			InitializeComponent();
 		}
 	}

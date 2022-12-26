@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using QLabel.Scripts.Projects;
 
-namespace EZLabel.Custom_Control.Image_View {
+namespace QLabel.Custom_Control.Image_View {
 	/// <summary>
 	/// Interaction logic for ImageListItem.xaml
 	/// </summary>

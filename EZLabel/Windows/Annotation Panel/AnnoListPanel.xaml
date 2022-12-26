@@ -1,15 +1,14 @@
-﻿<UserControl x:Class="EZLabel.Windows.Annotation_List.AnnoListPanel"
+﻿<UserControl x:Class="QLabel.Windows.Annotation_Panel.AnnoListPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:EZLabel.Windows.Annotation_List"
-             xmlns:annolist ="clr-namespace:EZLabel.Windows.Annotation_List.Anno_List"
+             xmlns:anno ="clr-namespace:QLabel.Windows.Annotation_Panel.Sub_Panels"
 		   mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="250">
 	<TabControl>
-		<TabItem Header="Annos">
-			<annolist:AnnoList/>
+		<TabItem Header="Anno.">
+			<anno:AnnoList/>
 		</TabItem>
 	</TabControl>
 </UserControl>

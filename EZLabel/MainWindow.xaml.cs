@@ -14,11 +14,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using EZLabel.Custom_Control.Image_View;
+using QLabel.Custom_Control.Image_View;
 using System.IO;
-using EZLabel.Windows.Main_Canvas;
+using QLabel.Windows.Main_Canvas;
 using System.Diagnostics;
-using EZLabel.Scripts.AnnotationToolManager;
+using QLabel.Scripts.AnnotationToolManager;
 
 namespace QLabel {
 	/// <summary>

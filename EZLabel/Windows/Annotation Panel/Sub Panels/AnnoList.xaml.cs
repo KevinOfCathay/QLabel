@@ -1,7 +1,6 @@
-﻿using EZLabel.Scripts.AnnotationData;
-using EZLabel.Windows.Main_Canvas.Annotation_Elements;
-using EZLabel.Windows.Main_Canvas;
-using OpenCvSharp.Flann;
+﻿using QLabel.Scripts.AnnotationData;
+using QLabel.Windows.Main_Canvas.Annotation_Elements;
+using QLabel.Windows.Main_Canvas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +18,7 @@ using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using QLabel.Scripts.Utils;
 
-namespace EZLabel.Windows.Annotation_List.Anno_List {
+namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 	/// <summary>
 	/// Interaction logic for AnnoList.xaml
 	/// </summary>

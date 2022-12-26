@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace EZLabel.Windows.Main_Canvas.Annotation_Elements {
+namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 	/// <summary>
 	/// 正方形
 	/// </summary>

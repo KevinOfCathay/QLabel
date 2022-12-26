@@ -4,10 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QLabel"
-	   xmlns:custom="clr-namespace:EZLabel.Custom_Control.Image_View"
-	   xmlns:ann="clr-namespace:EZLabel.Windows.Annotation_List"
-	   xmlns:canv="clr-namespace:EZLabel.Windows.Main_Canvas"
-	   xmlns:toolbx="clr-namespace:EZLabel.Windows.Toolbar_Window"
+	   xmlns:custom="clr-namespace:QLabel.Custom_Control.Image_View"
+	   xmlns:misc="clr-namespace:QLabel.Windows.Misc_Panel"
+	   xmlns:ann="clr-namespace:QLabel.Windows.Annotation_Panel"
+	   xmlns:canv="clr-namespace:QLabel.Windows.Main_Canvas"
+	   xmlns:toolbx="clr-namespace:QLabel.Windows.Toolbar_Window"
         mc:Ignorable="d"
         Title="MainWindow" Height="720" Width="1280">
 	<Grid>
@@ -42,10 +43,11 @@
 
 				<DockPanel Grid.Column="1" Grid.Row="0" Grid.RowSpan="4">
 					<!-- 图片的属性栏-->
-					<custom:ImagePropertiesWindow x:Name="ipw" DockPanel.Dock="Top"></custom:ImagePropertiesWindow>
+					<misc:MiscPanel
+						x:Name="misc_panel" DockPanel.Dock="Top"/>
 
 					<!-- Annotation Lists -->
-					<ann:AnnoListPanel  DockPanel.Dock="Top"></ann:AnnoListPanel>
+					<ann:AnnoListPanel  DockPanel.Dock="Top"/>
 				</DockPanel>
 			</Grid>
 		</DockPanel>

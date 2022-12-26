@@ -1,5 +1,5 @@
-﻿using EZLabel.Scripts.AnnotationToolManager;
-using EZLabel.Windows.Main_Canvas;
+﻿using QLabel.Scripts.AnnotationToolManager;
+using QLabel.Windows.Main_Canvas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace EZLabel.Windows.Toolbar_Window {
+namespace QLabel.Windows.Toolbar_Window {
 	/// <summary>
 	/// Interaction logic for AnnotationToolBar.xaml
 	/// </summary>

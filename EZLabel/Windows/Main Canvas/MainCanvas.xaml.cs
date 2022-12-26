@@ -1,6 +1,6 @@
-﻿using EZLabel.Scripts.AnnotationData;
-using EZLabel.Scripts.AnnotationToolManager;
-using EZLabel.Windows.Main_Canvas.Annotation_Elements;
+﻿using QLabel.Scripts.AnnotationData;
+using QLabel.Scripts.AnnotationToolManager;
+using QLabel.Windows.Main_Canvas.Annotation_Elements;
 using QLabel.Scripts.Projects;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace EZLabel.Windows.Main_Canvas {
+namespace QLabel.Windows.Main_Canvas {
 	public partial class MainCanvas : UserControl {
 		private float image_scale = 0f;          // image scale level
 		private ImageFileData cur_file;
@@ -110,6 +110,7 @@ namespace EZLabel.Windows.Main_Canvas {
 			canvas_image.Source = data.source;
 			cur_file = data;
 
+			// 加载完了图片以后就可以开始 annotate
 			can_annotate = true;
 			eImageLoaded?.Invoke(this, data);
 		}

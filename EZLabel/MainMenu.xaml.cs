@@ -1,4 +1,4 @@
-﻿using EZLabel.Windows.Main_Canvas;
+﻿using QLabel.Windows.Main_Canvas;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;

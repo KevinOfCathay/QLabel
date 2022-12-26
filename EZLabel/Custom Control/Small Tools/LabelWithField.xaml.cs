@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace EZLabel.Custom_Control.Small_Tools {
+namespace QLabel.Custom_Control.Small_Tools {
 	/// <summary>
 	/// Interaction logic for LabelWithField.xaml
 	/// </summary>

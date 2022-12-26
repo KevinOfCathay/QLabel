@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace EZLabel.Windows.Toolbar_Window.Tools {
+namespace QLabel.Windows.Toolbar_Window.Tools {
 	/// <summary>
 	/// Interaction logic for ToolBase.xaml
 	/// </summary>

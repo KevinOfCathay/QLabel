@@ -1,5 +1,5 @@
-﻿using EZLabel.Windows.Main_Canvas;
-using EZLabel.Windows.Main_Canvas.Annotation_Elements;
+﻿using QLabel.Windows.Main_Canvas;
+using QLabel.Windows.Main_Canvas.Annotation_Elements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ using System.Windows;
 using OpenCvSharp;
 using System.Numerics;
 
-namespace EZLabel.Scripts.AnnotationToolManager {
+namespace QLabel.Scripts.AnnotationToolManager {
 	public class DotAnnotationTool : ToolBase {
 		DraggableDot dot;
 		public override void Activate (MainCanvas canvas) {

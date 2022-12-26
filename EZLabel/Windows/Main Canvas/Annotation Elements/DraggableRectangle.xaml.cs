@@ -1,4 +1,4 @@
-﻿using EZLabel.Scripts.AnnotationData;
+﻿using QLabel.Scripts.AnnotationData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Media3D;
 
-namespace EZLabel.Windows.Main_Canvas.Annotation_Elements {
+namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 	/// <summary>
 	/// 矩形
 	/// </summary>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace EZLabel.Windows.Main_Canvas {
+namespace QLabel.Windows.Main_Canvas {
 	/// <summary>
 	/// Interaction logic for ImageQuickInfoPanel.xaml
 	/// </summary>

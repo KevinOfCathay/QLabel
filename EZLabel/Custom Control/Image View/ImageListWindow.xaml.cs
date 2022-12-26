@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 using System.Diagnostics;
 using QLabel.Scripts.Projects;
 
-namespace EZLabel.Custom_Control.Image_View
+namespace QLabel.Custom_Control.Image_View
 {
     /// <summary>
     /// Interaction logic for ImageListPanel.xaml

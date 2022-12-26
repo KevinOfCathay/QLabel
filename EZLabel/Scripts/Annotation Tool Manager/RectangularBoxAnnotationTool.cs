@@ -1,6 +1,6 @@
-﻿using EZLabel.Scripts.AnnotationToolManager;
-using EZLabel.Windows.Main_Canvas;
-using EZLabel.Windows.Main_Canvas.Annotation_Elements;
+﻿using QLabel.Scripts.AnnotationToolManager;
+using QLabel.Windows.Main_Canvas;
+using QLabel.Windows.Main_Canvas.Annotation_Elements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace EZLabel.Scripts.AnnotationToolManager {
+namespace QLabel.Scripts.AnnotationToolManager {
 	public class RectangularBoxAnnotationTool : ToolBase {
 		DraggableRectangle rect;
 		bool dragging = false;

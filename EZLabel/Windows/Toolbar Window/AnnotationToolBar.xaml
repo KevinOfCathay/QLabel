@@ -1,14 +1,15 @@
-﻿<UserControl x:Class="EZLabel.Windows.Toolbar_Window.AnnotationToolBar"
+﻿<UserControl x:Class="QLabel.Windows.Toolbar_Window.AnnotationToolBar"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:EZLabel.Windows.Toolbar_Window"
+             xmlns:local="clr-namespace:QLabel.Windows.Toolbar_Window"
              mc:Ignorable="d">
 	<StackPanel 
 		Background="WhiteSmoke" 
 		Orientation="Horizontal"
 		DockPanel.Dock="Left" 
+		HorizontalAlignment="Left"
 		Width="260">
 		<Button
 			Name="DotTool_Button" Height="26" Width="26"
