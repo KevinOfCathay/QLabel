@@ -1,6 +1,8 @@
-﻿using QLabel.Scripts.Projects;
+﻿using Microsoft.ML.OnnxRuntime;
+using QLabel.Scripts.Projects;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -9,12 +11,23 @@ using System.Windows.Media.Media3D;
 
 namespace QLabel.Scripts.Inference_Machine {
 	public abstract class BaseInferenceMachine {
+		protected string model_path;
+		protected InferenceSession session;
+
 		/// <summary>
-		/// 加载图片并且 resampling
+		/// 从 path 中加载 session
 		/// </summary>
-		public Bitmap LoadImage (ImageFileData data) {
-			return new Bitmap(Image.FromFile(data.filename), width, height);
+		/// <param name="model_path"></param>
+		public void BuildSession () {
+			session = new InferenceSession(model_path);
+			if ( session == null ) {
+				Debug.WriteLine("failed to load session.");
+			}
 		}
+		/// <summary>
+		/// 加载图片
+		/// </summary>
+		public abstract Bitmap LoadImage (ImageFileData data);
 
 	}
 }

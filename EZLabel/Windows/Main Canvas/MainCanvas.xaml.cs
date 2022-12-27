@@ -19,7 +19,7 @@ using System.Windows.Media;
 namespace QLabel.Windows.Main_Canvas {
 	public partial class MainCanvas : UserControl {
 		private float image_scale = 0f;          // image scale level
-		private ImageFileData cur_file;
+		public ImageFileData cur_file { get; private set; }
 		public bool can_annotate { get; private set; } = false;      // 当前画布是否可以进行标注
 		public Point image_size { get; private set; } = new Point(0, 0);      // 图片大小，用于计算annotation的位置，在未加载时图片大小为 0
 		public Point image_offset { get; private set; } = new Point(0, 0);      // 图片在画布上的偏移量，用于计算annotation的位置，在未加载时图片，或者图片居中时大小为 0

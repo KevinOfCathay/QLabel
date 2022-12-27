@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using QLabel.Scripts.Utils;
+using System.Diagnostics;
 
 namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 	/// <summary>
@@ -64,6 +65,18 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 						var annodata = iae.data;
 						AddItemToList(annodata);
 					};
+				}
+			}
+		}
+
+		private void ListViewItem_PreviewMouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
+			var item = sender as ListViewItem;
+			if ( item != null  ) {		// item 本身不为 null
+				if ( item.DataContext != null ) {		// item 所关联的 datacontext 不为 null
+					Row row = item.DataContext as Row;
+					if ( row != null ) {
+						Debug.WriteLine(row);
+					}
 				}
 			}
 		}

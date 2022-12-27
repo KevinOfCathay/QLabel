@@ -38,6 +38,13 @@
 			</GridView>
 
 		</ListView.View>
+		
+		<ListView.ItemContainerStyle>
+			<Style TargetType="ListViewItem">
+				<!-- 加入一个鼠标左键事件 -->
+				<EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />
+			</Style>
+		</ListView.ItemContainerStyle>
 	</ListView>
 	
 </UserControl>

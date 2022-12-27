@@ -3,16 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:QLabel.Windows.Misc_Panel.Sub_Panels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 	<StackPanel Margin="10">
 		<TextBlock>Model:</TextBlock>
+		
+		<!-- 模型列表 -->
 		<ListBox Name="model_listbox">
-			<ListBoxItem>
-			</ListBoxItem>
+			<ListBoxItem>COCO Object Detection (Yolov5m)</ListBoxItem>
+			<ListBoxItem>VOC Object Detection (Yolov5m)</ListBoxItem>
+			<ListBoxItem>Text Detection (PANet)</ListBoxItem>
 		</ListBox>
+
 		<Separator Margin="5"/>
+		
 		<StackPanel Orientation="Horizontal">
 			<Button
 				FontSize="10.5"
@@ -23,7 +27,7 @@
 				FontSize="10.5"
 				Margin="4" Padding="4"
 				Click="apply_all_button_Click"
-				>Apply All</Button>
+				>Apply To All</Button>
 		</StackPanel>
 	</StackPanel>
 </UserControl>
