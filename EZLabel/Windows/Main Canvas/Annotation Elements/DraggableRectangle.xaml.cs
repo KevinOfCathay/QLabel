@@ -111,7 +111,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			throw new NotImplementedException();
 		}
 
-		void IAnnotationElement.Delete () {
+		public void Draw (Canvas canvas, Point[] points) {
 			throw new NotImplementedException();
 		}
 	}

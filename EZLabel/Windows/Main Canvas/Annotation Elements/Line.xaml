@@ -5,6 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QLabel.Windows.Main_Canvas.Annotation_Elements"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-
+             d:DesignHeight="150" d:DesignWidth="100">
+	<Line
+		Name="line"
+		X1="0" Y1="0"
+          X2="25" Y2="25"
+		Stroke="BlueViolet"
+		StrokeThickness="3">
+	</Line>
 </UserControl>

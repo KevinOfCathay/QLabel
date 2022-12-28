@@ -29,5 +29,14 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Delete () {
 			throw new NotImplementedException();
 		}
+
+		public void Draw (Canvas canvas, Point[] points) {
+			if ( points != null && points.Length >= 1 ) {
+				this.line.X1 = points[0].X;
+				this.line.Y1 = points[0].Y;
+				this.line.X2 = points[1].X;
+				this.line.Y2 = points[1].Y;
+			}
+		}
 	}
 }

@@ -78,6 +78,7 @@
   <ItemGroup>
     <Folder Include="Converters\" />
     <Folder Include="Custom Control\General Custom Control\" />
+    <Folder Include="Scripts\ArrayUtils\" />
     <Folder Include="Windows\Operations Window\" />
   </ItemGroup>
 

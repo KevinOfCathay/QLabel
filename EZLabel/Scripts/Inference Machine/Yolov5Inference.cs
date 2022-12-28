@@ -10,6 +10,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using QLabel.Scripts.Projects;
+using QLabel.Scripts.AnnotationData;
 
 namespace QLabel.Scripts.Inference_Machine {
 	public class Yolov5Inference : BaseInferenceMachine {
@@ -97,6 +98,10 @@ namespace QLabel.Scripts.Inference_Machine {
 			CvDnn.NMSBoxes(boxes, scores, 0.3f, 0.45f, out ind);
 
 			return (ind, scores, boxes, classes);
+		}
+
+		public override AnnoData[] RunInference (ImageFileData data) {
+			throw new NotImplementedException();
 		}
 	}
 }

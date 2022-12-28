@@ -1,4 +1,5 @@
 ﻿using Microsoft.ML.OnnxRuntime;
+using QLabel.Scripts.AnnotationData;
 using QLabel.Scripts.Projects;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,6 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// 加载图片
 		/// </summary>
 		public abstract Bitmap LoadImage (ImageFileData data);
-
+		public abstract AnnoData[] RunInference (ImageFileData data);
 	}
 }

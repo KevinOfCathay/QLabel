@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace QLabel.Scripts.AnnotationData {
 	public record AnnoData {
-		public enum Type { Dot, Rectangle, Square, Line, Circle }
+		public enum Type { Dot, Rectangle, Square, Tetragon, Line, Circle, Polygon }
 
 		public AnnoData () { createtime = DateTime.Now; }
 
@@ -24,7 +24,7 @@ namespace QLabel.Scripts.AnnotationData {
 		public int clas;
 
 		/// <summary>
-		/// 这个注释数据的标签
+		/// 这个注释数据的额外标签
 		/// </summary>
 		public string label;
 

@@ -29,6 +29,13 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			InitializeComponent();
 		}
 
+		public void Draw (Canvas canvas, Point[] points) {
+			if ( points != null && points.Length >= 1 ) {
+				Canvas.SetLeft(this, points[0].X);
+				Canvas.SetTop(this, points[0].Y);
+			}
+		}
+
 		private void dot_PreviewMouseDown (object sender, MouseButtonEventArgs e) {
 			activate = true;
 			eMouseDown?.Invoke(this, e);
