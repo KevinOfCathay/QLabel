@@ -112,7 +112,6 @@ namespace QLabel.Windows.Main_Canvas {
 			// 设置底层信息栏的文字
 			image_quick_info_panel.SetZoomText(image_scale);
 
-
 			ImageFileData data = new ImageFileData {
 				width = width,
 				height = height,

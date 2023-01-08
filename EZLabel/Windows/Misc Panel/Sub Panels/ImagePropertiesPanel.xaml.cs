@@ -22,9 +22,12 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 		public ImagePropertiesPanel () {
 			InitializeComponent();
 		}
-
-		public void SetImageUIProperties (ImageFileData data) {
+		/// <summary>
+		/// 设置 UI 上的 text
+		/// </summary>
+		public void SetUI (ImageFileData data) {
 			file_path.Text = data.path;
+			file_name.Text = data.filename;
 			dimension.Text = data.width.ToString() + " × " + data.height.ToString();
 			file_size.Text = data.size.ToString();
 		}

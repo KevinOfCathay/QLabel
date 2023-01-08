@@ -14,6 +14,10 @@
 							<Run Name="file_path"></Run>
 				</TextBlock>
 				<TextBlock FontSize="10.5">
+							<Run>File Name:</Run>
+							<Run Name="file_name"></Run>
+				</TextBlock>
+				<TextBlock FontSize="10.5">
 							<Run>Dimension:</Run>
 							<Run Name="dimension"></Run>
 				</TextBlock>

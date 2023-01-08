@@ -29,6 +29,11 @@ namespace QLabel.Custom_Control.Image_View {
 			InitializeComponent();
 		}
 
+		public void Clear () {
+			this.image_view_listbox.Items.Clear();
+			this.image_listbox.Items.Clear();
+		}
+
 		/// <summary>
 		/// 从路径列表中设置 UI
 		/// </summary>
@@ -39,7 +44,7 @@ namespace QLabel.Custom_Control.Image_View {
 				string filename = System.IO.Path.GetFileName(file);
 				new_item.thumbnail_image.Source = await LoadImageThumbnailFromFile(file);
 				new_item.image_name.Text = filename;
-				new_item.eSwitchImage += (b) => { Trace.WriteLine("Image button clicked"); };
+				new_item.path = file;
 
 				this.image_view_listbox.Items.Add(new_item);
 

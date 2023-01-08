@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using QLabel.Scripts.Projects;
 using System.IO;
 using static System.Net.Mime.MediaTypeNames;
+using System.Runtime.ConstrainedExecution;
 
 namespace QLabel {
 	/// <summary>
@@ -38,6 +39,7 @@ namespace QLabel {
 				openFileDialog.Filter = "Image(*.BMP;*.JPG;*.PNG)|*.BMP;*.JPG;*.PNG";
 				if ( openFileDialog.ShowDialog() == true ) {
 					string sfile = openFileDialog.FileName;
+					main.ilw.Clear();	// 清空上一个 Project 加载的内容
 					try {
 						var directory = System.IO.Path.GetDirectoryName(sfile);
 						if ( directory != null ) {
@@ -66,6 +68,13 @@ namespace QLabel {
 		}
 		private void Undo_Click (object sender, RoutedEventArgs e) {
 			ActionManager.PopAction();
+		}
+
+		/// <summary>
+		/// 一键裁剪当前所有的注释
+		/// </summary>
+		private void Crop_Click (object sender, RoutedEventArgs e) {
+
 		}
 	}
 }

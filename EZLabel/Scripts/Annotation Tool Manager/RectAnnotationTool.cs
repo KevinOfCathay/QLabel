@@ -102,7 +102,7 @@ namespace QLabel.Scripts.AnnotationToolManager {
 			if ( canvas.can_annotate ) {
 				// 创建一个新的矩形
 				DraggableRectangle r = new DraggableRectangle {
-					data = new AnnotationData.AnnoData {
+					data = new AnnotationData.ADRect {
 						points = rpoints,
 						clas = clas,
 						label = label

@@ -2,6 +2,8 @@
 using System.Windows.Input;
 using QLabel.Custom_Control.Image_View;
 using System.Diagnostics;
+using QLabel.Scripts.Projects;
+using QLabel.Windows.Main_Canvas;
 
 namespace QLabel {
 	/// <summary>
@@ -21,6 +23,9 @@ namespace QLabel {
 				item.eSwitchImage += (i) => {
 					main_canvas.LoadImage(i.path);          // 点击 List 中的 image 图像来加载图片
 				};
+			};
+			main_canvas.eImageLoaded += (MainCanvas canvas, ImageFileData data) => {
+				misc_panel.image_properties_panel.SetUI(data);
 			};
 		}
 		public void InitComponents () {
