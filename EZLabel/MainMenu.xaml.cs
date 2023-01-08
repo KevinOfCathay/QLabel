@@ -14,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using QLabel.Scripts.Projects;
+using System.IO;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace QLabel {
 	/// <summary>
@@ -21,6 +24,7 @@ namespace QLabel {
 	/// </summary>
 	public partial class MainMenu : UserControl {
 		MainWindow main;
+		private HashSet<string> accepted_ext = new HashSet<string> { ".bmp", ".jpg", ".png", ".jpeg" };
 
 		public MainMenu () {
 			InitializeComponent();
@@ -33,18 +37,26 @@ namespace QLabel {
 				OpenFileDialog openFileDialog = new OpenFileDialog();
 				openFileDialog.Filter = "Image(*.BMP;*.JPG;*.PNG)|*.BMP;*.JPG;*.PNG";
 				if ( openFileDialog.ShowDialog() == true ) {
-					string file = openFileDialog.FileName;
+					string sfile = openFileDialog.FileName;
 					try {
-						var dir = System.IO.Path.GetDirectoryName(file);
-						// Load all images from dir
-						if ( dir != null ) {
-							var data = main.ilw.LoadImagesFromDir(dir);
-							main.ilw.SetListUI(data);
+						var directory = System.IO.Path.GetDirectoryName(sfile);
+						if ( directory != null ) {
+							// 读取文件夹下的所有文件
+							// 如果符合图像格式，则将路径加入到 list 中
+							var files = Directory.GetFiles(directory);
+							var paths = new List<string>(capacity: files.Length); // 重置 paths
+							foreach ( var f in files ) {
+								string ext = System.IO.Path.GetExtension(f);
+								if ( accepted_ext.Contains(ext) ) {
+									paths.Add(f);
+								}
+							}
+							main.ilw.SetListUI(paths);
 
-							// Load selected file
-							var curdata = data.Find((x) => { return x.path == file; });
-							if ( curdata != null ) {
-								main.main_canvas.LoadImage(curdata);
+							// 如果当前被选择的文件属于图像
+							// 则加载该图像
+							if ( accepted_ext.Contains(System.IO.Path.GetExtension(sfile)) ) {
+								main.main_canvas.LoadImage(sfile);
 							}
 						}
 					} catch ( Exception ) {

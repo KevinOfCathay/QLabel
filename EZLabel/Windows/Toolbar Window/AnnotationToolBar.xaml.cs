@@ -29,7 +29,7 @@ namespace QLabel.Windows.Toolbar_Window {
 			manager.mc = mc;
 		}
 		private void RectangleTool_Button_Click (object sender, RoutedEventArgs e) {
-			manager.SwitchTool(new RectangularBoxAnnotationTool());
+			manager.SwitchTool(new RectAnnotationTool());
 		}
 
 		private void DotTool_Button_Click (object sender, RoutedEventArgs e) {

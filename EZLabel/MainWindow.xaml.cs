@@ -12,14 +12,14 @@ namespace QLabel {
 			App.main = this;
 
 			InitializeComponent();
-			InitEvents();
+			RegisterEvents();
 			InitComponents();
 		}
 
-		public void InitEvents () {
+		public void RegisterEvents () {
 			ilw.eImageListUICreated += (ImageListWindow window, ImageListItem item) => {
 				item.eSwitchImage += (i) => {
-					main_canvas.LoadImage(i.data);          // 点击 List 中的 image 图像来加载图片
+					main_canvas.LoadImage(i.path);          // 点击 List 中的 image 图像来加载图片
 				};
 			};
 		}

@@ -11,10 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace QLabel.Windows.Main_Canvas {
 	public partial class MainCanvas : UserControl {
@@ -82,15 +80,22 @@ namespace QLabel.Windows.Main_Canvas {
 		/// <summary>
 		/// 将图片加载到画布上
 		/// </summary>
-		public void LoadImage (ImageFileData data) {
-			var hscale = data.height / annotation_canvas.ActualHeight;
-			var wscale = data.width / annotation_canvas.ActualWidth;
+		public async void LoadImage (string path) {
+			BitmapImage image = await LoadImageFromFile(path);
+			double height = image.Height;
+			double width = image.Width;
+
+			// 设置当前的图像源
+			canvas_image.Source = image;
+
+			var hscale = height / annotation_canvas.ActualHeight;
+			var wscale = width / annotation_canvas.ActualWidth;
 
 			double target_height, target_width;
 			// Resize canvas to auto
 			if ( hscale <= 1 && wscale <= 1 ) {
-				target_height = data.height;
-				target_width = data.width;
+				target_height = height;
+				target_width = width;
 				image_scale = 1f;
 			} else {
 				var scale = hscale > wscale ? hscale : wscale;
@@ -107,13 +112,32 @@ namespace QLabel.Windows.Main_Canvas {
 			// 设置底层信息栏的文字
 			image_quick_info_panel.SetZoomText(image_scale);
 
-			// 设置当前的图像为 data
-			canvas_image.Source = data.source;
+
+			ImageFileData data = new ImageFileData {
+				width = width,
+				height = height,
+				path = path,
+				filename = System.IO.Path.GetFileName(path),
+				size = new System.IO.FileInfo(path).Length,
+			};
 			cur_file = data;
 
 			// 加载完了图片以后就可以开始 annotate
 			can_annotate = true;
 			eImageLoaded?.Invoke(this, data);
+		}
+		private async Task<BitmapImage> LoadImageFromFile (string path) {
+			return await Task.Run(
+				() => {
+					BitmapImage image = new BitmapImage();
+					image.BeginInit();
+					image.UriSource = new Uri(path);
+					image.CacheOption = BitmapCacheOption.OnLoad;
+					image.EndInit();
+					image.Freeze();
+					return image;
+				}
+				);
 		}
 		public void AddAnnoElements (IAnnotationElement element) {
 			if ( can_annotate ) {          // 只有在画布上有内容时才会加入 element

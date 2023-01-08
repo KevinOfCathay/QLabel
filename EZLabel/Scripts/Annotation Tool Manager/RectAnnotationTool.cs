@@ -12,7 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace QLabel.Scripts.AnnotationToolManager {
-	public class RectangularBoxAnnotationTool : ToolBase {
+	public class RectAnnotationTool : ToolBase {
 		DraggableRectangle rect;
 		bool dragging = false;
 		double x, y;
@@ -33,7 +33,6 @@ namespace QLabel.Scripts.AnnotationToolManager {
 			rect.Redraw(canvas.annotation_canvas, tl, br);
 			canvas.annotation_canvas.Children.Add(rect);
 		}
-
 		public void CreateNewRectangle (MainCanvas canvas, MouseEventArgs e) {
 			if ( canvas.can_annotate ) {
 				rect = new DraggableRectangle();
@@ -94,6 +93,30 @@ namespace QLabel.Scripts.AnnotationToolManager {
 
 					ActionManager.PushAction(create_rect);
 				}
+			}
+		}
+		/// <summary>
+		/// 创建一个 annotation 并将其放置在画布上
+		/// </summary>
+		public static void Create (MainCanvas canvas, Vector2[] rpoints, int clas = 0, string label = null) {
+			if ( canvas.can_annotate ) {
+				// 创建一个新的矩形
+				DraggableRectangle r = new DraggableRectangle {
+					data = new AnnotationData.AnnoData {
+						points = rpoints,
+						clas = clas,
+						label = label
+					}
+				};
+
+				// 计算画布上矩形的位置
+
+
+				canvas.annotation_canvas.Children.Add(r);
+				CreateAnnotationElementManual create_rect = new CreateAnnotationElementManual(r, canvas);
+				create_rect.Do();
+
+				ActionManager.PushAction(create_rect);
 			}
 		}
 	}

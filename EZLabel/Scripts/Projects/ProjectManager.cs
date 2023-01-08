@@ -11,5 +11,6 @@ namespace QLabel.Scripts.Projects {
 		public Project CreateNewProject () {
 			return new Project();
 		}
+
 	}
 }

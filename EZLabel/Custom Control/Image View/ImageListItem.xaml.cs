@@ -20,7 +20,8 @@ namespace QLabel.Custom_Control.Image_View {
 	/// </summary>
 	public partial class ImageListItem : UserControl {
 		public Action<ImageListItem> eSwitchImage;
-		public ImageFileData data;
+		public string path;		// 文件路径
+
 		public ImageListItem () {
 			InitializeComponent();
 		}
