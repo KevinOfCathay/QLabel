@@ -54,7 +54,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			e.Handled = true;
 		}
 
-		public void Delete () {
+		public void Delete (MainCanvas canvas) {
 			throw new NotImplementedException();
 		}
 	}

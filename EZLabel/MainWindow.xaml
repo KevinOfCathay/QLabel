@@ -14,6 +14,8 @@
         Title="MainWindow" Height="720" Width="1280">
 	<Grid>
 		<DockPanel HorizontalAlignment="Stretch">
+			
+			
 			<!-- Menu Bar -->
 			<local:MainMenu
 				DockPanel.Dock="Top"
@@ -48,7 +50,7 @@
 						x:Name="misc_panel" DockPanel.Dock="Top"/>
 
 					<!-- Annotation Lists -->
-					<ann:AnnoListPanel  DockPanel.Dock="Top"/>
+					<ann:AnnoListPanel DockPanel.Dock="Top"/>
 				</DockPanel>
 			</Grid>
 		</DockPanel>

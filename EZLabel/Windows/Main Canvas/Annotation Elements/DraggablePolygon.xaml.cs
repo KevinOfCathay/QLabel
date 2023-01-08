@@ -16,27 +16,23 @@ using System.Windows.Shapes;
 
 namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 	/// <summary>
-	/// Interaction logic for Line.xaml
+	/// Interaction logic for DraggablePolygon.xaml
 	/// </summary>
-	public partial class Line : UserControl, IAnnotationElement {
-		public Line () {
+	public partial class DraggablePolygon : UserControl, IAnnotationElement {
+		public DraggablePolygon () {
 			InitializeComponent();
 		}
 
-		AnnoData _data;   // 这个矩形所对应的注释数据
+		AnnoData _data;   // 这个多边形所对应的注释数据
 		public AnnoData data { get { return _data; } set { _data = value; } }
+		private List<DraggableDot> dots = new List<DraggableDot>();
 
 		public void Delete (MainCanvas canvas) {
 			throw new NotImplementedException();
 		}
 
 		public void Draw (Canvas canvas, Point[] points) {
-			if ( points != null && points.Length >= 1 ) {
-				this.line.X1 = points[0].X;
-				this.line.Y1 = points[0].Y;
-				this.line.X2 = points[1].X;
-				this.line.Y2 = points[1].Y;
-			}
+			throw new NotImplementedException();
 		}
 	}
 }

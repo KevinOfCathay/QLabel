@@ -22,7 +22,8 @@ namespace QLabel.Windows.Main_Canvas {
 		public ImageFileData cur_file { get; private set; }
 		public bool can_annotate { get; private set; } = false;      // 当前画布是否可以进行标注
 		public Point image_size { get; private set; } = new Point(0, 0);      // 图片大小，用于计算annotation的位置，在未加载时图片大小为 0
-		public Point image_offset { get; private set; } = new Point(0, 0);      // 图片在画布上的偏移量，用于计算annotation的位置，在未加载时图片，或者图片居中时大小为 0
+		public Point image_offset { get; private set; } = new Point(0, 0);      // 图片在画布上的偏移量，用于计算annotation的位置，在未加载时图片，或者图片居中时大小为 0		
+		public Action<MainCanvas, double> eCanvasRescale;      // 画布改变大小（影响画布上所有元素的大小和位置）
 		public Action<MainCanvas, ImageFileData> eImageLoaded;
 		public Action<MainCanvas, IAnnotationElement> eAnnotationElementAdded, eAnnotationElementRemoved;
 		public Action<MainCanvas, MouseEventArgs> eMouseDown, eMouseUp, eMouseMove;
@@ -116,14 +117,16 @@ namespace QLabel.Windows.Main_Canvas {
 		}
 		public void AddAnnoElements (IAnnotationElement element) {
 			if ( can_annotate ) {          // 只有在画布上有内容时才会加入 element
-				annotation_collections.AddElement(cur_file, element);
-				eAnnotationElementAdded?.Invoke(this, element);
+				if ( element != null ) {
+					annotation_collections.AddElement(cur_file, element);
+					eAnnotationElementAdded?.Invoke(this, element);
+				}
 			}
 		}
 		public void RemoveAnnoElements (IAnnotationElement element) {
-			if ( can_annotate ) {
+			if ( element != null ) {
 				annotation_collections.RemoveElement(cur_file, element);
-				element.Delete();
+				element.Delete(this);
 				eAnnotationElementRemoved?.Invoke(this, element);
 			}
 		}

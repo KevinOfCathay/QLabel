@@ -75,6 +75,7 @@ namespace QLabel.Scripts.AnnotationToolManager {
 
 			if ( canvas.can_annotate ) {
 				if ( rect != null ) {
+
 					// 计算矩形四个点的实际位置
 					double left = Canvas.GetLeft(rect);
 					double top = Canvas.GetTop(rect);
@@ -88,7 +89,10 @@ namespace QLabel.Scripts.AnnotationToolManager {
 						points = new Vector2[] { tl_real, tr_real, bl_real, br_real }
 					};
 
-					canvas.AddAnnoElements(rect);
+					CreateAnnotationElementManual create_rect = new CreateAnnotationElementManual(rect, canvas);
+					create_rect.Do();
+
+					ActionManager.PushAction(create_rect);
 				}
 			}
 		}

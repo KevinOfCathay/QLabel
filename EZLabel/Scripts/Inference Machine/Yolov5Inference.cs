@@ -29,18 +29,14 @@ namespace QLabel.Scripts.Inference_Machine {
 			this.labels = ClassLabels.coco80;
 		}
 
-		public override Bitmap LoadImage (ImageFileData data) {
+		protected override Bitmap LoadImage (ImageFileData data) {
 			if ( data != null ) {
 				return new Bitmap(Image.FromFile(data.path), width, height);
 			} else {
 				throw new ArgumentNullException("当前没有任何图片");
 			}
 		}
-
-		/// <summary>
-		/// 将图片转换为 Dense Tensor
-		/// </summary>
-		public DenseTensor<float> GetInputTensor (Bitmap image) {
+		protected override DenseTensor<float> GetInputTensor (Bitmap image) {
 			var input = new DenseTensor<float>(new[] { 1, 3, height, width });
 
 			foreach ( var x in Enumerable.Range(0, width) ) {
@@ -58,7 +54,7 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// <summary>
 		/// 运行模型并以 float[] 形式返回结果
 		/// </summary>
-		public float[] RunInference<T> (DenseTensor<T> input) {
+		public float[] Run<T> (DenseTensor<T> input) {
 			// 从 Dense Tensor 创建一个 Input
 			var input_node = new List<NamedOnnxValue> { NamedOnnxValue.CreateFromTensor<T>("images", input) };
 			if ( session != null ) {
@@ -101,6 +97,10 @@ namespace QLabel.Scripts.Inference_Machine {
 		}
 
 		public override AnnoData[] RunInference (ImageFileData data) {
+			var bitmap = LoadImage(data);
+			var input_tensor = GetInputTensor(bitmap);
+			var output = Run(input_tensor);
+			var result = NMS(output);
 			throw new NotImplementedException();
 		}
 	}

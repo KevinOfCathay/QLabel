@@ -26,6 +26,6 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		/// <summary>
 		/// 从画布上删除元素
 		/// </summary>
-		public void Delete ();
+		public void Delete (MainCanvas canvas);
 	}
 }

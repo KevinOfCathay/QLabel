@@ -8,14 +8,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 	<TabControl>
-		<TabItem Header="Properties">
-			<subpanel:ImagePropertiesPanel
-				x:Name="image_properties_panel"
-				/>
-		</TabItem>
 		<TabItem Header="Autos">
 			<subpanel:AutoAnnotatePanel
 				x:Name="auto_annotate_panel"
+				/>
+		</TabItem>
+		<TabItem Header="Props">
+			<subpanel:ImagePropertiesPanel
+				x:Name="image_properties_panel"
 				/>
 		</TabItem>
 	</TabControl>

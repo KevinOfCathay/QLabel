@@ -18,6 +18,7 @@ namespace QLabel.Scripts.Inference_Machine {
 	/// </summary>
 	public class PANetInference : BaseInferenceMachine {
 		public int width, height, classes;
+		private const int out_width = 160, out_height = 160;
 		public float downsample_ratio = 0.25f;
 		public string[] labels;
 
@@ -33,7 +34,7 @@ namespace QLabel.Scripts.Inference_Machine {
 			this.labels = ClassLabels.coco80;
 		}
 
-		public override Bitmap LoadImage (ImageFileData data) {
+		protected override Bitmap LoadImage (ImageFileData data) {
 			return new Bitmap(Image.FromFile(data.filename), width, height);
 		}
 
@@ -48,13 +49,13 @@ namespace QLabel.Scripts.Inference_Machine {
 
 			// Squeeze
 			// score_maps = score_maps.squeeze()
-			float[,] score = new float[160, 160];
-			byte[,] text = new byte[160, 160];
-			byte[,] kernel = new byte[160, 160];
-			float[,,] embeddings = new float[160, 160, 4];
+			float[,] score = new float[out_width, out_height];
+			byte[,] text = new byte[out_width, out_height];
+			byte[,] kernel = new byte[out_width, out_height];
+			float[,,] embeddings = new float[out_width, out_height, 4];
 
-			for ( int x = 0; x < 160; x += 1 ) {
-				for ( int y = 0; y < 160; y += 1 ) {
+			for ( int x = 0; x < out_width; x += 1 ) {
+				for ( int y = 0; y < out_height; y += 1 ) {
 					// preds[:2, :, :] = torch.sigmoid(preds[:2, :, :])
 					// text = preds[0] > self.min_text_confidence
 					var score_temp = output.At<float>(0, 0, x, y);
@@ -74,8 +75,8 @@ namespace QLabel.Scripts.Inference_Machine {
 				}
 			}
 
-			Mat mat_kernel = new Mat(new int[] { 160, 160 }, MatType.CV_8U, kernel);
-			Mat mat_kernel_contour = new Mat(new int[] { 160, 160 }, MatType.CV_8U, new byte[160, 160]);
+			Mat mat_kernel = new Mat(new int[] { out_width, out_height }, MatType.CV_8U, kernel);
+			Mat mat_kernel_contour = new Mat(new int[] { out_width, out_height }, MatType.CV_8U, new byte[out_width, out_height]);
 			int[,] kernel_labels; OpenCvSharp.Point[][] contours;
 			int region_nums = Cv2.ConnectedComponents(mat_kernel, out kernel_labels, PixelConnectivity.Connectivity4);
 
@@ -83,9 +84,9 @@ namespace QLabel.Scripts.Inference_Machine {
 			Cv2.FindContours(mat_kernel * 255, out contours, out _, RetrievalModes.List, ContourApproximationModes.ApproxNone);
 			Cv2.DrawContours(mat_kernel_contour, contours, -1, new Scalar(255));
 
-			byte[,] kernel_contour = new byte[160, 160];
-			for ( int x = 0; x < 160; x += 1 ) {
-				for ( int y = 0; y < 160; y += 1 ) {
+			byte[,] kernel_contour = new byte[out_width, out_height];
+			for ( int x = 0; x < out_width; x += 1 ) {
+				for ( int y = 0; y < out_height; y += 1 ) {
 					kernel_contour[x, y] = mat_kernel_contour.At<byte>(x, y);
 				}
 			}
@@ -139,8 +140,8 @@ namespace QLabel.Scripts.Inference_Machine {
 		private List<List<float>> PixelGroup (
 		    float[,] score, byte[,] mask, float[,,] embedding, int[,] kernel_label,
 		    byte[,] kernel_contour, int kernel_region_num, float dis_threshold = 0.85f) {
-			int height = 160;
-			int width = 160;
+			int height = out_height;
+			int width = out_width;
 			int embedding_dim = 4;
 			float threshold_square = dis_threshold * dis_threshold;
 			Queue<(int, int, int)> contour_pixels = new Queue<(int, int, int)>();
@@ -276,6 +277,10 @@ namespace QLabel.Scripts.Inference_Machine {
 				}
 			}
 			return result.ToArray();
+		}
+
+		protected override DenseTensor<float> GetInputTensor (Bitmap image) {
+			throw new NotImplementedException();
 		}
 	}
 }

@@ -21,8 +21,9 @@
     <None Remove="Resources\Icons\segment.png" />
     <None Remove="Resources\Icons\selection.png" />
     <None Remove="Resources\Icons\square.png" />
-    <None Remove="Resources\Models\ocr-panet-detection-simplified.onnx" />
+    <None Remove="Resources\Models\PAnet-text-detection.onnx" />
     <None Remove="Resources\Models\yolov5m-coco.onnx" />
+    <None Remove="Resources\Models\yolov5m-voc.onnx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -67,17 +68,19 @@
     <Resource Include="Resources\Icons\square.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Content Include="Resources\Models\ocr-panet-detection-simplified.onnx">
+    <Content Include="Resources\Models\PAnet-text-detection.onnx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Models\yolov5m-coco.onnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Models\yolov5m-voc.onnx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Converters\" />
-    <Folder Include="Custom Control\General Custom Control\" />
     <Folder Include="Scripts\ArrayUtils\" />
     <Folder Include="Windows\Operations Window\" />
   </ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.ML.OnnxRuntime;
+using Microsoft.ML.OnnxRuntime.Tensors;
 using QLabel.Scripts.AnnotationData;
 using QLabel.Scripts.Projects;
 using System;
@@ -28,7 +29,16 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// <summary>
 		/// 加载图片
 		/// </summary>
-		public abstract Bitmap LoadImage (ImageFileData data);
+		protected abstract Bitmap LoadImage (ImageFileData data);
+		/// <summary>
+		/// 将图片转换为 tensor
+		/// </summary>
+		protected abstract DenseTensor<float> GetInputTensor (Bitmap image);
+		/// <summary>
+		/// 给出
+		/// </summary>
+		/// <param name="data"></param>
+		/// <returns></returns>
 		public abstract AnnoData[] RunInference (ImageFileData data);
 	}
 }

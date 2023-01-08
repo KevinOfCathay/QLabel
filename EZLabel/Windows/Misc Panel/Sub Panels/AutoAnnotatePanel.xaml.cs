@@ -30,15 +30,15 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 			}
 		}
 
+		/// <summary>
+		/// 当前的 inference 只适用于当前被打开的图像
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void apply_button_Click (object sender, RoutedEventArgs e) {
 			machine.BuildSession();
-			if ( canvas != null ) {
-				var image = machine.LoadImage(canvas.cur_file);
-				if ( image != null ) {
-					var input = machine.GetInputTensor(image);
-					var output = machine.RunInference(input);
-					var result = machine.NMS(output);
-				}
+			if ( canvas != null && canvas.cur_file != null ) {
+				var result = machine.RunInference(canvas.cur_file);
 			}
 		}
 

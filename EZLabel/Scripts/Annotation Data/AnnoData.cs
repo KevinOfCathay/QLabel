@@ -37,5 +37,16 @@ namespace QLabel.Scripts.AnnotationData {
 		/// 这个注释数据的类型
 		/// </summary>
 		public Type type { get; protected set; }
+
+		public string ID () {  
+			using ( System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create() ) {
+				byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(
+					createtime.ToLongTimeString() + clas.ToString() + label.ToString()
+					);
+				byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+				return Convert.ToHexString(hashBytes);
+			}
+		}
 	}
 }

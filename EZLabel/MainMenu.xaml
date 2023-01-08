@@ -15,6 +15,9 @@
 			<MenuItem Header="_Test"/>
 			<MenuItem Header="_Close" />
 		</MenuItem>
+		<MenuItem Header="_Edit" >
+			<MenuItem Header="_Undo" Click="Undo_Click"/>
+		</MenuItem>
 		<MenuItem Header="_Image">
 			<MenuItem Header="_Adjustments">
 				<MenuItem Header="Brightness/Contrast" />

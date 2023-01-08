@@ -52,5 +52,8 @@ namespace QLabel {
 				}
 			}
 		}
+		private void Undo_Click (object sender, RoutedEventArgs e) {
+			ActionManager.PopAction();
+		}
 	}
 }

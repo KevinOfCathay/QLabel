@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using QLabel.Scripts.Utils;
 using System.Diagnostics;
+using static QLabel.Windows.Annotation_Panel.Sub_Panels.AnnoList;
 
 namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 	/// <summary>
@@ -30,6 +31,7 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 			public string Class { get; set; }
 			public string Label { get; set; }
 			public string Points { get; set; }
+			public AnnoData data { get; set; }
 		}
 		public ObservableCollection<Row> rows { get; } = new ObservableCollection<Row>();
 
@@ -47,9 +49,18 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 				Type = data.type.ToString(),
 				Class = data.clas.ToString(),
 				Points = data.points.to_string(),
-				Label = data.label
+				Label = data.label,
+				data = data
 			};
 			rows.Add(row);
+		}
+		public void RemoveItemFromList (AnnoData data) {
+			for(int i = 0; i < rows.Count; i += 1 ) {
+				if( rows[i].data== data ) {
+					rows.RemoveAt(i);
+					return;
+				}
+			}
 		}
 		/// <summary>
 		/// 清除列表中所有的内容
@@ -65,14 +76,18 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 						var annodata = iae.data;
 						AddItemToList(annodata);
 					};
+					canvas.eAnnotationElementRemoved += (MainCanvas mc, IAnnotationElement iae) => {
+						var annodata = iae.data;
+						RemoveItemFromList(annodata);
+					};
 				}
 			}
 		}
 
 		private void ListViewItem_PreviewMouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
 			var item = sender as ListViewItem;
-			if ( item != null  ) {		// item 本身不为 null
-				if ( item.DataContext != null ) {		// item 所关联的 datacontext 不为 null
+			if ( item != null ) {         // item 本身不为 null
+				if ( item.DataContext != null ) {       // item 所关联的 datacontext 不为 null
 					Row row = item.DataContext as Row;
 					if ( row != null ) {
 						Debug.WriteLine(row);
