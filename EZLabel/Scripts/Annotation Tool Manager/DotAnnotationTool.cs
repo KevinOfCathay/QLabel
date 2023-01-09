@@ -36,9 +36,8 @@ namespace QLabel.Scripts.AnnotationToolManager {
 			var pos = canvas.RelativePosition(p);    // 坐标转换
 
 			// 创建 anno 数据
-			dot.data = new AnnotationData.ADSingleDot() {
-				points = new Vector2[] { pos }
-			};
+			var data = new AnnotationData.ADSingleDot(new ReadOnlySpan<Vector2> (pos));
+			dot.data =data;
 
 			canvas.annotation_canvas.Children.Add(dot);
 			e.Handled = true;

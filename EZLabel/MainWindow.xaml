@@ -14,8 +14,6 @@
         Title="MainWindow" Height="720" Width="1280">
 	<Grid>
 		<DockPanel HorizontalAlignment="Stretch">
-			
-			
 			<!-- Menu Bar -->
 			<local:MainMenu
 				DockPanel.Dock="Top"
@@ -28,8 +26,9 @@
 					<RowDefinition Height="175"></RowDefinition>
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="1*"></ColumnDefinition>
-					<ColumnDefinition Width="200"></ColumnDefinition>
+					<ColumnDefinition Width="4*"  MinWidth="100"></ColumnDefinition>
+					<ColumnDefinition Width="auto"></ColumnDefinition>
+					<ColumnDefinition Width="1*" MinWidth="100"></ColumnDefinition>
 				</Grid.ColumnDefinitions>
 
 				<!-- Tool Bar -->
@@ -44,9 +43,18 @@
 				<custom:ImageListWindow x:Name="ilw"  
 								    Grid.Column="0" Grid.Row="2"/>
 
-				<DockPanel Grid.Column="1" Grid.Row="0" Grid.RowSpan="4">
+				<GridSplitter 
+					Grid.Column="1"  
+					Grid.RowSpan="4"
+					Background="#FFD9D9D9"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					Width="4"/>
+
+				<DockPanel Grid.Column="2" Grid.Row="0" Grid.RowSpan="4">
 					<!-- 图片的属性栏-->
 					<misc:MiscPanel
+						MaxHeight="500"
 						x:Name="misc_panel" DockPanel.Dock="Top"/>
 
 					<!-- Annotation Lists -->

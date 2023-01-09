@@ -28,20 +28,43 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 			if ( App.main != null ) {     // TODO: replace this
 				canvas = App.main.main_canvas;
 			}
-		}
 
+			InitializeListItems();
+		}
+		/// <summary>
+		/// 动态的初始化列表中的所有元素
+		/// </summary>
+		private void InitializeListItems () {
+			// 读取所有的 model config
+			foreach ( var config in ModelConfigs.configs ) {
+				ListBoxItem item = new ListBoxItem();
+				item.Content = config.model_name;
+
+				string[] labels = config.class_labels;
+				item.Selected += (object sender, RoutedEventArgs e) => {
+					SetClassLabels(labels);
+				};
+				model_list.Items.Add(item);
+			}
+		}
+		private void SetClassLabels (string[] labels) {
+			class_list.Items.Clear();
+			// 更改 class list 中的所有元素
+			foreach ( var label in labels ) {
+				var new_item = new ListBoxItem();
+				new_item.Content = label;
+				class_list.Items.Add(new_item);
+			}
+		}
 		/// <summary>
 		/// 当前的 inference 只适用于当前被打开的图像
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
 		private void apply_button_Click (object sender, RoutedEventArgs e) {
 			machine.BuildSession();
 			if ( canvas != null && canvas.cur_file != null ) {
 				var result = machine.RunInference(canvas.cur_file);
 			}
 		}
-
 		private void apply_all_button_Click (object sender, RoutedEventArgs e) {
 
 		}

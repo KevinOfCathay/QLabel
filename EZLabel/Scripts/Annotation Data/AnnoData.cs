@@ -11,37 +11,29 @@ namespace QLabel.Scripts.AnnotationData {
 	public abstract record AnnoData {
 		public enum Type { Dot, Rectangle, Square, Tetragon, Line, Circle, Polygon }
 
-		public AnnoData () { createtime = DateTime.Now; }
+		public AnnoData (ReadOnlySpan<Vector2> points, int clas, string label) {
+			createtime = DateTime.Now;
+			this.points = points.ToArray();
+			bbox = GetBoundingBox(points);
+		}
 
-		/// <summary>
-		/// 这个注释数据的点的位置 (x, y)
-		/// </summary>
-		public Vector2[] points;
-
-		/// <summary>
-		/// 这个注释数据的类
-		/// </summary>
+		/// <summary>  这个注释数据的点的位置 (x, y) </summary>
+		public Vector2[] points { get; protected set; }
+		/// <summary> 约束这个 annotation 的边框 </summary>
+		public (Vector2 tl, Vector2 br) bbox { get; protected set; }
+		/// <summary> 这个注释数据的类 </summary>
 		public int clas;
-
-		/// <summary>
-		/// 这个注释数据的额外标签
-		/// </summary>
+		/// <summary>  这个注释数据的额外标签 </summary>
 		public string label;
-
-		/// <summary>
-		/// 这个注释数据被创建的时间，在 AnnoData 初始化时被设置
-		/// </summary>
+		/// <summary> 这个注释数据被创建的时间，在 AnnoData 初始化时被设置 </summary>
 		public DateTime createtime { get; protected set; }
-
-		/// <summary>
-		/// 这个注释数据的类型
-		/// </summary>
+		/// <summary>  这个注释数据的类型 </summary>
 		public Type type { get; protected set; }
 
 		/// <summary>
 		/// 获得约束这个 annotation 的边框
 		/// </summary>
-		public virtual (Vector2 tl, Vector2 br) GetBoundingBox () {
+		protected virtual (Vector2 tl, Vector2 br) GetBoundingBox (ReadOnlySpan<Vector2> points) {
 			float top = float.MaxValue, left = float.MaxValue, bottom = float.MinValue, right = float.MinValue;
 			foreach ( var point in points ) {
 				if ( point.X < top ) { top = point.X; }

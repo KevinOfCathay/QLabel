@@ -84,9 +84,8 @@ namespace QLabel.Scripts.AnnotationToolManager {
 					var br_real = canvas.RelativePosition(new Point(left + rect.ActualWidth, top + rect.ActualHeight));     // 右下角
 
 					// 创建 anno 数据
-					rect.data = new AnnotationData.ADRect() {
-						points = new Vector2[] { tl_real, tr_real, bl_real, br_real }
-					};
+					var data = new AnnotationData.ADRect(new ReadOnlySpan<Vector2>(new Vector2[] { tl_real, tr_real, bl_real, br_real }));
+					rect.data = data;
 
 					CreateAnnotationElementManual create_rect = new CreateAnnotationElementManual(rect, canvas);
 					create_rect.Do();
@@ -98,15 +97,12 @@ namespace QLabel.Scripts.AnnotationToolManager {
 		/// <summary>
 		/// 创建一个 annotation 并将其放置在画布上
 		/// </summary>
-		public static void Create (MainCanvas canvas, Vector2[] rpoints, int clas = 0, string label = null) {
+		public static void Create (MainCanvas canvas, Vector2[] rpoints, int clas = 0, string label = "") {
 			if ( canvas.can_annotate ) {
 				// 创建一个新的矩形
+				var data = new AnnotationData.ADRect(new ReadOnlySpan<Vector2>(rpoints), clas, label);
 				DraggableRectangle r = new DraggableRectangle {
-					data = new AnnotationData.ADRect {
-						points = rpoints,
-						clas = clas,
-						label = label
-					}
+					data = data
 				};
 
 				// 计算画布上矩形的位置
