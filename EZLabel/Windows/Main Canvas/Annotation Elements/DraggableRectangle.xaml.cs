@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -52,7 +53,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		/// 在画布上绘制/重新绘制
 		/// 矩形区域的大小与位置由左上角的顶点 tl 与右下角的顶点 br 确定
 		/// </summary>
-		public void Redraw (Canvas canvas, Point tl, Point br) {
+		public void Redraw (Canvas canvas, Vector2 tl, Vector2 br) {
 			// 定义矩形 (左上角) 的位置 
 			Canvas.SetLeft(this, tl.X);
 			Canvas.SetTop(this, tl.Y);

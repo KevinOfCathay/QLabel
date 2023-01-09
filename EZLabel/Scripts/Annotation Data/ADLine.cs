@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QLabel.Windows.Main_Canvas;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -7,11 +8,16 @@ using System.Threading.Tasks;
 
 namespace QLabel.Scripts.AnnotationData {
 	/// <summary>
-	/// 单一的点
+	/// 线
 	/// </summary>
 	public record ADLine : AnnoData {
-		public ADLine (ReadOnlySpan<Vector2> points, int clas = 0, string label = "") : base(points, clas, label) {
-			type = Type.Line;
+		public ADLine
+			(ReadOnlySpan<Vector2> points, int clas = 0, string label = "", float conf = 1.0f) :
+			base(points, Type.Line, clas, label, conf) {
+		}
+
+		public override IAnnotationElement CreateAnnotationElement (MainCanvas canvas) {
+			throw new NotImplementedException();
 		}
 	}
 }

@@ -33,7 +33,7 @@ namespace QLabel.Windows.Main_Canvas {
 			eMouseMove += (MainCanvas c, MouseEventArgs e) => {
 				Point pos = e.GetPosition(this);
 				this.image_quick_info_panel.SetMousePositionText(pos);
-				this.image_quick_info_panel.SetRelativePositionText(RelativePosition(pos));
+				this.image_quick_info_panel.SetRelativePositionText(RealPosition(new Vector2((float) pos.X, (float) pos.Y)));
 			};
 			eImageLoaded += (MainCanvas c, ImageFileData img) => {
 				image_quick_info_panel.SetImageSize(img.width, img.height);
@@ -47,10 +47,9 @@ namespace QLabel.Windows.Main_Canvas {
 			return new Vector2((float) annotation_canvas.ActualWidth, (float) annotation_canvas.ActualHeight);
 		}
 		/// <summary>
-		/// 画布上的点对应的图片的实际点
-		/// (position relative to the image)
+		/// 画布上的点对应的图片上的点
 		/// </summary>
-		public Vector2 RelativePosition (Point point) {
+		public Vector2 RealPosition (Vector2 point) {
 			// 1. 首先获得图片左上角的点对应的位置，
 			// 不考虑 scrollview 的 offset
 			// 例如：图片尺寸为 128×128 且居中，
@@ -65,14 +64,35 @@ namespace QLabel.Windows.Main_Canvas {
 			Vector2 offset = new Vector2((float) scroll.HorizontalOffset, (float) scroll.VerticalOffset);
 
 			// 3.  计算点与左上角点的差
-			Vector2 diff = new Vector2((float) point.X, (float) point.Y) - ( tl + offset );
+			Vector2 diff = new Vector2(point.X, point.Y) - ( tl + offset );
 
 			// 4. 考虑图片尺寸缩放的影响
-			// 如果图片缩放比例为 0.5, 则所有坐标都需要 × 2
+			// 如果图片缩放比例为 0.5, 则所有坐标都需要 / 0.5 （即×2）
 			float imgsc = image_scale == 0f ? 1f : image_scale;    // 防止 inf
-			diff = diff / new Vector2(imgsc, imgsc);
+			diff = diff / imgsc;
 
 			return diff;
+		}
+		/// <summary>
+		/// 图片上的点对应的画布上的点
+		/// </summary>
+		public Vector2 CanvasPosition (Vector2 point) {
+			Vector2 canvas_sz = GetCanvasSize();
+			Vector2 img_sz = GetImageSize();
+			Vector2 tl = ( canvas_sz - img_sz ) / new Vector2(2f, 2f);
+
+			// 1. 逆运算，考虑图片尺寸缩放的影响
+			// 如果图片缩放比例为 0.5, 则所有坐标都需要 * 0.5
+			float imgsc = ( image_scale == 0f ? 1f : image_scale );    // 防止 inf
+			var cpoint = point * imgsc;
+
+			// 2. 考虑 scroll offset 的影响
+			Vector2 offset = new Vector2((float) scroll.HorizontalOffset, (float) scroll.VerticalOffset);
+
+			// 3.  计算点与左上角点的差
+			cpoint = new Vector2(cpoint.X, cpoint.Y) + ( tl + offset );
+
+			return cpoint;
 		}
 		public void ResizeImage () {
 
@@ -143,6 +163,16 @@ namespace QLabel.Windows.Main_Canvas {
 				if ( element != null ) {
 					annotation_collections.AddElement(cur_file, element);
 					eAnnotationElementAdded?.Invoke(this, element);
+				}
+			}
+		}
+		public void AddBulkAnnoElements (IAnnotationElement[] elements) {
+			if ( can_annotate ) {          // 只有在画布上有内容时才会加入 element
+				if ( elements != null ) {
+					foreach ( var element in elements ) {
+						annotation_collections.AddElement(cur_file, element);
+						eAnnotationElementAdded?.Invoke(this, element);
+					}
 				}
 			}
 		}

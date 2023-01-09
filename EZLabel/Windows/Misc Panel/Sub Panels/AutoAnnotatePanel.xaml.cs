@@ -20,7 +20,7 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 	/// Interaction logic for AutoAnnotatePanel.xaml
 	/// </summary>
 	public partial class AutoAnnotatePanel : UserControl {
-		private Yolov5Inference machine = new Yolov5Inference(@"Resources/Models/yolov5m-coco.onnx");
+		private Yolov5Inference machine = new Yolov5Inference(@"Resources/Models/yolov5m-coco.onnx", ClassLabels.coco80);
 		private MainCanvas canvas;         // TODO: replace this
 		public AutoAnnotatePanel () {
 			InitializeComponent();
@@ -62,7 +62,11 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 		private void apply_button_Click (object sender, RoutedEventArgs e) {
 			machine.BuildSession();
 			if ( canvas != null && canvas.cur_file != null ) {
-				var result = machine.RunInference(canvas.cur_file);
+				var ads = machine.RunInference(canvas.cur_file);
+				foreach ( var ad in ads ) {
+					var element = ad.CreateAnnotationElement(canvas);
+					canvas.AddAnnoElements(element);
+				}
 			}
 		}
 		private void apply_all_button_Click (object sender, RoutedEventArgs e) {

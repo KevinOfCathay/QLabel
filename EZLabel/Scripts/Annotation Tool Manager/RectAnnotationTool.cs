@@ -28,7 +28,7 @@ namespace QLabel.Scripts.AnnotationToolManager {
 			canvas.eMouseUp -= StopDraw;
 		}
 
-		public void DrawRectangle (MainCanvas canvas, Point tl, Point br) {
+		public void DrawRectangle (MainCanvas canvas, Vector2 tl, Vector2 br) {
 			rect = new DraggableRectangle();
 			rect.Redraw(canvas.annotation_canvas, tl, br);
 			canvas.annotation_canvas.Children.Add(rect);
@@ -76,12 +76,15 @@ namespace QLabel.Scripts.AnnotationToolManager {
 				if ( rect != null ) {
 
 					// 计算矩形四个点的实际位置
-					double left = Canvas.GetLeft(rect);
-					double top = Canvas.GetTop(rect);
-					var tl_real = canvas.RelativePosition(new Point(left, top));    // 左上角
-					var tr_real = canvas.RelativePosition(new Point(left + rect.ActualWidth, top));     // 右上角
-					var bl_real = canvas.RelativePosition(new Point(left, top + rect.ActualHeight));     // 左下角
-					var br_real = canvas.RelativePosition(new Point(left + rect.ActualWidth, top + rect.ActualHeight));     // 右下角
+					float left = (float) Canvas.GetLeft(rect);
+					float top = (float) Canvas.GetTop(rect);
+					float w = (float) rect.ActualWidth;
+					float h = (float) rect.ActualHeight;
+
+					var tl_real = canvas.RealPosition(new Vector2(left, top));    // 左上角
+					var tr_real = canvas.RealPosition(new Vector2(left + w, top));     // 右上角
+					var bl_real = canvas.RealPosition(new Vector2(left, top + h));     // 左下角
+					var br_real = canvas.RealPosition(new Vector2(left + w, top + h));     // 右下角
 
 					// 创建 anno 数据
 					var data = new AnnotationData.ADRect(new ReadOnlySpan<Vector2>(new Vector2[] { tl_real, tr_real, bl_real, br_real }));

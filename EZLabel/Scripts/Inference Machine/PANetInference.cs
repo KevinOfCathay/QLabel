@@ -26,16 +26,13 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// 初始化所有参数
 		/// </summary>
 		/// <param name="path">模型的路径</param>
-		public PANetInference (string path, int width = 640, int height = 640, int classes = 80) {
+		public PANetInference (string path, int width = 640, int height = 640, int classes = 80) :
+			base(new int[0], new int[0]) {
 			model_path = path;
 			this.width = width;
 			this.height = height;
 			this.classes = classes;
 			this.labels = ClassLabels.coco80;
-		}
-
-		protected override Bitmap LoadImage (ImageFileData data) {
-			return new Bitmap(Image.FromFile(data.filename), width, height);
 		}
 
 		public override AnnoData[] RunInference (ImageFileData data) {

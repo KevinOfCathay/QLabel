@@ -24,7 +24,7 @@ namespace QLabel.Scripts.AnnotationToolManager {
 		}
 
 		public void CreateNewDot (MainCanvas canvas, MouseEventArgs e) {
-			dot = new DraggableDot { Width = 8, Height = 8 };		// 初始化大小（否则不会在画布上显示）
+			dot = new DraggableDot { Width = 8, Height = 8 };      // 初始化大小（否则不会在画布上显示）
 
 			// 在鼠标的位置放置点
 			var p = e.GetPosition(canvas.annotation_canvas);
@@ -33,11 +33,11 @@ namespace QLabel.Scripts.AnnotationToolManager {
 			Canvas.SetTop(dot, p.Y);
 			Canvas.SetZIndex(dot, 10);
 
-			var pos = canvas.RelativePosition(p);    // 坐标转换
+			var pos = canvas.RealPosition(new Vector2((float) p.X, (float) p.Y));    // 坐标转换
 
 			// 创建 anno 数据
-			var data = new AnnotationData.ADSingleDot(new ReadOnlySpan<Vector2> (pos));
-			dot.data =data;
+			var data = new AnnotationData.ADSingleDot(new ReadOnlySpan<Vector2>(pos));
+			dot.data = data;
 
 			canvas.annotation_canvas.Children.Add(dot);
 			e.Handled = true;

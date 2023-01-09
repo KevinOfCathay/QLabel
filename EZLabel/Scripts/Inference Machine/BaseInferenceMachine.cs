@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
@@ -15,7 +16,12 @@ namespace QLabel.Scripts.Inference_Machine {
 	public abstract class BaseInferenceMachine {
 		protected string model_path;
 		protected InferenceSession session;
+		protected readonly int[] input_dims, output_dims;
 
+		public BaseInferenceMachine (int[] input_dims, int[] output_dims) {
+			this.input_dims = input_dims;
+			this.output_dims = output_dims;
+		}
 		/// <summary>
 		/// 从 path 中加载 session
 		/// </summary>
@@ -29,7 +35,13 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// <summary>
 		/// 加载图片
 		/// </summary>
-		protected abstract Bitmap LoadImage (ImageFileData data);
+		protected Bitmap LoadImage (ImageFileData data, int target_width, int target_height) {
+			if ( data != null ) {
+				return new Bitmap(Image.FromFile(data.path), target_width, target_height);
+			} else {
+				throw new ArgumentNullException("当前没有任何图片");
+			}
+		}
 		/// <summary>
 		/// 将图片转换为 tensor
 		/// </summary>

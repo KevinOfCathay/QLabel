@@ -10,6 +10,12 @@
 		MouseEnter="container_MouseEnter"
 		MouseLeave="container_MouseLeave"
 		Name="container">
+		<Grid.Resources>
+			<Style TargetType="{x:Type local:DraggableDot}">
+				<Setter Property="Width" Value="6"/>
+				<Setter Property="Height" Value="6"/>
+			</Style>
+		</Grid.Resources>
 		<Rectangle 
 	    Name="rect"
 	    StrokeThickness="1" 
@@ -19,31 +25,30 @@
 		<local:DraggableDot 
 			x:Name="center_dot"
 			HorizontalAlignment="Center"
-			VerticalAlignment="Center"
-			Width="8" Height="8"></local:DraggableDot>
+			VerticalAlignment="Center"></local:DraggableDot>
 		<local:DraggableDot 
 			x:Name="top_left_dot" 
 			HorizontalAlignment="Left"
 			VerticalAlignment="Top"
-			Width="8" Height="8" Margin="-5,-5,-5,-5" 
+			Margin="-3,-3,-3,-3" 
 			/>
 		<local:DraggableDot 
 			x:Name="top_right_dot" 
 			HorizontalAlignment="Right"
 			VerticalAlignment="Top"
-			Width="8" Height="8" Margin="5,-5,-5,-5"
+			 Margin="3,-3,-3,-3"
 			></local:DraggableDot>
 		<local:DraggableDot 
 			x:Name="bottom_left_dot" 
 			HorizontalAlignment="Left"
 			VerticalAlignment="Bottom"
-			Width="8" Height="8" Margin="-5,-5,-5,-5"
+			 Margin="-3,-3,-3,-3"
 			/>
 		<local:DraggableDot 
 			x:Name="bottom_right_dot" 
 			HorizontalAlignment="Right"
 			VerticalAlignment="Bottom"
-			Width="8" Height="8" Margin="5,-5,-5,-5"
+			 Margin="3,-3,-3,-3"
 			></local:DraggableDot>
 		<Label Name="class_label" BorderThickness="1"
 			FontSize="7.5"

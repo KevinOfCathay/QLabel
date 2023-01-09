@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
+namespace QLabel.Windows.Main_Canvas {
 	/// <summary>
 	/// 在 Canvas 上绘制的 Annotation 元素的 Base Class
 	/// </summary>

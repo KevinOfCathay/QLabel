@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QLabel.Windows.Main_Canvas;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -6,14 +7,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace QLabel.Scripts.AnnotationData {
-	/// <summary>
-	/// 矩形
-	/// </summary>
 	public record ADCircle : AnnoData {
-		public int radius = 0;
-		public ADCircle (ReadOnlySpan<Vector2> points, int radius = 0, int clas = 0, string label = "") : base(points, clas, label) {
-			type = Type.Circle;
+		public float radius = 0f;
+		public ADCircle
+			(ReadOnlySpan<Vector2> points, int clas = 0, string label = "", float conf = 1.0f, float radius = 0f) :
+			base(points, Type.Circle, clas, label, conf) {
 			this.radius = radius;
+		}
+
+		public override IAnnotationElement CreateAnnotationElement (MainCanvas canvas) {
+			throw new NotImplementedException();
 		}
 	}
 }

@@ -15,14 +15,9 @@ namespace QLabel {
 			this.element = element;
 			this.cvs = canvas;
 		}
-
-		/// <summary>
-		/// 不发生任何事情
-		/// </summary>
 		public void Do () {
 			cvs.AddAnnoElements(element);
 		}
-
 		public void Undo () {
 			cvs.RemoveAnnoElements(element);
 		}
