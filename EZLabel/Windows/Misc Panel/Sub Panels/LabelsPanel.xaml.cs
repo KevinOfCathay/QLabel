@@ -13,16 +13,20 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace QLabel.Windows.Misc_Panel.Sub_Panels
-{
-    /// <summary>
-    /// Interaction logic for LabelsPanel.xaml
-    /// </summary>
-    public partial class LabelsPanel : UserControl
-    {
-        public LabelsPanel()
-        {
-            InitializeComponent();
-        }
-    }
+namespace QLabel.Windows.Misc_Panel.Sub_Panels {
+	/// <summary>
+	/// Interaction logic for LabelsPanel.xaml
+	/// </summary>
+	public partial class LabelsPanel : UserControl {
+		public event Action<LabelsPanel, ListBoxItem> eItemAdded, eItemRemoved;
+		public LabelsPanel () { InitializeComponent(); }
+		public void AddItem (ListBoxItem item) {
+			listbox.Items.Add(item);
+			eItemAdded?.Invoke(this, item);
+		}
+		public void RemoveItem (ListBoxItem item) {
+			listbox.Items.Remove(item);
+			eItemRemoved?.Invoke(this, item);
+		}
+	}
 }

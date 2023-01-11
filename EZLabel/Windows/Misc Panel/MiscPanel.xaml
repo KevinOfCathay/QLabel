@@ -13,6 +13,11 @@
 				x:Name="auto_annotate_panel"
 				/>
 		</TabItem>
+		<TabItem Header="Labels" HorizontalAlignment="Left" Width="45">
+			<subpanel:LabelsPanel
+				x:Name="labels_panel"
+				/>
+		</TabItem>
 		<TabItem Header="Props">
 			<subpanel:ImagePropertiesPanel
 				x:Name="image_properties_panel"

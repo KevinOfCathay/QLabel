@@ -13,6 +13,12 @@
 		HorizontalAlignment="Left"
 		Width="260">
 		<Button
+			Name="Mouse_Button" Height="26" Width="26"
+			BorderBrush="Transparent"
+			Click="Mouse_Button_Click">
+			<Image Source="/Resources/Icons/mouse.png"/>
+		</Button>
+		<Button
 			Name="DotTool_Button" Height="26" Width="26"
 			BorderBrush="Transparent"
 			Click="DotTool_Button_Click">

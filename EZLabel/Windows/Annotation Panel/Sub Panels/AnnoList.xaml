@@ -12,6 +12,7 @@
 		ScrollViewer.VerticalScrollBarVisibility="Auto"
 		ScrollViewer.HorizontalScrollBarVisibility="Visible"
 		ItemsSource="{Binding rows}"
+		GridViewColumnHeader.Click="Col_Click"
 		Name="listview">
 
 		<ListView.View>

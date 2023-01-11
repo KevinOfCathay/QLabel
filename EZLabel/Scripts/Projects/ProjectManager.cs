@@ -11,6 +11,11 @@ namespace QLabel.Scripts.Projects {
 		public Project CreateNewProject () {
 			return new Project();
 		}
+		public void SaveProject () {
+			foreach ( var data in project.data_list ) {
+				data.ToXML(project.save_dir);
+			}
+		}
 
 	}
 }

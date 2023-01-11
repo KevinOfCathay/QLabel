@@ -4,12 +4,14 @@ using QLabel.Custom_Control.Image_View;
 using System.Diagnostics;
 using QLabel.Scripts.Projects;
 using QLabel.Windows.Main_Canvas;
+using QLabel.Scripts;
 
 namespace QLabel {
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWindow : Window {
+		public LabelManager manager = new LabelManager();
 		public MainWindow () {
 			App.main = this;
 

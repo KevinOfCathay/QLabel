@@ -32,6 +32,10 @@ namespace QLabel.Windows.Toolbar_Window {
 			manager.SwitchTool(new RectAnnotationTool());
 		}
 
+		private void Mouse_Button_Click (object sender, RoutedEventArgs e) {
+			manager.SwitchTool(new MouseTool());
+		}
+
 		private void DotTool_Button_Click (object sender, RoutedEventArgs e) {
 			manager.SwitchTool(new DotAnnotationTool());
 		}

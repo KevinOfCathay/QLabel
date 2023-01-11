@@ -20,8 +20,9 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		/// <summary>
 		/// 当长方形被重新绘制时触发
 		/// </summary>
-		public Action<DraggableRectangle, double, double> eRedraw;
+		public Action<DraggableRectangle, float, float> eRedraw;
 		public DraggableDot[] dots = new DraggableDot[5];
+		private Vector2 topleft, bottomright, size;
 
 		AnnoData _data;   // 这个矩形所对应的注释数据
 		public AnnoData data { get { return _data; } set { _data = value; } }
@@ -39,13 +40,17 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			dots[3] = bottom_left_dot;
 			dots[4] = bottom_right_dot;
 		}
+		public void RegisterEvent () {
+			// 拖动 dots 的时候进行大小的调整
+
+		}
 
 		/// <summary>
-		/// 绘制正方形区域
+		/// 绘制矩形区域
 		/// </summary>
-		public void Resize (Canvas canvas, double width, double height) {
-			container.Width = Math.Abs(width);
-			container.Height = Math.Abs(height);
+		public void Resize (Canvas canvas, float width, float height) {
+			container.Width = MathF.Abs(width);
+			container.Height = MathF.Abs(height);
 			eRedraw?.Invoke(this, width, height);
 		}
 
@@ -55,26 +60,27 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		/// </summary>
 		public void Redraw (Canvas canvas, Vector2 tl, Vector2 br) {
 			// 定义矩形 (左上角) 的位置 
-			Canvas.SetLeft(this, tl.X);
-			Canvas.SetTop(this, tl.Y);
+			Canvas.SetLeft(this, tl.X); this.topleft = tl;
+			Canvas.SetTop(this, tl.Y); this.bottomright = br;
 
 			// 定义矩形的长和宽
-			var width = br.X - tl.X;
-			var height = br.Y - tl.Y;
-			container.Width = Math.Abs(width);
-			container.Height = Math.Abs(height);
+			// X: width, Y: height
+			size = new Vector2(MathF.Abs(bottomright.X - topleft.X), MathF.Abs(bottomright.Y - topleft.Y));
+			container.Width = size.X;
+			container.Height = size.Y;
 
-			eRedraw?.Invoke(this, width, height);
+			eRedraw?.Invoke(this, size.X, size.Y);
 		}
 
 		/// <summary>
 		/// 在画布上绘制/重新绘制
 		/// 矩形区域的大小与位置由左上角的顶点 tl 与右下角的顶点 br 确定
 		/// </summary>
-		public void Redraw (Canvas canvas, Point tl, double width, double height) {
+		public void Redraw (Canvas canvas, Vector2 tl, float width, float height) {
 			// 定义矩形 (左上角) 的位置 
-			Canvas.SetTop(this, tl.X);
-			Canvas.SetLeft(this, tl.Y);
+			Canvas.SetTop(this, tl.X); this.topleft = tl;
+			Canvas.SetLeft(this, tl.Y); this.bottomright = tl + new Vector2(width, height);
+			size = new Vector2(MathF.Abs(bottomright.X - topleft.X), MathF.Abs(bottomright.Y - topleft.Y));
 
 			container.Width = Math.Abs(width);
 			container.Height = Math.Abs(height);

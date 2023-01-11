@@ -1,4 +1,5 @@
-﻿using QLabel.Scripts.Inference_Machine;
+﻿using QLabel.Scripts;
+using QLabel.Scripts.Inference_Machine;
 using QLabel.Windows.Main_Canvas;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,7 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 
 				string[] labels = config.class_labels;
 				item.Selected += (object sender, RoutedEventArgs e) => {
+					model_name.Text = config.model_name;
 					SetClassLabels(labels);
 				};
 				model_list.Items.Add(item);

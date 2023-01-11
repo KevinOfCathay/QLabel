@@ -6,7 +6,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="300">
 	<StackPanel x:Name="stackPanel" Margin="10">
-		<TextBlock>Model:</TextBlock>
+		<TextBlock>
+			Model: <Run Name="model_name"></Run>
+		</TextBlock>
 
 		<!-- 模型列表 -->
 		<ListBox Name="model_list">

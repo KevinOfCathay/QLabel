@@ -56,7 +56,7 @@ namespace QLabel.Scripts.AnnotationToolManager {
 			if ( canvas.can_annotate && dragging ) {
 				var cur_p = e.GetPosition(canvas.annotation_canvas);
 				if ( rect != null ) {
-					double top = y, bottom = cur_p.Y, left = x, right = cur_p.X;
+					float top = (float) y, bottom = (float) cur_p.Y, left = (float) x, right = (float) cur_p.X;
 					// 如果当前的点小于起始点，则需要调整正方形的起始位置
 					if ( cur_p.X < x ) {
 						(left, right) = (right, left);          // 交换值
@@ -64,7 +64,7 @@ namespace QLabel.Scripts.AnnotationToolManager {
 					if ( cur_p.Y < y ) {
 						(top, bottom) = (bottom, top);          // 交换值
 					}
-					rect.Redraw(canvas.annotation_canvas, new Point(top, left), right - left, bottom - top);
+					rect.Redraw(canvas.annotation_canvas, new Vector2(top, left), right - left, bottom - top);
 				}
 			}
 		}

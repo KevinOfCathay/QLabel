@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace QLabel.Scripts.Projects {
 	public class Project {
+		public string save_dir = null;
 		/// <summary>
 		/// Project 包含的数据源
 		/// </summary>

@@ -190,8 +190,8 @@ namespace QLabel.Windows.Main_Canvas {
 		private Point GetOffsetFromScroll () {
 			return new Point(scroll.HorizontalOffset, scroll.VerticalOffset);
 		}
+
 		private void canvas_PreviewMouseDown (object sender, MouseButtonEventArgs e) {
-			Debug.WriteLine("canvas mouse down");
 			eMouseDown?.Invoke(this, e);
 		}
 		private void scroll_ScrollChanged (object sender, ScrollChangedEventArgs e) {

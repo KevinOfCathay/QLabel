@@ -14,6 +14,7 @@
     <None Remove="Resources\Icons\button.png" />
     <None Remove="Resources\Icons\circle.png" />
     <None Remove="Resources\Icons\crop.png" />
+    <None Remove="Resources\Icons\mouse.png" />
     <None Remove="Resources\Icons\nodes.png" />
     <None Remove="Resources\Icons\polygon.png" />
     <None Remove="Resources\Icons\rectangle.png" />
@@ -24,6 +25,7 @@
     <None Remove="Resources\Models\PAnet-text-detection.onnx" />
     <None Remove="Resources\Models\yolov5m-coco.onnx" />
     <None Remove="Resources\Models\yolov5m-voc.onnx" />
+    <None Remove="Resources\Models\yolov7-manga.onnx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -77,6 +79,15 @@
     <Content Include="Resources\Models\yolov5m-voc.onnx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Models\yolov7-manga.onnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Icons\mouse.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

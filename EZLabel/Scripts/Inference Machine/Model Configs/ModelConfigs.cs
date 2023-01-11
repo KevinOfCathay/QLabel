@@ -6,13 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QLabel {
-	public class Config {
-		public string model_name;
-		public string model_path;
-		public int width, height;
-		public string[] class_labels;
-	}
+namespace QLabel.Scripts {
 	public static class ClassLabels {
 		public static string[] manga = new string[] {
 			 "female", "text", "laptop", "male", "chatbox", "building", "sky", "cup", "car", "phone", "bag", "unknown", "highlight box", "bowl", "sword", "cup", "city"
@@ -99,35 +93,36 @@ namespace QLabel {
 			 ,"hair_drier	"
 			 ,"toothbrush"
 		};
-		public static string[] voc = new string[] {};
-		public static string[] text = new string[] {};
+		public static string[] voc = new string[] { };
+		public static string[] text = new string[] { };
 	}
 	public static class ModelConfigs {
 		public static List<Config> configs = new List<Config> {
-			new Config {
-				model_name = "Manga Object Detection (Yolov7)",
-				model_path = "",
-				width = 640, height = 640,
-				class_labels = ClassLabels.manga
-			},
-			new Config {
-				model_name = "COCO Object Detection (Yolov5m)",
-				model_path = "",
-				width = 640, height = 640,
-				class_labels = ClassLabels.coco80
-			},
-			new Config {
-				model_name = "VOC Object Detection (Yolov5m)",
-				model_path = "",
-				width = 640, height = 640,
-				class_labels = ClassLabels.voc
-			},
-			new Config {
-				model_name = "Text Detection (PANet)",
-				model_path = "",
-				width = 640, height = 640,
-				class_labels = ClassLabels.text
-			},
+			new Yolov7Config (
+				model_name : "Manga Object Detection (Yolov7)",
+				model_path : @"Resources/Models/yolov7-manga.onnx",
+				width : 640, height : 640,
+				class_labels : ClassLabels.manga
+			),
+			new Yolov5Config (
+				model_name : "COCO Object Detection (Yolov5m)",
+				model_path : @"Resources/Models/yolov5m-coco.onnx",
+				width : 640, height : 640,
+				class_labels : ClassLabels.coco80
+			),
+			new Yolov5Config (
+				model_name : "VOC Object Detection (Yolov5m)",
+				model_path : @"Resources/Models/yolov5m-voc.onnx",
+				width : 640, height : 640,
+				class_labels : ClassLabels.voc
+			),
+			new Config (
+				model_name : "Text Detection (PANet)",
+				model_path : "",
+				width : 640, height : 640,
+				class_labels : ClassLabels.text,
+				inf: null
+			),
 		};
 	}
 }
