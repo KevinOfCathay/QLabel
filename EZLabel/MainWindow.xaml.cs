@@ -20,11 +20,13 @@ namespace QLabel {
 		public void RegisterEvents () {
 			ilw.eImageListUICreated += (ImageListWindow window, ImageListItem item) => {
 				item.eSwitchImage += (i) => {
-					main_canvas.LoadImage(i.path);          // 点击 List 中的 image 图像来加载图片
+					// 清除上一张图片的所有注释
+					main_canvas.ClearCanvas();
+					// 点击 List 中的 image 图像来加载图片
+					main_canvas.LoadImage(item.data.path);
+					// 设置图像属性UI
+					misc_panel.image_properties_panel.SetUI(item.data);
 				};
-			};
-			main_canvas.eImageLoaded += (MainCanvas canvas, ImageFileData data) => {
-				misc_panel.image_properties_panel.SetUI(data);
 			};
 		}
 		public void InitComponents () {

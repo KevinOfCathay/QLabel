@@ -25,7 +25,7 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 		/// <summary>
 		/// 设置 UI 上的 text
 		/// </summary>
-		public void SetUI (ImageFileData data) {
+		public void SetUI (ImageData data) {
 			file_path.Text = data.path;
 			file_name.Text = data.filename;
 			dimension.Text = data.width.ToString() + " × " + data.height.ToString();

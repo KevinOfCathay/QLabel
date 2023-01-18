@@ -25,7 +25,10 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		private Vector2 topleft, bottomright, size;
 
 		AnnoData _data;   // 这个矩形所对应的注释数据
-		public AnnoData data { get { return _data; } set { _data = value; } }
+		public AnnoData data {
+			get { return _data; }
+			set { _data = value; this.class_label.Content = value.clas.name; }
+		}
 
 		public DraggableRectangle () {
 			InitializeComponent();

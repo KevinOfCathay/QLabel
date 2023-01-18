@@ -9,7 +9,7 @@ using System.Windows.Media;
 using System.Xml.Serialization;
 
 namespace QLabel.Scripts.Projects {
-	public class ImageFileData {
+	public class ImageData {
 		public string filename { get; set; } = string.Empty;
 		public string path { get; set; } = string.Empty;
 		public double width { get; set; }
@@ -19,7 +19,7 @@ namespace QLabel.Scripts.Projects {
 
 		public void ToXML (string path) {
 			if ( path == null ) { return; }
-			var xmls = new XmlSerializer(typeof(ImageFileData));
+			var xmls = new XmlSerializer(typeof(ImageData));
 			try {
 				TextWriter writer = new StreamWriter(path);
 				xmls.Serialize(writer, this);

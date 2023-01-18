@@ -37,18 +37,17 @@ namespace QLabel.Custom_Control.Image_View {
 		/// <summary>
 		/// 从路径列表中设置 UI
 		/// </summary>
-		public async void SetListUI (List<string> paths) {
-			foreach ( var file in paths ) {
+		public async void SetListUI (List<ImageData> datalist) {
+			foreach ( var data in datalist ) {
 				ImageListItem new_item = new ImageListItem();
 
-				string filename = System.IO.Path.GetFileName(file);
-				new_item.thumbnail_image.Source = await LoadImageThumbnailFromFile(file);
-				new_item.image_name.Text = filename;
-				new_item.path = file;
+				new_item.data = data;
+				new_item.thumbnail_image.Source = await LoadImageThumbnailFromFile(data.path);
+				new_item.image_name.Text = data.filename;
 
 				this.image_view_listbox.Items.Add(new_item);
 
-				TextBlock txtblock = new TextBlock { Text = filename };
+				TextBlock txtblock = new TextBlock { Text = data.filename };
 				this.image_listbox.Items.Add(txtblock);
 
 				eImageListUICreated?.Invoke(this, new_item); // 触发 UI 创建事件

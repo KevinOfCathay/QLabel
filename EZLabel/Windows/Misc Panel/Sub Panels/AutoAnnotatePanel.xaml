@@ -19,13 +19,13 @@
 		<!-- 选择要识别的 class -->
 		<TextBlock>Select Classes</TextBlock>
 		<ListBox
-		     MaxHeight="200"
+		     MaxHeight="150"
 			Name="class_list" 
 		     ScrollViewer.VerticalScrollBarVisibility="Auto">
 			<!-- https://stackoverflow.com/questions/4722114/wpf-listbox-layout-multiple-columns -->
 			<ListBox.ItemsPanel>
 				<ItemsPanelTemplate>
-					<UniformGrid Columns="2" />
+					<UniformGrid Columns="3" />
 				</ItemsPanelTemplate>
 			</ListBox.ItemsPanel>
 		</ListBox>

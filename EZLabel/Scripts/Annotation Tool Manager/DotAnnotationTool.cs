@@ -39,7 +39,7 @@ namespace QLabel.Scripts.AnnotationToolManager {
 			// 创建 anno 数据
 			var data = new AnnotationData.ADSingleDot(
 				new ReadOnlySpan<Vector2>(pos),
-				ProjectManager.project.GetCurrentLabel()
+				ProjectManager.GetCurrentLabel()
 				);
 			dot.data = data;
 

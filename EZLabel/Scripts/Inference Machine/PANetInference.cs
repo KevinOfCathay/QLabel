@@ -35,7 +35,7 @@ namespace QLabel.Scripts.Inference_Machine {
 			this.labels = ModelLabels.coco80;
 		}
 
-		public override AnnoData[] RunInference (ImageFileData data, HashSet<int> class_filter = null) {
+		public override AnnoData[] RunInference (ImageData data, HashSet<int> class_filter = null) {
 			throw new NotImplementedException();
 		}
 

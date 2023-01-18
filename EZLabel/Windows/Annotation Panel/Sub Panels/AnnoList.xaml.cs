@@ -89,7 +89,6 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 		private void Col_Click (object sender, RoutedEventArgs e) {
 
 		}
-
 		private void ListViewItem_PreviewMouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
 			var item = sender as ListViewItem;
 			if ( item != null ) {         // item 本身不为 null

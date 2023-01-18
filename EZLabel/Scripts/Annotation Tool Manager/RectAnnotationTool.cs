@@ -90,7 +90,7 @@ namespace QLabel.Scripts.AnnotationToolManager {
 					// 创建 anno 数据
 					var data = new AnnotationData.ADRect(
 						new ReadOnlySpan<Vector2>(new Vector2[] { tl_real, tr_real, bl_real, br_real }),
-						 ProjectManager.project.GetCurrentLabel()
+						 ProjectManager.GetCurrentLabel()
 						);
 					rect.data = data;
 
@@ -111,9 +111,6 @@ namespace QLabel.Scripts.AnnotationToolManager {
 				DraggableRectangle r = new DraggableRectangle {
 					data = data
 				};
-
-				// 计算画布上矩形的位置
-
 
 				canvas.annotation_canvas.Children.Add(r);
 				CreateAnnotationElementManual create_rect = new CreateAnnotationElementManual(r, canvas);

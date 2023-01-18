@@ -102,7 +102,7 @@ namespace QLabel.Scripts.Inference_Machine {
 			}
 			return (ind, final_scores, final_boxes, final_classes);
 		}
-		public override AnnoData[] RunInference (ImageFileData img_file, HashSet<int> class_filter = null) {
+		public override AnnoData[] RunInference (ImageData img_file, HashSet<int> class_filter = null) {
 			eRunBefore?.Invoke(this);
 
 			var bitmap = LoadImage(img_file, width, height);

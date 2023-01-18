@@ -7,16 +7,12 @@ using System.IO;
 namespace QLabel.Scripts.Projects {
 	public class Project {
 		/// <summary> Project 包含的数据源 </summary>
-		public List<ImageFileData> data_list = new List<ImageFileData>();
+		public List<ImageData> data_list = new List<ImageData>();
 		/// <summary> Project 下包含的类别标签 </summary>
 		private HashSet<ClassLabel> class_labels = new HashSet<ClassLabel>();
 
-		private int cur_label_index = 0;
 		public event Action<ClassLabel> eAddLabel, eRemoveLabel;
 
-		public ClassLabel GetCurrentLabel () {
-			return class_labels.ElementAt(cur_label_index);
-		}
 		public ClassLabel GetLabel (int index) {
 			return class_labels.ElementAt(index);
 		}

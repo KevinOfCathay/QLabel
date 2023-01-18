@@ -17,15 +17,14 @@ using System.Windows.Media.Imaging;
 namespace QLabel.Windows.Main_Canvas {
 	public partial class MainCanvas : UserControl {
 		private float image_scale = 0f;          // image scale level
-		public ImageFileData cur_file { get; private set; }
 		public bool can_annotate { get; private set; } = false;      // 当前画布是否可以进行标注
 		public Point image_size { get; private set; } = new Point(0, 0);      // 图片大小，用于计算annotation的位置，在未加载时图片大小为 0
 		public Point image_offset { get; private set; } = new Point(0, 0);      // 图片在画布上的偏移量，用于计算annotation的位置，在未加载时图片，或者图片居中时大小为 0		
 		public Action<MainCanvas, double> eCanvasRescale;      // 画布改变大小（影响画布上所有元素的大小和位置）
-		public Action<MainCanvas, ImageFileData> eImageLoaded;
+		public Action<MainCanvas, BitmapImage> eImageLoaded;
 		public Action<MainCanvas, IAnnotationElement> eAnnotationElementAdded, eAnnotationElementRemoved;
 		public Action<MainCanvas, MouseEventArgs> eMouseDown, eMouseUp, eMouseMove;
-		public AnnotationCollections annotation_collections = new AnnotationCollections();        // 用于存放所有 annotation 的地方
+		public List<IAnnotationElement> annotation_collection = new List<IAnnotationElement>();        // 用于存放所有 annotation 的地方
 
 		public MainCanvas () {
 			InitializeComponent();
@@ -35,11 +34,10 @@ namespace QLabel.Windows.Main_Canvas {
 				this.image_quick_info_panel.SetMousePositionText(pos);
 				this.image_quick_info_panel.SetRelativePositionText(RealPosition(new Vector2((float) pos.X, (float) pos.Y)));
 			};
-			eImageLoaded += (MainCanvas c, ImageFileData img) => {
-				image_quick_info_panel.SetImageSize(img.width, img.height);
-			};
+			//eImageLoaded += (MainCanvas c, BitmapImage img) => {
+			//	image_quick_info_panel.SetImageSize(img.width, img.height);
+			//};
 		}
-
 		public Vector2 GetImageSize () {
 			return new Vector2((float) canvas_image.ActualWidth, (float) canvas_image.ActualHeight);
 		}
@@ -94,6 +92,12 @@ namespace QLabel.Windows.Main_Canvas {
 
 			return cpoint;
 		}
+		public void ClearCanvas () {
+			foreach ( var elem in annotation_collection ) {
+				elem.Delete(this);
+			}
+			annotation_collection.Clear();
+		}
 		public void ResizeImage () {
 
 		}
@@ -102,8 +106,8 @@ namespace QLabel.Windows.Main_Canvas {
 		/// </summary>
 		public async void LoadImage (string path) {
 			BitmapImage image = await LoadImageFromFile(path);
-			double height = image.Height;
-			double width = image.Width;
+			double height = image.PixelHeight;
+			double width = image.PixelWidth;
 
 			// 设置当前的图像源
 			canvas_image.Source = image;
@@ -132,18 +136,9 @@ namespace QLabel.Windows.Main_Canvas {
 			// 设置底层信息栏的文字
 			image_quick_info_panel.SetZoomText(image_scale);
 
-			ImageFileData data = new ImageFileData {
-				width = width,
-				height = height,
-				path = path,
-				filename = System.IO.Path.GetFileName(path),
-				size = new System.IO.FileInfo(path).Length,
-			};
-			cur_file = data;
-
 			// 加载完了图片以后就可以开始 annotate
 			can_annotate = true;
-			eImageLoaded?.Invoke(this, data);
+			eImageLoaded?.Invoke(this, image);
 		}
 		private async Task<BitmapImage> LoadImageFromFile (string path) {
 			return await Task.Run(
@@ -161,7 +156,9 @@ namespace QLabel.Windows.Main_Canvas {
 		public void AddAnnoElements (IAnnotationElement element) {
 			if ( can_annotate ) {          // 只有在画布上有内容时才会加入 element
 				if ( element != null ) {
-					annotation_collections.AddElement(cur_file, element);
+					annotation_collection.Add(element);
+					// 将 class label 加入到 label 集合中
+					ProjectManager.project.AddLabel(element.data.clas);
 					eAnnotationElementAdded?.Invoke(this, element);
 				}
 			}
@@ -170,15 +167,17 @@ namespace QLabel.Windows.Main_Canvas {
 			if ( can_annotate ) {          // 只有在画布上有内容时才会加入 element
 				if ( elements != null ) {
 					foreach ( var element in elements ) {
-						annotation_collections.AddElement(cur_file, element);
+						annotation_collection.Add(element);
+						// 将 class label 加入到 label 集合中
+						ProjectManager.project.AddLabel(element.data.clas);
 						eAnnotationElementAdded?.Invoke(this, element);
 					}
 				}
 			}
 		}
 		public void RemoveAnnoElements (IAnnotationElement element) {
-			if ( element != null ) {
-				annotation_collections.RemoveElement(cur_file, element);
+			if ( element != null && annotation_collection.Contains(element) ) {
+				annotation_collection.Remove(element);
 				element.Delete(this);
 				eAnnotationElementRemoved?.Invoke(this, element);
 			}
@@ -190,7 +189,6 @@ namespace QLabel.Windows.Main_Canvas {
 		private Point GetOffsetFromScroll () {
 			return new Point(scroll.HorizontalOffset, scroll.VerticalOffset);
 		}
-
 		private void canvas_PreviewMouseDown (object sender, MouseButtonEventArgs e) {
 			eMouseDown?.Invoke(this, e);
 		}

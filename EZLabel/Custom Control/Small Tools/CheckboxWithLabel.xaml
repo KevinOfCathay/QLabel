@@ -11,9 +11,6 @@
 			VerticalAlignment="Center"
 			Checked="CheckBox_Checked"
 			Unchecked="CheckBox_Unchecked">
-			<CheckBox.LayoutTransform>
-				<ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
-			</CheckBox.LayoutTransform>
 		</CheckBox>
 		<Label 
 			Name="label" 

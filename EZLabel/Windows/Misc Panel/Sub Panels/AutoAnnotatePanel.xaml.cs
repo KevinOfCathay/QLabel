@@ -1,6 +1,7 @@
 ﻿using QLabel.Custom_Control.Small_Tools;
 using QLabel.Scripts;
 using QLabel.Scripts.Inference_Machine;
+using QLabel.Scripts.Projects;
 using QLabel.Windows.Main_Canvas;
 using System.Collections.Generic;
 using System.Windows;
@@ -68,8 +69,8 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 		/// </summary>
 		private void apply_button_Click (object sender, RoutedEventArgs e) {
 			machine.BuildSession();
-			if ( canvas != null && canvas.cur_file != null ) {
-				var ads = machine.RunInference(canvas.cur_file, accepted_classes);
+			if ( canvas != null && canvas.can_annotate ) {
+				var ads = machine.RunInference(ProjectManager.GetCurrentImageData(), accepted_classes);
 				foreach ( var ad in ads ) {
 					var element = ad.CreateAnnotationElement(canvas);
 					canvas.AddAnnoElements(element);

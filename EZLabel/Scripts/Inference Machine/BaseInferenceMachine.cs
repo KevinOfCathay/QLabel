@@ -17,7 +17,7 @@ namespace QLabel.Scripts.Inference_Machine {
 		protected string model_path;
 		protected InferenceSession session;
 		protected readonly int[] input_dims, output_dims;
-		public Action<BaseInferenceMachine> eRunBefore, eRunAfter;
+		public Action<BaseInferenceMachine>? eRunBefore, eRunAfter;
 
 		public BaseInferenceMachine (int[] input_dims, int[] output_dims) {
 			this.input_dims = input_dims;
@@ -36,7 +36,7 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// <summary>
 		/// 加载图片
 		/// </summary>
-		protected Bitmap LoadImage (ImageFileData data, int target_width, int target_height) {
+		protected Bitmap LoadImage (ImageData data, int target_width, int target_height) {
 			if ( data != null ) {
 				var bitmap = new Bitmap(Image.FromFile(data.path));
 				int w = bitmap.Width; int h = bitmap.Height;
@@ -58,6 +58,6 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// <summary>
 		/// 执行模型并返回结果
 		/// </summary>
-		public abstract AnnoData[] RunInference (ImageFileData data, HashSet<int> class_filter = null);
+		public abstract AnnoData[] RunInference (ImageData data, HashSet<int> class_filter = null);
 	}
 }
