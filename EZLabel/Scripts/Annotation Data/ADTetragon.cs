@@ -13,7 +13,7 @@ namespace QLabel.Scripts.AnnotationData {
 	/// </summary>
 	public record ADTetragon : AnnoData {
 		public ADTetragon
-			(ReadOnlySpan<Vector2> points, int clas = 0, string label = "", float conf = 1.0f) :
+			(ReadOnlySpan<Vector2> points, ClassLabel clas, string label = "", float conf = 1.0f) :
 			base(points, Type.Tetragon, clas, label, conf) {
 		}
 

@@ -23,7 +23,6 @@
 				<Grid.RowDefinitions>
 					<RowDefinition Height="30"></RowDefinition>
 					<RowDefinition Height="*"/>
-					<RowDefinition Height="175"></RowDefinition>
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="4*"  MinWidth="100"></ColumnDefinition>
@@ -35,13 +34,26 @@
 				<toolbx:AnnotationToolBar x:Name="toolbar" Grid.Column="0" Grid.Row="0"  
 					DockPanel.Dock="Top" ></toolbx:AnnotationToolBar>
 
-				<!-- Main Canvas -->
-				<canv:MainCanvas Grid.Column="0" Grid.Row="1"
+				<Grid Grid.Column="0" Grid.Row="2">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="3*"/>
+						<RowDefinition Height="auto"/>
+						<RowDefinition Height="*" MaxHeight="150" MinHeight="50"/>
+					</Grid.RowDefinitions>
+					<!-- Main Canvas -->
+					<canv:MainCanvas Grid.Row="0"
 							  x:Name="main_canvas"></canv:MainCanvas>
 
-				<!-- Image Files View -->
-				<custom:ImageListWindow x:Name="ilw"  
-								    Grid.Column="0" Grid.Row="2"/>
+					<GridSplitter 
+						Grid.Row="1" 
+						Background="#FFD9D9D9"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch"
+						Height="4"/>
+
+					<!-- Image Files View -->
+					<custom:ImageListWindow x:Name="ilw"  Grid.Row="2"/>
+				</Grid>
 
 				<GridSplitter 
 					Grid.Column="1"  

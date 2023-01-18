@@ -18,6 +18,7 @@ using QLabel.Scripts.Projects;
 using System.IO;
 using static System.Net.Mime.MediaTypeNames;
 using System.Runtime.ConstrainedExecution;
+using QLabel.Windows.CropWindow;
 
 namespace QLabel {
 	/// <summary>
@@ -39,10 +40,13 @@ namespace QLabel {
 				openFileDialog.Filter = "Image(*.BMP;*.JPG;*.PNG)|*.BMP;*.JPG;*.PNG";
 				if ( openFileDialog.ShowDialog() == true ) {
 					string sfile = openFileDialog.FileName;
-					main.ilw.Clear();	// 清空上一个 Project 加载的内容
+					main.ilw.Clear();   // 清空上一个 Project 加载的内容
 					try {
 						var directory = System.IO.Path.GetDirectoryName(sfile);
 						if ( directory != null ) {
+							// 创建一个新的 project
+							ProjectManager.NewProject(directory);
+
 							// 读取文件夹下的所有文件
 							// 如果符合图像格式，则将路径加入到 list 中
 							var files = Directory.GetFiles(directory);
@@ -74,7 +78,10 @@ namespace QLabel {
 		/// 一键裁剪当前所有的注释
 		/// </summary>
 		private void Crop_Click (object sender, RoutedEventArgs e) {
-
+			CropWindow window = new CropWindow();
+			main.LockWindow();
+			window.Closed += (object? sender, EventArgs e) => { main.UnlockWindow(); };
+			window.Show();
 		}
 	}
 }

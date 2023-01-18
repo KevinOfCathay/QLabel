@@ -7,11 +7,8 @@ using QLabel.Windows.Main_Canvas;
 using QLabel.Scripts;
 
 namespace QLabel {
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
 	public partial class MainWindow : Window {
-		public LabelManager manager = new LabelManager();
+
 		public MainWindow () {
 			App.main = this;
 
@@ -39,6 +36,12 @@ namespace QLabel {
 			if ( e.Key == Key.Z ) {
 				Debug.WriteLine("触发了按键Z");
 			}
+		}
+		public void LockWindow () {
+			this.IsEnabled = false;
+		}
+		public void UnlockWindow () {
+			this.IsEnabled = true;
 		}
 	}
 }

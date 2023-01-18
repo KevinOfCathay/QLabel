@@ -28,13 +28,19 @@ namespace QLabel.Scripts {
 		public readonly int width, height;
 		public readonly string[] class_labels;
 		public readonly BaseInferenceMachine inf;
+
+		/// <summary>
+		/// 从 label 中创建 ClassLabel
+		/// </summary>
+		/// <returns></returns>
 		public ClassLabel[] GetClassLabels () {
-			if ( class_labels == null ) { return null; }
+			if ( class_labels == null ) { return new ClassLabel[0]; }
 			ClassLabel[] labels = new ClassLabel[class_labels.Length];
 			int i = 0;
 			foreach ( var label in class_labels ) {
-				labels[i] = new ClassLabel {
-					name = label,
+				labels[i] = new ClassLabel(
+					group: null,
+					name: label) {
 					color = new Color { R = (byte) RNG.rng.Next(100, 250), G = (byte) RNG.rng.Next(100, 250), B = (byte) RNG.rng.Next(100, 250) }
 				};
 			}

@@ -13,6 +13,10 @@ namespace QLabel.Scripts.AnnotationData {
 	/// </summary>
 	public record ADRect : AnnoData {
 		public ADRect
+			(ReadOnlySpan<Vector2> points, ClassLabel clas, string label = "", float conf = 1.0f) :
+			base(points, Type.Rectangle, clas, label, conf) {
+		}
+		public ADRect
 			(ReadOnlySpan<Vector2> points, int clas = 0, string label = "", float conf = 1.0f) :
 			base(points, Type.Rectangle, clas, label, conf) {
 		}

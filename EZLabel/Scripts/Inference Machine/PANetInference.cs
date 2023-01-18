@@ -32,10 +32,10 @@ namespace QLabel.Scripts.Inference_Machine {
 			this.width = width;
 			this.height = height;
 			this.classes = classes;
-			this.labels = ClassLabels.coco80;
+			this.labels = ModelLabels.coco80;
 		}
 
-		public override AnnoData[] RunInference (ImageFileData data) {
+		public override AnnoData[] RunInference (ImageFileData data, HashSet<int> class_filter = null) {
 			throw new NotImplementedException();
 		}
 

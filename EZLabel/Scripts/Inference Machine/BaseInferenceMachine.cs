@@ -38,7 +38,15 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// </summary>
 		protected Bitmap LoadImage (ImageFileData data, int target_width, int target_height) {
 			if ( data != null ) {
-				return new Bitmap(Image.FromFile(data.path), target_width, target_height);
+				var bitmap = new Bitmap(Image.FromFile(data.path));
+				int w = bitmap.Width; int h = bitmap.Height;
+				var result = new Bitmap(target_width, target_height);
+				using ( Graphics g = Graphics.FromImage((Image) result) ) {
+					g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+					g.DrawImage(bitmap, 0, 0, target_width, target_height);
+				}
+				result.Save(@"E:\test.png");
+				return result;
 			} else {
 				throw new ArgumentNullException("当前没有任何图片");
 			}
@@ -48,10 +56,8 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// </summary>
 		protected abstract DenseTensor<float> GetInputTensor (Bitmap image);
 		/// <summary>
-		/// 给出
+		/// 执行模型并返回结果
 		/// </summary>
-		/// <param name="data"></param>
-		/// <returns></returns>
-		public abstract AnnoData[] RunInference (ImageFileData data);
+		public abstract AnnoData[] RunInference (ImageFileData data, HashSet<int> class_filter = null);
 	}
 }

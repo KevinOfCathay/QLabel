@@ -30,6 +30,7 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 			public string Type { get; set; }
 			public string Class { get; set; }
 			public string Label { get; set; }
+			public string Group { get; set; }
 			public string Points { get; set; }
 			public AnnoData data { get; set; }
 		}
@@ -47,7 +48,8 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 			var row = new Row {
 				Index = this.listview.Items.Count.ToString(),
 				Type = data.type.ToString(),
-				Class = data.clas.ToString(),
+				Class = data.clas.name,
+				Group = data.clas.group,
 				Points = data.points.to_string(),
 				Label = data.label,
 				data = data

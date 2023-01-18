@@ -1,28 +1,20 @@
-﻿using QLabel.Scripts;
+﻿using QLabel.Custom_Control.Small_Tools;
+using QLabel.Scripts;
 using QLabel.Scripts.Inference_Machine;
 using QLabel.Windows.Main_Canvas;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 	/// <summary>
 	/// Interaction logic for AutoAnnotatePanel.xaml
 	/// </summary>
 	public partial class AutoAnnotatePanel : UserControl {
-		private Yolov5Inference machine = new Yolov5Inference(@"Resources/Models/yolov5m-coco.onnx", ClassLabels.coco80);
+		private BaseInferenceMachine machine;
 		private MainCanvas canvas;         // TODO: replace this
+		private HashSet<int> accepted_classes;
+
 		public AutoAnnotatePanel () {
 			InitializeComponent();
 
@@ -44,6 +36,8 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 				string[] labels = config.class_labels;
 				item.Selected += (object sender, RoutedEventArgs e) => {
 					model_name.Text = config.model_name;
+					accepted_classes = new HashSet<int>();
+					machine = config.inf;
 					SetClassLabels(labels);
 				};
 				model_list.Items.Add(item);
@@ -52,10 +46,21 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 		private void SetClassLabels (string[] labels) {
 			class_list.Items.Clear();
 			// 更改 class list 中的所有元素
+			int index = 0;
 			foreach ( var label in labels ) {
 				var new_item = new ListBoxItem();
-				new_item.Content = label;
+
+				var new_rectlabel = new CheckboxWithLabel();
+				new_rectlabel.label.Content = label;
+				int class_index = index;
+				new_rectlabel.eChecked += (_, _, _) => { accepted_classes.Add(class_index); };
+				new_rectlabel.eUnchecked += (_, _, _) => { accepted_classes.Remove(class_index); };
+				// 默认设置为选中状态
+				new_rectlabel.Check();
+
+				new_item.Content = new_rectlabel;
 				class_list.Items.Add(new_item);
+				index += 1;
 			}
 		}
 		/// <summary>
@@ -64,7 +69,7 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 		private void apply_button_Click (object sender, RoutedEventArgs e) {
 			machine.BuildSession();
 			if ( canvas != null && canvas.cur_file != null ) {
-				var ads = machine.RunInference(canvas.cur_file);
+				var ads = machine.RunInference(canvas.cur_file, accepted_classes);
 				foreach ( var ad in ads ) {
 					var element = ad.CreateAnnotationElement(canvas);
 					canvas.AddAnnoElements(element);

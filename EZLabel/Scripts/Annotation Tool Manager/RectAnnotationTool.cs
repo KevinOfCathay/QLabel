@@ -10,6 +10,7 @@ using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using QLabel.Scripts.Projects;
 
 namespace QLabel.Scripts.AnnotationToolManager {
 	public class RectAnnotationTool : ToolBase {
@@ -87,7 +88,10 @@ namespace QLabel.Scripts.AnnotationToolManager {
 					var br_real = canvas.RealPosition(new Vector2(left + w, top + h));     // 右下角
 
 					// 创建 anno 数据
-					var data = new AnnotationData.ADRect(new ReadOnlySpan<Vector2>(new Vector2[] { tl_real, tr_real, bl_real, br_real }));
+					var data = new AnnotationData.ADRect(
+						new ReadOnlySpan<Vector2>(new Vector2[] { tl_real, tr_real, bl_real, br_real }),
+						 ProjectManager.project.GetCurrentLabel()
+						);
 					rect.data = data;
 
 					CreateAnnotationElementManual create_rect = new CreateAnnotationElementManual(rect, canvas);
@@ -100,7 +104,7 @@ namespace QLabel.Scripts.AnnotationToolManager {
 		/// <summary>
 		/// 创建一个 annotation 并将其放置在画布上
 		/// </summary>
-		public static void Create (MainCanvas canvas, Vector2[] rpoints, int clas = 0, string label = "") {
+		public static void Create (MainCanvas canvas, Vector2[] rpoints, ClassLabel clas, string label = "") {
 			if ( canvas.can_annotate ) {
 				// 创建一个新的矩形
 				var data = new AnnotationData.ADRect(new ReadOnlySpan<Vector2>(rpoints), clas, label);

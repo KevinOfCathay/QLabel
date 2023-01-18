@@ -12,7 +12,7 @@ namespace QLabel.Scripts.AnnotationData {
 	/// </summary>
 	public record ADLine : AnnoData {
 		public ADLine
-			(ReadOnlySpan<Vector2> points, int clas = 0, string label = "", float conf = 1.0f) :
+			(ReadOnlySpan<Vector2> points, ClassLabel clas, string label = "", float conf = 1.0f) :
 			base(points, Type.Line, clas, label, conf) {
 		}
 

@@ -49,7 +49,7 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// <summary>
 		/// 运行模型并以 float[] 形式返回结果
 		/// </summary>
-		public float[] Run<T> (DenseTensor<T> input) {
+		protected float[] Run<T> (DenseTensor<T> input) {
 			// 从 Dense Tensor 创建一个 Input
 			var input_node = new List<NamedOnnxValue> { NamedOnnxValue.CreateFromTensor<T>("images", input) };
 			if ( session != null ) {
@@ -102,17 +102,16 @@ namespace QLabel.Scripts.Inference_Machine {
 			}
 			return (ind, final_scores, final_boxes, final_classes);
 		}
-		public override AnnoData[] RunInference (ImageFileData img_file) {
+		public override AnnoData[] RunInference (ImageFileData img_file, HashSet<int> class_filter = null) {
 			eRunBefore?.Invoke(this);
 
 			var bitmap = LoadImage(img_file, width, height);
-
 			var input_tensor = GetInputTensor(bitmap);
 			var output = Run(input_tensor);
 			var (ind, final_scores, final_boxes, final_classes) = NMS(output);
 
 			int len = ind.Length;
-			AnnoData[] data = new ADRect[len];
+			List<AnnoData> data = new List<AnnoData>();
 			Vector2 scale = new Vector2((float) img_file.width / (float) width, (float) img_file.height / (float) height);
 			// 根据 result 建立 annodata
 			for ( int i = 0; i < len; i += 1 ) {
@@ -126,13 +125,21 @@ namespace QLabel.Scripts.Inference_Machine {
 						}
 					);
 				int c = final_classes[i];
-				data[i] = new ADRect(
-					points, c, label: labels[c], conf: final_scores[i]
-					);
+
+				// 类别过滤
+				if ( class_filter != null ) {
+					if ( !class_filter.Contains(c) ) {
+						continue;
+					}
+				}
+				ClassLabel cl = new ClassLabel(group: "None", name: labels[c]);
+				data.Add(new ADRect(
+					points, cl, label: "", conf: final_scores[i]
+					));
 			}
 
 			eRunAfter?.Invoke(this);
-			return data;
+			return data.ToArray();
 		}
 	}
 }

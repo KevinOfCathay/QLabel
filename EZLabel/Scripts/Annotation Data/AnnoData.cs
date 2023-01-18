@@ -1,4 +1,5 @@
-﻿using QLabel.Windows.Main_Canvas;
+﻿using QLabel.Scripts.Projects;
+using QLabel.Windows.Main_Canvas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +16,22 @@ namespace QLabel.Scripts.AnnotationData {
 	public abstract record AnnoData {
 		public enum Type { Dot, Rectangle, Square, Tetragon, Line, Circle, Polygon }
 
-		public AnnoData (ReadOnlySpan<Vector2> points, Type type, int clas, string label, float conf) {
+		public AnnoData (ReadOnlySpan<Vector2> points, Type type, ClassLabel clas, string label, float conf) {
 			createtime = DateTime.Now;
 			this.points = points.ToArray();
 			this.conf = conf;
 			this.type = type;
 			this.label = label;
+			this.clas = clas;
+			bbox = GetBoundingBox(points);
+		}
+		public AnnoData (ReadOnlySpan<Vector2> points, Type type, int class_index, string label, float conf) {
+			createtime = DateTime.Now;
+			this.points = points.ToArray();
+			this.conf = conf;
+			this.type = type;
+			this.label = label;
+			this.clas = ProjectManager.project.GetLabel(class_index);
 			bbox = GetBoundingBox(points);
 		}
 
@@ -31,7 +42,7 @@ namespace QLabel.Scripts.AnnotationData {
 		/// <summary> 约束这个 annotation 的边框 (readonly) </summary>
 		public readonly (Vector2 tl, Vector2 br) bbox;
 		/// <summary> 这个注释数据的类 (readonly) </summary>
-		public readonly int clas;
+		public readonly ClassLabel clas;
 		/// <summary>  这个注释数据的额外标签 (readonly) </summary>
 		public readonly string label;
 		/// <summary> 这个注释数据被创建的时间，在 AnnoData 初始化时被设置 (readonly) </summary>

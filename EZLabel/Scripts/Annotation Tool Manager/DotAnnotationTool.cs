@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows;
 using OpenCvSharp;
 using System.Numerics;
+using QLabel.Scripts.Projects;
 
 namespace QLabel.Scripts.AnnotationToolManager {
 	public class DotAnnotationTool : ToolBase {
@@ -36,7 +37,10 @@ namespace QLabel.Scripts.AnnotationToolManager {
 			var pos = canvas.RealPosition(new Vector2((float) p.X, (float) p.Y));    // 坐标转换
 
 			// 创建 anno 数据
-			var data = new AnnotationData.ADSingleDot(new ReadOnlySpan<Vector2>(pos));
+			var data = new AnnotationData.ADSingleDot(
+				new ReadOnlySpan<Vector2>(pos),
+				ProjectManager.project.GetCurrentLabel()
+				);
 			dot.data = data;
 
 			canvas.annotation_canvas.Children.Add(dot);
