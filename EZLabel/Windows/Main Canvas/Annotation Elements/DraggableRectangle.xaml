@@ -54,7 +54,7 @@
 			FontSize="7.5"
 			Foreground="#FF6FA46F"
 			HorizontalAlignment="Right"
-			VerticalAlignment="Bottom" FontWeight="Bold">[Empty]</Label>
+			VerticalAlignment="Bottom" FontWeight="Bold">[LBL]</Label>
 	</Grid>
 
 </UserControl>

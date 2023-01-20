@@ -1,10 +1,8 @@
-﻿using System.Windows;
-using System.Windows.Input;
-using QLabel.Custom_Control.Image_View;
-using System.Diagnostics;
+﻿using QLabel.Custom_Control.Image_View;
 using QLabel.Scripts.Projects;
-using QLabel.Windows.Main_Canvas;
-using QLabel.Scripts;
+using System.Diagnostics;
+using System.Windows;
+using System.Windows.Input;
 
 namespace QLabel {
 	public partial class MainWindow : Window {
@@ -19,13 +17,18 @@ namespace QLabel {
 
 		public void RegisterEvents () {
 			ilw.eImageListUICreated += (ImageListWindow window, ImageListItem item) => {
+				// 切换图片时的事件
 				item.eSwitchImage += (i) => {
-					// 清除上一张图片的所有注释
+					// 清空之前图片的注释
+					annolistpanel.annolist.ClearList();
+					// 清除上一张图片在画布上的所有元素
 					main_canvas.ClearCanvas();
 					// 点击 List 中的 image 图像来加载图片
 					main_canvas.LoadImage(item.data.path);
 					// 设置图像属性UI
 					misc_panel.image_properties_panel.SetUI(item.data);
+					// 将当前的文件设置为打开的图片文件
+					ProjectManager.cur_datafile = item.data;
 				};
 			};
 		}

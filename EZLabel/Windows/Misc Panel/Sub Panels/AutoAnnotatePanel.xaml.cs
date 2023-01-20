@@ -70,7 +70,7 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 		private void apply_button_Click (object sender, RoutedEventArgs e) {
 			machine.BuildSession();
 			if ( canvas != null && canvas.can_annotate ) {
-				var ads = machine.RunInference(ProjectManager.GetCurrentImageData(), accepted_classes);
+				var ads = machine.RunInference(ProjectManager.cur_datafile, accepted_classes);
 				foreach ( var ad in ads ) {
 					var element = ad.CreateAnnotationElement(canvas);
 					canvas.AddAnnoElements(element);

@@ -50,14 +50,17 @@
 				</ListBox.Resources>
 				<ListBox.ItemsPanel>
 					<ItemsPanelTemplate>
-						<UniformGrid Columns="2" />
+						<UniformGrid Columns="3" />
 					</ItemsPanelTemplate>
 				</ListBox.ItemsPanel>
 			</ListBox>
 
 
 			<Label FontSize="8.5">Target:</Label>
-			<ComboBox FontSize="8.5" Margin="4,0">
+			<ComboBox 
+				Name="crop_target" FontSize="8.5" Margin="4,0"
+				SelectionChanged="crop_target_SelectionChanged"
+				>
 				<ComboBoxItem IsSelected="True">Current File</ComboBoxItem>
 				<ComboBoxItem>All Files</ComboBoxItem>
 			</ComboBox>

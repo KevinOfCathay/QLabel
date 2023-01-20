@@ -20,10 +20,10 @@ namespace QLabel.Windows.Main_Canvas {
 		public bool can_annotate { get; private set; } = false;      // 当前画布是否可以进行标注
 		public Point image_size { get; private set; } = new Point(0, 0);      // 图片大小，用于计算annotation的位置，在未加载时图片大小为 0
 		public Point image_offset { get; private set; } = new Point(0, 0);      // 图片在画布上的偏移量，用于计算annotation的位置，在未加载时图片，或者图片居中时大小为 0		
-		public Action<MainCanvas, double> eCanvasRescale;      // 画布改变大小（影响画布上所有元素的大小和位置）
-		public Action<MainCanvas, BitmapImage> eImageLoaded;
-		public Action<MainCanvas, IAnnotationElement> eAnnotationElementAdded, eAnnotationElementRemoved;
-		public Action<MainCanvas, MouseEventArgs> eMouseDown, eMouseUp, eMouseMove;
+		public event Action<MainCanvas, double> eCanvasRescale;      // 画布改变大小（影响画布上所有元素的大小和位置）
+		public event Action<MainCanvas, BitmapImage> eImageLoaded;
+		public event Action<MainCanvas, IAnnotationElement> eAnnotationElementAdded, eAnnotationElementRemoved;
+		public event Action<MainCanvas, MouseEventArgs> eMouseDown, eMouseUp, eMouseMove;
 		public List<IAnnotationElement> annotation_collection = new List<IAnnotationElement>();        // 用于存放所有 annotation 的地方
 
 		public MainCanvas () {
@@ -105,7 +105,7 @@ namespace QLabel.Windows.Main_Canvas {
 		/// 将图片加载到画布上
 		/// </summary>
 		public async void LoadImage (string path) {
-			BitmapImage image = await LoadImageFromFile(path);
+			BitmapImage image = await Util.ReadImageFromFileAsync(path);
 			double height = image.PixelHeight;
 			double width = image.PixelWidth;
 
@@ -140,22 +140,10 @@ namespace QLabel.Windows.Main_Canvas {
 			can_annotate = true;
 			eImageLoaded?.Invoke(this, image);
 		}
-		private async Task<BitmapImage> LoadImageFromFile (string path) {
-			return await Task.Run(
-				() => {
-					BitmapImage image = new BitmapImage();
-					image.BeginInit();
-					image.UriSource = new Uri(path);
-					image.CacheOption = BitmapCacheOption.OnLoad;
-					image.EndInit();
-					image.Freeze();
-					return image;
-				}
-				);
-		}
 		public void AddAnnoElements (IAnnotationElement element) {
 			if ( can_annotate ) {          // 只有在画布上有内容时才会加入 element
 				if ( element != null ) {
+					ProjectManager.cur_datafile.data.Add(element.data);
 					annotation_collection.Add(element);
 					// 将 class label 加入到 label 集合中
 					ProjectManager.project.AddLabel(element.data.clas);
@@ -167,6 +155,7 @@ namespace QLabel.Windows.Main_Canvas {
 			if ( can_annotate ) {          // 只有在画布上有内容时才会加入 element
 				if ( elements != null ) {
 					foreach ( var element in elements ) {
+						ProjectManager.cur_datafile.data.Add(element.data);
 						annotation_collection.Add(element);
 						// 将 class label 加入到 label 集合中
 						ProjectManager.project.AddLabel(element.data.clas);
@@ -177,6 +166,7 @@ namespace QLabel.Windows.Main_Canvas {
 		}
 		public void RemoveAnnoElements (IAnnotationElement element) {
 			if ( element != null && annotation_collection.Contains(element) ) {
+				ProjectManager.cur_datafile.data.Remove(element.data);
 				annotation_collection.Remove(element);
 				element.Delete(this);
 				eAnnotationElementRemoved?.Invoke(this, element);

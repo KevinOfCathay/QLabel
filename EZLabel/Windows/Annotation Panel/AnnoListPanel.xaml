@@ -9,7 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="250">
 	<TabControl>
 		<TabItem Header="Anno.">
-			<anno:AnnoList/>
+			<anno:AnnoList x:Name="annolist"/>
 		</TabItem>
 	</TabControl>
 </UserControl>

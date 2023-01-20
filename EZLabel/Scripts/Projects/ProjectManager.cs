@@ -14,15 +14,12 @@ namespace QLabel.Scripts.Projects {
 		/// </summary>
 		private static string cur_dir = null;
 		private static string save_dir = null;
-		public static int cur_file_index = 0;
+		public static ImageData cur_datafile;
 		public static int cur_label_index = 0;
 		private const string project_name = "project";
 
 		public static ClassLabel GetCurrentLabel () {
 			return project.GetLabel(cur_label_index);
-		}
-		public static ImageData GetCurrentImageData () {
-			return project.data_list.ElementAt(cur_file_index);
 		}
 		public static bool NewProject (string directory) {
 			if ( directory != cur_dir ) {

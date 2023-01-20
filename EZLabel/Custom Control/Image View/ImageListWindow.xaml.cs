@@ -42,7 +42,7 @@ namespace QLabel.Custom_Control.Image_View {
 				ImageListItem new_item = new ImageListItem();
 
 				new_item.data = data;
-				new_item.thumbnail_image.Source = await LoadImageThumbnailFromFile(data.path);
+				new_item.thumbnail_image.Source = await Util.ReadImageFromFileAsync(data.path, decode_width: 100);
 				new_item.image_name.Text = data.filename;
 
 				this.image_view_listbox.Items.Add(new_item);
@@ -52,20 +52,6 @@ namespace QLabel.Custom_Control.Image_View {
 
 				eImageListUICreated?.Invoke(this, new_item); // 触发 UI 创建事件
 			}
-		}
-
-		public async Task<BitmapImage> LoadImageThumbnailFromFile (string path) {
-			return await Task.Run(
-				() => {
-					BitmapImage image = new BitmapImage();
-					image.BeginInit();
-					image.DecodePixelWidth = 100;
-					image.UriSource = new Uri(path);
-					image.EndInit();
-					image.Freeze();
-					return image;
-				}
-				);
 		}
 	}
 }

@@ -37,23 +37,13 @@ namespace QLabel {
 							// 读取文件夹下的所有文件
 							// 如果符合图像格式，则将路径加入到 list 中
 							var files = Directory.GetFiles(directory);
-							var paths = new List<string>(capacity: files.Length); // 重置 paths
 
 							int index = 0;
 							List<ImageData> data = new List<ImageData>();          // 存放 ImageData 的 List
 							foreach ( var fi in files ) {
-								string ext = System.IO.Path.GetExtension(fi);
+								string ext = System.IO.Path.GetExtension(fi).ToLower();
 								// 如果当前文件属于图片文件，则加载
 								if ( accepted_ext.Contains(ext) ) {
-									if ( fi == selected_file ) {
-										// 如果当前被选择的文件属于图像
-										// 则加载该图像
-										if ( accepted_ext.Contains(System.IO.Path.GetExtension(selected_file)) ) {
-											main.main_canvas.LoadImage(selected_file);
-											ProjectManager.cur_file_index = index;
-										}
-									}
-
 									// https://stackoverflow.com/a/9687096
 									// Getting image dimensions without reading the entire file
 									using ( FileStream file = new FileStream(fi, FileMode.Open, FileAccess.Read) ) {
@@ -62,15 +52,22 @@ namespace QLabel {
 													 validateImageData: false) ) {
 											float width = tif.PhysicalDimension.Width;
 											float height = tif.PhysicalDimension.Height;
-
-											data.Add(new ImageData {
+											var imgdata = new ImageData {
 												path = fi,
 												filename = Path.GetFileName(fi),
 												size = new System.IO.FileInfo(fi).Length,
 												width = width,
 												height = height
-											});
-											paths.Add(fi);
+											};
+											data.Add(imgdata);
+											if ( fi == selected_file ) {
+												// 如果当前被选择的文件属于图像
+												// 则加载该图像
+												if ( accepted_ext.Contains(System.IO.Path.GetExtension(selected_file)) ) {
+													main.main_canvas.LoadImage(selected_file);
+													ProjectManager.cur_datafile = imgdata;
+												}
+											}
 											index += 1;
 										}
 									}
