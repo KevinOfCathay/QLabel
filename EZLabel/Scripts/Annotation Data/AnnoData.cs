@@ -4,18 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
-using System.Xml;
-using System.Xml.Schema;
-using System.Xml.Serialization;
 
 namespace QLabel.Scripts.AnnotationData {
 	public abstract record AnnoData {
 		public enum Type { Dot, Rectangle, Square, Tetragon, Line, Circle, Polygon }
-
 		public AnnoData (ReadOnlySpan<Vector2> points, Type type, ClassLabel clas, string label, float conf) {
 			createtime = DateTime.Now;
 			this.points = points.ToArray();
@@ -24,6 +17,7 @@ namespace QLabel.Scripts.AnnotationData {
 			this.label = label;
 			this.clas = clas;
 			bbox = GetBoundingBox(points);
+			brect = new Int32Rect((int) bbox.tl.X, (int) bbox.tl.Y, (int) ( bbox.br.X - bbox.tl.X ), (int) ( bbox.br.Y - bbox.tl.Y ));
 		}
 		public AnnoData (ReadOnlySpan<Vector2> points, Type type, int class_index, string label, float conf) {
 			createtime = DateTime.Now;
@@ -33,6 +27,7 @@ namespace QLabel.Scripts.AnnotationData {
 			this.label = label;
 			this.clas = ProjectManager.project.GetLabel(class_index);
 			bbox = GetBoundingBox(points);
+			brect = new Int32Rect((int) bbox.tl.X, (int) bbox.tl.Y, (int) ( bbox.br.X - bbox.tl.X ), (int) ( bbox.br.Y - bbox.tl.Y ));
 		}
 
 		/// <summary>  这个注释数据的点的位置 (x, y) (readonly) </summary>
@@ -41,6 +36,8 @@ namespace QLabel.Scripts.AnnotationData {
 		public readonly float conf;
 		/// <summary> 约束这个 annotation 的边框 (readonly) </summary>
 		public readonly (Vector2 tl, Vector2 br) bbox;
+		/// <summary> 约束这个 annotation 的边框（以rect的形式） (readonly) </summary>
+		public readonly Int32Rect brect;
 		/// <summary> 这个注释数据的类 (readonly) </summary>
 		public readonly ClassLabel clas;
 		/// <summary>  这个注释数据的额外标签 (readonly) </summary>

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace QLabel.Scripts {
-	public class Config {
+	internal class Config {
 		public Config (
 			string model_name,
 			string model_path,
@@ -48,14 +48,14 @@ namespace QLabel.Scripts {
 		}
 	}
 
-	public class Yolov5Config : Config {
+	internal class Yolov5Config : Config {
 		public Yolov5Config (
 			string model_name, string model_path, int width, int height, string[] class_labels) :
 			base(model_name, model_path, width, height, class_labels,
 				new Yolov5Inference(model_path, class_labels, width, height, class_labels.Length)
 				) { }
 	}
-	public class Yolov7Config : Config {
+	internal class Yolov7Config : Config {
 		public Yolov7Config (
 			string model_name, string model_path, int width, int height, string[] class_labels) :
 			base(model_name, model_path, width, height, class_labels,

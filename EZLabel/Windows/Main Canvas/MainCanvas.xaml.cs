@@ -143,7 +143,9 @@ namespace QLabel.Windows.Main_Canvas {
 		public void AddAnnoElements (IAnnotationElement element) {
 			if ( can_annotate ) {          // 只有在画布上有内容时才会加入 element
 				if ( element != null ) {
-					ProjectManager.cur_datafile.data.Add(element.data);
+					if ( ProjectManager.cur_datafile != null ) {
+						ProjectManager.cur_datafile.annodata?.Add(element.data);   // 加入到 annodata 中
+					}
 					annotation_collection.Add(element);
 					// 将 class label 加入到 label 集合中
 					ProjectManager.project.AddLabel(element.data.clas);
@@ -155,7 +157,9 @@ namespace QLabel.Windows.Main_Canvas {
 			if ( can_annotate ) {          // 只有在画布上有内容时才会加入 element
 				if ( elements != null ) {
 					foreach ( var element in elements ) {
-						ProjectManager.cur_datafile.data.Add(element.data);
+						if ( ProjectManager.cur_datafile != null ) {
+							ProjectManager.cur_datafile.annodata?.Add(element.data);   // 加入到 annodata 中
+						}
 						annotation_collection.Add(element);
 						// 将 class label 加入到 label 集合中
 						ProjectManager.project.AddLabel(element.data.clas);
@@ -166,7 +170,7 @@ namespace QLabel.Windows.Main_Canvas {
 		}
 		public void RemoveAnnoElements (IAnnotationElement element) {
 			if ( element != null && annotation_collection.Contains(element) ) {
-				ProjectManager.cur_datafile.data.Remove(element.data);
+				ProjectManager.cur_datafile.annodata.Remove(element.data);
 				annotation_collection.Remove(element);
 				element.Delete(this);
 				eAnnotationElementRemoved?.Invoke(this, element);

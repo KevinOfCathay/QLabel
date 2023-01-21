@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace QLabel.Scripts {
-	public static class ModelConfigs {
+	internal static class ModelConfigs {
 		public static List<Config> configs = new List<Config> {
 			new Yolov7Config (
 				model_name : "Manga Object Detection (Yolov7)",

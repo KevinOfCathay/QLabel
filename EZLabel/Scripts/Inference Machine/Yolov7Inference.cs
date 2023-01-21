@@ -11,7 +11,7 @@ using QLabel.Scripts.Projects;
 using QLabel.Scripts.AnnotationData;
 
 namespace QLabel.Scripts.Inference_Machine {
-	public class Yolov7Inference : BaseInferenceMachine {
+	internal sealed class Yolov7Inference : BaseInferenceMachine {
 		public int width, height, classes;
 		private string[] labels;
 

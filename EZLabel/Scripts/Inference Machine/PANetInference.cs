@@ -16,7 +16,7 @@ namespace QLabel.Scripts.Inference_Machine {
 	/// <summary>
 	/// PANet Text Detection
 	/// </summary>
-	public class PANetInference : BaseInferenceMachine {
+	internal sealed class PANetInference : BaseInferenceMachine {
 		public int width, height, classes;
 		private const int out_width = 160, out_height = 160;
 		public float downsample_ratio = 0.25f;

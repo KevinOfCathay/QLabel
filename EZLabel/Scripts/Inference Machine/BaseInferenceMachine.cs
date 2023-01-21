@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 
 namespace QLabel.Scripts.Inference_Machine {
-	public abstract class BaseInferenceMachine {
+	internal abstract class BaseInferenceMachine {
 		protected string model_path;
 		protected InferenceSession session;
 		protected readonly int[] input_dims, output_dims;
@@ -45,7 +45,6 @@ namespace QLabel.Scripts.Inference_Machine {
 					g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
 					g.DrawImage(bitmap, 0, 0, target_width, target_height);
 				}
-				result.Save(@"E:\test.png");
 				return result;
 			} else {
 				throw new ArgumentNullException("当前没有任何图片");

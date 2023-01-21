@@ -17,6 +17,9 @@ namespace QLabel.Scripts {
 		public readonly string name;
 		/// <summary> 代表这个标签的颜色 </summary>
 		public Color color;
+		public string GetName () {
+			return ( ( group != null && group != "" ) ? group : "" ) + ( ( name != null && name != "" ) ? name : "" );
+		}
 		public override int GetHashCode () {
 			return name.GetHashCode() + group.GetHashCode();
 		}

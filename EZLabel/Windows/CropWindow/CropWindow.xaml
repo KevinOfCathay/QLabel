@@ -4,8 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QLabel.Windows.CropWindow"
+	   xmlns:tool="clr-namespace:QLabel.Custom_Control.Small_Tools"
         mc:Ignorable="d"
 	   ResizeMode="NoResize"
+	   Background="AliceBlue"
         Title="Crop..." Height="250" Width="380">
 	<Grid  Margin="10">
 		<Grid.RowDefinitions>
@@ -20,10 +22,10 @@
 							<Setter Property="Margin" Value="1,0"/>
 							<Setter Property="Width" Value="30"/>
 							<Setter Property="Height" Value="16"/>
-							<Setter Property="FontSize" Value="8.5"/>
+							<Setter Property="FontSize" Value="9"/>
 						</Style>
 					</StackPanel.Resources>
-					<Button FontSize="8.5">
+					<Button FontSize="9">
 						<Button.Resources>
 							<Style TargetType="Border">
 								<Setter Property="CornerRadius" Value="3"/>
@@ -31,7 +33,7 @@
 						</Button.Resources>
 						All
 					</Button>
-					<Button FontSize="8.5">
+					<Button FontSize="9">
 						<Button.Resources>
 							<Style TargetType="Border">
 								<Setter Property="CornerRadius" Value="3"/>
@@ -40,9 +42,9 @@
 						None
 					</Button>
 				</StackPanel>
-				<Label DockPanel.Dock="Right" FontSize="8.5">Class:</Label>
+				<Label DockPanel.Dock="Right" FontSize="9">Class:</Label>
 			</DockPanel>
-			<ListBox Margin="4,0" MaxHeight="100">
+			<ListBox Name="class_listbox" Margin="4,0" MaxHeight="100">
 				<ListBox.Resources>
 					<Style TargetType="Border">
 						<Setter Property="CornerRadius" Value="5"/>
@@ -56,9 +58,9 @@
 			</ListBox>
 
 
-			<Label FontSize="8.5">Target:</Label>
+			<Label FontSize="9">Target:</Label>
 			<ComboBox 
-				Name="crop_target" FontSize="8.5" Margin="4,0"
+				Name="crop_target" FontSize="9" Margin="4,0"
 				SelectionChanged="crop_target_SelectionChanged"
 				>
 				<ComboBoxItem IsSelected="True">Current File</ComboBoxItem>
@@ -66,27 +68,8 @@
 			</ComboBox>
 
 
-			<Label FontSize="8.5">Save To:</Label>
-			<DockPanel>
-				<!-- 选择存储路径 -->
-				<Button DockPanel.Dock="Right" Width="16" Height="16">
-					<Button.Resources>
-						<Style TargetType="Border">
-							<Setter Property="CornerRadius" Value="5"/>
-						</Style>
-					</Button.Resources>
-				</Button>
-				<Border DockPanel.Dock="Right" Margin="4,0"
-					    BorderBrush="#FF5C4B4B" BorderThickness="1" >
-					<Border.Resources>
-						<Style TargetType="Border">
-							<Setter Property="CornerRadius" Value="3"/>
-						</Style>
-					</Border.Resources>
-					<TextBlock 
-						DockPanel.Dock="Top" FontSize="8.5" Foreground="#FF929292"></TextBlock>
-				</Border>
-			</DockPanel>
+			<Label FontSize="9">Save To:</Label>
+			<tool:DirectorySelector x:Name="dir_selector"></tool:DirectorySelector>
 		</StackPanel>
 		<StackPanel 
 			Orientation="Horizontal" 

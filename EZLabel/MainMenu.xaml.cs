@@ -50,14 +50,12 @@ namespace QLabel {
 										using ( var tif = System.Drawing.Image.FromStream(stream: file,
 													 useEmbeddedColorManagement: false,
 													 validateImageData: false) ) {
-											float width = tif.PhysicalDimension.Width;
-											float height = tif.PhysicalDimension.Height;
 											var imgdata = new ImageData {
 												path = fi,
-												filename = Path.GetFileName(fi),
-												size = new System.IO.FileInfo(fi).Length,
-												width = width,
-												height = height
+												size = new FileInfo(fi).Length,
+												width = tif.PhysicalDimension.Width,
+												height = tif.PhysicalDimension.Height,
+												format = tif.PixelFormat
 											};
 											data.Add(imgdata);
 											if ( fi == selected_file ) {

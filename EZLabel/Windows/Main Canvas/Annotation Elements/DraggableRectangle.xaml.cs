@@ -123,5 +123,9 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Delete (MainCanvas canvas) {
 			canvas.annotation_canvas.Children.Remove(this);
 		}
+
+		public void Draw (Canvas canvas, Point[] points) {
+			throw new NotImplementedException();
+		}
 	}
 }
