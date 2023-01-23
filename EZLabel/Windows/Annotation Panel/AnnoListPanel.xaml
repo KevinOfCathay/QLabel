@@ -8,8 +8,11 @@
 		   mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="250">
 	<TabControl>
-		<TabItem Header="Anno.">
+		<TabItem Header="List">
 			<anno:AnnoList x:Name="annolist"/>
+		</TabItem>
+		<TabItem Header="Tree">
+			<anno:AnnoTree x:Name="annotree"/>
 		</TabItem>
 	</TabControl>
 </UserControl>

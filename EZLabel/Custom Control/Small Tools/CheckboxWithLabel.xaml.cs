@@ -22,11 +22,19 @@ namespace QLabel.Custom_Control.Small_Tools {
 		public CheckboxWithLabel () {
 			InitializeComponent();
 		}
+		public CheckboxWithLabel (string text, bool check) : base() {
+			InitializeComponent();
+			label.Content = text;
+			this.checkbox.IsChecked = check;
+		}
 		public void SetLabel (string text) {
 			label.Content = text;
 		}
 		public void Check () {
 			this.checkbox.IsChecked = true;
+		}
+		public void Uncheck () {
+			this.checkbox.IsChecked = false;
 		}
 		private void CheckBox_Checked (object sender, RoutedEventArgs e) {
 			eChecked?.Invoke(this, sender, e);

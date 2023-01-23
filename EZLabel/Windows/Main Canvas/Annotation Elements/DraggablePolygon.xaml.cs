@@ -28,11 +28,16 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		private List<DraggableDot> dots = new List<DraggableDot>();
 
 		public void Delete (MainCanvas canvas) {
-			throw new NotImplementedException();
+			canvas.annotation_canvas.Children.Remove(this);
 		}
-
 		public void Draw (Canvas canvas, Point[] points) {
 			throw new NotImplementedException();
+		}
+		public void Show () {
+			Visibility = Visibility.Visible;
+		}
+		public void Hide () {
+			Visibility = Visibility.Hidden;
 		}
 	}
 }

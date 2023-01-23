@@ -1,5 +1,6 @@
 ﻿using QLabel.Custom_Control.Image_View;
 using QLabel.Scripts.Projects;
+using QLabel.Windows.Main_Canvas;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
@@ -31,6 +32,20 @@ namespace QLabel {
 					ProjectManager.cur_datafile = item.data;
 				};
 			};
+
+			var canvas = main_canvas;
+			if ( canvas != null ) {
+				canvas.eAnnotationElementAdded += (MainCanvas mc, IAnnotationElement iae) => {
+					// 当有注释被加入时，更新注释列表以及注释树
+					annolistpanel.annolist.AddItem(iae);
+					annolistpanel.annotree.AddAnnoData(iae);
+				};
+				canvas.eAnnotationElementRemoved += (MainCanvas mc, IAnnotationElement iae) => {
+					// 当有注释被移除时，更新注释列表以及注释树
+					annolistpanel.annolist.RemoveItem(iae);
+					annolistpanel.annotree.RemoveAnnoData(iae);
+				};
+			}
 		}
 		public void InitComponents () {
 			this.toolbar.Init(this.main_canvas);

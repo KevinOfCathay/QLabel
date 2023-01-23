@@ -15,6 +15,6 @@
 		<Label 
 			Name="label" 
 			VerticalAlignment="Center" 
-			FontSize="8.5">text</Label>
+			FontSize="9">text</Label>
 	</StackPanel>
 </UserControl>

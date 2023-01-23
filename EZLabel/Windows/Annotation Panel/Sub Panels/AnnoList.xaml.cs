@@ -25,13 +25,13 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 
 		public AnnoList () {
 			InitializeComponent();
-			RegisterEvents();
 		}
 
 		/// <summary>
 		/// 在列表中加入一行
 		/// </summary>
-		public void AddItemToList (AnnoData data) {
+		public void AddItem (IAnnotationElement elem) {
+			var data = elem.data;
 			var row = new Row {
 				Index = this.listview.Items.Count.ToString(),
 				Type = data.type.ToString(),
@@ -43,9 +43,10 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 			};
 			rows.Add(row);
 		}
-		public void RemoveItemFromList (AnnoData data) {
-			for(int i = 0; i < rows.Count; i += 1 ) {
-				if( rows[i].data== data ) {
+		public void RemoveItem (IAnnotationElement elem) {
+			var data = elem.data;
+			for ( int i = 0; i < rows.Count; i += 1 ) {
+				if ( rows[i].data == data ) {
 					rows.RemoveAt(i);
 					return;
 				}
@@ -57,29 +58,13 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 		public void ClearList () {
 			this.rows.Clear();
 		}
-		public void RegisterEvents () {
-			if ( QLabel.App.main != null ) {
-				var canvas = QLabel.App.main.main_canvas;
-				if ( canvas != null ) {
-					canvas.eAnnotationElementAdded += (MainCanvas mc, IAnnotationElement iae) => {
-						var annodata = iae.data;
-						AddItemToList(annodata);
-					};
-					canvas.eAnnotationElementRemoved += (MainCanvas mc, IAnnotationElement iae) => {
-						var annodata = iae.data;
-						RemoveItemFromList(annodata);
-					};
-				}
-			}
-		}
-
 		private void Col_Click (object sender, RoutedEventArgs e) {
 
 		}
 		private void ListViewItem_PreviewMouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
 			var item = sender as ListViewItem;
-			if ( item != null ) {         // item 本身不为 null
-				if ( item.DataContext != null ) {       // item 所关联的 datacontext 不为 null
+			if ( item != null ) {         // node 本身不为 null
+				if ( item.DataContext != null ) {       // node 所关联的 datacontext 不为 null
 					Row row = item.DataContext as Row;
 					if ( row != null ) {
 						Debug.WriteLine(row);

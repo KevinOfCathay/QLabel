@@ -24,6 +24,7 @@ namespace QLabel.Windows.Main_Canvas {
 		public event Action<MainCanvas, BitmapImage> eImageLoaded;
 		public event Action<MainCanvas, IAnnotationElement> eAnnotationElementAdded, eAnnotationElementRemoved;
 		public event Action<MainCanvas, MouseEventArgs> eMouseDown, eMouseUp, eMouseMove;
+		public event Action<MainCanvas, double, double> eCanvasSizeChanged;
 		public List<IAnnotationElement> annotation_collection = new List<IAnnotationElement>();        // 用于存放所有 annotation 的地方
 
 		public MainCanvas () {
@@ -182,6 +183,13 @@ namespace QLabel.Windows.Main_Canvas {
 		private void canvas_PreviewMouseDown (object sender, MouseButtonEventArgs e) {
 			eMouseDown?.Invoke(this, e);
 		}
+
+		private void AnnotationCanvasSizeChanged (object sender, SizeChangedEventArgs e) {
+			var h = annotation_canvas.ActualHeight;
+			var w = annotation_canvas.ActualWidth;
+			eCanvasSizeChanged?.Invoke(this, w, h);
+		}
+
 		private void scroll_ScrollChanged (object sender, ScrollChangedEventArgs e) {
 			// 重新设定图片的 offset
 			Point p = GetOffsetFromScroll();

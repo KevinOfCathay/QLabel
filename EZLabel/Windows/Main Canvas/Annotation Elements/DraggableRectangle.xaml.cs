@@ -116,16 +116,20 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			}
 			class_label.Foreground = Brushes.brush_label_text_foreground_transparent;
 		}
-
 		/// <summary>
 		/// 从画布上移除这个元素
 		/// </summary>
 		public void Delete (MainCanvas canvas) {
 			canvas.annotation_canvas.Children.Remove(this);
 		}
-
 		public void Draw (Canvas canvas, Point[] points) {
 			throw new NotImplementedException();
+		}
+		public void Show () {
+			Visibility = Visibility.Visible;
+		}
+		public void Hide () {
+			Visibility = Visibility.Hidden;
 		}
 	}
 }

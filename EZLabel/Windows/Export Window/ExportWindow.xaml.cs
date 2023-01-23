@@ -18,7 +18,11 @@ namespace QLabel.Windows.Export_Window {
 	/// Interaction logic for ExportWindow.xaml
 	/// </summary>
 	public partial class ExportWindow : Window {
-		private enum Format { VOC }
+		/// <summary>
+		/// VOC: VOC 数据格式
+		/// Image: 导出为包含了注释的图片
+		/// </summary>
+		private enum Format { VOC, Image }
 		private enum Target { Current, All };
 
 		private Format fmt = Format.VOC;

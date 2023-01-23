@@ -57,7 +57,13 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		}
 
 		public void Delete (MainCanvas canvas) {
-			throw new NotImplementedException();
+			canvas.annotation_canvas.Children.Remove(this);
+		}
+		public void Show () {
+			Visibility = Visibility.Visible;
+		}
+		public void Hide () {
+			Visibility = Visibility.Hidden;
 		}
 	}
 }

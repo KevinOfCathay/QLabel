@@ -15,7 +15,7 @@
 			x:Name="image_quick_info_panel"
 			Height="20"
 			DockPanel.Dock="Bottom"></local:ImageQuickInfoPanel>
-		
+
 		<ScrollViewer 
 					Name="scroll"
 					DockPanel.Dock="Bottom"
@@ -25,6 +25,7 @@
 					ScrollChanged="scroll_ScrollChanged">
 			<Canvas 
 				Name="annotation_canvas"
+				SizeChanged="AnnotationCanvasSizeChanged"
 				PreviewMouseMove="annotation_canvas_PreviewMouseMove"
 				PreviewMouseDown="canvas_PreviewMouseDown"
 				PreviewMouseUp="canvas_PreviewMouseUp" Background="#FFC3C3C3">

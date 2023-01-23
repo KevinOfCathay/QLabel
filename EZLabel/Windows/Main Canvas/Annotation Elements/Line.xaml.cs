@@ -38,5 +38,11 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 				this.line.Y2 = points[1].Y;
 			}
 		}
+		public void Show () {
+			Visibility = Visibility.Visible;
+		}
+		public void Hide () {
+			Visibility = Visibility.Hidden;
+		}
 	}
 }
