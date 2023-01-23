@@ -54,8 +54,8 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 				var new_rectlabel = new CheckboxWithLabel();
 				new_rectlabel.label.Content = label;
 				int class_index = index;
-				new_rectlabel.eChecked += (_, _, _) => { accepted_classes.Add(class_index); };
-				new_rectlabel.eUnchecked += (_, _, _) => { accepted_classes.Remove(class_index); };
+				new_rectlabel.eChecked += (_, _) => { accepted_classes.Add(class_index); };
+				new_rectlabel.eUnchecked += (_, _) => { accepted_classes.Remove(class_index); };
 				// 默认设置为选中状态
 				new_rectlabel.Check();
 

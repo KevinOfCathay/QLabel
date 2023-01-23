@@ -52,12 +52,15 @@ namespace QLabel.Windows.CropWindow {
 		private void SetClassListbox (HashSet<ClassLabel> labels) {
 			// 首先清除当前 listbox 中的全部内容
 			class_listbox.Items.Clear();
+			accepted_labels.Clear();
 
 			// 加入所有的注释
 			foreach ( var label in labels ) {
-				CheckboxWithLabel new_item = new CheckboxWithLabel();
-				new_item.SetLabel(label.name);
-
+				CheckboxWithLabel new_item = new CheckboxWithLabel(label.name, true);
+				var cl = label;
+				new_item.eChecked += (_, _) => { accepted_labels.Add(cl); };
+				new_item.eUnchecked += (_, _) => { accepted_labels.Remove(cl); };
+				accepted_labels.Add(cl);
 				class_listbox.Items.Add(new_item);
 			}
 		}
@@ -70,7 +73,7 @@ namespace QLabel.Windows.CropWindow {
 				var ads = data.GetAnnoData();
 				int index = 0;
 				foreach ( var ad in ads ) {
-					var (tl, br) = ad.bbox;
+					if ( !accepted_labels.Contains(ad.clas) ) { continue; }
 					var cropped = new CroppedBitmap(bitmap, ad.brect);
 					cropped.Freeze();
 					try {

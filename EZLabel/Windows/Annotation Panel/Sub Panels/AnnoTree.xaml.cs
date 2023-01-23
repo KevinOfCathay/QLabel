@@ -62,8 +62,8 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 				var new_group_node = new GroupNode { name = group_name, node = groupnode, classes = new List<ClassNode>(), checkboxes = new List<CheckboxWithLabel>() };
 				groups.Add(group_name, new_group_node);
 
-				cbxlbl.eChecked += (_, _, _) => { foreach ( var bx in new_group_node.checkboxes ) { bx.Check(); } };
-				cbxlbl.eUnchecked += (_, _, _) => { foreach ( var bx in new_group_node.checkboxes ) { bx.Uncheck(); } };
+				cbxlbl.eChecked += (_, _) => { foreach ( var bx in new_group_node.checkboxes ) { bx.Check(); } };
+				cbxlbl.eUnchecked += (_, _) => { foreach ( var bx in new_group_node.checkboxes ) { bx.Uncheck(); } };
 			}
 			// 获取 group node
 			group_node = groups[group_name];
@@ -81,16 +81,16 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 				class_node = new ClassNode() { name = class_name, node = classnode, items = new List<ItemNode>(), checkboxes = new List<CheckboxWithLabel>() };
 				group_node.classes.Add(class_node);
 
-				c_cbxlbl.eChecked += (_, _, _) => { foreach ( var bx in class_node.checkboxes ) { bx.Check(); } };
-				c_cbxlbl.eUnchecked += (_, _, _) => { foreach ( var bx in class_node.checkboxes ) { bx.Uncheck(); } };
+				c_cbxlbl.eChecked += (_, _) => { foreach ( var bx in class_node.checkboxes ) { bx.Check(); } };
+				c_cbxlbl.eUnchecked += (_, _) => { foreach ( var bx in class_node.checkboxes ) { bx.Uncheck(); } };
 				group_node.checkboxes.Add(c_cbxlbl);
 			}
 
 			// 在 class 下面添加一行
 			TreeViewItem itemnode = new TreeViewItem();
 			CheckboxWithLabel i_cbxlbl = new CheckboxWithLabel(string.Join(" ", class_name, data.points.to_shortstring()), check: true);
-			i_cbxlbl.eChecked += (_, _, _) => { elem.Show(); };
-			i_cbxlbl.eUnchecked += (_, _, _) => { elem.Hide(); };
+			i_cbxlbl.eChecked += (_, _) => { elem.Show(); };
+			i_cbxlbl.eUnchecked += (_, _) => { elem.Hide(); };
 			itemnode.Header = i_cbxlbl;
 			class_node.node.Items.Add(itemnode);
 			class_node.items.Add(new ItemNode { data = data, node = itemnode });

@@ -69,10 +69,12 @@ namespace QLabel.Scripts.Inference_Machine {
 			Vector2 scale = new Vector2((float) img_file.width / (float) width, (float) img_file.height / (float) height);
 			// 根据 result 建立 annodata
 			for ( int i = 0; i < len / 7; i += 1 ) {
-				float x = output[i * 7 + 1];
-				float y = output[i * 7 + 2];
-				float x2 = output[i * 7 + 3];
-				float y2 = output[i * 7 + 4];
+				float x = ClipX(output[i * 7 + 1]);
+				float y = ClipY(output[i * 7 + 2]);
+				float x2 = ClipX(output[i * 7 + 3]);
+				float y2 = ClipY(output[i * 7 + 4]);
+
+
 				ReadOnlySpan<Vector2> points = new ReadOnlySpan<Vector2>(
 					new Vector2[] {
 						// 将输出的点映射到源图像上的点
@@ -98,6 +100,16 @@ namespace QLabel.Scripts.Inference_Machine {
 
 			eRunAfter?.Invoke(this);
 			return data.ToArray();
+		}
+		private float ClipX (float x) {
+			if ( x < 0 ) { return 0; }
+			if ( x >= width ) { return width - 1; }
+			return x;
+		}
+		private float ClipY (float y) {
+			if ( y < 0 ) { return 0; }
+			if ( y >= height ) { return height - 1; }
+			return y;
 		}
 	}
 }
