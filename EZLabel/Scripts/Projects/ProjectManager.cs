@@ -10,17 +10,19 @@ namespace QLabel.Scripts.Projects {
 		public static Project project { get; private set; }
 
 		/// <summary>
+		/// 当前是否有项目被加载
+		/// </summary>
+		public static bool empty { get { return project == null; } }
+		/// <summary>
 		/// 当前打开的文件夹的路径
 		/// </summary>
 		private static string cur_dir = null;
 		private static string save_dir = null;
 		public static ImageData cur_datafile;
+		public static ClassLabel cur_label = new ClassLabel("None", "None");
 		public static int cur_label_index = 0;
 		private const string project_name = "project";
 
-		public static ClassLabel GetCurrentLabel () {
-			return project.GetLabel(cur_label_index);
-		}
 		public static bool NewProject (string directory) {
 			if ( directory != cur_dir ) {
 				if ( cur_dir != null ) {
@@ -39,14 +41,8 @@ namespace QLabel.Scripts.Projects {
 			}
 			return true;
 		}
-		public static void LoadProject () {
-
-		}
 		public static void SaveProject () {
-			foreach ( var data in project.data_list ) {
-				data.ToXML(save_dir);
-			}
+			throw new NotImplementedException();
 		}
-
 	}
 }

@@ -21,10 +21,6 @@ namespace QLabel.Custom_Control.Small_Tools {
 		public DirectorySelector () {
 			InitializeComponent();
 		}
-		public DirectorySelector (string default_dir) : this() {
-
-		}
-
 		private void SelectDirectoryClick (object sender, RoutedEventArgs e) {
 			using ( var dialog = new CommonOpenFileDialog() ) {
 				dialog.IsFolderPicker = true;

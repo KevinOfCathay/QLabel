@@ -8,7 +8,7 @@
         mc:Ignorable="d"
 	   ResizeMode="NoResize"
 	   Background="AliceBlue"
-        Title="Crop..." Height="250" Width="380">
+        Title="Crop..." Height="270" Width="380">
 	<Grid  Margin="10">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*"></RowDefinition>
@@ -52,7 +52,7 @@
 				</ListBox.Resources>
 				<ListBox.ItemsPanel>
 					<ItemsPanelTemplate>
-						<UniformGrid Columns="3" />
+						<UniformGrid Columns="4" />
 					</ItemsPanelTemplate>
 				</ListBox.ItemsPanel>
 			</ListBox>

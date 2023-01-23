@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QLabel.Custom_Control.Small_Tools"
              mc:Ignorable="d" 
-		   d:DesignWidth="800">
+		   d:DesignWidth="600">
 	<DockPanel>
 		<!-- 选择存储路径 -->
 		<Button 
@@ -16,7 +16,7 @@
 					<Setter Property="CornerRadius" Value="5"/>
 				</Style>
 			</Button.Resources>
-			<Image Source="/Resources/Icons/folder.png" Width="14" Height="14"/>
+			<Image Source="/Resources/Icons/folder.png" Width="12" Height="12"/>
 		</Button>
 		<Border DockPanel.Dock="Right" Margin="4,0"
 					    BorderBrush="#FF5C4B4B" BorderThickness="1" >

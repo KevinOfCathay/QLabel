@@ -11,9 +11,9 @@ namespace QLabel.Windows.CropWindow {
 	/// Interaction logic for CropWindow.xaml
 	/// </summary>
 	public partial class CropWindow : Window {
-		private enum CropTarget { Current, All };
+		private enum Target { Current, All };
 
-		private CropTarget target = CropTarget.Current;
+		private Target target = Target.Current;
 		private List<ClassLabel> accepted_labels = new List<ClassLabel>();
 		private string save_dir = "";
 		public CropWindow () {
@@ -26,26 +26,14 @@ namespace QLabel.Windows.CropWindow {
 			SetClassListbox(classlabels);
 		}
 		private void ConfirmButton_Click (object sender, RoutedEventArgs e) {
-			CropAndSave();
-			CloseWindow();
-		}
-		private void CancelButton_Click (object sender, RoutedEventArgs e) {
-			CloseWindow();
-		}
-		private void CloseWindow () {
-			this.Close();
-		}
-		/// <summary>
-		/// 裁剪并保存图像
-		/// </summary>
-		private void CropAndSave () {
+			// 裁剪并保存图像
 			switch ( target ) {
 				// 只裁剪当前的图像
-				case CropTarget.Current:
+				case Target.Current:
 					CropSave(ProjectManager.cur_datafile, save_dir);
 					break;
 				// 裁剪所有的图像
-				case CropTarget.All:
+				case Target.All:
 					foreach ( var datafile in ProjectManager.project.data_list ) {
 						CropSave(datafile, save_dir);
 					}
@@ -53,6 +41,13 @@ namespace QLabel.Windows.CropWindow {
 				default:
 					break;
 			}
+			CloseWindow();
+		}
+		private void CancelButton_Click (object sender, RoutedEventArgs e) {
+			CloseWindow();
+		}
+		private void CloseWindow () {
+			this.Close();
 		}
 		private void SetClassListbox (HashSet<ClassLabel> labels) {
 			// 首先清除当前 listbox 中的全部内容
@@ -72,7 +67,7 @@ namespace QLabel.Windows.CropWindow {
 				// 读取图片
 				BitmapImage bitmap = await Util.ReadImageFromFileAsync(path);
 
-				var ads = data.annodata;
+				var ads = data.GetAnnoData();
 				int index = 0;
 				foreach ( var ad in ads ) {
 					var (tl, br) = ad.bbox;
@@ -89,31 +84,28 @@ namespace QLabel.Windows.CropWindow {
 		private HashSet<ClassLabel> GetClassLabels (ImageData[] data) {
 			HashSet<ClassLabel> labels = new HashSet<ClassLabel>();
 			foreach ( var d in data ) {
-				foreach ( var ad in d.annodata ) {
-					labels.Add(ad.clas);
+				foreach ( var (lb, _) in d.GetLabelCounts() ) {
+					labels.Add(lb);
 				}
 			}
 			return labels;
 		}
 		private void crop_target_SelectionChanged (object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
 			if ( crop_target.SelectedItem != null ) {
-				// 只有在选择内容发生改变时才执行以下代码
-				if ( target != (CropTarget) crop_target.SelectedIndex ) {
-					target = (CropTarget) crop_target.SelectedIndex;
-					HashSet<ClassLabel> classlabels;
-					switch ( target ) {
-						case CropTarget.Current:
-							classlabels = GetClassLabels(new ImageData[] { ProjectManager.cur_datafile });
-							break;
-						case CropTarget.All:
-							classlabels = GetClassLabels(ProjectManager.project.data_list.ToArray());
-							break;
-						default:
-							classlabels = GetClassLabels(new ImageData[] { ProjectManager.cur_datafile });
-							break;
-					}
-					SetClassListbox(classlabels);
+				target = (Target) crop_target.SelectedIndex;
+				HashSet<ClassLabel> classlabels;
+				switch ( target ) {
+					case Target.Current:
+						classlabels = GetClassLabels(new ImageData[] { ProjectManager.cur_datafile });
+						break;
+					case Target.All:
+						classlabels = GetClassLabels(ProjectManager.project.data_list.ToArray());
+						break;
+					default:
+						classlabels = GetClassLabels(new ImageData[] { ProjectManager.cur_datafile });
+						break;
 				}
+				SetClassListbox(classlabels);
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 ﻿using QLabel.Scripts.AnnotationData;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
@@ -23,10 +24,40 @@ namespace QLabel.Scripts.Projects {
 		}
 		public double width { get; set; }
 		public double height { get; set; }
+		public int depth { get; set; } = 3;
 		public PixelFormat format { get; set; }
 
 		public long size { get; set; }     // 文件大小
-		public List<AnnoData> annodata = new List<AnnoData>();
+		private List<AnnoData> annodata = new List<AnnoData>();
+		private Dictionary<ClassLabel, int> label_counts = new Dictionary<ClassLabel, int>();  // 这个文件所包含的 class label
+
+		public event Action<AnnoData> eAddAnnoData, eRemoveAnnoData;
+
+		#region Data
+		public IEnumerable<AnnoData> GetAnnoData () {
+			return annodata;
+		}
+		public void AddAnnoData (AnnoData data) {
+			annodata.Add(data);
+			if ( label_counts.ContainsKey(data.clas) ) {
+				label_counts[data.clas] += 1;
+			} else {
+				label_counts[data.clas] = 1;
+			}
+			eAddAnnoData?.Invoke(data);
+		}
+		public void RemoveAnnoData (AnnoData data) {
+			annodata.Remove(data);
+			if ( label_counts.ContainsKey(data.clas) ) {
+				label_counts[data.clas] -= 1;
+				if ( label_counts[data.clas] <= 0 ) { label_counts.Remove(data.clas); }
+			}
+			eRemoveAnnoData?.Invoke(data);
+		}
+		public Dictionary<ClassLabel, int> GetLabelCounts () {
+			return label_counts;
+		}
+		#endregion
 
 		#region Export
 		private void WriteXMLAttr (XmlWriter writer, string attr, string text) {
@@ -60,28 +91,18 @@ namespace QLabel.Scripts.Projects {
 			WriteXMLAttr(writer, "path", path);
 
 			writer.WriteStartElement("size");
-
-			writer.WriteEndElement();
 			WriteXMLAttr(writer, "width", width.ToString());
 			WriteXMLAttr(writer, "height", height.ToString());
-			writer.WriteEndDocument();
+			WriteXMLAttr(writer, "depth", depth.ToString());
+			writer.WriteEndElement();
 
 			foreach ( var ad in annodata ) {
 				WriteVOCObject(writer, ad.clas.name, (int) ad.bbox.tl.X, (int) ad.bbox.tl.Y, (int) ad.bbox.br.X, (int) ad.bbox.br.Y);
 			}
-			writer.Close();
-		}
-		#endregion
 
-		#region Serialize
-		public void ToXML (string path) {
-			if ( path == null ) { return; }
-			var xmls = new XmlSerializer(typeof(ImageData));
-			try {
-				TextWriter writer = new StreamWriter(path);
-				xmls.Serialize(writer, this);
-				writer.Close();
-			} catch ( Exception ) { }
+			writer.WriteEndElement();
+			writer.WriteEndDocument();
+			writer.Close();
 		}
 		#endregion
 	}

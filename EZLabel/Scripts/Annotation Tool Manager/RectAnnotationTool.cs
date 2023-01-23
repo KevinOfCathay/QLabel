@@ -90,7 +90,7 @@ namespace QLabel.Scripts.AnnotationToolManager {
 					// 创建 anno 数据
 					var data = new AnnotationData.ADRect(
 						new ReadOnlySpan<Vector2>(new Vector2[] { tl_real, tr_real, bl_real, br_real }),
-						 ProjectManager.GetCurrentLabel()
+						 ProjectManager.cur_label
 						);
 					rect.data = data;
 

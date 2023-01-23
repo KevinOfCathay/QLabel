@@ -19,16 +19,6 @@ namespace QLabel.Scripts.AnnotationData {
 			bbox = GetBoundingBox(points);
 			brect = new Int32Rect((int) bbox.tl.X, (int) bbox.tl.Y, (int) ( bbox.br.X - bbox.tl.X ), (int) ( bbox.br.Y - bbox.tl.Y ));
 		}
-		public AnnoData (ReadOnlySpan<Vector2> points, Type type, int class_index, string label, float conf) {
-			createtime = DateTime.Now;
-			this.points = points.ToArray();
-			this.conf = conf;
-			this.type = type;
-			this.label = label;
-			this.clas = ProjectManager.project.GetLabel(class_index);
-			bbox = GetBoundingBox(points);
-			brect = new Int32Rect((int) bbox.tl.X, (int) bbox.tl.Y, (int) ( bbox.br.X - bbox.tl.X ), (int) ( bbox.br.Y - bbox.tl.Y ));
-		}
 
 		/// <summary>  这个注释数据的点的位置 (x, y) (readonly) </summary>
 		public readonly Vector2[] points;

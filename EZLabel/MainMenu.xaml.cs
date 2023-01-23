@@ -1,8 +1,10 @@
 ﻿using Microsoft.Win32;
 using QLabel.Scripts.Projects;
 using QLabel.Windows.CropWindow;
+using QLabel.Windows.Export_Window;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -83,15 +85,31 @@ namespace QLabel {
 		private void Undo_Click (object sender, RoutedEventArgs e) {
 			ActionManager.PopAction();
 		}
-
 		/// <summary>
-		/// 一键裁剪当前所有的注释
+		/// 导出注释数据到其他格式
+		/// </summary>
+		private void ExportClick (object sender, RoutedEventArgs e) {
+			if ( !ProjectManager.empty ) {
+				ExportWindow window = new ExportWindow();
+				main.LockWindow();
+				window.Closed += (object? sender, EventArgs e) => { main.UnlockWindow(); };
+				window.Show();
+			} else {
+				MessageBox.Show("There is no project opened.", "Error", MessageBoxButton.OK);
+			}
+		}
+		/// <summary>
+		/// 打开裁剪窗口，裁剪注释并保存
 		/// </summary>
 		private void Crop_Click (object sender, RoutedEventArgs e) {
-			CropWindow window = new CropWindow();
-			main.LockWindow();
-			window.Closed += (object? sender, EventArgs e) => { main.UnlockWindow(); };
-			window.Show();
+			if ( !ProjectManager.empty ) {
+				CropWindow window = new CropWindow();
+				main.LockWindow();
+				window.Closed += (object? sender, EventArgs e) => { main.UnlockWindow(); };
+				window.Show();
+			} else {
+				MessageBox.Show("There is no project opened.", "Error", MessageBoxButton.OK);
+			}
 		}
 	}
 }

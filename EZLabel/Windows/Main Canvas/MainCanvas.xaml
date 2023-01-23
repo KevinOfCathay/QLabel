@@ -13,6 +13,7 @@
 		<!-- Main Canvas -->
 		<local:ImageQuickInfoPanel 
 			x:Name="image_quick_info_panel"
+			Height="20"
 			DockPanel.Dock="Bottom"></local:ImageQuickInfoPanel>
 		
 		<ScrollViewer 

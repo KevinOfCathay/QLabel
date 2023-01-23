@@ -18,16 +18,20 @@
 
 			<Label FontSize="8.5">Target:</Label>
 			<ComboBox 
-				Name="target" FontSize="8.5" Margin="4,0">
+				Name="target" FontSize="8.5" Margin="4,0"
+				SelectionChanged="TargetSelectionChanged">
 				<ComboBoxItem IsSelected="True">Current File</ComboBoxItem>
 				<ComboBoxItem>All Files</ComboBoxItem>
 			</ComboBox>
-			
+
 			<Label FontSize="8.5">Format:</Label>
 			<ComboBox 
-				Name="format" FontSize="8.5" Margin="4,0">
+				Name="format" FontSize="8.5" Margin="4,0"
+				SelectionChanged="FormatSelectionChanged">
 				<ComboBoxItem IsSelected="True">VOC</ComboBoxItem>
 			</ComboBox>
+			<Label FontSize="8.5">Save To:</Label>
+			<tool:DirectorySelector x:Name="dir_selector"></tool:DirectorySelector>
 		</StackPanel>
 		<tool:ConfirmCancel Grid.Row="1" x:Name="confirm_cancel"/>
 	</Grid>
