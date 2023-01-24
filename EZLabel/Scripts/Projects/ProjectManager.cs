@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QLabel.Scripts.AnnotationData;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace QLabel.Scripts.Projects {
 		public static int cur_label_index = 0;
 		private const string project_name = "project";
 
+		public static event Action<ImageData, AnnoData>? eAnnoDataAdded, eAnnoDataRemoved;
 		public static bool NewProject (string directory) {
 			if ( directory != cur_dir ) {
 				if ( cur_dir != null ) {
@@ -40,6 +42,18 @@ namespace QLabel.Scripts.Projects {
 				}
 			}
 			return true;
+		}
+		public static void AddAnnoData (ImageData imgdata, AnnoData annodata) {
+			if ( imgdata != null && annodata != null && !imgdata.GetAnnoData().Contains(annodata) ) {
+				imgdata.AddAnnoData(annodata);   // 加入到 annodata 中
+				eAnnoDataAdded?.Invoke(imgdata, annodata);
+			}
+		}
+		public static void RemoveAnnoData (ImageData imgdata, AnnoData annodata) {
+			if ( imgdata != null && annodata != null && imgdata.GetAnnoData().Contains(annodata) ) {
+				imgdata.RemoveAnnoData(annodata);   // 加入到 annodata 中
+				eAnnoDataRemoved?.Invoke(imgdata, annodata);
+			}
 		}
 		public static void SaveProject () {
 			throw new NotImplementedException();

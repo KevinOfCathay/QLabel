@@ -74,6 +74,7 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 				foreach ( var ad in ads ) {
 					var element = ad.CreateAnnotationElement(canvas);
 					canvas.AddAnnoElements(element);
+					ProjectManager.AddAnnoData(ProjectManager.cur_datafile, ad);
 				}
 			}
 		}

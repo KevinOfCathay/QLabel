@@ -17,8 +17,6 @@
 		</MenuItem>
 		<MenuItem Header="_Edit" >
 			<MenuItem Header="_Undo" Click="Undo_Click"/>
-		</MenuItem>
-		<MenuItem Header="_Image">
 			<MenuItem Header="_Adjustments">
 				<MenuItem Header="Brightness/Contrast" />
 			</MenuItem>

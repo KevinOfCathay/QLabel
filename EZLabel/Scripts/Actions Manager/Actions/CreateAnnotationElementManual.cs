@@ -1,4 +1,5 @@
-﻿using QLabel.Windows.Main_Canvas;
+﻿using QLabel.Scripts.Projects;
+using QLabel.Windows.Main_Canvas;
 using QLabel.Windows.Main_Canvas.Annotation_Elements;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,11 @@ namespace QLabel {
 		}
 		public void Do () {
 			cvs.AddAnnoElements(element);
+			ProjectManager.AddAnnoData(ProjectManager.cur_datafile, element.data);
 		}
 		public void Undo () {
 			cvs.RemoveAnnoElements(element);
+			ProjectManager.RemoveAnnoData(ProjectManager.cur_datafile, element.data);
 		}
 	}
 }

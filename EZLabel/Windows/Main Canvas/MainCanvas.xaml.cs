@@ -103,10 +103,20 @@ namespace QLabel.Windows.Main_Canvas {
 
 		}
 		/// <summary>
+		/// 将 ImageData 中的所有 annotation 放置到画布上
+		/// </summary>
+		public void LoadAnnotations (ImageData data) {
+			foreach ( var anno in data.GetAnnoData() ) {
+				var elem = anno.CreateAnnotationElement(this);
+				AddAnnoElements(elem);
+			}
+		}
+		/// <summary>
 		/// 将图片加载到画布上
 		/// </summary>
-		public async void LoadImage (string path) {
-			BitmapImage image = await Util.ReadImageFromFileAsync(path);
+		public async void LoadImage (ImageData data) {
+			string image_path = data.path;
+			BitmapImage image = await Util.ReadImageFromFileAsync(image_path);
 			double height = image.PixelHeight;
 			double width = image.PixelWidth;
 
@@ -144,9 +154,6 @@ namespace QLabel.Windows.Main_Canvas {
 		public void AddAnnoElements (IAnnotationElement element) {
 			if ( can_annotate ) {          // 只有在画布上有内容时才会加入 element
 				if ( element != null ) {
-					if ( ProjectManager.cur_datafile != null ) {
-						ProjectManager.cur_datafile.AddAnnoData(element.data);   // 加入到 annodata 中
-					}
 					annotation_collection.Add(element);
 					eAnnotationElementAdded?.Invoke(this, element);
 				}
@@ -156,9 +163,6 @@ namespace QLabel.Windows.Main_Canvas {
 			if ( can_annotate ) {          // 只有在画布上有内容时才会加入 element
 				if ( elements != null ) {
 					foreach ( var element in elements ) {
-						if ( ProjectManager.cur_datafile != null ) {
-							ProjectManager.cur_datafile.AddAnnoData(element.data);   // 加入到 annodata 中
-						}
 						annotation_collection.Add(element);
 						eAnnotationElementAdded?.Invoke(this, element);
 					}
@@ -167,7 +171,6 @@ namespace QLabel.Windows.Main_Canvas {
 		}
 		public void RemoveAnnoElements (IAnnotationElement element) {
 			if ( element != null && annotation_collection.Contains(element) ) {
-				ProjectManager.cur_datafile.RemoveAnnoData(element.data);
 				annotation_collection.Remove(element);
 				element.Delete(this);
 				eAnnotationElementRemoved?.Invoke(this, element);

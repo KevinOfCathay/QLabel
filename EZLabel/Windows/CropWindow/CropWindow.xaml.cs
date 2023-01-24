@@ -66,7 +66,7 @@ namespace QLabel.Windows.CropWindow {
 		}
 		private async void CropSave (ImageData data, string top_dir) {
 			string path = data.path;
-			if ( System.IO.Path.Exists(path) ) {
+			if ( Path.Exists(path) ) {
 				// 读取图片
 				BitmapImage bitmap = await Util.ReadImageFromFileAsync(path);
 
@@ -78,7 +78,8 @@ namespace QLabel.Windows.CropWindow {
 					cropped.Freeze();
 					try {
 						await Util.SaveCroppedImage(cropped,
-							Path.Join(top_dir, ad.clas.GetName() + "_" + index.ToString()) + ".png");
+							Path.Join(top_dir,
+							string.Join("_", data.filename, ad.clas.group, ad.clas.name, index.ToString()) + ".png"));
 						index += 1;
 					} catch { }
 				}

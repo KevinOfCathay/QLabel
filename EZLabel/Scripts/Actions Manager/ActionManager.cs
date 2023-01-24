@@ -11,10 +11,13 @@ namespace QLabel {
 			actions.Push(action);
 		}
 		public static void PopAction () {
-			if (actions.Count > 0 ) {
+			if ( actions.Count > 0 ) {
 				var action = actions.Pop();
 				action.Undo();
 			}
+		}
+		public static void Flush () {
+			actions.Clear();
 		}
 	}
 }

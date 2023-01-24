@@ -31,8 +31,6 @@ namespace QLabel.Scripts.Projects {
 		private List<AnnoData> annodata = new List<AnnoData>();
 		private Dictionary<ClassLabel, int> label_counts = new Dictionary<ClassLabel, int>();  // 这个文件所包含的 class label
 
-		public event Action<AnnoData> eAddAnnoData, eRemoveAnnoData;
-
 		#region Data
 		public IEnumerable<AnnoData> GetAnnoData () {
 			return annodata;
@@ -44,7 +42,6 @@ namespace QLabel.Scripts.Projects {
 			} else {
 				label_counts[data.clas] = 1;
 			}
-			eAddAnnoData?.Invoke(data);
 		}
 		public void RemoveAnnoData (AnnoData data) {
 			annodata.Remove(data);
@@ -52,7 +49,6 @@ namespace QLabel.Scripts.Projects {
 				label_counts[data.clas] -= 1;
 				if ( label_counts[data.clas] <= 0 ) { label_counts.Remove(data.clas); }
 			}
-			eRemoveAnnoData?.Invoke(data);
 		}
 		public Dictionary<ClassLabel, int> GetLabelCounts () {
 			return label_counts;
