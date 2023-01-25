@@ -31,7 +31,7 @@ namespace QLabel.Scripts.AnnotationToolManager {
 
 		public void DrawRectangle (MainCanvas canvas, Vector2 tl, Vector2 br) {
 			rect = new DraggableRectangle();
-			rect.Redraw(canvas.annotation_canvas, tl, br);
+			rect.Draw(canvas.annotation_canvas, new Vector2[] { tl, br });
 			canvas.annotation_canvas.Children.Add(rect);
 		}
 		public void CreateNewRectangle (MainCanvas canvas, MouseEventArgs e) {

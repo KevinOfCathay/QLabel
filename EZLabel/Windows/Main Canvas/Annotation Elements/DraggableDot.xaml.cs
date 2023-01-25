@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -30,7 +30,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			InitializeComponent();
 		}
 
-		public void Draw (Canvas canvas, Point[] points) {
+		public void Draw (Canvas canvas, Vector2[] points) {
 			if ( points != null && points.Length >= 1 ) {
 				Canvas.SetLeft(this, points[0].X);
 				Canvas.SetTop(this, points[0].Y);

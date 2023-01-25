@@ -68,13 +68,15 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 		/// 当前的 inference 只适用于当前被打开的图像
 		/// </summary>
 		private void apply_button_Click (object sender, RoutedEventArgs e) {
-			machine.BuildSession();
-			if ( canvas != null && canvas.can_annotate ) {
-				var ads = machine.RunInference(ProjectManager.cur_datafile, accepted_classes);
-				foreach ( var ad in ads ) {
-					var element = ad.CreateAnnotationElement(canvas);
-					canvas.AddAnnoElements(element);
-					ProjectManager.AddAnnoData(ProjectManager.cur_datafile, ad);
+			if ( machine != null ) {
+				machine.BuildSession();
+				if ( canvas != null && canvas.can_annotate ) {
+					var ads = machine.RunInference(ProjectManager.cur_datafile, accepted_classes);
+					foreach ( var ad in ads ) {
+						var element = ad.CreateAnnotationElement(canvas);
+						canvas.AddAnnoElements(element);
+						ProjectManager.AddAnnoData(ProjectManager.cur_datafile, ad);
+					}
 				}
 			}
 		}

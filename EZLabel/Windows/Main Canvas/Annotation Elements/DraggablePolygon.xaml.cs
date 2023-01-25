@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -30,7 +31,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Delete (MainCanvas canvas) {
 			canvas.annotation_canvas.Children.Remove(this);
 		}
-		public void Draw (Canvas canvas, Point[] points) {
+		public void Draw (Canvas canvas, Vector2[] points) {
 			throw new NotImplementedException();
 		}
 		public void Show () {

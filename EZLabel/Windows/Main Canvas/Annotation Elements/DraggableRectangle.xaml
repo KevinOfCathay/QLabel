@@ -50,11 +50,20 @@
 			VerticalAlignment="Bottom"
 			 Margin="3,-3,-3,-3"
 			></local:DraggableDot>
-		<Label Name="class_label" BorderThickness="1"
-			FontSize="7.5"
-			Foreground="#FF6FA46F"
+		<Label Name="class_label" 
+			Padding="1"
+			Margin="2"
+			FontSize="10.5"
+			Foreground="#FF3B7E61"
 			HorizontalAlignment="Right"
-			VerticalAlignment="Bottom" FontWeight="Bold">[LBL]</Label>
+			VerticalAlignment="Bottom" FontWeight="Bold" Background="#FFEBFBFF">
+			[LBL]
+			<Label.Resources>
+				<Style TargetType="Border">
+					<Setter Property="CornerRadius" Value="4"/>
+				</Style>
+			</Label.Resources>
+		</Label>
 	</Grid>
 
 </UserControl>

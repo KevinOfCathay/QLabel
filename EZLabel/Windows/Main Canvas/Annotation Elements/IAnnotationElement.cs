@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,7 +21,7 @@ namespace QLabel.Windows.Main_Canvas {
 		/// 根据所定义的点，
 		/// 对元素进行绘制 / 重新绘制
 		/// </summary>
-		public void Draw (Canvas canvas, Point[] points);
+		public void Draw (Canvas canvas, Vector2[] points);
 		/// <summary>
 		/// 从画布上删除元素
 		/// </summary>

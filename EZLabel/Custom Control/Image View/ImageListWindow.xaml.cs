@@ -37,12 +37,11 @@ namespace QLabel.Custom_Control.Image_View {
 		/// <summary>
 		/// 从路径列表中设置 UI
 		/// </summary>
-		public async void SetListUI (List<ImageData> datalist) {
+		public async Task SetListUI (List<ImageData> datalist) {
 			foreach ( var data in datalist ) {
 				ImageListItem new_item = new ImageListItem();
-
+				Task<BitmapImage> readimagethumbnail = Util.ReadImageFromFileAsync(data.path, decode_width: 100);
 				new_item.data = data;
-				new_item.thumbnail_image.Source = await Util.ReadImageFromFileAsync(data.path, decode_width: 100);
 				new_item.image_name.Text = data.filename;
 
 				this.image_view_listbox.Items.Add(new_item);
@@ -50,6 +49,7 @@ namespace QLabel.Custom_Control.Image_View {
 				TextBlock txtblock = new TextBlock { Text = data.filename };
 				this.image_listbox.Items.Add(txtblock);
 
+				new_item.thumbnail_image.Source = await readimagethumbnail;
 				eImageListUICreated?.Invoke(this, new_item); // 触发 UI 创建事件
 			}
 		}

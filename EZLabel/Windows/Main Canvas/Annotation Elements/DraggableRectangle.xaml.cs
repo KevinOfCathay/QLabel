@@ -47,7 +47,6 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			// 拖动 dots 的时候进行大小的调整
 
 		}
-
 		/// <summary>
 		/// 绘制矩形区域
 		/// </summary>
@@ -56,25 +55,6 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			container.Height = MathF.Abs(height);
 			eRedraw?.Invoke(this, width, height);
 		}
-
-		/// <summary>
-		/// 在画布上绘制/重新绘制
-		/// 矩形区域的大小与位置由左上角的顶点 tl 与右下角的顶点 br 确定
-		/// </summary>
-		public void Redraw (Canvas canvas, Vector2 tl, Vector2 br) {
-			// 定义矩形 (左上角) 的位置 
-			Canvas.SetLeft(this, tl.X); this.topleft = tl;
-			Canvas.SetTop(this, tl.Y); this.bottomright = br;
-
-			// 定义矩形的长和宽
-			// X: width, Y: height
-			size = new Vector2(MathF.Abs(bottomright.X - topleft.X), MathF.Abs(bottomright.Y - topleft.Y));
-			container.Width = size.X;
-			container.Height = size.Y;
-
-			eRedraw?.Invoke(this, size.X, size.Y);
-		}
-
 		/// <summary>
 		/// 在画布上绘制/重新绘制
 		/// 矩形区域的大小与位置由左上角的顶点 tl 与右下角的顶点 br 确定
@@ -106,6 +86,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 				dot.dot.Fill = Brushes.brush_dot_fill_solid;
 			}
 			class_label.Foreground = Brushes.brush_label_text_foreground_solid;
+			class_label.Background = Brushes.brush_label_text_background_solid;
 		}
 
 		private void container_MouseLeave (object sender, MouseEventArgs e) {
@@ -115,6 +96,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 				dot.dot.Fill = Brushes.brush_dot_fill_transparent;
 			}
 			class_label.Foreground = Brushes.brush_label_text_foreground_transparent;
+			class_label.Background = Brushes.brush_label_text_background_transparent;
 		}
 		/// <summary>
 		/// 从画布上移除这个元素
@@ -122,8 +104,33 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Delete (MainCanvas canvas) {
 			canvas.annotation_canvas.Children.Remove(this);
 		}
-		public void Draw (Canvas canvas, Point[] points) {
-			throw new NotImplementedException();
+		/// <summary>
+		/// 在画布上绘制/重新绘制
+		/// 矩形区域的大小与位置由左上角的顶点 tl 与右下角的顶点 br 确定
+		/// </summary>
+		public void Draw (Canvas canvas, Vector2[] points) {
+			// 定义矩形 (左上角，右下角) 的位置 
+			Vector2 tl, br;
+			switch ( points.Length ) {
+				case 2:
+					tl = points[0]; br = points[1];
+					break;
+				case 4:
+					tl = points[0]; br = points[3];
+					break;
+				default:
+					throw new ArgumentException("The length of points should be either 2 or 4.");
+			}
+			Canvas.SetLeft(this, tl.X); this.topleft = tl;
+			Canvas.SetTop(this, tl.Y); this.bottomright = br;
+
+			// 定义矩形的长和宽
+			// X: width, Y: height
+			size = new Vector2(MathF.Abs(bottomright.X - topleft.X), MathF.Abs(bottomright.Y - topleft.Y));
+			container.Width = size.X;
+			container.Height = size.Y;
+
+			eRedraw?.Invoke(this, size.X, size.Y);
 		}
 		public void Show () {
 			Visibility = Visibility.Visible;

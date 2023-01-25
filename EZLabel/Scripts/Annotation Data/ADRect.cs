@@ -22,7 +22,7 @@ namespace QLabel.Scripts.AnnotationData {
 			DraggableRectangle rect = new DraggableRectangle { data = this };
 			Vector2 tl = canvas.CanvasPosition(points[0]);
 			Vector2 br = canvas.CanvasPosition(points[3]);
-			rect.Redraw(canvas.annotation_canvas, tl, br);
+			rect.Draw(canvas.annotation_canvas, new Vector2[] { tl, br });
 
 			// 将新创建的矩形加入到画布中
 			canvas.annotation_canvas.Children.Add(rect);

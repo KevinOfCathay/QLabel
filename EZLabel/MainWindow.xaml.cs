@@ -2,6 +2,7 @@
 using QLabel.Scripts.Projects;
 using QLabel.Windows.Main_Canvas;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -19,7 +20,7 @@ namespace QLabel {
 		public void RegisterEvents () {
 			ilw.eImageListUICreated += (ImageListWindow window, ImageListItem item) => {
 				// 切换图片时的事件
-				item.eSwitchImage += (i) => {
+				item.eSwitchImage += async (i) => {
 					// 判断当前点击的文件是否是已经被打开的文件
 					if ( i.data != ProjectManager.cur_datafile ) {
 						// 清空之前图片的注释
@@ -27,7 +28,9 @@ namespace QLabel {
 						// 清除上一张图片在画布上的所有元素
 						main_canvas.ClearCanvas();
 						// 点击 List 中的 image 图像来加载图片
-						main_canvas.LoadImage(item.data);
+						// 这个需要 await，所以 img_scale 可以正确被设置
+						Task loadimg = main_canvas.LoadImage(item.data);
+						await loadimg;
 						main_canvas.LoadAnnotations(item.data);
 						// 设置图像属性UI
 						misc_panel.image_properties_panel.SetUI(item.data);

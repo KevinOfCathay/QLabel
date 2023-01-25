@@ -18,8 +18,8 @@ namespace QLabel.Windows.Main_Canvas {
 	public partial class MainCanvas : UserControl {
 		private float image_scale = 0f;          // image scale level
 		public bool can_annotate { get; private set; } = false;      // 当前画布是否可以进行标注
-		public Point image_size { get; private set; } = new Point(0, 0);      // 图片大小，用于计算annotation的位置，在未加载时图片大小为 0
-		public Point image_offset { get; private set; } = new Point(0, 0);      // 图片在画布上的偏移量，用于计算annotation的位置，在未加载时图片，或者图片居中时大小为 0		
+		public Vector2 image_size { get; private set; } = new Vector2(0, 0);      // 图片大小，用于计算annotation的位置，在未加载时图片大小为 0
+		public Vector2 image_offset { get; private set; } = new Vector2(0, 0);      // 图片在画布上的偏移量，用于计算annotation的位置，在未加载时图片，或者图片居中时大小为 0		
 		public event Action<MainCanvas, double> eCanvasRescale;      // 画布改变大小（影响画布上所有元素的大小和位置）
 		public event Action<MainCanvas, BitmapImage> eImageLoaded;
 		public event Action<MainCanvas, IAnnotationElement> eAnnotationElementAdded, eAnnotationElementRemoved;
@@ -114,7 +114,7 @@ namespace QLabel.Windows.Main_Canvas {
 		/// <summary>
 		/// 将图片加载到画布上
 		/// </summary>
-		public async void LoadImage (ImageData data) {
+		public async Task LoadImage (ImageData data) {
 			string image_path = data.path;
 			BitmapImage image = await Util.ReadImageFromFileAsync(image_path);
 			double height = image.PixelHeight;
@@ -180,8 +180,8 @@ namespace QLabel.Windows.Main_Canvas {
 		/// 从 scrollbar 中获取当前的 offset
 		/// 如果 offset = 0, 意味着 scrollbar 没有转动
 		/// </summary>
-		private Point GetOffsetFromScroll () {
-			return new Point(scroll.HorizontalOffset, scroll.VerticalOffset);
+		private Vector2 GetOffsetFromScroll () {
+			return new Vector2((float) scroll.HorizontalOffset, (float) scroll.VerticalOffset);
 		}
 		private void canvas_PreviewMouseDown (object sender, MouseButtonEventArgs e) {
 			eMouseDown?.Invoke(this, e);
@@ -195,7 +195,7 @@ namespace QLabel.Windows.Main_Canvas {
 
 		private void scroll_ScrollChanged (object sender, ScrollChangedEventArgs e) {
 			// 重新设定图片的 offset
-			Point p = GetOffsetFromScroll();
+			Vector2 p = GetOffsetFromScroll();
 			image_offset = p;
 		}
 		private void annotation_canvas_PreviewMouseMove (object sender, MouseEventArgs e) {
