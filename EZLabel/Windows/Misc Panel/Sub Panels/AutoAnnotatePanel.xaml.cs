@@ -81,7 +81,21 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 			}
 		}
 		private void apply_all_button_Click (object sender, RoutedEventArgs e) {
-
+			if ( machine != null ) {
+				machine.BuildSession();
+				if ( canvas != null && canvas.can_annotate ) {
+					foreach ( var file in ProjectManager.project.data_list ) {
+						var ads = machine.RunInference(file, accepted_classes);
+						foreach ( var ad in ads ) {
+							ProjectManager.AddAnnoData(file, ad);
+							if ( file == ProjectManager.cur_datafile ) {
+								var element = ad.CreateAnnotationElement(canvas);
+								canvas.AddAnnoElements(element);
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }

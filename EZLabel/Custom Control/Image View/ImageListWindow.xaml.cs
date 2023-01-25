@@ -37,7 +37,7 @@ namespace QLabel.Custom_Control.Image_View {
 		/// <summary>
 		/// 从路径列表中设置 UI
 		/// </summary>
-		public async Task SetListUI (List<ImageData> datalist) {
+		public async Task SetListUI (IEnumerable<ImageData> datalist) {
 			foreach ( var data in datalist ) {
 				ImageListItem new_item = new ImageListItem();
 				Task<BitmapImage> readimagethumbnail = Util.ReadImageFromFileAsync(data.path, decode_width: 100);

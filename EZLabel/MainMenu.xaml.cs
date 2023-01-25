@@ -41,7 +41,6 @@ namespace QLabel {
 							var files = Directory.GetFiles(directory);
 
 							int index = 0;
-							List<ImageData> data = new List<ImageData>();          // 存放 ImageData 的 List
 							foreach ( var fi in files ) {
 								string ext = System.IO.Path.GetExtension(fi).ToLower();
 								// 如果当前文件属于图片文件，则加载
@@ -59,7 +58,7 @@ namespace QLabel {
 												height = tif.PhysicalDimension.Height,
 												format = tif.PixelFormat
 											};
-											data.Add(imgdata);
+											ProjectManager.project.AddImageData(imgdata);
 											if ( fi == selected_file ) {
 												// 如果当前被选择的文件属于图像
 												// 则加载该图像
@@ -71,11 +70,9 @@ namespace QLabel {
 											index += 1;
 										}
 									}
-
 								}
 							}
-							ProjectManager.project.data_list = data;          // 更新当前 project 的 Datalist
-							main.ilw.SetListUI(data);
+							main.ilw.SetListUI(ProjectManager.project.data_list);
 						}
 					} catch ( Exception ) {
 					}

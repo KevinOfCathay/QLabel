@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using QLabel.Scripts.Projects;
 using QLabel.Scripts.AnnotationData;
+using System.Drawing.Imaging;
 
 namespace QLabel.Scripts.Inference_Machine {
 	internal sealed class Yolov5Inference : BaseInferenceMachine {
@@ -34,14 +35,21 @@ namespace QLabel.Scripts.Inference_Machine {
 		protected override DenseTensor<float> GetInputTensor (Bitmap image) {
 			var input = new DenseTensor<float>(input_dims);
 
-			foreach ( var x in Enumerable.Range(0, width) ) {
-				foreach ( var y in Enumerable.Range(0, height) ) {
-					var pixel = image.GetPixel(x, y);
-					// 这里的顺序应当为 batch, channel, y, x
-					input[0, 0, y, x] = ( (float) ( pixel.R ) ) / 255f;
-					input[0, 1, y, x] = ( (float) ( pixel.G ) ) / 255f;
-					input[0, 2, y, x] = ( (float) ( pixel.B ) ) / 255f;
-				}
+			// https://stackoverflow.com/a/74337947
+			BitmapData bitmap_data = image.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+			int bytesPerPixel = Image.GetPixelFormatSize(bitmap_data.PixelFormat) / 8;
+			int stride = bitmap_data.Stride;
+
+			unsafe {
+				Parallel.For(0, height, (y) => {
+					Parallel.For(0, width, (x) => {
+						var rgb = (byte*) ( bitmap_data.Scan0 + y * stride );
+						// 这里的顺序应当为 batch, channel, y, x
+						input[0, 0, y, x] = ( (float) ( rgb[x * bytesPerPixel + 0] ) ) / 255f;
+						input[0, 1, y, x] = ( (float) ( rgb[x * bytesPerPixel + 1] ) ) / 255f;
+						input[0, 2, y, x] = ( (float) ( rgb[x * bytesPerPixel + 2] ) ) / 255f;
+					});
+				});
 			}
 			return input;
 		}
@@ -116,7 +124,7 @@ namespace QLabel.Scripts.Inference_Machine {
 			// 根据 result 建立 annodata
 			for ( int i = 0; i < len; i += 1 ) {
 				ReadOnlySpan<Vector2> points = new ReadOnlySpan<Vector2>(
-					new Vector2[] {
+					new[]{
 						// 将输出的点映射到源图像上的点
 						new Vector2(final_boxes[i].X,final_boxes[i].Y)*scale,
 						new Vector2(final_boxes[i].X+final_boxes[i].Width,final_boxes[i].Y)*scale,

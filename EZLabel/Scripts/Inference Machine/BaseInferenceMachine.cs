@@ -40,7 +40,7 @@ namespace QLabel.Scripts.Inference_Machine {
 			if ( data != null ) {
 				var bitmap = new Bitmap(Image.FromFile(data.path));
 				int w = bitmap.Width; int h = bitmap.Height;
-				var result = new Bitmap(target_width, target_height);
+				var result = new Bitmap(target_width, target_height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 				using ( Graphics g = Graphics.FromImage((Image) result) ) {
 					g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
 					g.DrawImage(bitmap, 0, 0, target_width, target_height);

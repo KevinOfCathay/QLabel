@@ -85,7 +85,7 @@ namespace QLabel.Windows.CropWindow {
 				}
 			}
 		}
-		private HashSet<ClassLabel> GetClassLabels (ImageData[] data) {
+		private HashSet<ClassLabel> GetClassLabels (IEnumerable<ImageData> data) {
 			HashSet<ClassLabel> labels = new HashSet<ClassLabel>();
 			foreach ( var d in data ) {
 				foreach ( var (lb, _) in d.GetLabelCounts() ) {
@@ -103,7 +103,7 @@ namespace QLabel.Windows.CropWindow {
 						classlabels = GetClassLabels(new ImageData[] { ProjectManager.cur_datafile });
 						break;
 					case Target.All:
-						classlabels = GetClassLabels(ProjectManager.project.data_list.ToArray());
+						classlabels = GetClassLabels(ProjectManager.project.data_list);
 						break;
 					default:
 						classlabels = GetClassLabels(new ImageData[] { ProjectManager.cur_datafile });
