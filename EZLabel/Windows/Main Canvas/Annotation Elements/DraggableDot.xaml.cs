@@ -36,6 +36,9 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 				Canvas.SetTop(this, points[0].Y);
 			}
 		}
+		public void Shift (Canvas canvas, Vector2 shift) {
+			throw new NotImplementedException();
+		}
 
 		private void dot_PreviewMouseDown (object sender, MouseButtonEventArgs e) {
 			if ( sender == e.OriginalSource ) {

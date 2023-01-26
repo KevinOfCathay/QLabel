@@ -34,6 +34,9 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Draw (Canvas canvas, Vector2[] points) {
 			throw new NotImplementedException();
 		}
+		public void Shift (Canvas canvas, Vector2 shift) {
+			throw new NotImplementedException();
+		}
 		public void Show () {
 			Visibility = Visibility.Visible;
 		}

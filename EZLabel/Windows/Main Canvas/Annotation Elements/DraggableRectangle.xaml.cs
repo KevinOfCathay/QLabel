@@ -138,5 +138,8 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Hide () {
 			Visibility = Visibility.Hidden;
 		}
+		public void Shift (Canvas canvas, Vector2 shift) {
+			throw new NotImplementedException();
+		}
 	}
 }

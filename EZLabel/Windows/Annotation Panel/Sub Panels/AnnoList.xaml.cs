@@ -1,6 +1,8 @@
 ﻿using QLabel.Scripts.AnnotationData;
 using QLabel.Scripts.Utils;
 using QLabel.Windows.Main_Canvas;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows;
@@ -13,15 +15,29 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 	/// </summary>
 	public partial class AnnoList : UserControl {
 		public record class Row {
-			public string Index { get; set; }
+			public int Index { get; set; }
 			public string Type { get; set; }
 			public string Class { get; set; }
 			public string Label { get; set; }
 			public string Group { get; set; }
 			public string Points { get; set; }
 			public AnnoData data { get; set; }
+			public IComparable this[int i] {
+				get {
+					switch ( i ) {
+						case 0: return Index;
+						case 1: return Type;
+						case 2: return Class;
+						case 3: return Label;
+						case 4: return Group;
+						case 5: return Points;
+						default: return Index;
+					}
+				}
+			}
 		}
 		public ObservableCollection<Row> rows { get; } = new ObservableCollection<Row>();
+		public int col_sort_index = 1;
 
 		public AnnoList () {
 			InitializeComponent();
@@ -32,8 +48,11 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 		/// </summary>
 		public void AddItem (IAnnotationElement elem) {
 			var data = elem.data;
+			var num_rows = rows.Count;
+
+			// 从上往下进行排序
 			var row = new Row {
-				Index = this.listview.Items.Count.ToString(),
+				Index = this.listview.Items.Count,
 				Type = data.type.ToString(),
 				Class = data.clas.name,
 				Group = data.clas.group,
@@ -41,7 +60,15 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 				Label = data.label,
 				data = data
 			};
+			int new_index = 0;
+			foreach ( var r in rows ) {
+				if ( r[col_sort_index].CompareTo(row[col_sort_index]) > 0 ) {
+					break;
+				}
+				new_index += 1;
+			}
 			rows.Add(row);
+			rows.Move(num_rows, new_index);
 		}
 		public void RemoveItem (IAnnotationElement elem) {
 			var data = elem.data;

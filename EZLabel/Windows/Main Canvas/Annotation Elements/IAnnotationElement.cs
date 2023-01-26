@@ -23,6 +23,10 @@ namespace QLabel.Windows.Main_Canvas {
 		/// </summary>
 		public void Draw (Canvas canvas, Vector2[] points);
 		/// <summary>
+		/// 平移元素，shift 定义了元素平移量（x, y)
+		/// </summary>
+		public void Shift (Canvas canvas, Vector2 shift);
+		/// <summary>
 		/// 从画布上删除元素
 		/// </summary>
 		public void Delete (MainCanvas canvas);
