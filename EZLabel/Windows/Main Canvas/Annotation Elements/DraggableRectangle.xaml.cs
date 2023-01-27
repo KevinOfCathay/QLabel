@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Media3D;
 
 namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
@@ -17,10 +18,11 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 	/// 矩形
 	/// </summary>
 	public partial class DraggableRectangle : UserControl, IAnnotationElement {
+
 		/// <summary>
 		/// 当长方形被重新绘制时触发
 		/// </summary>
-		public Action<DraggableRectangle, float, float> eRedraw;
+		public Action<DraggableRectangle, float, float> eDraw;
 		public DraggableDot[] dots = new DraggableDot[5];
 		private Vector2 topleft, bottomright, size;
 
@@ -53,22 +55,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Resize (Canvas canvas, float width, float height) {
 			container.Width = MathF.Abs(width);
 			container.Height = MathF.Abs(height);
-			eRedraw?.Invoke(this, width, height);
-		}
-		/// <summary>
-		/// 在画布上绘制/重新绘制
-		/// 矩形区域的大小与位置由左上角的顶点 tl 与右下角的顶点 br 确定
-		/// </summary>
-		public void Redraw (Canvas canvas, Vector2 tl, float width, float height) {
-			// 定义矩形 (左上角) 的位置 
-			Canvas.SetTop(this, tl.X); this.topleft = tl;
-			Canvas.SetLeft(this, tl.Y); this.bottomright = tl + new Vector2(width, height);
-			size = new Vector2(MathF.Abs(bottomright.X - topleft.X), MathF.Abs(bottomright.Y - topleft.Y));
-
-			container.Width = Math.Abs(width);
-			container.Height = Math.Abs(height);
-
-			eRedraw?.Invoke(this, width, height);
+			eDraw?.Invoke(this, width, height);
 		}
 
 		/// <summary>
@@ -82,21 +69,21 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		private void container_MouseEnter (object sender, MouseEventArgs e) {
 			// 改变四个点的透明度
 			foreach ( var dot in dots ) {
-				dot.dot.Stroke = Brushes.brush_dot_stroke_solid;
-				dot.dot.Fill = Brushes.brush_dot_fill_solid;
+				dot.dot.Stroke = IAnnotationElement.brush_dot_stroke_solid;
+				dot.dot.Fill = IAnnotationElement.brush_dot_fill_solid;
 			}
-			class_label.Foreground = Brushes.brush_label_text_foreground_solid;
-			class_label.Background = Brushes.brush_label_text_background_solid;
+			class_label.Foreground = IAnnotationElement.brush_label_text_foreground_solid;
+			class_label.Background = IAnnotationElement.brush_label_text_background_solid;
 		}
 
 		private void container_MouseLeave (object sender, MouseEventArgs e) {
 			// 改变四个点的透明度
 			foreach ( var dot in dots ) {
-				dot.dot.Stroke = Brushes.brush_dot_stroke_transparent;
-				dot.dot.Fill = Brushes.brush_dot_fill_transparent;
+				dot.dot.Stroke = IAnnotationElement.brush_dot_stroke_transparent;
+				dot.dot.Fill = IAnnotationElement.brush_dot_fill_transparent;
 			}
-			class_label.Foreground = Brushes.brush_label_text_foreground_transparent;
-			class_label.Background = Brushes.brush_label_text_background_transparent;
+			class_label.Foreground = IAnnotationElement.brush_label_text_foreground_transparent;
+			class_label.Background = IAnnotationElement.brush_label_text_background_transparent;
 		}
 		/// <summary>
 		/// 从画布上移除这个元素
@@ -106,7 +93,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		}
 		/// <summary>
 		/// 在画布上绘制/重新绘制
-		/// 矩形区域的大小与位置由左上角的顶点 tl 与右下角的顶点 br 确定
+		/// 矩形区域的大小与位置由左上角的顶点 tl (left, top) 与右下角的顶点 br (bottom, right) 确定
 		/// </summary>
 		public void Draw (Canvas canvas, Vector2[] points) {
 			// 定义矩形 (左上角，右下角) 的位置 
@@ -130,16 +117,24 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			container.Width = size.X;
 			container.Height = size.Y;
 
-			eRedraw?.Invoke(this, size.X, size.Y);
+			// 触发绘制/重新绘制事件
+			eDraw?.Invoke(this, size.X, size.Y);
+		}
+		public void Shift (Canvas canvas, Vector2 shift) {
+			this.topleft += shift;
+			this.bottomright += shift;
+
+			Canvas.SetTop(this, this.topleft.X);
+			Canvas.SetLeft(this, this.topleft.Y);
+
+			// 触发绘制/重新绘制事件
+			eDraw?.Invoke(this, size.X, size.Y);
 		}
 		public void Show () {
 			Visibility = Visibility.Visible;
 		}
 		public void Hide () {
 			Visibility = Visibility.Hidden;
-		}
-		public void Shift (Canvas canvas, Vector2 shift) {
-			throw new NotImplementedException();
 		}
 	}
 }

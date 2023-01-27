@@ -65,7 +65,8 @@ namespace QLabel.Scripts.AnnotationToolManager {
 					if ( cur_p.Y < y ) {
 						(top, bottom) = (bottom, top);          // 交换值
 					}
-					rect.Redraw(canvas.annotation_canvas, new Vector2(top, left), right - left, bottom - top);
+					rect.Draw(canvas.annotation_canvas,
+						new Vector2[] { new Vector2(left, top), new Vector2(right, bottom) });
 				}
 			}
 		}

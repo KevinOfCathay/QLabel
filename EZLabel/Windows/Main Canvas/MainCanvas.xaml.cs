@@ -18,6 +18,7 @@ namespace QLabel.Windows.Main_Canvas {
 	public partial class MainCanvas : UserControl {
 		private float image_scale = 0f;          // image scale level
 		public bool can_annotate { get; private set; } = false;      // 当前画布是否可以进行标注
+		public Vector2 canvas_size { get; private set; } = new Vector2(0, 0);
 		public Vector2 image_size { get; private set; } = new Vector2(0, 0);      // 图片大小，用于计算annotation的位置，在未加载时图片大小为 0
 		public Vector2 image_offset { get; private set; } = new Vector2(0, 0);      // 图片在画布上的偏移量，用于计算annotation的位置，在未加载时图片，或者图片居中时大小为 0		
 		public event Action<MainCanvas, double> eCanvasRescale;      // 画布改变大小（影响画布上所有元素的大小和位置）
@@ -141,6 +142,9 @@ namespace QLabel.Windows.Main_Canvas {
 			canvas_image.Width = target_width;
 			canvas_image.Height = target_height;
 
+			// 设置画布的尺寸
+			canvas_size = new Vector2((float) annotation_canvas.ActualWidth, (float) annotation_canvas.ActualHeight);
+
 			// 重置图像的 offset
 			image_offset = GetOffsetFromScroll();
 
@@ -188,8 +192,13 @@ namespace QLabel.Windows.Main_Canvas {
 		}
 
 		private void AnnotationCanvasSizeChanged (object sender, SizeChangedEventArgs e) {
-			var h = annotation_canvas.ActualHeight;
 			var w = annotation_canvas.ActualWidth;
+			var h = annotation_canvas.ActualHeight;
+			var new_size = new Vector2((float) w, (float) h);
+			foreach ( var elem in annotation_collection ) {
+				elem.Shift(this.annotation_canvas, ( new_size - canvas_size ) / 2f);
+			}
+			canvas_size = new_size;
 			eCanvasSizeChanged?.Invoke(this, w, h);
 		}
 

@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using static QLabel.Windows.Annotation_Panel.Sub_Panels.AnnoList;
 
 namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 	/// <summary>
@@ -17,20 +18,20 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 		public record class Row {
 			public int Index { get; set; }
 			public string Type { get; set; }
+			public string Points { get; set; }
 			public string Class { get; set; }
 			public string Label { get; set; }
 			public string Group { get; set; }
-			public string Points { get; set; }
 			public AnnoData data { get; set; }
 			public IComparable this[int i] {
 				get {
 					switch ( i ) {
 						case 0: return Index;
 						case 1: return Type;
-						case 2: return Class;
-						case 3: return Label;
-						case 4: return Group;
-						case 5: return Points;
+						case 2: return Points;
+						case 3: return Class;
+						case 4: return Label;
+						case 5: return Group;
 						default: return Index;
 					}
 				}
@@ -86,7 +87,30 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 			this.rows.Clear();
 		}
 		private void Col_Click (object sender, RoutedEventArgs e) {
-
+			// https://stackoverflow.com/a/47199297
+			var s = e.OriginalSource as GridViewColumnHeader;
+			if ( s != null ) {
+				GridViewHeaderRowPresenter presenter = s.Parent as GridViewHeaderRowPresenter;
+				if ( presenter != null ) {
+					col_sort_index = presenter.Columns.IndexOf(s.Column);
+					SortRows();
+				}
+			}
+		}
+		/// <summary>
+		/// 重新排列所有的行
+		/// </summary>
+		private void SortRows () {
+			int count = rows.Count;
+			Row[] new_rows = new Row[count];
+			for ( int i = 0; i < count; i += 1 ) {
+				new_rows[i] = rows[i];
+			}
+			Array.Sort(new_rows, (A, B) => { return A[col_sort_index].CompareTo(B[col_sort_index]); });
+			rows.Clear();
+			for ( int i = 0; i < count; i += 1 ) {
+				rows.Add(new_rows[i]);
+			}
 		}
 		private void ListViewItem_PreviewMouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
 			var item = sender as ListViewItem;
