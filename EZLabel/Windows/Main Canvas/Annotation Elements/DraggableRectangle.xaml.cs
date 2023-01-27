@@ -124,8 +124,8 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			this.topleft += shift;
 			this.bottomright += shift;
 
-			Canvas.SetTop(this, this.topleft.X);
-			Canvas.SetLeft(this, this.topleft.Y);
+			Canvas.SetLeft(this, this.topleft.X);
+			Canvas.SetTop(this, this.topleft.Y);
 
 			// 触发绘制/重新绘制事件
 			eDraw?.Invoke(this, size.X, size.Y);

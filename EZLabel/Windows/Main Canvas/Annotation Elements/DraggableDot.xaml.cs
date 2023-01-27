@@ -31,9 +31,15 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		}
 
 		public void Draw (Canvas canvas, Vector2[] points) {
-			if ( points != null && points.Length >= 1 ) {
-				Canvas.SetLeft(this, points[0].X);
-				Canvas.SetTop(this, points[0].Y);
+			if ( points != null ) {
+				switch ( points.Length ) {
+					case 1:
+						Canvas.SetLeft(this, points[0].X);
+						Canvas.SetTop(this, points[0].Y);
+						break;
+					default:
+						throw new ArgumentException();
+				}
 			}
 		}
 		public void Shift (Canvas canvas, Vector2 shift) {
