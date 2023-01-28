@@ -57,15 +57,12 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			container.Height = MathF.Abs(height);
 			eDraw?.Invoke(this, width, height);
 		}
-
 		/// <summary>
 		/// 设置标签（显示）
 		/// </summary>
 		public void SetLabel (string label) {
 			class_label.Content = label;
 		}
-
-
 		private void container_MouseEnter (object sender, MouseEventArgs e) {
 			// 改变四个点的透明度
 			foreach ( var dot in dots ) {
@@ -75,7 +72,6 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			class_label.Foreground = IAnnotationElement.brush_label_text_foreground_solid;
 			class_label.Background = IAnnotationElement.brush_label_text_background_solid;
 		}
-
 		private void container_MouseLeave (object sender, MouseEventArgs e) {
 			// 改变四个点的透明度
 			foreach ( var dot in dots ) {

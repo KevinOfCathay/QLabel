@@ -10,5 +10,6 @@ namespace QLabel.Scripts.AnnotationToolManager {
 	public abstract class ToolBase {
 		public abstract void Activate (MainCanvas canvas);
 		public abstract void Deactivate (MainCanvas canvas);
+
 	}
 }

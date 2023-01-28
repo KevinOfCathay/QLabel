@@ -1,19 +1,10 @@
 ﻿using QLabel.Scripts.AnnotationData;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 	/// <summary>
@@ -22,6 +13,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 	public partial class DraggableDot : UserControl, IAnnotationElement {
 		public event Action<DraggableDot, MouseEventArgs> eMouseDown, eMouseMove, eMouseUp;
 		public bool activate { private set; get; } = false;
+		private Vector2 position;
 
 		AnnoData _data;   // 这个点所对应的注释数据
 		public AnnoData data { get { return _data; } set { _data = value; } }
@@ -34,8 +26,10 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			if ( points != null ) {
 				switch ( points.Length ) {
 					case 1:
-						Canvas.SetLeft(this, points[0].X);
-						Canvas.SetTop(this, points[0].Y);
+						var p = points[0];
+						Canvas.SetLeft(this, p.X);
+						Canvas.SetTop(this, p.Y);
+						position = p;
 						break;
 					default:
 						throw new ArgumentException();
@@ -43,7 +37,9 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			}
 		}
 		public void Shift (Canvas canvas, Vector2 shift) {
-			throw new NotImplementedException();
+			this.position += shift;
+			Canvas.SetLeft(this, this.position.X);
+			Canvas.SetTop(this, this.position.Y);
 		}
 
 		private void dot_PreviewMouseDown (object sender, MouseButtonEventArgs e) {

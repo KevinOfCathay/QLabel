@@ -18,33 +18,33 @@
 		</StackPanel.Resources>
 		<Button
 			Name="Mouse_Button"
-			Click="Mouse_Button_Click">
+			Click="ToolClick">
 			<Image Source="/Resources/Icons/mouse.png"/>
 		</Button>
 		<Button
 			Name="DotTool_Button"  
-			Click="DotTool_Button_Click">
+			Click="ToolClick">
 			<Image Source="/Resources/Icons/button.png"/>
 		</Button>
 		<Button
 			Name="RectangleTool_Button"  
-			Click="RectangleTool_Button_Click">
+			Click="ToolClick">
 			<Image Source="/Resources/Icons/rectangle.png"/>
 		</Button>
 		<Button 
-			Name="SquareTool_Button"    >
+			Name="SquareTool_Button">
 			<Image Source="/Resources/Icons/square.png"/>
 		</Button>
-		<Button Name="Rhombus_Button">
+		<Button Name="Tetragon_Button">
 			<Image Source="/Resources/Icons/rhombus.png"/>
 		</Button>
-		<Button Name="PolygonTool_Button"    >
+		<Button Name="PolygonTool_Button">
 			<Image Source="/Resources/Icons/polygon.png"/>
 		</Button>
-		<Button Name="Circle_Button"    >
+		<Button Name="Circle_Button">
 			<Image Source="/Resources/Icons/circle.png"/>
 		</Button>
-		<Button Name="Selection_Button"    >
+		<Button Name="Selection_Button">
 			<Image Source="/Resources/Icons/selection.png"/>
 		</Button>
 	</StackPanel>

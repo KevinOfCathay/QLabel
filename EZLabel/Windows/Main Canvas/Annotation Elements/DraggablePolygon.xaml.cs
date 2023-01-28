@@ -23,7 +23,6 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public DraggablePolygon () {
 			InitializeComponent();
 		}
-
 		AnnoData _data;   // 这个多边形所对应的注释数据
 		public AnnoData data { get { return _data; } set { _data = value; } }
 		private List<DraggableDot> dots = new List<DraggableDot>();

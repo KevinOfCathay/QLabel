@@ -35,24 +35,24 @@ namespace QLabel {
 			int x = t.GetLength(0);
 			int y = t.GetLength(1);
 			int z = t.GetLength(2);
-			for ( int i = 0; i < x; i += 1 ) {
-				for ( int k = 0; k < y; k += 1 ) {
+			Parallel.For(0, x, (int i) => {
+				Parallel.For(0, y, (int k) => {
 					Parallel.For(0, z, (int h) => {
 						if ( p.Invoke(t[i, k, h]) ) { where.Push((i, k, h)); }
 					});
-				}
-			}
+				});
+			});
 			return where.ToArray();
 		}
 		public static T[,] clone<T> (this T[,] t) where T : INumber<T> {
 			int x = t.GetLength(0);
 			int y = t.GetLength(1);
 			T[,] arr = new T[x, y];
-			for ( int i = 0; i < x; i += 1 ) {
+			Parallel.For(0, x, (int i) => {
 				Parallel.For(0, x, (int k) => {
 					arr[i, k] = t[i, k];
 				});
-			}
+			});
 			return arr;
 		}
 	}

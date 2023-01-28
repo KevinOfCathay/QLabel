@@ -63,15 +63,29 @@
 					VerticalAlignment="Stretch"
 					Width="4"/>
 
-				<DockPanel Grid.Column="2" Grid.Row="0" Grid.RowSpan="4">
+				<Grid Grid.Column="2" Grid.Row="0" Grid.RowSpan="4">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*" MinHeight="100"></RowDefinition>
+						<RowDefinition Height="auto"/>
+						<RowDefinition Height="*" MinHeight="100"/>
+					</Grid.RowDefinitions>
 					<!-- 图片的属性栏-->
 					<misc:MiscPanel
-						MaxHeight="500"
+						Grid.Row="0"
 						x:Name="misc_panel" DockPanel.Dock="Top"/>
 
+					<GridSplitter 
+						Grid.Row="1" 
+						Background="#FFD9D9D9"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch"
+						Height="4"/>
+					
 					<!-- Annotation Lists -->
-					<ann:AnnoListPanel x:Name="annolistpanel"  DockPanel.Dock="Top"/>
-				</DockPanel>
+					<ann:AnnoListPanel 
+						Grid.Row="2"
+						x:Name="annolistpanel"  DockPanel.Dock="Top"/>
+				</Grid>
 			</Grid>
 		</DockPanel>
 	</Grid>

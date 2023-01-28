@@ -105,7 +105,7 @@ namespace QLabel.Scripts.AnnotationToolManager {
 		/// <summary>
 		/// 创建一个 annotation 并将其放置在画布上
 		/// </summary>
-		public static void Create (MainCanvas canvas, Vector2[] rpoints, ClassLabel clas, string label = "") {
+		public void Create (MainCanvas canvas, Vector2[] rpoints, ClassLabel clas, string label = "") {
 			if ( canvas.can_annotate ) {
 				// 创建一个新的矩形
 				var data = new AnnotationData.ADRect(new ReadOnlySpan<Vector2>(rpoints), clas, label);
