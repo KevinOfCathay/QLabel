@@ -20,9 +20,10 @@ namespace QLabel.Windows.Export_Window {
 	public partial class ExportWindow : Window {
 		/// <summary>
 		/// VOC: VOC 数据格式
+		/// COCO: COCO 数据格式
 		/// Image: 导出为包含了注释的图片
 		/// </summary>
-		private enum Format { VOC, Image }
+		private enum Format { VOC, COCO, Image }
 		private enum Target { Current, All };
 
 		private Format fmt = Format.VOC;

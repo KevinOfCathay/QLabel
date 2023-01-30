@@ -28,7 +28,6 @@ namespace QLabel.Scripts.AnnotationToolManager {
 			canvas.eMouseMove -= ResizeRectangle;
 			canvas.eMouseUp -= StopDraw;
 		}
-
 		public void DrawRectangle (MainCanvas canvas, Vector2 tl, Vector2 br) {
 			rect = new DraggableRectangle();
 			rect.Draw(canvas.annotation_canvas, new Vector2[] { tl, br });

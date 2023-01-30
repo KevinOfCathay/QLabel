@@ -11,7 +11,7 @@ namespace QLabel.Scripts {
 		public static List<Config> configs = new List<Config> {
 			new Yolov7Config (
 				model_name : "Manga Object Detection (Yolov7)",
-				model_path : @"Resources/Models/yolov7-manga-e2e.onnx",
+				model_path : @"Resources/Models/yolov7-manga-230130.onnx",
 				width : 640, height : 640,
 				class_labels : ModelLabels.manga
 			),

@@ -43,6 +43,11 @@ namespace QLabel.Scripts.AnnotationToolManager {
 				);
 			dot.data = data;
 
+			CreateAnnotationElementManual create_dot = new CreateAnnotationElementManual(dot, canvas);
+			create_dot.Do();
+
+			ActionManager.PushAction(create_dot);
+
 			canvas.annotation_canvas.Children.Add(dot);
 			e.Handled = true;
 		}

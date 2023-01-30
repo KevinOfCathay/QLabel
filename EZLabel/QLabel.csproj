@@ -27,7 +27,7 @@
     <None Remove="Resources\Models\PAnet-text-detection.onnx" />
     <None Remove="Resources\Models\yolov5m-coco.onnx" />
     <None Remove="Resources\Models\yolov5m-voc.onnx" />
-    <None Remove="Resources\Models\yolov7-manga-e2e.onnx" />
+    <None Remove="Resources\Models\yolov7-manga-230130.onnx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -95,10 +95,7 @@
     <Content Include="Resources\Models\yolov5m-voc.onnx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Resources\Models\yolov7-manga-e2e.onnx">
+    <Content Include="Resources\Models\yolov7-manga-230130.onnx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
