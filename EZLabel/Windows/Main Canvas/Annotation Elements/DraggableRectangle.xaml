@@ -32,42 +32,36 @@
 	    Name="rect"
 	    StrokeThickness="1" 
 	    Stroke="#FF6696FF"
-		MouseDown="RectMouseDown"
 	    ></Rectangle>
 
 		<local:Dot 
 			x:Name="center_dot"
 			HorizontalAlignment="Center"
 			VerticalAlignment="Center"
-			MouseDown="CenterDotMouseDown"
 		></local:Dot>
 		<local:Dot 
 			x:Name="top_left_dot" 
 			HorizontalAlignment="Left"
 			VerticalAlignment="Top"
 			Margin="-3,-3,-3,-3"
-			MouseDown="CornerDotMouseDown"
 			/>
 		<local:Dot 
 			x:Name="top_right_dot" 
 			HorizontalAlignment="Right"
 			VerticalAlignment="Top"
 			 Margin="3,-3,-3,-3"
-			MouseDown="CornerDotMouseDown"
 			></local:Dot>
 		<local:Dot 
 			x:Name="bottom_left_dot" 
 			HorizontalAlignment="Left"
 			VerticalAlignment="Bottom"
 			 Margin="-3,-3,-3,-3"
-			MouseDown="CornerDotMouseDown"
 			/>
 		<local:Dot 
 			x:Name="bottom_right_dot" 
 			HorizontalAlignment="Right"
 			VerticalAlignment="Bottom"
 			 Margin="3,-3,-3,-3"
-			MouseDown="CornerDotMouseDown"
 			></local:Dot>
 	</Grid>
 

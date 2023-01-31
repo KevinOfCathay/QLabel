@@ -26,6 +26,8 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public Dot[] dots = new Dot[5];
 		private Vector2 topleft, bottomright, size;
 
+		private Vector2 mouse_position;
+
 		AnnoData _data;   // 这个矩形所对应的注释数据
 		public AnnoData data {
 			get { return _data; }
@@ -133,13 +135,21 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			Visibility = Visibility.Hidden;
 		}
 
-		public new void MouseDown (object sender, MouseEventArgs e) {
+		public new void MouseDown (MainCanvas canvas, MouseEventArgs e) {
+			// 记录下当前的鼠标位置
+			var position = e.GetPosition(canvas);
+			mouse_position = new Vector2((float) position.X, (float) position.Y);
+
+			if ( e.OriginalSource == top_left_dot ) {
+			} else if ( e.OriginalSource == top_right_dot ) {
+			} else if ( e.OriginalSource == bottom_left_dot ) {
+			} else if ( e.OriginalSource == bottom_right_dot ) {
+			}
+		}
+		public new void MouseMove (MainCanvas canvas, MouseEventArgs e) {
 			throw new NotImplementedException();
 		}
-		public new void MouseMove (object sender, MouseEventArgs e) {
-			throw new NotImplementedException();
-		}
-		public new void MouseUp (object sender, MouseEventArgs e) {
+		public new void MouseUp (MainCanvas canvas, MouseEventArgs e) {
 			throw new NotImplementedException();
 		}
 	}

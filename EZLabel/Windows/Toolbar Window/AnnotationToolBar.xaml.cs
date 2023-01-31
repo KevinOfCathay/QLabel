@@ -22,7 +22,9 @@ namespace QLabel.Windows.Toolbar_Window {
 	public partial class AnnotationToolBar : UserControl {
 		private static Brush button_background_normal = new SolidColorBrush(Color.FromArgb(255, 221, 221, 211));
 		private static Brush button_background_highlight = new SolidColorBrush(Color.FromArgb(255, 160, 150, 210));
-		private ToolManager manager = new ToolManager();
+		private ToolBase tool = null;
+		private MainCanvas mc { get; set; }
+
 		public Button[] button_group;
 		public int cur_button_index = 0;
 
@@ -41,25 +43,48 @@ namespace QLabel.Windows.Toolbar_Window {
 			};
 		}
 		public void Init (MainCanvas mc) {
-			manager.mc = mc;
+			mc = mc;
+		}
+		public void SetCurrentTool (int tool_index) {
+			NormalButton(button_group[cur_button_index]);
+			Button button = button_group[tool_index];
+
+			// 切换 tool
+			SwitchTool(cur_button_index);
+			cur_button_index = tool_index;
+
+			HighlightButton(button);
+		}
+		private void SwitchTool (int tool_index) {
+			switch ( tool_index ) {
+				case 0:
+					SwitchTool(new MouseTool());
+					break;
+				case 1:
+					SwitchTool(new DotAnnotationTool());
+					break;
+				case 2:
+					SwitchTool(new RectAnnotationTool());
+					break;
+				default:
+					break;
+			}
+		}
+		public void SwitchTool (ToolBase tool) {
+			if ( mc != null ) {
+				if ( tool != null ) { tool.Deactivate(mc); }
+				tool = tool;
+				tool.Activate(mc);
+			}
 		}
 		private void ToolClick (object sender, RoutedEventArgs e) {
 			Button button = sender as Button;
 			NormalButton(button_group[cur_button_index]);
 			cur_button_index = Array.IndexOf(button_group, button);
-			switch ( cur_button_index ) {
-				case 0:
-					manager.SwitchTool(new MouseTool());
-					break;
-				case 1:
-					manager.SwitchTool(new DotAnnotationTool());
-					break;
-				case 2:
-					manager.SwitchTool(new RectAnnotationTool());
-					break;
-				default:
-					break;
-			}
+
+			// 切换 tool
+			SwitchTool(cur_button_index);
+
 			HighlightButton(button);
 			e.Handled = true;
 		}

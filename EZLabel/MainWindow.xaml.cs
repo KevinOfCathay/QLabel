@@ -62,6 +62,8 @@ namespace QLabel {
 		private void Window_KeyDown (object sender, KeyEventArgs e) {
 			if ( e.Key == Key.Z ) {
 				Debug.WriteLine("触发了按键Z");
+			} else if ( e.Key >= Key.D1 && e.Key <= Key.D8 ) {
+				toolbar.SetCurrentTool(e.Key - Key.D1);
 			}
 		}
 		public void LockWindow () {

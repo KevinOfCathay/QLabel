@@ -34,9 +34,9 @@ namespace QLabel.Windows.Main_Canvas {
 		/// </summary>
 		AnnoData data { get; set; }
 
-		public void MouseDown (object sender, MouseEventArgs e);
-		public void MouseMove (object sender, MouseEventArgs e);
-		public void MouseUp (object sender, MouseEventArgs e);
+		public void MouseDown (MainCanvas canvas, MouseEventArgs e);
+		public void MouseMove (MainCanvas canvas, MouseEventArgs e);
+		public void MouseUp (MainCanvas canvas, MouseEventArgs e);
 
 		/// <summary>
 		/// 根据所定义的点，
