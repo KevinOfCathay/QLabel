@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QLabel.Scripts {
 	internal static class ModelLabels {
-		public static string[] manga = { "女", "文字", "短裙", "男", "对话框", "长裙", "浴衣", "房屋", "天空", "杯子", "手机", "椅子", "书包", "高亮框" };
+		public static string[] manga = { "女", "文字", "短裙", "男", "对话框", "长裙", "浴衣", "内裤", "高亮框", "内衣", "房屋", "天空", "X", "椅子", "杯", "蝴蝶结", "呆毛", "书包", "领带" };
 		public static string[] coco80 = {
 			  "person"
 			 ,"bicycle"

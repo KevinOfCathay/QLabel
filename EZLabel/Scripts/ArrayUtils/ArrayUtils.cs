@@ -9,16 +9,7 @@ using System.Threading.Tasks;
 
 namespace QLabel {
 	// Some extension methods
-	public static class ArrayUtils {
-		public static ref T at<T> (this T[,] t, int index) where T : INumber<T> {
-			int y = t.GetLength(1);
-			return ref t[index / y, index % y];
-		}
-		public static ref T at<T> (this T[,,] t, int index) where T : INumber<T> {
-			int y = t.GetLength(1);
-			int z = t.GetLength(2);
-			return ref t[index / ( y * z ), ( index / z ) % y, index % z];
-		}
+	public static partial class ArrayUtils {
 		public static (int, int)[] where<T> (this T[,] t, Predicate<T> p) where T : INumber<T> {
 			ConcurrentStack<(int, int)> where = new ConcurrentStack<(int, int)>();
 			int x = t.GetLength(0);

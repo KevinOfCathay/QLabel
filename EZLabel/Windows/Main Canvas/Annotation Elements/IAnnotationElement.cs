@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace QLabel.Windows.Main_Canvas {
@@ -32,6 +33,11 @@ namespace QLabel.Windows.Main_Canvas {
 		/// 这个元素所关联的 anno 数据
 		/// </summary>
 		AnnoData data { get; set; }
+
+		public void MouseDown (object sender, MouseEventArgs e);
+		public void MouseMove (object sender, MouseEventArgs e);
+		public void MouseUp (object sender, MouseEventArgs e);
+
 		/// <summary>
 		/// 根据所定义的点，
 		/// 对元素进行绘制 / 重新绘制

@@ -11,7 +11,7 @@
 		MouseLeave="container_MouseLeave"
 		Name="container">
 		<Grid.Resources>
-			<Style TargetType="{x:Type local:DraggableDot}">
+			<Style TargetType="{x:Type local:Dot}">
 				<Setter Property="Width" Value="6"/>
 				<Setter Property="Height" Value="6"/>
 			</Style>
@@ -32,36 +32,43 @@
 	    Name="rect"
 	    StrokeThickness="1" 
 	    Stroke="#FF6696FF"
+		MouseDown="RectMouseDown"
 	    ></Rectangle>
 
-		<local:DraggableDot 
+		<local:Dot 
 			x:Name="center_dot"
 			HorizontalAlignment="Center"
-			VerticalAlignment="Center"></local:DraggableDot>
-		<local:DraggableDot 
+			VerticalAlignment="Center"
+			MouseDown="CenterDotMouseDown"
+		></local:Dot>
+		<local:Dot 
 			x:Name="top_left_dot" 
 			HorizontalAlignment="Left"
 			VerticalAlignment="Top"
-			Margin="-3,-3,-3,-3" 
+			Margin="-3,-3,-3,-3"
+			MouseDown="CornerDotMouseDown"
 			/>
-		<local:DraggableDot 
+		<local:Dot 
 			x:Name="top_right_dot" 
 			HorizontalAlignment="Right"
 			VerticalAlignment="Top"
 			 Margin="3,-3,-3,-3"
-			></local:DraggableDot>
-		<local:DraggableDot 
+			MouseDown="CornerDotMouseDown"
+			></local:Dot>
+		<local:Dot 
 			x:Name="bottom_left_dot" 
 			HorizontalAlignment="Left"
 			VerticalAlignment="Bottom"
 			 Margin="-3,-3,-3,-3"
+			MouseDown="CornerDotMouseDown"
 			/>
-		<local:DraggableDot 
+		<local:Dot 
 			x:Name="bottom_right_dot" 
 			HorizontalAlignment="Right"
 			VerticalAlignment="Bottom"
 			 Margin="3,-3,-3,-3"
-			></local:DraggableDot>
+			MouseDown="CornerDotMouseDown"
+			></local:Dot>
 	</Grid>
 
 </UserControl>

@@ -26,9 +26,9 @@
 			<Canvas 
 				Name="annotation_canvas"
 				SizeChanged="AnnotationCanvasSizeChanged"
-				PreviewMouseMove="annotation_canvas_PreviewMouseMove"
-				PreviewMouseDown="canvas_PreviewMouseDown"
-				PreviewMouseUp="canvas_PreviewMouseUp" Background="#FFC3C3C3">
+				PreviewMouseMove="CanvasMouseMove"
+				PreviewMouseDown="CanvasMouseDown"
+				PreviewMouseUp="CanvasMouseUp" Background="#FFC3C3C3">
 
 				<!-- 使用 Grid 来使图片居中 -->
 				<Grid Name="canvas_grid"
@@ -39,8 +39,7 @@
 					Name="canvas_image"
 					HorizontalAlignment="Center"
 					VerticalAlignment="Center"
-					Stretch="Uniform" 
-					StretchDirection="DownOnly" />
+					Stretch="Uniform"/>
 				</Grid>
 			</Canvas>
 		</ScrollViewer>

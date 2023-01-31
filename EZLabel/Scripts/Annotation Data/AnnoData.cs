@@ -32,6 +32,8 @@ namespace QLabel.Scripts.AnnotationData {
 		public readonly ClassLabel clas;
 		/// <summary>  这个注释数据的额外标签 (readonly) </summary>
 		public readonly string label;
+		/// <summary>  这个注释数据的描述文字 (readonly) </summary>
+		public readonly string caption;
 		/// <summary> 这个注释数据被创建的时间，在 AnnoData 初始化时被设置 (readonly) </summary>
 		public readonly DateTime createtime;
 		/// <summary>  这个注释数据的类型 (readonly) </summary>

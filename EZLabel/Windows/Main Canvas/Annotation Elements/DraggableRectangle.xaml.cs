@@ -23,7 +23,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		/// 当长方形被重新绘制时触发
 		/// </summary>
 		public Action<DraggableRectangle, float, float> eDraw;
-		public DraggableDot[] dots = new DraggableDot[5];
+		public Dot[] dots = new Dot[5];
 		private Vector2 topleft, bottomright, size;
 
 		AnnoData _data;   // 这个矩形所对应的注释数据
@@ -131,6 +131,16 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		}
 		public void Hide () {
 			Visibility = Visibility.Hidden;
+		}
+
+		public new void MouseDown (object sender, MouseEventArgs e) {
+			throw new NotImplementedException();
+		}
+		public new void MouseMove (object sender, MouseEventArgs e) {
+			throw new NotImplementedException();
+		}
+		public new void MouseUp (object sender, MouseEventArgs e) {
+			throw new NotImplementedException();
 		}
 	}
 }

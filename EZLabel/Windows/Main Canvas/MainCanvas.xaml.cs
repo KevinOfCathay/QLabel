@@ -187,9 +187,6 @@ namespace QLabel.Windows.Main_Canvas {
 		private Vector2 GetOffsetFromScroll () {
 			return new Vector2((float) scroll.HorizontalOffset, (float) scroll.VerticalOffset);
 		}
-		private void canvas_PreviewMouseDown (object sender, MouseButtonEventArgs e) {
-			eMouseDown?.Invoke(this, e);
-		}
 
 		private void AnnotationCanvasSizeChanged (object sender, SizeChangedEventArgs e) {
 			var w = annotation_canvas.ActualWidth;
@@ -207,12 +204,17 @@ namespace QLabel.Windows.Main_Canvas {
 			Vector2 p = GetOffsetFromScroll();
 			image_offset = p;
 		}
-		private void annotation_canvas_PreviewMouseMove (object sender, MouseEventArgs e) {
+
+		#region MouseEvents
+		private void CanvasMouseDown (object sender, MouseButtonEventArgs e) {
+			eMouseDown?.Invoke(this, e);
+		}
+		private void CanvasMouseMove (object sender, MouseEventArgs e) {
 			eMouseMove?.Invoke(this, e);
 		}
-		private void canvas_PreviewMouseUp (object sender, MouseButtonEventArgs e) {
-			Debug.WriteLine("canvas mouse up");
+		private void CanvasMouseUp (object sender, MouseButtonEventArgs e) {
 			eMouseUp?.Invoke(this, e);
 		}
+		#endregion
 	}
 }

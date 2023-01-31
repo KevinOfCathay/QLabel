@@ -8,59 +8,35 @@ using System.Windows.Input;
 
 namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 	/// <summary>
-	/// 点
+	/// 点 (非Annotation Element)
 	/// </summary>
-	public partial class DraggableDot : UserControl, IAnnotationElement {
-		public event Action<DraggableDot, MouseEventArgs> eMouseDown, eMouseMove, eMouseUp;
+	public partial class Dot : UserControl {
+		public event Action<Dot, MouseEventArgs> eMouseDown, eMouseMove, eMouseUp;
 		public bool activate { private set; get; } = false;
 		private Vector2 position;
 
 		AnnoData _data;   // 这个点所对应的注释数据
 		public AnnoData data { get { return _data; } set { _data = value; } }
 
-		public DraggableDot () {
+		public Dot () {
 			InitializeComponent();
 		}
-
-		public void Draw (Canvas canvas, Vector2[] points) {
-			if ( points != null ) {
-				switch ( points.Length ) {
-					case 1:
-						var p = points[0];
-						Canvas.SetLeft(this, p.X);
-						Canvas.SetTop(this, p.Y);
-						position = p;
-						break;
-					default:
-						throw new ArgumentException();
-				}
-			}
-		}
-		public void Shift (Canvas canvas, Vector2 shift) {
-			this.position += shift;
-			Canvas.SetLeft(this, this.position.X);
-			Canvas.SetTop(this, this.position.Y);
-		}
-
 		private void dot_PreviewMouseDown (object sender, MouseButtonEventArgs e) {
 			if ( sender == e.OriginalSource ) {
 				activate = true;
 				eMouseDown?.Invoke(this, e);
 			}
 		}
-
 		private void dot_PreviewMouseMove (object sender, MouseEventArgs e) {
 			if ( activate ) {
 				eMouseMove?.Invoke(this, e);
 				Debug.WriteLine("mouse moving");
 			}
 		}
-
 		private void dot_PreviewMouseUp (object sender, MouseButtonEventArgs e) {
 			activate = false;
 			eMouseDown?.Invoke(this, e);
 		}
-
 		public void Delete (MainCanvas canvas) {
 			canvas.annotation_canvas.Children.Remove(this);
 		}
@@ -69,16 +45,6 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		}
 		public void Hide () {
 			Visibility = Visibility.Hidden;
-		}
-
-		public new void MouseDown (object sender, MouseEventArgs e) {
-			throw new NotImplementedException();
-		}
-		public new void MouseMove (object sender, MouseEventArgs e) {
-			throw new NotImplementedException();
-		}
-		public new void MouseUp (object sender, MouseEventArgs e) {
-			throw new NotImplementedException();
 		}
 	}
 }

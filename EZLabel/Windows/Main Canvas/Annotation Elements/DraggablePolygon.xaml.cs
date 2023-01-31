@@ -42,5 +42,15 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Hide () {
 			Visibility = Visibility.Hidden;
 		}
+
+		public new void MouseDown (object sender, MouseEventArgs e) {
+			throw new NotImplementedException();
+		}
+		public new void MouseMove (object sender, MouseEventArgs e) {
+			throw new NotImplementedException();
+		}
+		public new void MouseUp (object sender, MouseEventArgs e) {
+			throw new NotImplementedException();
+		}
 	}
 }
