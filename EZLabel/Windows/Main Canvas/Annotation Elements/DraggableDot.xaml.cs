@@ -13,7 +13,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 	public partial class DraggableDot : UserControl, IAnnotationElement {
 		public event Action<DraggableDot, MouseEventArgs> eMouseDown, eMouseMove, eMouseUp;
 		public bool activate { private set; get; } = false;
-		private Vector2 position;
+		private Vector2 position, mouse_position;
 
 		AnnoData _data;   // 这个点所对应的注释数据
 		public AnnoData data { get { return _data; } set { _data = value; } }
@@ -48,19 +48,13 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 				eMouseDown?.Invoke(this, e);
 			}
 		}
-
 		private void dot_PreviewMouseMove (object sender, MouseEventArgs e) {
-			if ( activate ) {
-				eMouseMove?.Invoke(this, e);
-				Debug.WriteLine("mouse moving");
-			}
+			if ( activate ) { eMouseMove?.Invoke(this, e); }
 		}
-
 		private void dot_PreviewMouseUp (object sender, MouseButtonEventArgs e) {
 			activate = false;
 			eMouseDown?.Invoke(this, e);
 		}
-
 		public void Delete (MainCanvas canvas) {
 			canvas.annotation_canvas.Children.Remove(this);
 		}
@@ -70,11 +64,15 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Hide () {
 			Visibility = Visibility.Hidden;
 		}
-
 		public new void MouseDown (MainCanvas canvas, MouseEventArgs e) {
-			throw new NotImplementedException();
+			// 记录按下时的鼠标位置
+			var position = e.GetPosition(canvas);
+			mouse_position = new Vector2((float) position.X, (float) position.Y);
 		}
-		public new void MouseMove (MainCanvas canvas, MouseEventArgs e) {
+		/// <summary>
+		/// 拖动点将会移动点的位置
+		/// </summary>
+		public void MouseDrag (MainCanvas canvas, MouseEventArgs e) {
 			throw new NotImplementedException();
 		}
 		public new void MouseUp (MainCanvas canvas, MouseEventArgs e) {

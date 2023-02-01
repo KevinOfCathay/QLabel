@@ -22,7 +22,7 @@ namespace QLabel.Windows.Toolbar_Window {
 	public partial class AnnotationToolBar : UserControl {
 		private static Brush button_background_normal = new SolidColorBrush(Color.FromArgb(255, 221, 221, 211));
 		private static Brush button_background_highlight = new SolidColorBrush(Color.FromArgb(255, 160, 150, 210));
-		private ToolBase tool = null;
+		private ToolBase selected_tool = null;
 		private MainCanvas mc { get; set; }
 
 		public Button[] button_group;
@@ -43,13 +43,13 @@ namespace QLabel.Windows.Toolbar_Window {
 			};
 		}
 		public void Init (MainCanvas mc) {
-			mc = mc;
+			this.mc = mc;
 		}
 		public void SetCurrentTool (int tool_index) {
 			NormalButton(button_group[cur_button_index]);
 			Button button = button_group[tool_index];
 
-			// 切换 tool
+			// 切换 selected_tool
 			SwitchTool(cur_button_index);
 			cur_button_index = tool_index;
 
@@ -72,8 +72,8 @@ namespace QLabel.Windows.Toolbar_Window {
 		}
 		public void SwitchTool (ToolBase tool) {
 			if ( mc != null ) {
-				if ( tool != null ) { tool.Deactivate(mc); }
-				tool = tool;
+				if ( this.selected_tool != null ) { this.selected_tool.Deactivate(mc); }
+				this.selected_tool = tool;
 				tool.Activate(mc);
 			}
 		}
@@ -82,7 +82,7 @@ namespace QLabel.Windows.Toolbar_Window {
 			NormalButton(button_group[cur_button_index]);
 			cur_button_index = Array.IndexOf(button_group, button);
 
-			// 切换 tool
+			// 切换 selected_tool
 			SwitchTool(cur_button_index);
 
 			HighlightButton(button);

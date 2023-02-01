@@ -30,7 +30,6 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		private void dot_PreviewMouseMove (object sender, MouseEventArgs e) {
 			if ( activate ) {
 				eMouseMove?.Invoke(this, e);
-				Debug.WriteLine("mouse moving");
 			}
 		}
 		private void dot_PreviewMouseUp (object sender, MouseButtonEventArgs e) {

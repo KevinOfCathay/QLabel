@@ -28,7 +28,9 @@
 				SizeChanged="AnnotationCanvasSizeChanged"
 				PreviewMouseMove="CanvasMouseMove"
 				PreviewMouseDown="CanvasMouseDown"
-				PreviewMouseUp="CanvasMouseUp" Background="#FFC3C3C3">
+				PreviewMouseUp="CanvasMouseUp" 
+				MouseLeave="CanvasMouseLeave"
+				Background="#FFC3C3C3">
 
 				<!-- 使用 Grid 来使图片居中 -->
 				<Grid Name="canvas_grid"

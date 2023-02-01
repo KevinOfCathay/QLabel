@@ -35,7 +35,7 @@ namespace QLabel.Windows.Main_Canvas {
 		AnnoData data { get; set; }
 
 		public void MouseDown (MainCanvas canvas, MouseEventArgs e);
-		public void MouseMove (MainCanvas canvas, MouseEventArgs e);
+		public void MouseDrag (MainCanvas canvas, MouseEventArgs e);
 		public void MouseUp (MainCanvas canvas, MouseEventArgs e);
 
 		/// <summary>

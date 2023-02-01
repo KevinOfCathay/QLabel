@@ -37,8 +37,8 @@
 					<Setter Property="FontSize" Value="9"/>
 				</Style>
 			</StackPanel.Resources>
-			<Button>Unselect All</Button>
-			<Button>Select All</Button>
+			<Button Click="UnselectAllClick">Unselect All</Button>
+			<Button Click="SelectAllClick">Select All</Button>
 		</StackPanel>
 
 		<Separator Margin="5"/>
@@ -52,10 +52,10 @@
 				</Style>
 			</StackPanel.Resources>
 			<Button
-				Click="apply_button_Click"
+				Click="ApplyClick"
 				>Apply</Button>
 			<Button
-				Click="apply_all_button_Click"
+				Click="ApplyAllClick"
 				>Apply To All</Button>
 		</StackPanel>
 	</StackPanel>

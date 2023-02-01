@@ -47,7 +47,7 @@ namespace QLabel.Scripts.AnnotationToolManager {
 		}
 		private void MouseMove (MainCanvas canvas, MouseEventArgs e) {
 			if ( mouse_down && selected_elem != null ) {
-				selected_elem.MouseMove(canvas, e);
+				selected_elem.MouseDrag(canvas, e);
 			}
 			e.Handled = true;
 		}

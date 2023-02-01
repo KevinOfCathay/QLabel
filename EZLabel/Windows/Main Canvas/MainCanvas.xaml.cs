@@ -21,6 +21,7 @@ namespace QLabel.Windows.Main_Canvas {
 		public Vector2 canvas_size { get; private set; } = new Vector2(0, 0);
 		public Vector2 image_size { get; private set; } = new Vector2(0, 0);      // 图片大小，用于计算annotation的位置，在未加载时图片大小为 0
 		public Vector2 image_offset { get; private set; } = new Vector2(0, 0);      // 图片在画布上的偏移量，用于计算annotation的位置，在未加载时图片，或者图片居中时大小为 0		
+		public MouseButtonState button_state = MouseButtonState.Released;
 		public event Action<MainCanvas, double> eCanvasRescale;      // 画布改变大小（影响画布上所有元素的大小和位置）
 		public event Action<MainCanvas, BitmapImage> eImageLoaded;
 		public event Action<MainCanvas, IAnnotationElement> eAnnotationElementAdded, eAnnotationElementRemoved;
@@ -205,15 +206,28 @@ namespace QLabel.Windows.Main_Canvas {
 			image_offset = p;
 		}
 
+
 		#region MouseEvents
 		private void CanvasMouseDown (object sender, MouseButtonEventArgs e) {
+			button_state = MouseButtonState.Pressed;
 			eMouseDown?.Invoke(this, e);
 		}
 		private void CanvasMouseMove (object sender, MouseEventArgs e) {
-			eMouseMove?.Invoke(this, e);
+			if ( button_state == MouseButtonState.Pressed ) {
+				eMouseMove?.Invoke(this, e);
+			}
 		}
 		private void CanvasMouseUp (object sender, MouseButtonEventArgs e) {
-			eMouseUp?.Invoke(this, e);
+			if ( button_state == MouseButtonState.Pressed ) {
+				eMouseUp?.Invoke(this, e);
+			}
+			button_state = MouseButtonState.Released;
+		}
+		private void CanvasMouseLeave (object sender, MouseEventArgs e) {
+			if ( button_state == MouseButtonState.Pressed ) {
+				eMouseUp?.Invoke(this, e);
+			}
+			button_state = MouseButtonState.Released;
 		}
 		#endregion
 	}

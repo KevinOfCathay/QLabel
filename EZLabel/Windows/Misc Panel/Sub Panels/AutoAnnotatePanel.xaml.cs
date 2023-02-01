@@ -15,6 +15,7 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 		private BaseInferenceMachine machine;
 		private MainCanvas canvas;         // TODO: replace this
 		private HashSet<int> accepted_classes;
+		private CheckboxWithLabel[] cbxlabels;
 
 		public AutoAnnotatePanel () {
 			InitializeComponent();
@@ -45,29 +46,32 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 			}
 		}
 		private void SetClassLabels (string[] labels) {
+			// 清空 class list 中的所有元素
 			class_list.Items.Clear();
-			// 更改 class list 中的所有元素
-			int index = 0;
-			foreach ( var label in labels ) {
+			cbxlabels = new CheckboxWithLabel[labels.Length];
+
+			// 将新的元素加入到 class list 中
+			for ( int i = 0; i < labels.Length; i += 1 ) {
+				var label = labels[i];
 				var new_item = new ListBoxItem();
 
-				var new_rectlabel = new CheckboxWithLabel();
-				new_rectlabel.label.Content = label;
-				int class_index = index;
-				new_rectlabel.eChecked += (_, _) => { accepted_classes.Add(class_index); };
-				new_rectlabel.eUnchecked += (_, _) => { accepted_classes.Remove(class_index); };
+				var new_cbxlabel = new CheckboxWithLabel();
+				new_cbxlabel.label.Content = label;
+				int class_index = i;
+				new_cbxlabel.eChecked += (_, _) => { accepted_classes.Add(class_index); };
+				new_cbxlabel.eUnchecked += (_, _) => { accepted_classes.Remove(class_index); };
 				// 默认设置为选中状态
-				new_rectlabel.Check();
+				new_cbxlabel.Check();
 
-				new_item.Content = new_rectlabel;
+				new_item.Content = new_cbxlabel;
 				class_list.Items.Add(new_item);
-				index += 1;
+				cbxlabels[i] = new_cbxlabel;  // 将创建的元素加入到数组中
 			}
 		}
 		/// <summary>
 		/// 当前的 inference 只适用于当前被打开的图像
 		/// </summary>
-		private void apply_button_Click (object sender, RoutedEventArgs e) {
+		private void ApplyClick (object sender, RoutedEventArgs e) {
 			if ( machine != null ) {
 				machine.BuildSession();
 				if ( canvas != null && canvas.can_annotate ) {
@@ -80,7 +84,7 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 				}
 			}
 		}
-		private void apply_all_button_Click (object sender, RoutedEventArgs e) {
+		private void ApplyAllClick (object sender, RoutedEventArgs e) {
 			if ( machine != null ) {
 				machine.BuildSession();
 				if ( canvas != null && canvas.can_annotate ) {
@@ -95,6 +99,16 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 						}
 					}
 				}
+			}
+		}
+		private void UnselectAllClick (object sender, RoutedEventArgs e) {
+			foreach ( var label in cbxlabels ) {
+				label.Uncheck();
+			}
+		}
+		private void SelectAllClick (object sender, RoutedEventArgs e) {
+			foreach ( var label in cbxlabels ) {
+				label.Check();
 			}
 		}
 	}

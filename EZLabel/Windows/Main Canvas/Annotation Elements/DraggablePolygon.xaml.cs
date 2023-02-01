@@ -46,7 +46,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public new void MouseDown (MainCanvas canvas, MouseEventArgs e) {
 			throw new NotImplementedException();
 		}
-		public new void MouseMove (MainCanvas canvas, MouseEventArgs e) {
+		public void MouseDrag (MainCanvas canvas, MouseEventArgs e) {
 			throw new NotImplementedException();
 		}
 		public new void MouseUp (MainCanvas canvas, MouseEventArgs e) {

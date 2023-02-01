@@ -18,6 +18,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 	/// 矩形
 	/// </summary>
 	public partial class DraggableRectangle : UserControl, IAnnotationElement {
+		private enum DotType { Center, TopLeft, TopRight, BottomLeft, BottomRight }
 
 		/// <summary>
 		/// 当长方形被重新绘制时触发
@@ -26,7 +27,8 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public Dot[] dots = new Dot[5];
 		private Vector2 topleft, bottomright, size;
 
-		private Vector2 mouse_position;
+		private Vector2 mouse_down_position;
+		private int dot_click_index = -1;
 
 		AnnoData _data;   // 这个矩形所对应的注释数据
 		public AnnoData data {
@@ -134,23 +136,45 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Hide () {
 			Visibility = Visibility.Hidden;
 		}
-
 		public new void MouseDown (MainCanvas canvas, MouseEventArgs e) {
-			// 记录下当前的鼠标位置
+			// 记录按下时的鼠标位置
 			var position = e.GetPosition(canvas);
-			mouse_position = new Vector2((float) position.X, (float) position.Y);
+			mouse_down_position = new Vector2((float) position.X, (float) position.Y);
 
-			if ( e.OriginalSource == top_left_dot ) {
-			} else if ( e.OriginalSource == top_right_dot ) {
-			} else if ( e.OriginalSource == bottom_left_dot ) {
-			} else if ( e.OriginalSource == bottom_right_dot ) {
+			var click_obj = LogicalTreeHelper.GetParent(e.OriginalSource as DependencyObject);
+			dot_click_index = -1;
+			for ( int i = 0; i < 5; i += 1 ) {
+				if ( dots[i] == click_obj ) {
+					dot_click_index = i;
+					break;
+				}
 			}
 		}
-		public new void MouseMove (MainCanvas canvas, MouseEventArgs e) {
-			throw new NotImplementedException();
+		public void MouseDrag (MainCanvas canvas, MouseEventArgs e) {
+			// 记录按下时的鼠标位置
+			var position = e.GetPosition(canvas);
+			var mouse_cur_position = new Vector2((float) position.X, (float) position.Y);
+			var shift = mouse_cur_position - mouse_down_position;
+
+			switch ( dot_click_index ) {
+				case 0:   // Center
+					break;
+				case 1:   // Top Left
+					Draw(canvas.annotation_canvas, new Vector2[] { this.topleft + shift, this.bottomright });
+					break;
+				case 2:   // Top Right
+					break;
+				case 3:   // Bottom Left
+					break;
+				case 4:   // Bottom Right
+					Draw(canvas.annotation_canvas, new Vector2[] { this.topleft, this.bottomright + shift });
+					break;
+				default:
+					break;
+			}
+			mouse_down_position = mouse_cur_position;
 		}
 		public new void MouseUp (MainCanvas canvas, MouseEventArgs e) {
-			throw new NotImplementedException();
 		}
 	}
 }
