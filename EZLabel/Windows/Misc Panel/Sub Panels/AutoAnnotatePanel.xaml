@@ -14,12 +14,19 @@
 		<ListBox Name="model_list">
 		</ListBox>
 
-		<Separator Margin="5"/>
+		<!-- 模型对应的 tag 列表 -->
+		<StackPanel 
+			Name="tag_list" 
+			Orientation="Horizontal"
+			Margin="5">
+		</StackPanel>
+
+		<Separator Margin="8, 5"/>
 
 		<!-- 选择要识别的 class -->
 		<TextBlock>Select Classes</TextBlock>
 		<ListBox
-		     MaxHeight="150"
+		     MaxHeight="125"
 			Name="class_list" 
 		     ScrollViewer.VerticalScrollBarVisibility="Auto">
 			<!-- https://stackoverflow.com/questions/4722114/wpf-listbox-layout-multiple-columns -->
@@ -41,7 +48,7 @@
 			<Button Click="SelectAllClick">Select All</Button>
 		</StackPanel>
 
-		<Separator Margin="5"/>
+		<Separator Margin="8, 5"/>
 
 		<StackPanel Orientation="Horizontal">
 			<StackPanel.Resources>

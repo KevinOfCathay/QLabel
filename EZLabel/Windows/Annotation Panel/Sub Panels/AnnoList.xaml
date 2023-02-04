@@ -7,7 +7,7 @@
              mc:Ignorable="d"
 		   DataContext="{Binding RelativeSource={RelativeSource Self}}"
              d:DesignHeight="450" d:DesignWidth="400">
-	
+
 	<ListView 
 		ScrollViewer.VerticalScrollBarVisibility="Auto"
 		ScrollViewer.HorizontalScrollBarVisibility="Visible"
@@ -36,14 +36,18 @@
 				<!-- 标记的标签 -->
 				<GridViewColumn Header="Label" DisplayMemberBinding="{Binding Path=Label}">
 				</GridViewColumn>
-				
+
 				<!-- 标记的组别 -->
 				<GridViewColumn Header="Group" DisplayMemberBinding="{Binding Path=Group}">
+				</GridViewColumn>
+
+				<!-- 标记的上一级类别 -->
+				<GridViewColumn Header="Supercategory" DisplayMemberBinding="{Binding Path=Supercategory}">
 				</GridViewColumn>
 			</GridView>
 
 		</ListView.View>
-		
+
 		<ListView.ItemContainerStyle>
 			<Style TargetType="ListViewItem">
 				<!-- 加入一个鼠标左键事件 -->
@@ -51,5 +55,5 @@
 			</Style>
 		</ListView.ItemContainerStyle>
 	</ListView>
-	
+
 </UserControl>

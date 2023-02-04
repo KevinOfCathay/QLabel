@@ -78,14 +78,15 @@ namespace QLabel.Windows.Toolbar_Window {
 			}
 		}
 		private void ToolClick (object sender, RoutedEventArgs e) {
-			Button button = sender as Button;
 			NormalButton(button_group[cur_button_index]);
-			cur_button_index = Array.IndexOf(button_group, button);
+			if ( sender is Button button ) {
+				cur_button_index = Array.IndexOf(button_group, button);
 
-			// 切换 selected_tool
-			SwitchTool(cur_button_index);
+				// 切换 selected_tool
+				SwitchTool(cur_button_index);
 
-			HighlightButton(button);
+				HighlightButton(button);
+			}
 			e.Handled = true;
 		}
 		private void HighlightButton (Button button) {

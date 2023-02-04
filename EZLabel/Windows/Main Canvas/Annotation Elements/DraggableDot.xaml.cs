@@ -78,5 +78,8 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public new void MouseUp (MainCanvas canvas, MouseEventArgs e) {
 			throw new NotImplementedException();
 		}
+		public void Highlight () {
+			throw new NotImplementedException();
+		}
 	}
 }

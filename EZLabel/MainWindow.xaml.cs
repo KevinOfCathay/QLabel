@@ -47,6 +47,10 @@ namespace QLabel {
 					annolistpanel.annolist.AddItem(iae);
 					annolistpanel.annotree.AddAnnoData(iae);
 				};
+				canvas.eAnnotationElementModified += (MainCanvas mc, IAnnotationElement iae) => {
+					// 当有注释被移除时，更新注释列表以及注释树
+					annolistpanel.annolist.RefreshItem(iae);
+				};
 				canvas.eAnnotationElementRemoved += (MainCanvas mc, IAnnotationElement iae) => {
 					// 当有注释被移除时，更新注释列表以及注释树
 					annolistpanel.annolist.RemoveItem(iae);

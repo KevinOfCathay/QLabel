@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using static QLabel.Windows.Annotation_Panel.Sub_Panels.AnnoList;
 
 namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 	/// <summary>
@@ -17,12 +16,13 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 	public partial class AnnoList : UserControl {
 		public record class Row {
 			public int Index { get; set; }
-			public string Type { get; set; }
+			public AnnoData.Type Type { get; set; }
 			public string Points { get; set; }
 			public string Class { get; set; }
 			public string Label { get; set; }
 			public string Group { get; set; }
-			public AnnoData data { get; set; }
+			public string Supercategory { get; set; }
+			public IAnnotationElement elem { get; set; }
 			public IComparable this[int i] {
 				get {
 					switch ( i ) {
@@ -32,6 +32,7 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 						case 3: return Class;
 						case 4: return Label;
 						case 5: return Group;
+						case 6: return Supercategory;
 						default: return Index;
 					}
 				}
@@ -43,7 +44,6 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 		public AnnoList () {
 			InitializeComponent();
 		}
-
 		/// <summary>
 		/// 在列表中加入一行
 		/// </summary>
@@ -54,12 +54,13 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 			// 从上往下进行排序
 			var row = new Row {
 				Index = this.listview.Items.Count,
-				Type = data.type.ToString(),
+				Type = data.type,
 				Class = data.clas.name,
 				Group = data.clas.group,
+				Supercategory = data.clas.supercategory,
 				Points = data.points.to_string(),
 				Label = data.label,
-				data = data
+				elem = elem
 			};
 			int new_index = 0;
 			foreach ( var r in rows ) {
@@ -71,10 +72,26 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 			rows.Add(row);
 			rows.Move(num_rows, new_index);
 		}
-		public void RemoveItem (IAnnotationElement elem) {
-			var data = elem.data;
+		public void RefreshItem (IAnnotationElement elem) {
 			for ( int i = 0; i < rows.Count; i += 1 ) {
-				if ( rows[i].data == data ) {
+				if ( rows[i].elem == elem ) { // 找到当前的 elem
+					var data = elem.data;
+					if ( data != null ) {
+						// TODO: 以下代码应当被优化
+						rows[i].Type = data.type;
+						rows[i].Class = data.clas.name;
+						rows[i].Group = data.clas.group;
+						rows[i].Supercategory = data.clas.supercategory;
+						rows[i].Points = data.points.to_string();
+						rows[i].Label = data.label;
+					}
+					break;
+				}
+			}
+		}
+		public void RemoveItem (IAnnotationElement elem) {
+			for ( int i = 0; i < rows.Count; i += 1 ) {
+				if ( rows[i].elem == elem ) {
 					rows.RemoveAt(i);
 					return;
 				}
@@ -117,8 +134,8 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 			if ( item != null ) {         // node 本身不为 null
 				if ( item.DataContext != null ) {       // node 所关联的 datacontext 不为 null
 					Row row = item.DataContext as Row;
-					if ( row != null ) {
-						Debug.WriteLine(row);
+					if ( row != null && row.elem != null ) {
+						row.elem.Highlight();
 					}
 				}
 			}

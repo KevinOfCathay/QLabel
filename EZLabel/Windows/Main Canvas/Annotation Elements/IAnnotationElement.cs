@@ -52,6 +52,10 @@ namespace QLabel.Windows.Main_Canvas {
 		/// </summary>
 		public void Delete (MainCanvas canvas);
 		/// <summary>
+		/// 在画布上突出元素的位置
+		/// </summary>
+		public void Highlight ();
+		/// <summary>
 		/// 在画布上显示元素
 		/// </summary>
 		public void Show ();

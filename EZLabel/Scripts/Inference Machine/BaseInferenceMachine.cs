@@ -10,7 +10,6 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media.Media3D;
 
 namespace QLabel.Scripts.Inference_Machine {
 	internal abstract class BaseInferenceMachine {
@@ -36,19 +35,31 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// <summary>
 		/// 加载图片
 		/// </summary>
-		protected Bitmap LoadImage (ImageData data, int target_width, int target_height) {
-			if ( data != null ) {
-				var bitmap = new Bitmap(Image.FromFile(data.path));
-				int w = bitmap.Width; int h = bitmap.Height;
+		protected Bitmap ResizeImage (Bitmap source, int target_width, int target_height) {
+			if ( source != null ) {
+				int w = source.Width; int h = source.Height;
 				var result = new Bitmap(target_width, target_height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 				using ( Graphics g = Graphics.FromImage((Image) result) ) {
-					g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-					g.DrawImage(bitmap, 0, 0, target_width, target_height);
+					g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Bilinear;
+					g.DrawImage(source, 0, 0, target_width, target_height);
 				}
 				return result;
 			} else {
 				throw new ArgumentNullException("当前没有任何图片");
 			}
+		}
+		public Bitmap CropImage (Bitmap source, Vector2 xy, Vector2 wh) {
+			int width = (int) ( wh.X );
+			int height = (int) ( wh.Y );
+
+			Bitmap target = new Bitmap(width, height);
+			using ( Graphics g = Graphics.FromImage(target) ) {
+				g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Bilinear;
+				g.DrawImage(source, new Rectangle(0, 0, width, height),
+				   new Rectangle((int) xy.X, (int) xy.Y, width, height), GraphicsUnit.Pixel);
+			}
+			target.Save("f.png");
+			return target;
 		}
 		/// <summary>
 		/// 将图片转换为 tensor

@@ -29,6 +29,7 @@
 				Name="format" FontSize="8.5" Margin="4,0"
 				SelectionChanged="FormatSelectionChanged">
 				<ComboBoxItem IsSelected="True">VOC</ComboBoxItem>
+				<ComboBoxItem>COCO</ComboBoxItem>
 			</ComboBox>
 			<Label FontSize="8.5">Save To:</Label>
 			<tool:DirectorySelector x:Name="dir_selector"></tool:DirectorySelector>

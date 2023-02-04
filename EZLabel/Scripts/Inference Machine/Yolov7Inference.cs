@@ -15,13 +15,13 @@ using System.Drawing.Imaging;
 namespace QLabel.Scripts.Inference_Machine {
 	internal sealed class Yolov7Inference : BaseInferenceMachine {
 		public int width, height, classes;
-		private string[] labels;
+		private readonly ClassLabel[] labels;
 
 		/// <summary>
 		/// 初始化所有参数
 		/// </summary>
 		/// <param name="path">模型的路径</param>
-		public Yolov7Inference (string path, string[] labels, int width = 640, int height = 640, int classes = 14) :
+		public Yolov7Inference (string path, ClassLabel[] labels, int width = 640, int height = 640, int classes = 14) :
 			base(new[] { 1, 3, height, width }, null) {
 			model_path = path;
 			this.width = width;
@@ -68,7 +68,8 @@ namespace QLabel.Scripts.Inference_Machine {
 		public override AnnoData[] RunInference (ImageData img_file, HashSet<int> class_filter = null) {
 			eRunBefore?.Invoke(this);
 
-			var bitmap = LoadImage(img_file, width, height);
+			var origin = new Bitmap(Image.FromFile(img_file.path));
+			var bitmap = ResizeImage(origin, width, height);
 
 			var input_tensor = GetInputTensor(bitmap);
 			var output = Run(input_tensor);
@@ -102,7 +103,7 @@ namespace QLabel.Scripts.Inference_Machine {
 						continue;
 					}
 				}
-				ClassLabel cl = new ClassLabel(group: "None", name: labels[c]);
+				ClassLabel cl = new ClassLabel(labels[c]);
 				data.Add(new ADRect(
 					points, cl, label: "", conf: output[i * 7 + 6]
 					));

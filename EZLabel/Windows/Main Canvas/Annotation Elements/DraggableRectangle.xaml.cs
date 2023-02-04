@@ -11,6 +11,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Media3D;
 
 namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
@@ -48,10 +49,14 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			dots[2] = top_right_dot;
 			dots[3] = bottom_left_dot;
 			dots[4] = bottom_right_dot;
-		}
-		public void RegisterEvent () {
-			// 拖动 dots 的时候进行大小的调整
 
+			RegisterEvents();
+		}
+		public void RegisterEvents () {
+			for ( int i = 0; i < 5; i += 1 ) {
+				var index = i;
+				dots[i].eMouseEnter += (dot, e) => { this.dot_click_index = index; };
+			}
 		}
 		/// <summary>
 		/// 绘制矩形区域
@@ -140,15 +145,6 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			// 记录按下时的鼠标位置
 			var position = e.GetPosition(canvas);
 			mouse_down_position = new Vector2((float) position.X, (float) position.Y);
-
-			var click_obj = LogicalTreeHelper.GetParent(e.OriginalSource as DependencyObject);
-			dot_click_index = -1;
-			for ( int i = 0; i < 5; i += 1 ) {
-				if ( dots[i] == click_obj ) {
-					dot_click_index = i;
-					break;
-				}
-			}
 		}
 		public void MouseDrag (MainCanvas canvas, MouseEventArgs e) {
 			// 记录按下时的鼠标位置
@@ -158,13 +154,16 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 
 			switch ( dot_click_index ) {
 				case 0:   // Center
+					Shift(canvas.annotation_canvas, shift);
 					break;
 				case 1:   // Top Left
 					Draw(canvas.annotation_canvas, new Vector2[] { this.topleft + shift, this.bottomright });
 					break;
 				case 2:   // Top Right
+					Draw(canvas.annotation_canvas, new Vector2[] { this.topleft + new Vector2(0f, shift.Y), this.bottomright + new Vector2(shift.X, 0f) });
 					break;
 				case 3:   // Bottom Left
+					Draw(canvas.annotation_canvas, new Vector2[] { this.topleft + new Vector2(shift.X, 0), this.bottomright + new Vector2(0f, shift.Y) });
 					break;
 				case 4:   // Bottom Right
 					Draw(canvas.annotation_canvas, new Vector2[] { this.topleft, this.bottomright + shift });
@@ -175,6 +174,10 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			mouse_down_position = mouse_cur_position;
 		}
 		public new void MouseUp (MainCanvas canvas, MouseEventArgs e) {
+
+		}
+		public void Highlight () {
+			if ( highlight_storyboard != null ) { BeginStoryboard(highlight_storyboard); }
 		}
 	}
 }

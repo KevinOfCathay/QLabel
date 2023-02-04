@@ -10,8 +10,8 @@ using System.Windows;
 
 namespace QLabel {
 	public class CreateAnnotationElementManual : IAction {
-		readonly IAnnotationElement element;
-		readonly MainCanvas cvs;
+		private readonly IAnnotationElement element;
+		private readonly MainCanvas cvs;
 		public CreateAnnotationElementManual (IAnnotationElement element, MainCanvas canvas) {
 			this.element = element;
 			this.cvs = canvas;

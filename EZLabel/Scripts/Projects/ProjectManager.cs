@@ -46,6 +46,7 @@ namespace QLabel.Scripts.Projects {
 		public static void AddAnnoData (ImageData imgdata, AnnoData annodata) {
 			if ( imgdata != null && annodata != null && !imgdata.GetAnnoData().Contains(annodata) ) {
 				imgdata.AddAnnoData(annodata);   // 加入到 annodata 中
+				project.AddLabel(annodata.clas);
 				eAnnoDataAdded?.Invoke(imgdata, annodata);
 			}
 		}

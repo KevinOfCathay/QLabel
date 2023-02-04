@@ -9,19 +9,25 @@
 	<StackPanel>
 		<Expander Header="Properties" IsExpanded="True">
 			<StackPanel Margin="20,4,0,0">
-				<TextBlock FontSize="10.5">
+				<StackPanel.Resources>
+					<Style TargetType="{x:Type TextBlock}">
+						<Setter Property="FontSize" Value="9.5"/>
+						<Setter Property="Margin" Value="1"/>
+					</Style>
+				</StackPanel.Resources>
+				<TextBlock>
 							<Run>File Path:</Run>
 							<Run Name="file_path"></Run>
 				</TextBlock>
-				<TextBlock FontSize="10.5">
+				<TextBlock>
 							<Run>File Name:</Run>
 							<Run Name="file_name"></Run>
 				</TextBlock>
-				<TextBlock FontSize="10.5">
+				<TextBlock>
 							<Run>Dimension:</Run>
 							<Run Name="dimension"></Run>
 				</TextBlock>
-				<TextBlock FontSize="10.5">
+				<TextBlock>
 							<Run>File Size:</Run>
 							<Run Name="file_size"></Run>
 				</TextBlock>

@@ -42,7 +42,6 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Hide () {
 			Visibility = Visibility.Hidden;
 		}
-
 		public new void MouseDown (MainCanvas canvas, MouseEventArgs e) {
 			throw new NotImplementedException();
 		}
@@ -51,6 +50,9 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		}
 		public new void MouseUp (MainCanvas canvas, MouseEventArgs e) {
 			throw new NotImplementedException();
+		}
+		public void Highlight () {
+			if ( highlight_storyboard != null ) { BeginStoryboard(highlight_storyboard); }
 		}
 	}
 }

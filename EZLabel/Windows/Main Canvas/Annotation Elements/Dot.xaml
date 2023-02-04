@@ -12,8 +12,41 @@
 		Fill="#FFB5DCFF" 
 		Stroke="#FF6A20D4" 
 		StrokeThickness="1"
-		PreviewMouseDown="dot_PreviewMouseDown"
-		PreviewMouseMove="dot_PreviewMouseMove"
-		PreviewMouseUp="dot_PreviewMouseUp"
-		/>
+		MouseEnter="DotMouseEnter"
+		MouseLeave="DotMouseLeave" RenderTransformOrigin="0.5,0.5"
+		>
+		<Ellipse.RenderTransform>
+			<ScaleTransform ScaleY="1" ScaleX="1"/>
+		</Ellipse.RenderTransform>
+		<Ellipse.Triggers>
+			<EventTrigger RoutedEvent="MouseEnter">
+				<EventTrigger.Actions>
+					<BeginStoryboard>
+						<Storyboard>
+							<DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX"
+								From="1" To="2.5" Duration="0:0:0.75">
+							</DoubleAnimation>
+							<DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY"
+								From="1" To="2.5" Duration="0:0:0.75">
+							</DoubleAnimation>
+						</Storyboard>
+					</BeginStoryboard>
+				</EventTrigger.Actions>
+			</EventTrigger>
+			<EventTrigger RoutedEvent="MouseLeave">
+				<EventTrigger.Actions>
+					<BeginStoryboard>
+						<Storyboard>
+							<DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX"
+								From="2.5" To="1" Duration="0:0:0.75">
+							</DoubleAnimation>
+							<DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY"
+								From="2.5" To="1" Duration="0:0:0.75">
+							</DoubleAnimation>
+						</Storyboard>
+					</BeginStoryboard>
+				</EventTrigger.Actions>
+			</EventTrigger>
+		</Ellipse.Triggers>
+	</Ellipse>
 </UserControl>

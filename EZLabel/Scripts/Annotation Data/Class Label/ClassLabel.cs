@@ -8,10 +8,15 @@ using System.Windows.Media;
 
 namespace QLabel.Scripts {
 	public struct ClassLabel {
+		public ClassLabel (ClassLabel source) {
+			this.group = ( source.group != null && source.group != "" ) ? source.group : "None";
+			this.name = ( source.name != null && source.name != "" ) ? source.name : "None";
+			this.supercategory = ( source.supercategory != null && source.name != "" ) ? source.supercategory : source.name;
+		}
 		public ClassLabel (string group, string name, string supercategory = null) {
 			this.group = ( group != null && group != "" ) ? group : "None";
 			this.name = ( name != null && name != "" ) ? name : "None";
-			this.supercategory = ( supercategory == null ) ? name : supercategory;
+			this.supercategory = ( supercategory != null && supercategory != "" ) ? supercategory : name;
 		}
 
 		public readonly string group;

@@ -19,7 +19,7 @@
 		<Label x:Name="class_label" 
 			Padding="1" Margin="1"
 			FontSize="10.5"
-			Foreground="#FF3B7E61"
+			Foreground="{Binding Stroke, ElementName=rect}"
 			HorizontalAlignment="Right"
 			VerticalAlignment="Bottom" FontWeight="Bold" Background="#FFECFFFE" Content="[LBL]">
 			<Label.Resources>
@@ -29,11 +29,33 @@
 			</Label.Resources>
 		</Label>
 		<Rectangle 
-	    Name="rect"
-	    StrokeThickness="1" 
-	    Stroke="#FF6696FF"
-	    ></Rectangle>
-
+			Name="rect" 
+			StrokeThickness="1"  Stroke="#FF6696FF">
+			<!-- Highlight 动画 -->
+			<Rectangle.Triggers>
+				<EventTrigger RoutedEvent="MouseEnter">
+					<EventTrigger.Actions>
+						<BeginStoryboard>
+							<Storyboard Name="highlight_storyboard">
+								<ColorAnimation Storyboard.TargetProperty="(Rectangle.Stroke).(SolidColorBrush.Color)"
+									From="#FF6696FF" To="White" Duration="0:0:0.5"
+									BeginTime="0:0:0"/>
+								<ColorAnimation Storyboard.TargetProperty="(Rectangle.Stroke).(SolidColorBrush.Color)"
+									From="White" 
+									To="Black" 
+									Duration="0:0:0.5"
+									BeginTime="0:0:0.5"/>
+								<ColorAnimation Storyboard.TargetProperty="(Rectangle.Stroke).(SolidColorBrush.Color)"
+									From="Black" 
+									To="#FF6696FF" 
+									Duration="0:0:0.5"
+									BeginTime="0:0:1"/>
+							</Storyboard>
+						</BeginStoryboard>
+					</EventTrigger.Actions>
+				</EventTrigger>
+			</Rectangle.Triggers>
+		</Rectangle>
 		<local:Dot 
 			x:Name="center_dot"
 			HorizontalAlignment="Center"

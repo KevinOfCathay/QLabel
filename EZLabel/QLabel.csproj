@@ -25,6 +25,7 @@
     <None Remove="Resources\Icons\selection.png" />
     <None Remove="Resources\Icons\square.png" />
     <None Remove="Resources\Models\PAnet-text-detection.onnx" />
+    <None Remove="Resources\Models\topdown_hrnet_w32_coco_384x288_rm_inzr.onnx" />
     <None Remove="Resources\Models\yolov5m-coco.onnx" />
     <None Remove="Resources\Models\yolov5m-voc.onnx" />
     <None Remove="Resources\Models\yolov7-manga-230130.onnx" />
@@ -87,6 +88,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Content Include="Resources\Models\PAnet-text-detection.onnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Models\topdown_hrnet_w32_coco_384x288_rm_inzr.onnx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Models\yolov5m-coco.onnx">

@@ -54,6 +54,7 @@ namespace QLabel.Scripts.AnnotationToolManager {
 		private void MouseUp (MainCanvas canvas, MouseEventArgs e) {
 			if ( selected_elem != null ) {
 				selected_elem.MouseUp(canvas, e);
+				canvas.ModifiedAnnoElements(selected_elem);
 				selected_elem = null;
 			}
 			mouse_down = false;

@@ -113,7 +113,8 @@ namespace QLabel.Scripts.Inference_Machine {
 		public override AnnoData[] RunInference (ImageData img_file, HashSet<int> class_filter = null) {
 			eRunBefore?.Invoke(this);
 
-			var bitmap = LoadImage(img_file, width, height);
+			var origin = new Bitmap(Image.FromFile(img_file.path));
+			var bitmap = ResizeImage(origin, width, height);
 			var input_tensor = GetInputTensor(bitmap);
 			var output = Run(input_tensor);
 			var (ind, final_scores, final_boxes, final_classes) = NMS(output);

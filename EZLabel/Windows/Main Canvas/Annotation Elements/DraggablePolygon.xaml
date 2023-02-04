@@ -9,9 +9,35 @@
 	<Grid
 		Name="container">
 		<Polygon 
+			Name="poly"
 		     Points="10,110 60,10 110,110"
-		     Stroke="BlueViolet"
+		     Stroke="#FF6696FF"
 		     StrokeThickness="3"
-		/>
+		>
+			<!-- Highlight 动画 -->
+			<Polygon.Triggers>
+				<EventTrigger RoutedEvent="MouseEnter">
+					<EventTrigger.Actions>
+						<BeginStoryboard>
+							<Storyboard Name="highlight_storyboard">
+								<ColorAnimation Storyboard.TargetProperty="(Rectangle.Stroke).(SolidColorBrush.Color)"
+									From="#FF6696FF" To="White" Duration="0:0:0.5"
+									BeginTime="0:0:0"/>
+								<ColorAnimation Storyboard.TargetProperty="(Rectangle.Stroke).(SolidColorBrush.Color)"
+									From="White" 
+									To="Black" 
+									Duration="0:0:0.5"
+									BeginTime="0:0:0.5"/>
+								<ColorAnimation Storyboard.TargetProperty="(Rectangle.Stroke).(SolidColorBrush.Color)"
+									From="Black" 
+									To="#FF6696FF" 
+									Duration="0:0:0.5"
+									BeginTime="0:0:1"/>
+							</Storyboard>
+						</BeginStoryboard>
+					</EventTrigger.Actions>
+				</EventTrigger>
+			</Polygon.Triggers>
+		</Polygon>
 	</Grid>
 </UserControl>

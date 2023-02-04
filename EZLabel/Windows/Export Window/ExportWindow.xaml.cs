@@ -14,9 +14,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace QLabel.Windows.Export_Window {
-	/// <summary>
-	/// Interaction logic for ExportWindow.xaml
-	/// </summary>
 	public partial class ExportWindow : Window {
 		/// <summary>
 		/// VOC: VOC 数据格式
@@ -41,18 +38,20 @@ namespace QLabel.Windows.Export_Window {
 
 		}
 		private void ConfirmClick (object sender, RoutedEventArgs e) {
+			List<ImageData> datalist = new List<ImageData>();
 			switch ( tar ) {
 				case Target.Current:
-					Export(ProjectManager.cur_datafile, fmt, save_dir);
+					datalist.Add(ProjectManager.cur_datafile);
 					break;
 				case Target.All:
 					foreach ( var datafile in ProjectManager.project.data_list ) {
-						Export(datafile, fmt, save_dir);
+						datalist.Add(datafile);
 					}
 					break;
 				default:
 					break;
 			}
+			Export(datalist.ToArray(), fmt, save_dir);
 			CloseWindow();
 		}
 		private void CancelClick (object sender, RoutedEventArgs e) {
@@ -61,16 +60,13 @@ namespace QLabel.Windows.Export_Window {
 		private void CloseWindow () {
 			this.Close();
 		}
-
-		/// <summary>
-		/// 导出一个单一文件
-		/// </summary>
-		private void Export (ImageData data, Format fmt, string path) {
-			string save_loc;
+		private void Export (ImageData[] data, Format fmt, string path) {
 			switch ( fmt ) {
 				case Format.VOC:
-					save_loc = Path.Join(path, data.filename + "_voc.xml");
-					data.ToVOC(save_loc);
+					ExportToVOC(data, path);
+					break;
+				case Format.COCO:
+					ExportToCoco(data, path);
 					break;
 				default:
 					break;

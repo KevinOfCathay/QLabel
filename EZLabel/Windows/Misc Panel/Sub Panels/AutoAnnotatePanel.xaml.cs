@@ -4,6 +4,7 @@ using QLabel.Scripts.Inference_Machine;
 using QLabel.Scripts.Projects;
 using QLabel.Windows.Main_Canvas;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -35,17 +36,32 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 				ListBoxItem item = new ListBoxItem();
 				item.Content = config.model_name;
 
-				string[] labels = config.class_labels;
+				var labels = config.class_labels;
+				var tags = config.tags;
 				item.Selected += (object sender, RoutedEventArgs e) => {
 					model_name.Text = config.model_name;
 					accepted_classes = new HashSet<int>();
 					machine = config.inf;
 					SetClassLabels(labels);
+					SetTags(tags);
 				};
 				model_list.Items.Add(item);
 			}
 		}
-		private void SetClassLabels (string[] labels) {
+		private void SetTags (string[] tags) {
+			// 清空 tag list 中的所有元素
+			tag_list.Children.Clear();
+
+			// 将新的元素加入到 class list 中
+			for ( int i = 0; i < tags.Length; i += 1 ) {
+				var tag = tags[i];
+
+				RoundedLabel rlabel = new RoundedLabel();
+				rlabel.label.Content = tag;
+				tag_list.Children.Add(rlabel);
+			}
+		}
+		private void SetClassLabels (ClassLabel[] labels) {
 			// 清空 class list 中的所有元素
 			class_list.Items.Clear();
 			cbxlabels = new CheckboxWithLabel[labels.Length];
@@ -56,7 +72,7 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 				var new_item = new ListBoxItem();
 
 				var new_cbxlabel = new CheckboxWithLabel();
-				new_cbxlabel.label.Content = label;
+				new_cbxlabel.label.Content = label.name;
 				int class_index = i;
 				new_cbxlabel.eChecked += (_, _) => { accepted_classes.Add(class_index); };
 				new_cbxlabel.eUnchecked += (_, _) => { accepted_classes.Remove(class_index); };
