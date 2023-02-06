@@ -10,7 +10,7 @@
 	<Ellipse 
 		Name="dot"
 		Fill="#FFB5DCFF" 
-		Stroke="#FF6A20D4" 
+		Stroke="Crimson" 
 		StrokeThickness="1"
 		MouseEnter="DotMouseEnter"
 		MouseLeave="DotMouseLeave" RenderTransformOrigin="0.5,0.5"

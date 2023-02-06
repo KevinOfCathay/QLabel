@@ -62,6 +62,7 @@ namespace QLabel {
 											if ( fi == selected_file ) {
 												// 如果当前被选择的文件属于图像
 												// 则加载该图像
+												// TODO: 移动到 for 循环外面, Async 加载
 												if ( accepted_ext.Contains(Path.GetExtension(selected_file)) ) {
 													main.main_canvas.LoadImage(imgdata);
 													ProjectManager.cur_datafile = imgdata;

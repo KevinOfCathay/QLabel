@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows8.0</TargetFramework>
+    <TargetFramework>net7.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <StartupObject>QLabel.App</StartupObject>
@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <None Remove="Credit.txt" />
-    <None Remove="Resources\Icons\credits.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Resources\Credits.txt">
+    <Content Include="Resources\Icons\Credits.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Resources\Icons\button.png">

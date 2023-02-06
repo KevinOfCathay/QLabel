@@ -12,7 +12,7 @@
 			Name="poly"
 		     Points="10,110 60,10 110,110"
 		     Stroke="#FF6696FF"
-		     StrokeThickness="3"
+		     StrokeThickness="2"
 		>
 			<!-- Highlight 动画 -->
 			<Polygon.Triggers>

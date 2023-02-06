@@ -4,6 +4,7 @@ using QLabel.Windows.Main_Canvas;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,14 +15,22 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 	/// Interaction logic for AnnoList.xaml
 	/// </summary>
 	public partial class AnnoList : UserControl {
-		public record class Row {
-			public int Index { get; set; }
-			public AnnoData.Type Type { get; set; }
-			public string Points { get; set; }
-			public string Class { get; set; }
-			public string Label { get; set; }
-			public string Group { get; set; }
-			public string Supercategory { get; set; }
+		public record class Row : INotifyPropertyChanged {
+			private int _index;
+			private AnnoData.Type _type;
+			private string _points;
+			private string _class;
+			private string _label;
+			private string _group;
+			private string _supercategory;
+
+			public int Index { get { return _index; } set { _index = value; OnPropertyChanged("Index"); } }
+			public AnnoData.Type Type { get { return _type; } set { _type = value; OnPropertyChanged("Type"); } }
+			public string Points { get { return _points; } set { _points = value; OnPropertyChanged("Points"); } }
+			public string Class { get { return _class; } set { _class = value; OnPropertyChanged("Class"); } }
+			public string Label { get { return _label; } set { _label = value; OnPropertyChanged("Label"); } }
+			public string Group { get { return _group; } set { _group = value; OnPropertyChanged("Group"); } }
+			public string Supercategory { get { return _supercategory; } set { _supercategory = value; OnPropertyChanged("Supercategory"); } }
 			public IAnnotationElement elem { get; set; }
 			public IComparable this[int i] {
 				get {
@@ -35,6 +44,14 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 						case 6: return Supercategory;
 						default: return Index;
 					}
+				}
+			}
+
+			// https://stackoverflow.com/a/21050642
+			public event PropertyChangedEventHandler? PropertyChanged;
+			protected virtual void OnPropertyChanged (string PropertyName) {
+				if ( PropertyChanged != null ) {
+					PropertyChanged.Invoke(this, new PropertyChangedEventArgs(PropertyName));
 				}
 			}
 		}
@@ -77,7 +94,6 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 				if ( rows[i].elem == elem ) { // 找到当前的 elem
 					var data = elem.data;
 					if ( data != null ) {
-						// TODO: 以下代码应当被优化
 						rows[i].Type = data.type;
 						rows[i].Class = data.clas.name;
 						rows[i].Group = data.clas.group;

@@ -25,6 +25,11 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		}
 		AnnoData _data;   // 这个多边形所对应的注释数据
 		public AnnoData data { get { return _data; } set { _data = value; } }
+		public Vector2[] cpoints {
+			get {
+				throw new NotImplementedException();
+			}
+		}
 		private List<DraggableDot> dots = new List<DraggableDot>();
 
 		public void Delete (MainCanvas canvas) {
@@ -52,7 +57,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			throw new NotImplementedException();
 		}
 		public void Highlight () {
-			if ( highlight_storyboard != null ) { BeginStoryboard(highlight_storyboard); }
+			// if ( highlight_storyboard != null ) { BeginStoryboard(highlight_storyboard); }
 		}
 	}
 }

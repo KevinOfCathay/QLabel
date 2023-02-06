@@ -1,4 +1,5 @@
-﻿using QLabel.Scripts.AnnotationData;
+﻿using OpenCvSharp;
+using QLabel.Scripts.AnnotationData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,7 @@ namespace QLabel.Windows.Main_Canvas {
 		/// 这个元素所关联的 anno 数据
 		/// </summary>
 		AnnoData data { get; set; }
+		Vector2[] cpoints { get; }
 
 		public void MouseDown (MainCanvas canvas, MouseEventArgs e);
 		public void MouseDrag (MainCanvas canvas, MouseEventArgs e);

@@ -26,15 +26,34 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		/// </summary>
 		public Action<DraggableRectangle, float, float> eDraw;
 		public Dot[] dots = new Dot[5];
-		private Vector2 topleft, bottomright, size;
+		public Vector2 size {
+			get { return new Vector2(MathF.Abs(bottomright.X - topleft.X), MathF.Abs(bottomright.Y - topleft.Y)); }
+		}
+		private Vector2 topleft, bottomright;
+
 
 		private Vector2 mouse_down_position;
 		private int dot_click_index = -1;
 
 		AnnoData _data;   // 这个矩形所对应的注释数据
+
 		public AnnoData data {
 			get { return _data; }
 			set { _data = value; this.class_label.Content = value.clas.name; }
+		}
+		public Vector2[] cpoints {
+			get {
+				float left = (float) Canvas.GetLeft(this);
+				float top = (float) Canvas.GetTop(this);
+				float w = (float) ActualWidth;
+				float h = (float) ActualHeight;
+				return new Vector2[] {
+					new Vector2(left, top),    // 左上角
+					new Vector2(left + w, top),     // 右上角
+					new Vector2(left, top + h),     // 左下角
+					new Vector2(left + w, top + h)     // 右下角
+				};
+			}
 		}
 
 		public DraggableRectangle () {
@@ -118,7 +137,6 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 
 			// 定义矩形的长和宽
 			// X: width, Y: height
-			size = new Vector2(MathF.Abs(bottomright.X - topleft.X), MathF.Abs(bottomright.Y - topleft.Y));
 			container.Width = size.X;
 			container.Height = size.Y;
 
@@ -174,10 +192,19 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			mouse_down_position = mouse_cur_position;
 		}
 		public new void MouseUp (MainCanvas canvas, MouseEventArgs e) {
-
+			// 创建新的 AnnoData
+			ADRect new_data = new ADRect(
+				new ReadOnlySpan<Vector2>(new Vector2[] {
+					canvas.RealPosition(cpoints[0]), canvas.RealPosition(cpoints[1]),
+					canvas.RealPosition(cpoints[2]), canvas.RealPosition(cpoints[3]) }),
+				data.clas, data.label, data.conf);
+			ChangeRectSize changesize = new ChangeRectSize(canvas, this, data, new_data);
+			changesize.Do();
+			ActionManager.PushAction(changesize);
 		}
 		public void Highlight () {
-			if ( highlight_storyboard != null ) { BeginStoryboard(highlight_storyboard); }
+			// Error:
+			// if ( highlight_storyboard != null ) { BeginStoryboard(highlight_storyboard); }
 		}
 	}
 }

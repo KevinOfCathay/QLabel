@@ -11,17 +11,17 @@ using System.Windows;
 namespace QLabel {
 	public class CreateAnnotationElementManual : IAction {
 		private readonly IAnnotationElement element;
-		private readonly MainCanvas cvs;
+		private readonly MainCanvas canvas;
 		public CreateAnnotationElementManual (IAnnotationElement element, MainCanvas canvas) {
 			this.element = element;
-			this.cvs = canvas;
+			this.canvas = canvas;
 		}
 		public void Do () {
-			cvs.AddAnnoElements(element);
+			canvas.AddAnnoElements(element);
 			ProjectManager.AddAnnoData(ProjectManager.cur_datafile, element.data);
 		}
 		public void Undo () {
-			cvs.RemoveAnnoElements(element);
+			canvas.RemoveAnnoElements(element);
 			ProjectManager.RemoveAnnoData(ProjectManager.cur_datafile, element.data);
 		}
 	}

@@ -60,13 +60,13 @@ namespace QLabel.Windows.Export_Window {
 		private void CloseWindow () {
 			this.Close();
 		}
-		private void Export (ImageData[] data, Format fmt, string path) {
+		private async void Export (ImageData[] data, Format fmt, string path) {
 			switch ( fmt ) {
 				case Format.VOC:
-					ExportToVOC(data, path);
+					await ExportToVOC(data, path);
 					break;
 				case Format.COCO:
-					ExportToCoco(data, path);
+					await ExportToCoco(data, path);
 					break;
 				default:
 					break;

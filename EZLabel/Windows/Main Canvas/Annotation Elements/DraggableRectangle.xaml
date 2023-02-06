@@ -30,7 +30,7 @@
 		</Label>
 		<Rectangle 
 			Name="rect" 
-			StrokeThickness="1"  Stroke="#FF6696FF">
+			StrokeThickness="2"  Stroke="#FF6696FF">
 			<!-- Highlight 动画 -->
 			<Rectangle.Triggers>
 				<EventTrigger RoutedEvent="MouseEnter">
