@@ -56,11 +56,9 @@ namespace QLabel.Windows.Main_Canvas {
 			_img.Height = _canvas.ActualHeight;
 			SetZoomText(1.0 / scale);
 		}
-
 		private void one_one_ratio_Click (object sender, RoutedEventArgs e) {
 			OneToOneRatio();
 		}
-
 		private void fill_canvas_Click (object sender, RoutedEventArgs e) {
 			FillRatio();
 		}

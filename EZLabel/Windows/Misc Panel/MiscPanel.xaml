@@ -10,16 +10,19 @@
 	<TabControl>
 		<TabItem Header="Autos">
 			<subpanel:AutoAnnotatePanel
+				Margin="10"
 				x:Name="auto_annotate_panel"
 				/>
 		</TabItem>
 		<TabItem Header="Labels" HorizontalAlignment="Left" Width="45">
 			<subpanel:LabelsPanel
+				Margin="10"
 				x:Name="labels_panel"
 				/>
 		</TabItem>
 		<TabItem Header="Props">
 			<subpanel:ImagePropertiesPanel
+				Margin="10"
 				x:Name="image_properties_panel"
 				/>
 		</TabItem>

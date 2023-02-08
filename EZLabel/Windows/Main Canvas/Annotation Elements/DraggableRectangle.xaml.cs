@@ -32,7 +32,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		private Vector2 topleft, bottomright;
 
 
-		private Vector2 mouse_down_position;
+		private Vector2 mouse_down_position, mouse_cur_position;
 		private int dot_click_index = -1;
 
 		AnnoData _data;   // 这个矩形所对应的注释数据
@@ -163,12 +163,13 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			// 记录按下时的鼠标位置
 			var position = e.GetPosition(canvas);
 			mouse_down_position = new Vector2((float) position.X, (float) position.Y);
+			mouse_cur_position = mouse_down_position;
 		}
 		public void MouseDrag (MainCanvas canvas, MouseEventArgs e) {
 			// 记录按下时的鼠标位置
 			var position = e.GetPosition(canvas);
-			var mouse_cur_position = new Vector2((float) position.X, (float) position.Y);
-			var shift = mouse_cur_position - mouse_down_position;
+			var mouse_temp_position = new Vector2((float) position.X, (float) position.Y);
+			var shift = mouse_temp_position - mouse_cur_position;
 
 			switch ( dot_click_index ) {
 				case 0:   // Center
@@ -189,7 +190,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 				default:
 					break;
 			}
-			mouse_down_position = mouse_cur_position;
+			mouse_cur_position = mouse_temp_position;
 		}
 		public new void MouseUp (MainCanvas canvas, MouseEventArgs e) {
 			// 创建新的 AnnoData

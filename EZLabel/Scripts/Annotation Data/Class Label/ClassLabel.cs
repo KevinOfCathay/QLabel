@@ -19,11 +19,15 @@ namespace QLabel.Scripts {
 			this.supercategory = ( supercategory != null && supercategory != "" ) ? supercategory : name;
 		}
 
+		/// <summary> 组 </summary>
 		public readonly string group;
+		/// <summary> 上级标签 </summary>
 		public readonly string supercategory;
+		/// <summary> 标签名 </summary>
 		public readonly string name;
 		/// <summary> 代表这个标签的颜色 </summary>
 		public Color color;
+
 		public string GetName () {
 			return ( ( group != null && group != "" ) ? group : "" ) + ( ( name != null && name != "" ) ? name : "" );
 		}

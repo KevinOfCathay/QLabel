@@ -212,7 +212,6 @@ namespace QLabel.Windows.Main_Canvas {
 			image_offset = p;
 		}
 
-
 		#region MouseEvents
 		private void CanvasMouseDown (object sender, MouseButtonEventArgs e) {
 			button_state = MouseButtonState.Pressed;

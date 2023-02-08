@@ -1,6 +1,7 @@
 ﻿using OpenCvSharp;
 using QLabel.Scripts.AnnotationData;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
 using System.Windows;
@@ -18,6 +19,11 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 
 		AnnoData _data;   // 这个点所对应的注释数据
 		public AnnoData data { get { return _data; } set { _data = value; } }
+		/// <summary>
+		/// 这个点相关联的线
+		/// </summary>
+		public List<IAnnotationElement> linked_elements;
+
 		public Vector2[] cpoints {
 			get {
 				float left = (float) Canvas.GetLeft(dot);
@@ -27,6 +33,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		}
 		public DraggableDot () {
 			InitializeComponent();
+			linked_elements = new List<IAnnotationElement>();
 		}
 
 		public void Draw (Canvas canvas, Vector2[] points) {

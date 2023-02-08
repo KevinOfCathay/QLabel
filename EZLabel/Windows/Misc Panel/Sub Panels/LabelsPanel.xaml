@@ -6,18 +6,19 @@
              xmlns:local="clr-namespace:QLabel.Windows.Misc_Panel.Sub_Panels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="200">
-    <StackPanel>
-		<TextBlock FontSize="10.5">Labels</TextBlock>
-	    
-	    <!-- 这里将显示所有的 label 信息 -->
-		<ListBox Name="listbox">
+	<StackPanel  Margin="10">
+		<TextBlock FontSize="9.5">Labels</TextBlock>
+
+		<!-- 这里将显示所有的 label 信息 -->
+		<ListBox Name="listbox" MinHeight="100" MaxHeight="300">
 			<ListBox.ItemsPanel>
 				<ItemsPanelTemplate>
 					<UniformGrid Columns="2" />
 				</ItemsPanelTemplate>
 			</ListBox.ItemsPanel>
 		</ListBox>
-		<StackPanel Orientation="Horizontal">
+		
+		<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 			<StackPanel.Resources>
 				<Style TargetType="{x:Type Button}">
 					<Setter Property="Margin" Value="1"/>
@@ -28,5 +29,5 @@
 			<Button>Add</Button>
 			<Button>Remove</Button>
 		</StackPanel>
-    </StackPanel>
+	</StackPanel>
 </UserControl>

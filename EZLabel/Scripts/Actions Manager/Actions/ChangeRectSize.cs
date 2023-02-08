@@ -25,6 +25,10 @@ namespace QLabel {
 		public void Do () {
 			// 新的 annodata
 			elem.data = data_after;
+			var points_after = new Vector2[data_after.points.Length];
+			for ( var i = 0; i < data_after.points.Length; i += 1 ) {
+				points_after[i] = canvas.CanvasPosition(data_after.points[i]);
+			}
 			canvas.ModifiedAnnoElements(elem);
 		}
 		public void Undo () {
