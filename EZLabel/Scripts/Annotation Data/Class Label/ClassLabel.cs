@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace QLabel.Scripts {
-	public struct ClassLabel {
+	public class ClassLabel {
 		public ClassLabel (ClassLabel source) {
 			this.group = ( source.group != null && source.group != "" ) ? source.group : "None";
 			this.name = ( source.name != null && source.name != "" ) ? source.name : "None";

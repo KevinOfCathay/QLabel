@@ -39,7 +39,7 @@
 		</TextBlock>
 
 		<!--中间隔开一定的距离-->
-		
+
 		<TextBlock  VerticalAlignment="Center">
 				<!-- 鼠标的坐标 -->
 				<Run>w: </Run>
@@ -50,7 +50,7 @@
 		</TextBlock>
 
 		<!--中间隔开一定的距离-->
-		
+
 		<TextBlock	
 			VerticalAlignment="Center">
 				<!-- 图片的缩放比例 -->
@@ -66,18 +66,20 @@
 					<Setter Property="Margin" Value="2, 0"/>
 					<Setter Property="Padding" Value="2"/>
 					<Setter Property="FontSize" Value="9"/>
+					<Setter Property="FontWeight" Value="DemiBold"/>
 				</Style>
 			</StackPanel.Resources>
 			<Button
 			   Name="one_one_ratio"
 			   Click="one_one_ratio_Click"
-			   >
+				>
 				<Button.Resources>
 					<Style TargetType="Border">
 						<Setter Property="CornerRadius" Value="4"/>
 					</Style>
 				</Button.Resources>
-				1:1</Button>
+				1:1
+			</Button>
 			<Button
 			   Name="fill_canvas"
 			   Click="fill_canvas_Click"
@@ -87,7 +89,8 @@
 						<Setter Property="CornerRadius" Value="4"/>
 					</Style>
 				</Button.Resources>
-				Fill</Button>
+				Fill
+			</Button>
 		</StackPanel>
 	</StackPanel>
 </UserControl>
