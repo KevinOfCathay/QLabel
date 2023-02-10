@@ -23,14 +23,32 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public DraggablePolygon () {
 			InitializeComponent();
 		}
+		public DraggablePolygon (Vector2[] cpoints) : base() {
+			vertex = cpoints.Length;
+
+			// 从 cpoints 中创建多边形的顶点
+			polygon.Points = new PointCollection(cpoints.to_points());
+			foreach ( var cpoint in cpoints ) {
+				// 创建点
+			}
+		}
 		AnnoData _data;   // 这个多边形所对应的注释数据
+
 		public AnnoData data { get { return _data; } set { _data = value; } }
 		public Vector2[] cpoints {
 			get {
-				throw new NotImplementedException();
+				Vector2[] _cpoints = new Vector2[vertex];
+				int index = 0;
+				foreach ( var point in polygon.Points ) {
+					_cpoints[index] = new Vector2((float) point.X, (float) point.Y);
+					index += 1;
+				}
+				return _cpoints;
 			}
 		}
-		private List<DraggableDot> dots = new List<DraggableDot>();
+		public Vector2[] convex_hull { get { throw new NotImplementedException(); } }
+		private int vertex;
+		private List<Dot> dots = new List<Dot>();
 
 		public void Delete (MainCanvas canvas) {
 			canvas.annotation_canvas.Children.Remove(this);
@@ -58,6 +76,9 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		}
 		public void Highlight () {
 			// if ( highlight_storyboard != null ) { BeginStoryboard(highlight_storyboard); }
+		}
+		public void ToPolygon (MainCanvas canvas) {
+			// 什么都不做
 		}
 	}
 }

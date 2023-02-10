@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QLabel.Scripts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,8 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 	/// </summary>
 	public partial class LabelsPanel : UserControl {
 		public event Action<LabelsPanel, ListBoxItem> eItemAdded, eItemRemoved;
+		public List<ClassLabel> labels = new List<ClassLabel>();
+
 		public LabelsPanel () { InitializeComponent(); }
 		public void AddItem (ListBoxItem item) {
 			listbox.Items.Add(item);

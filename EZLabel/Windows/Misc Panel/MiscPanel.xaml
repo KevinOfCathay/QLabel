@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:QLabel.Windows.Misc_Panel"
              xmlns:subpanel="clr-namespace:QLabel.Windows.Misc_Panel.Sub_Panels"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="500" d:DesignWidth="300">
 	<TabControl>
 		<TabItem Header="Autos">
 			<subpanel:AutoAnnotatePanel

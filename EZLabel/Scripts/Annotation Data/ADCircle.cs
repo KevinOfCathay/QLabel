@@ -10,8 +10,8 @@ namespace QLabel.Scripts.AnnotationData {
 	public record ADCircle : AnnoData {
 		public float radius = 0f;
 		public ADCircle
-			(ReadOnlySpan<Vector2> points, ClassLabel clas, string label = "", float conf = 1.0f, float radius = 0f) :
-			base(points, Type.Circle, clas, label, conf) {
+			(ReadOnlySpan<Vector2> points, ClassLabel clas, float conf = 1.0f, float radius = 0f) :
+			base(points, Type.Circle, clas, conf) {
 			this.radius = radius;
 		}
 

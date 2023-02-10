@@ -19,11 +19,6 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 
 		AnnoData _data;   // 这个点所对应的注释数据
 		public AnnoData data { get { return _data; } set { _data = value; } }
-		/// <summary>
-		/// 这个点相关联的线
-		/// </summary>
-		public List<IAnnotationElement> linked_elements;
-
 		public Vector2[] cpoints {
 			get {
 				float left = (float) Canvas.GetLeft(dot);
@@ -31,6 +26,11 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 				return new Vector2[] { new Vector2(left, top) };
 			}
 		}
+		public Vector2[] convex_hull { get { return cpoints; } }
+		/// <summary>
+		/// 这个点相关联的线
+		/// </summary>
+		public List<IAnnotationElement> linked_elements;
 		public DraggableDot () {
 			InitializeComponent();
 			linked_elements = new List<IAnnotationElement>();
@@ -94,6 +94,8 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		}
 		public void Highlight () {
 			throw new NotImplementedException();
+		}
+		public void ToPolygon (MainCanvas canvas) {
 		}
 	}
 }

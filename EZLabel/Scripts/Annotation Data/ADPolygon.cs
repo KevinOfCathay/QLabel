@@ -12,8 +12,8 @@ namespace QLabel.Scripts.AnnotationData {
 	/// </summary>
 	public record ADPolygon : AnnoData {
 		public ADPolygon
-			(ReadOnlySpan<Vector2> points, ClassLabel clas, string label = "", float conf = 1.0f) :
-			base(points, Type.Polygon, clas, label, conf) {
+			(ReadOnlySpan<Vector2> rpoints, ClassLabel clas, float conf = 1.0f) :
+			base(rpoints, Type.Polygon, clas, conf) {
 		}
 
 		public override IAnnotationElement CreateAnnotationElement (MainCanvas canvas) {

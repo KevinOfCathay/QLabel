@@ -13,8 +13,8 @@ namespace QLabel.Scripts.AnnotationData {
 	/// </summary>
 	public record ADTetragon : AnnoData {
 		public ADTetragon
-			(ReadOnlySpan<Vector2> points, ClassLabel clas, string label = "", float conf = 1.0f) :
-			base(points, Type.Tetragon, clas, label, conf) {
+			(ReadOnlySpan<Vector2> points, ClassLabel clas, float conf = 1.0f) :
+			base(points, Type.Tetragon, clas, conf) {
 		}
 
 		public override IAnnotationElement CreateAnnotationElement (MainCanvas canvas) {

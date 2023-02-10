@@ -30,8 +30,6 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			get { return new Vector2(MathF.Abs(bottomright.X - topleft.X), MathF.Abs(bottomright.Y - topleft.Y)); }
 		}
 		private Vector2 topleft, bottomright;
-
-
 		private Vector2 mouse_down_position, mouse_cur_position;
 		private int dot_click_index = -1;
 
@@ -53,6 +51,20 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 					new Vector2(left, top + h),     // 左下角
 					new Vector2(left + w, top + h)     // 右下角
 				};
+			}
+		}
+		public Vector2[] convex_hull {
+			get {
+				float left = (float) Canvas.GetLeft(this);
+				float top = (float) Canvas.GetTop(this);
+				float w = (float) ActualWidth;
+				float h = (float) ActualHeight;
+				return new Vector2[] {
+					new Vector2(left, top),    // 左上角
+					new Vector2(left + w, top),     // 右上角
+					new Vector2(left + w, top + h),     // 右下角
+					new Vector2(left, top + h),     // 左下角
+				}; ;
 			}
 		}
 
@@ -206,6 +218,13 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Highlight () {
 			// Error:
 			// if ( highlight_storyboard != null ) { BeginStoryboard(highlight_storyboard); }
+		}
+		public void ToPolygon (MainCanvas canvas) {
+			DraggablePolygon polygon = new DraggablePolygon(cpoints: this.cpoints);
+			ADPolygon polydata = new ADPolygon(data.rpoints, data.clas, data.label, data.conf);  // 复制数据
+			polygon.data = polydata;
+			canvas.AddAnnoElements(polygon);
+			canvas.RemoveAnnoElements(this);
 		}
 	}
 }

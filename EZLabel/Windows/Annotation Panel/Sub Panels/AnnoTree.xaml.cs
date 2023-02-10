@@ -88,7 +88,7 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 
 			// 在 class 下面添加一行
 			TreeViewItem itemnode = new TreeViewItem();
-			CheckboxWithLabel i_cbxlbl = new CheckboxWithLabel(string.Join(" ", class_name, data.points.to_shortstring()), check: true);
+			CheckboxWithLabel i_cbxlbl = new CheckboxWithLabel(string.Join(" ", class_name, data.rpoints.to_shortstring()), check: true);
 			i_cbxlbl.eChecked += (_, _) => { elem.Show(); };
 			i_cbxlbl.eUnchecked += (_, _) => { elem.Hide(); };
 			itemnode.Header = i_cbxlbl;

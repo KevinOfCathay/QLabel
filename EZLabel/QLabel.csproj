@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <None Remove="Credit.txt" />
+    <None Remove="Resources\Icons\line.png" />
+    <None Remove="Resources\Icons\pentagon.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,7 +51,13 @@
     <Resource Include="Resources\Icons\folder.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Icons\line.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Icons\nodes.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Icons\pentagon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Icons\polygon.png">

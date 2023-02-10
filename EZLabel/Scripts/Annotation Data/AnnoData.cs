@@ -9,19 +9,22 @@ using System.Windows;
 namespace QLabel.Scripts.AnnotationData {
 	public abstract record AnnoData {
 		public enum Type { Dot, Rectangle, Square, Tetragon, Line, Circle, Polygon }
-		public AnnoData (ReadOnlySpan<Vector2> points, Type type, ClassLabel clas, string label, float conf) {
+		/// <summary>
+		/// 初始化所有的 readonly 属性
+		/// </summary>
+		public AnnoData (ReadOnlySpan<Vector2> rpoints, Type type, ClassLabel clas, float conf) {
 			createtime = DateTime.Now;
-			this.points = points.ToArray();
+			this.rpoints = rpoints.ToArray();
 			this.conf = conf;
 			this.type = type;
-			this.label = label;
 			this.clas = clas;
-			bbox = GetBoundingBox(points);
+			bbox = GetBoundingBox(rpoints);
 			brect = new Int32Rect((int) bbox.tl.X, (int) bbox.tl.Y, (int) ( bbox.br.X - bbox.tl.X ), (int) ( bbox.br.Y - bbox.tl.Y ));
 		}
 
+		#region Read-Only Fields
 		/// <summary>  这个注释数据的点的位置 (x, y) (readonly) </summary>
-		public readonly Vector2[] points;
+		public readonly Vector2[] rpoints;
 		/// <summary> 这个注释数据的 confidence (readonly) </summary>
 		public readonly float conf;
 		/// <summary> 约束这个 annotation 的边框 (readonly) </summary>
@@ -30,14 +33,20 @@ namespace QLabel.Scripts.AnnotationData {
 		public readonly Int32Rect brect;
 		/// <summary> 这个注释数据的类 (readonly) </summary>
 		public readonly ClassLabel clas;
-		/// <summary>  这个注释数据的额外标签 (readonly) </summary>
-		public readonly string label;
-		/// <summary>  这个注释数据的描述文字 (readonly) </summary>
-		public readonly string caption;
 		/// <summary> 这个注释数据被创建的时间，在 AnnoData 初始化时被设置 (readonly) </summary>
 		public readonly DateTime createtime;
+		#endregion
+
 		/// <summary>  这个注释数据的类型 (readonly) </summary>
 		public Type type { get; }
+		/// <summary>  这个注释数据的额外标签</summary>
+		public string label = string.Empty;
+		/// <summary>  这个注释数据的描述文字</summary>
+		public string caption = string.Empty;
+		/// <summary> more than 15-20% of the object lies outside the bounding box</summary>
+		public bool truncated = false;
+		/// <summary> more than 5% of the object lies outside the bounding box</summary>
+		public bool occluded = false;
 
 		/// <summary>
 		/// 从这个 AnnoData 中创建 AnnotationElement
@@ -47,9 +56,9 @@ namespace QLabel.Scripts.AnnotationData {
 		/// <summary>
 		/// 获得约束这个 annotation 的边框
 		/// </summary>
-		protected virtual (Vector2 tl, Vector2 br) GetBoundingBox (ReadOnlySpan<Vector2> points) {
+		protected virtual (Vector2 tl, Vector2 br) GetBoundingBox (ReadOnlySpan<Vector2> rpoints) {
 			float top = float.MaxValue, left = float.MaxValue, bottom = float.MinValue, right = float.MinValue;
-			foreach ( var point in points ) {
+			foreach ( var point in rpoints ) {
 				if ( point.X < top ) { top = point.X; }
 				if ( point.X > bottom ) { bottom = point.X; }
 				if ( point.Y < left ) { left = point.Y; }

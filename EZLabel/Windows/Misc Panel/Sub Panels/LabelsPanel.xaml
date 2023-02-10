@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:QLabel.Windows.Misc_Panel.Sub_Panels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="200">
-	<StackPanel  Margin="10">
+	<StackPanel>
 		<TextBlock FontSize="9.5">Labels</TextBlock>
 
 		<!-- 这里将显示所有的 label 信息 -->

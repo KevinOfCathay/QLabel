@@ -13,15 +13,15 @@ namespace QLabel.Scripts.AnnotationData {
 	/// </summary>
 	public record ADRect : AnnoData {
 		public ADRect
-			(ReadOnlySpan<Vector2> points, ClassLabel clas, string label = "", float conf = 1.0f) :
-			base(points, Type.Rectangle, clas, label, conf) {
+			(ReadOnlySpan<Vector2> points, ClassLabel clas, float conf = 1.0f) :
+			base(points, Type.Rectangle, clas, conf) {
 		}
 
 		public override IAnnotationElement CreateAnnotationElement (MainCanvas canvas) {
 			// 创建一个矩形
 			DraggableRectangle rect = new DraggableRectangle { data = this };
-			Vector2 tl = canvas.CanvasPosition(points[0]);
-			Vector2 br = canvas.CanvasPosition(points[3]);
+			Vector2 tl = canvas.CanvasPosition(rpoints[0]);
+			Vector2 br = canvas.CanvasPosition(rpoints[3]);
 			rect.Draw(canvas.annotation_canvas, new Vector2[] { tl, br });
 
 			// 将新创建的矩形加入到画布中

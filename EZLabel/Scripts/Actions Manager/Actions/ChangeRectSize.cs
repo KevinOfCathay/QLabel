@@ -25,18 +25,18 @@ namespace QLabel {
 		public void Do () {
 			// 新的 annodata
 			elem.data = data_after;
-			var points_after = new Vector2[data_after.points.Length];
-			for ( var i = 0; i < data_after.points.Length; i += 1 ) {
-				points_after[i] = canvas.CanvasPosition(data_after.points[i]);
+			var points_after = new Vector2[data_after.rpoints.Length];
+			for ( var i = 0; i < data_after.rpoints.Length; i += 1 ) {
+				points_after[i] = canvas.CanvasPosition(data_after.rpoints[i]);
 			}
 			canvas.ModifiedAnnoElements(elem);
 		}
 		public void Undo () {
 			// 还原旧的 annodata
 			elem.data = data_before;
-			var points_before = new Vector2[data_before.points.Length];
-			for ( var i = 0; i < data_before.points.Length; i += 1 ) {
-				points_before[i] = canvas.CanvasPosition(data_before.points[i]);
+			var points_before = new Vector2[data_before.rpoints.Length];
+			for ( var i = 0; i < data_before.rpoints.Length; i += 1 ) {
+				points_before[i] = canvas.CanvasPosition(data_before.rpoints[i]);
 			}
 			elem.Draw(canvas.canvas, points_before);
 			canvas.ModifiedAnnoElements(elem);

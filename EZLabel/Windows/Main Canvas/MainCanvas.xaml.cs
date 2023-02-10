@@ -51,7 +51,7 @@ namespace QLabel.Windows.Main_Canvas {
 		/// <summary>
 		/// 画布上的点对应的图片上的点
 		/// </summary>
-		public Vector2 RealPosition (Vector2 point) {
+		public Vector2 RealPosition (Vector2 cpoint) {
 			// 1. 首先获得图片左上角的点对应的位置，
 			// 不考虑 scrollview 的 offset
 			// 例如：图片尺寸为 128×128 且居中，
@@ -66,7 +66,7 @@ namespace QLabel.Windows.Main_Canvas {
 			Vector2 offset = new Vector2((float) scroll.HorizontalOffset, (float) scroll.VerticalOffset);
 
 			// 3.  计算点与左上角点的差
-			Vector2 diff = new Vector2(point.X, point.Y) - ( tl + offset );
+			Vector2 diff = new Vector2(cpoint.X, cpoint.Y) - ( tl + offset );
 
 			// 4. 考虑图片尺寸缩放的影响
 			// 如果图片缩放比例为 0.5, 则所有坐标都需要 / 0.5 （即×2）
@@ -78,7 +78,7 @@ namespace QLabel.Windows.Main_Canvas {
 		/// <summary>
 		/// 图片上的点对应的画布上的点
 		/// </summary>
-		public Vector2 CanvasPosition (Vector2 point) {
+		public Vector2 CanvasPosition (Vector2 rpoint) {
 			Vector2 canvas_sz = GetCanvasSize();
 			Vector2 img_sz = GetImageSize();
 			Vector2 tl = ( canvas_sz - img_sz ) / new Vector2(2f, 2f);
@@ -86,7 +86,7 @@ namespace QLabel.Windows.Main_Canvas {
 			// 1. 逆运算，考虑图片尺寸缩放的影响
 			// 如果图片缩放比例为 0.5, 则所有坐标都需要 * 0.5
 			float imgsc = ( image_scale == 0f ? 1f : image_scale );    // 防止 inf
-			var cpoint = point * imgsc;
+			var cpoint = rpoint * imgsc;
 
 			// 2. 考虑 scroll offset 的影响
 			Vector2 offset = new Vector2((float) scroll.HorizontalOffset, (float) scroll.VerticalOffset);
@@ -183,8 +183,8 @@ namespace QLabel.Windows.Main_Canvas {
 		public void RemoveAnnoElements (IAnnotationElement element) {
 			if ( element != null && annotation_collection.Contains(element) ) {
 				annotation_collection.Remove(element);
-				element.Delete(this);
 				eAnnotationElementRemoved?.Invoke(this, element);
+				element.Delete(this);
 			}
 		}
 		/// <summary>

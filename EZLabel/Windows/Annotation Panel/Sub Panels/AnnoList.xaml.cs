@@ -75,7 +75,7 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 				Class = data.clas.name,
 				Group = data.clas.group,
 				Supercategory = data.clas.supercategory,
-				Points = data.points.to_string(),
+				Points = data.rpoints.to_string(),
 				Label = data.label,
 				elem = elem
 			};
@@ -98,7 +98,7 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 						rows[i].Class = data.clas.name;
 						rows[i].Group = data.clas.group;
 						rows[i].Supercategory = data.clas.supercategory;
-						rows[i].Points = data.points.to_string();
+						rows[i].Points = data.rpoints.to_string();
 						rows[i].Label = data.label;
 					}
 					break;

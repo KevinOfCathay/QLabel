@@ -9,7 +9,7 @@
 	<Grid
 		Name="container">
 		<Polygon 
-			Name="poly"
+			Name="polygon"
 		     Points="10,110 60,10 110,110"
 		     Stroke="#FF6696FF"
 		     StrokeThickness="2"

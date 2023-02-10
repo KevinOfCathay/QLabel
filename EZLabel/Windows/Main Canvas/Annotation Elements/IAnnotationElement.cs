@@ -34,7 +34,14 @@ namespace QLabel.Windows.Main_Canvas {
 		/// 这个元素所关联的 anno 数据
 		/// </summary>
 		AnnoData data { get; set; }
+		/// <summary>
+		/// 获取和这个注释元素在画布上的点
+		/// </summary>
 		Vector2[] cpoints { get; }
+		/// <summary>
+		/// 获取和这个注释元素的 convex hull
+		/// </summary>
+		Vector2[] convex_hull { get; }
 
 		public void MouseDown (MainCanvas canvas, MouseEventArgs e);
 		public void MouseDrag (MainCanvas canvas, MouseEventArgs e);
@@ -53,6 +60,10 @@ namespace QLabel.Windows.Main_Canvas {
 		/// 从画布上删除元素
 		/// </summary>
 		public void Delete (MainCanvas canvas);
+		/// <summary>
+		/// 将对象转化为多边形（不是每个物体都可以转化）
+		/// </summary>
+		public void ToPolygon (MainCanvas canvas);
 		/// <summary>
 		/// 在画布上突出元素的位置
 		/// </summary>

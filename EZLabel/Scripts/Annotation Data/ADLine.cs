@@ -12,8 +12,8 @@ namespace QLabel.Scripts.AnnotationData {
 	/// </summary>
 	public record ADLine : AnnoData {
 		public ADLine
-			(ReadOnlySpan<Vector2> points, ClassLabel clas, string label = "", float conf = 1.0f) :
-			base(points, Type.Line, clas, label, conf) {
+			(ReadOnlySpan<Vector2> points, ClassLabel clas, float conf = 1.0f) :
+			base(points, Type.Line, clas, conf) {
 		}
 
 		public override IAnnotationElement CreateAnnotationElement (MainCanvas canvas) {
