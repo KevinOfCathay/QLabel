@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="QLabel.Windows.Misc_Panel.Sub_Panels.AnnoPropertiesPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:QLabel.Windows.Misc_Panel.Sub_Panels"
+		   xmlns:cvt="clr-namespace:QLabel.Scripts.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="300">
+	<UserControl.Resources>
+		<cvt:Percentage x:Key="Percentage"/>
+	</UserControl.Resources>
+	<!-- 显示所有的 Anno 信息 -->
+	<StackPanel Name="panel">
+		<StackPanel.Resources>
+			<Style TargetType="{x:Type TextBlock}">
+				<Setter Property="Margin" Value="1"/>
+				<Setter Property="Padding" Value="2"/>
+				<Setter Property="FontSize" Value="10.5"/>
+			</Style>
+		</StackPanel.Resources>
+
+		<TextBlock>Annotation</TextBlock>
+		<StackPanel Orientation="Horizontal">
+			<TextBlock 
+				MinWidth="100"
+				Width="{Binding 
+                    Converter={StaticResource Percentage}, 
+                    ElementName=panel,  Path=ActualWidth, 
+                    ConverterParameter=0.25}">Points</TextBlock>
+			<TextBlock Name="points"></TextBlock>
+		</StackPanel>
+
+		<DockPanel>
+			<TextBlock 
+					MinWidth="100"
+					Width="{Binding 
+					Converter={StaticResource Percentage}, 
+					ElementName=panel,  Path=ActualWidth, 
+					ConverterParameter=0.25}">Caption</TextBlock>
+			<!--如果没有选择任何 annodata 则不允许输入-->
+			<TextBox IsEnabled="False"></TextBox>
+		</DockPanel>
+
+		<UniformGrid Columns="4" VerticalAlignment="Center">
+			<TextBlock>Occluded</TextBlock>
+			<CheckBox Name="occluded"
+				VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+			<TextBlock>Truncated</TextBlock>
+			<CheckBox Name="truncated"
+				VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+		</UniformGrid>
+	</StackPanel>
+</UserControl>

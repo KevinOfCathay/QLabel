@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using static OpenCvSharp.LineIterator;
 
 namespace QLabel {
@@ -25,6 +30,29 @@ namespace QLabel {
 					image.EndInit();
 					image.Freeze();
 					return image;
+				}
+			);
+		}
+		/// <summary>
+		/// Async 从文件路径中读取图片
+		/// </summary>
+		public static async Task<Bitmap> ReadBitmapFromFileAsync (
+			string path, int decode_width = -1, int decode_height = -1) {
+			return await Task.Run(
+				() => {
+					Bitmap bitmap = new Bitmap(path);
+					if ( decode_width > 0 && decode_height > 0 ) {
+						var new_bitmap = new Bitmap(decode_width, decode_height);
+						using ( var graphics = Graphics.FromImage(new_bitmap) ) {
+							graphics.InterpolationMode = InterpolationMode.Bilinear;
+							graphics.DrawImage(
+								bitmap,
+								new Rectangle(0, 0, decode_width, decode_height),
+								0, 0, bitmap.Width, bitmap.Height, GraphicsUnit.Pixel);
+						}
+						bitmap = new_bitmap;
+					}
+					return bitmap;
 				}
 			);
 		}
@@ -62,5 +90,6 @@ namespace QLabel {
 			    }
 			);
 		}
+
 	}
 }

@@ -14,6 +14,12 @@
 				x:Name="auto_annotate_panel"
 				/>
 		</TabItem>
+		<TabItem Header="Anno">
+			<subpanel:AnnoPropertiesPanel
+				Margin="10"
+				x:Name="anno_properties_panel"
+				/>
+		</TabItem>
 		<TabItem Header="Labels" HorizontalAlignment="Left" Width="45">
 			<subpanel:LabelsPanel
 				Margin="10"

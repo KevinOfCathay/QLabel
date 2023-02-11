@@ -143,7 +143,7 @@ namespace QLabel.Scripts.Inference_Machine {
 				}
 				ClassLabel cl = new ClassLabel(group: "None", name: labels[c]);
 				data.Add(new ADRect(
-					points, cl, label: "", conf: final_scores[i]
+					points, cl, conf: final_scores[i]
 					));
 			}
 

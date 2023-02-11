@@ -210,7 +210,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 				new ReadOnlySpan<Vector2>(new Vector2[] {
 					canvas.RealPosition(cpoints[0]), canvas.RealPosition(cpoints[1]),
 					canvas.RealPosition(cpoints[2]), canvas.RealPosition(cpoints[3]) }),
-				data.clas, data.label, data.conf);
+				data.clas, data.conf);
 			ChangeRectSize changesize = new ChangeRectSize(canvas, this, data, new_data);
 			changesize.Do();
 			ActionManager.PushAction(changesize);
@@ -221,7 +221,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		}
 		public void ToPolygon (MainCanvas canvas) {
 			DraggablePolygon polygon = new DraggablePolygon(cpoints: this.cpoints);
-			ADPolygon polydata = new ADPolygon(data.rpoints, data.clas, data.label, data.conf);  // 复制数据
+			ADPolygon polydata = new ADPolygon(data.rpoints, data.clas, data.conf);  // 复制数据
 			polygon.data = polydata;
 			canvas.AddAnnoElements(polygon);
 			canvas.RemoveAnnoElements(this);

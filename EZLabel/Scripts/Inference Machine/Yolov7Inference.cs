@@ -105,7 +105,7 @@ namespace QLabel.Scripts.Inference_Machine {
 				}
 				ClassLabel cl = new ClassLabel(labels[c]);
 				data.Add(new ADRect(
-					points, cl, label: "", conf: output[i * 7 + 6]
+					points, cl, conf: output[i * 7 + 6]
 					));
 			}
 

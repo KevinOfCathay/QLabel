@@ -10,6 +10,23 @@ namespace QLabel.Scripts.AnnotationData {
 	public abstract record AnnoData {
 		public enum Type { Dot, Rectangle, Square, Tetragon, Line, Circle, Polygon }
 		/// <summary>
+		/// 从 source 复制所有属性
+		/// </summary>
+		public AnnoData (AnnoData source) {
+			rpoints = source.rpoints;
+			conf = source.conf;
+			bbox = source.bbox;
+			brect = source.brect;
+			clas = source.clas;
+			createtime = source.createtime;
+
+			type = source.type;
+			label = source.label;
+			caption = source.caption;
+			truncated = source.truncated;
+			occluded = source.occluded;
+		}
+		/// <summary>
 		/// 初始化所有的 readonly 属性
 		/// </summary>
 		public AnnoData (ReadOnlySpan<Vector2> rpoints, Type type, ClassLabel clas, float conf) {
