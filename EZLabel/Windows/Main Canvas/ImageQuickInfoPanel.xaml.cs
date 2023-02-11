@@ -12,6 +12,8 @@ namespace QLabel.Windows.Main_Canvas {
 	/// Interaction logic for ImageQuickInfoPanel.xaml
 	/// </summary>
 	public partial class ImageQuickInfoPanel : UserControl {
+		private Canvas _canvas;
+		private Image _img;
 		public Canvas canvas {
 			private get { return _canvas; }
 			set {
@@ -19,9 +21,6 @@ namespace QLabel.Windows.Main_Canvas {
 				_img = value.FindName("canvas_image") as Image;
 			}
 		}
-
-		private Canvas _canvas;
-		private Image _img;
 
 		public ImageQuickInfoPanel () {
 			InitializeComponent();

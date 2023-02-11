@@ -33,14 +33,6 @@ namespace QLabel.Windows.Main_Canvas {
 		public MainCanvas () {
 			InitializeComponent();
 			this.image_quick_info_panel.canvas = this.annotation_canvas;
-			eMouseMove += (MainCanvas c, MouseEventArgs e) => {
-				Point pos = e.GetPosition(this);
-				this.image_quick_info_panel.SetMousePositionText(pos);
-				this.image_quick_info_panel.SetRelativePositionText(RealPosition(new Vector2((float) pos.X, (float) pos.Y)));
-			};
-			//eImageLoaded += (MainCanvas c, BitmapImage img) => {
-			//	image_quick_info_panel.SetImageSize(img.width, img.height);
-			//};
 		}
 		public Vector2 GetImageSize () {
 			return new Vector2((float) canvas_image.ActualWidth, (float) canvas_image.ActualHeight);
@@ -152,6 +144,7 @@ namespace QLabel.Windows.Main_Canvas {
 
 			// 设置底层信息栏的文字
 			image_quick_info_panel.SetZoomText(image_scale);
+			image_quick_info_panel.SetImageSize(width, height);
 
 			// 加载完了图片以后就可以开始 annotate
 			can_annotate = true;
@@ -218,6 +211,11 @@ namespace QLabel.Windows.Main_Canvas {
 			eMouseDown?.Invoke(this, e);
 		}
 		private void CanvasMouseMove (object sender, MouseEventArgs e) {
+			// 设置 Quick Info Panel
+			Point pos = e.GetPosition(this);
+			this.image_quick_info_panel.SetMousePositionText(pos);
+			this.image_quick_info_panel.SetRelativePositionText(RealPosition(new Vector2((float) pos.X, (float) pos.Y)));
+
 			if ( button_state == MouseButtonState.Pressed ) {
 				eMouseMove?.Invoke(this, e);
 			}

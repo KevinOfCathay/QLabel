@@ -61,18 +61,21 @@ namespace QLabel.Scripts.Projects {
 			writer.WriteString(text);
 			writer.WriteEndElement();
 		}
-		private void WriteVOCObject (XmlWriter writer, string name, int xmin, int ymin, int xmax, int ymax) {
+		private void WriteVOCObject (XmlWriter writer, AnnoData data) {
 			writer.WriteStartElement("object");
 
 			writer.WriteStartElement("name");
-			writer.WriteString(name);
+			writer.WriteString(data.clas.name);
 			writer.WriteEndElement();
 
+			WriteXMLAttr(writer, "truncated", data.truncated.ToString());
+			WriteXMLAttr(writer, "occluded", data.occluded.ToString());
+
 			writer.WriteStartElement("bndbox");
-			WriteXMLAttr(writer, "xmin", xmin.ToString());
-			WriteXMLAttr(writer, "ymin", ymin.ToString());
-			WriteXMLAttr(writer, "xmax", xmax.ToString());
-			WriteXMLAttr(writer, "ymax", ymax.ToString());
+			WriteXMLAttr(writer, "xmin", data.bbox.tl.X.ToString());
+			WriteXMLAttr(writer, "ymin", data.bbox.tl.Y.ToString());
+			WriteXMLAttr(writer, "xmax", data.bbox.br.X.ToString());
+			WriteXMLAttr(writer, "ymax", data.bbox.br.Y.ToString());
 			writer.WriteEndElement();
 
 			writer.WriteEndElement();
@@ -93,7 +96,7 @@ namespace QLabel.Scripts.Projects {
 			writer.WriteEndElement();
 
 			foreach ( var ad in annodata ) {
-				WriteVOCObject(writer, ad.clas.name, (int) ad.bbox.tl.X, (int) ad.bbox.tl.Y, (int) ad.bbox.br.X, (int) ad.bbox.br.Y);
+				WriteVOCObject(writer, ad);
 			}
 
 			writer.WriteEndElement();
