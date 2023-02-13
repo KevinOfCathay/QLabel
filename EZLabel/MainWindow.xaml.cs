@@ -2,9 +2,11 @@
 using QLabel.Scripts.Projects;
 using QLabel.Windows.Main_Canvas;
 using System.Diagnostics;
+using System.Numerics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace QLabel {
 	public partial class MainWindow : Window {
@@ -13,8 +15,8 @@ namespace QLabel {
 			App.main = this;
 
 			InitializeComponent();
-			RegisterEvents();
 			InitComponents();
+			RegisterEvents();
 		}
 
 		public void RegisterEvents () {
@@ -39,28 +41,39 @@ namespace QLabel {
 					}
 				};
 			};
-
 			var canvas = main_canvas;
 			if ( canvas != null ) {
-				canvas.eAnnotationElementAdded += (MainCanvas mc, IAnnotationElement iae) => {
+				canvas.eAnnotationElementAdded += (MainCanvas _, IAnnotationElement iae) => {
 					// 当有注释被加入时，更新注释列表以及注释树
 					annolistpanel.annolist.AddItem(iae);
 					annolistpanel.annotree.AddAnnoData(iae);
 				};
-				canvas.eAnnotationElementModified += (MainCanvas mc, IAnnotationElement iae) => {
+				canvas.eAnnotationElementModified += (MainCanvas _, IAnnotationElement iae) => {
 					// 当有注释被移除时，更新注释列表以及注释树
 					annolistpanel.annolist.RefreshItem(iae);
 				};
-				canvas.eAnnotationElementRemoved += (MainCanvas mc, IAnnotationElement iae) => {
+				canvas.eAnnotationElementRemoved += (MainCanvas _, IAnnotationElement iae) => {
 					// 当有注释被移除时，更新注释列表以及注释树
 					annolistpanel.annolist.RemoveItem(iae);
 					annolistpanel.annotree.RemoveAnnoData(iae);
+				};
+				canvas.eMouseMove += (MainCanvas mc, MouseEventArgs e) => {
+					// 设置 Quick Info Panel
+					Point pos = e.GetPosition(mc);
+					this.image_quick_info_panel.SetMousePositionText(pos);
+					this.image_quick_info_panel.SetRelativePositionText(mc.RealPosition(new Vector2((float) pos.X, (float) pos.Y)));
+				};
+				canvas.eImageLoaded += (MainCanvas mc, BitmapImage image) => {
+					// 设置底层信息栏的文字
+					this.image_quick_info_panel.SetZoomText(mc.image_scale);
+					this.image_quick_info_panel.SetImageSize(image.PixelWidth, image.PixelHeight);
 				};
 			}
 		}
 		public void InitComponents () {
 			this.toolbar.Init(this.main_canvas);
 			this.main_menu.Init(this);
+			this.image_quick_info_panel.canvas = this.main_canvas;
 		}
 
 		private void Window_KeyDown (object sender, KeyEventArgs e) {

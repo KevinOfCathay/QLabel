@@ -16,23 +16,23 @@ using System.Windows.Media.Imaging;
 
 namespace QLabel.Windows.Main_Canvas {
 	public partial class MainCanvas : UserControl {
-		private float image_scale = 0f;          // image scale level
 		public Canvas canvas { get { return annotation_canvas; } }
 		public bool can_annotate { get; private set; } = false;      // 当前画布是否可以进行标注
-		public Vector2 canvas_size { get; private set; } = new Vector2(0, 0);
+		public Vector2 canvas_size_before;
+		public Vector2 canvas_size { get { return new Vector2((float) this.scroll.ActualWidth, (float) this.scroll.ActualHeight); } }
+		public float image_scale { get; private set; } = 0f;          // image scale level
 		public Vector2 image_size { get; private set; } = new Vector2(0, 0);      // 图片大小，用于计算annotation的位置，在未加载时图片大小为 0
 		public Vector2 image_offset { get; private set; } = new Vector2(0, 0);      // 图片在画布上的偏移量，用于计算annotation的位置，在未加载时图片，或者图片居中时大小为 0		
 		public MouseButtonState button_state = MouseButtonState.Released;
-		public event Action<MainCanvas, double> eCanvasRescale;      // 画布改变大小（影响画布上所有元素的大小和位置）
 		public event Action<MainCanvas, BitmapImage> eImageLoaded;
 		public event Action<MainCanvas, IAnnotationElement> eAnnotationElementAdded, eAnnotationElementModified, eAnnotationElementRemoved;
-		public event Action<MainCanvas, MouseEventArgs> eMouseDown, eMouseUp, eMouseMove;
-		public event Action<MainCanvas, double, double> eCanvasSizeChanged;
-		public List<IAnnotationElement> annotation_collection = new List<IAnnotationElement>();        // 用于存放所有 annotation 的地方
+		public event Action<MainCanvas, MouseEventArgs> eMouseDown, eMouseUp, eMouseMove, eCanvasMouseMove;
+		public event Action<MainCanvas> eCanvasImageSizeChanged;      // 画布改变大小（影响画布上所有元素的大小和位置）
+		public event Action<MainCanvas, Vector2> eCanvasSizeChanged;
+		public List<IAnnotationElement> annotation_elements = new List<IAnnotationElement>();        // 用于存放所有 annotation 的地方
 
 		public MainCanvas () {
 			InitializeComponent();
-			this.image_quick_info_panel.canvas = this.annotation_canvas;
 		}
 		public Vector2 GetImageSize () {
 			return new Vector2((float) canvas_image.ActualWidth, (float) canvas_image.ActualHeight);
@@ -88,14 +88,35 @@ namespace QLabel.Windows.Main_Canvas {
 
 			return cpoint;
 		}
+		/// <summary>
+		/// 图片上的点对应的画布上的点
+		/// </summary>
+		public Vector2[] CanvasPosition (Vector2[] rpoints) {
+			Vector2 canvas_sz = GetCanvasSize();
+			Vector2 img_sz = GetImageSize();
+			Vector2 tl = ( canvas_sz - img_sz ) / new Vector2(2f, 2f);
+
+			// 1. 逆运算，考虑图片尺寸缩放的影响
+			// 如果图片缩放比例为 0.5, 则所有坐标都需要 * 0.5
+			float imgsc = ( image_scale == 0f ? 1f : image_scale );
+
+			// 防止 inf
+			// 2. 考虑 scroll offset 的影响
+			Vector2 offset = new Vector2((float) scroll.HorizontalOffset, (float) scroll.VerticalOffset);
+
+			Vector2[] cpoints = new Vector2[rpoints.Length];
+			Parallel.For(0, rpoints.Length, (index) => {
+				var cpoint = rpoints[index] * imgsc;
+				cpoint = new Vector2(cpoint.X, cpoint.Y) + ( tl + offset );
+				cpoints[index] = cpoint;
+			});
+			return cpoints;
+		}
 		public void ClearCanvas () {
-			foreach ( var elem in annotation_collection ) {
+			foreach ( var elem in annotation_elements ) {
 				elem.Delete(this);
 			}
-			annotation_collection.Clear();
-		}
-		public void ResizeImage () {
-
+			annotation_elements.Clear();
 		}
 		/// <summary>
 		/// 将 ImageData 中的所有 annotation 放置到画布上
@@ -118,8 +139,8 @@ namespace QLabel.Windows.Main_Canvas {
 			// 设置当前的图像源
 			canvas_image.Source = image;
 
-			var hscale = height / annotation_canvas.ActualHeight;
-			var wscale = width / annotation_canvas.ActualWidth;
+			var hscale = height / canvas.ActualHeight;
+			var wscale = width / canvas.ActualWidth;
 
 			double target_height, target_width;
 			// Resize canvas to auto
@@ -133,18 +154,12 @@ namespace QLabel.Windows.Main_Canvas {
 				target_width = annotation_canvas.ActualWidth;
 				image_scale = 1f / (float) scale;
 			}
-			canvas_image.Width = target_width;
-			canvas_image.Height = target_height;
-
 			// 设置画布的尺寸
-			canvas_size = new Vector2((float) annotation_canvas.ActualWidth, (float) annotation_canvas.ActualHeight);
+			ChangeCanvasSize(target_width, target_height);
+			canvas_size_before = canvas_size;
 
 			// 重置图像的 offset
 			image_offset = GetOffsetFromScroll();
-
-			// 设置底层信息栏的文字
-			image_quick_info_panel.SetZoomText(image_scale);
-			image_quick_info_panel.SetImageSize(width, height);
 
 			// 加载完了图片以后就可以开始 annotate
 			can_annotate = true;
@@ -153,7 +168,7 @@ namespace QLabel.Windows.Main_Canvas {
 		public void AddAnnoElements (IAnnotationElement element) {
 			if ( can_annotate ) {          // 只有在画布上有内容时才会加入 element
 				if ( element != null ) {
-					annotation_collection.Add(element);
+					annotation_elements.Add(element);
 					eAnnotationElementAdded?.Invoke(this, element);
 				}
 			}
@@ -162,23 +177,36 @@ namespace QLabel.Windows.Main_Canvas {
 			if ( can_annotate ) {          // 只有在画布上有内容时才会加入 element
 				if ( elements != null ) {
 					foreach ( var element in elements ) {
-						annotation_collection.Add(element);
+						annotation_elements.Add(element);
 						eAnnotationElementAdded?.Invoke(this, element);
 					}
 				}
 			}
 		}
 		public void ModifiedAnnoElements (IAnnotationElement element) {
-			if ( element != null && annotation_collection.Contains(element) ) {
+			if ( element != null && annotation_elements.Contains(element) ) {
 				eAnnotationElementModified?.Invoke(this, element);
 			}
 		}
 		public void RemoveAnnoElements (IAnnotationElement element) {
-			if ( element != null && annotation_collection.Contains(element) ) {
-				annotation_collection.Remove(element);
+			if ( element != null && annotation_elements.Contains(element) ) {
+				annotation_elements.Remove(element);
 				eAnnotationElementRemoved?.Invoke(this, element);
 				element.Delete(this);
 			}
+		}
+		public void ChangeCanvasSize (double width, double height) {
+			//canvas_image.Width = width;
+			//canvas_image.Height = height;
+			annotation_canvas.Width = width;
+			annotation_canvas.Height = height;
+
+			foreach ( var elem in annotation_elements ) {
+				// 重新绘制元素
+				var cpoints = CanvasPosition(elem.data.rpoints);
+				elem.Draw(this.annotation_canvas, cpoints);
+			}
+			eCanvasImageSizeChanged?.Invoke(this);
 		}
 		/// <summary>
 		/// 从 scrollbar 中获取当前的 offset
@@ -189,16 +217,13 @@ namespace QLabel.Windows.Main_Canvas {
 		}
 
 		private void AnnotationCanvasSizeChanged (object sender, SizeChangedEventArgs e) {
-			var w = annotation_canvas.ActualWidth;
-			var h = annotation_canvas.ActualHeight;
-			var new_size = new Vector2((float) w, (float) h);
-			foreach ( var elem in annotation_collection ) {
-				elem.Shift(this.annotation_canvas, ( new_size - canvas_size ) / 2f);
+			var new_size = canvas_size;
+			foreach ( var elem in annotation_elements ) {
+				elem.Shift(this.annotation_canvas, ( new_size - canvas_size_before ) / 2f);
 			}
-			canvas_size = new_size;
-			eCanvasSizeChanged?.Invoke(this, w, h);
+			canvas_size_before = new_size;
+			eCanvasSizeChanged?.Invoke(this, new_size);
 		}
-
 		private void scroll_ScrollChanged (object sender, ScrollChangedEventArgs e) {
 			// 重新设定图片的 offset
 			Vector2 p = GetOffsetFromScroll();
@@ -211,14 +236,10 @@ namespace QLabel.Windows.Main_Canvas {
 			eMouseDown?.Invoke(this, e);
 		}
 		private void CanvasMouseMove (object sender, MouseEventArgs e) {
-			// 设置 Quick Info Panel
-			Point pos = e.GetPosition(this);
-			this.image_quick_info_panel.SetMousePositionText(pos);
-			this.image_quick_info_panel.SetRelativePositionText(RealPosition(new Vector2((float) pos.X, (float) pos.Y)));
-
 			if ( button_state == MouseButtonState.Pressed ) {
-				eMouseMove?.Invoke(this, e);
+				eCanvasMouseMove?.Invoke(this, e);
 			}
+			eMouseMove?.Invoke(this, e);
 		}
 		private void CanvasMouseUp (object sender, MouseButtonEventArgs e) {
 			if ( button_state == MouseButtonState.Pressed ) {

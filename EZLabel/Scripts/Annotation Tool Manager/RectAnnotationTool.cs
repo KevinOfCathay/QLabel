@@ -20,12 +20,12 @@ namespace QLabel.Scripts.AnnotationToolManager {
 
 		public override void Activate (MainCanvas canvas) {
 			canvas.eMouseDown += CreateNewRectangle;
-			canvas.eMouseMove += ResizeRectangle;
+			canvas.eCanvasMouseMove += ResizeRectangle;
 			canvas.eMouseUp += StopDraw;
 		}
 		public override void Deactivate (MainCanvas canvas) {
 			canvas.eMouseDown -= CreateNewRectangle;
-			canvas.eMouseMove -= ResizeRectangle;
+			canvas.eCanvasMouseMove -= ResizeRectangle;
 			canvas.eMouseUp -= StopDraw;
 		}
 		public void DrawRectangle (MainCanvas canvas, Vector2 tl, Vector2 br) {

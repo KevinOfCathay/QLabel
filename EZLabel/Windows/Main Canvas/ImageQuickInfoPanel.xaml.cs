@@ -6,21 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Media3D;
 
 namespace QLabel.Windows.Main_Canvas {
 	/// <summary>
 	/// Interaction logic for ImageQuickInfoPanel.xaml
 	/// </summary>
 	public partial class ImageQuickInfoPanel : UserControl {
-		private Canvas _canvas;
-		private Image _img;
-		public Canvas canvas {
-			private get { return _canvas; }
-			set {
-				_canvas = value;
-				_img = value.FindName("canvas_image") as Image;
-			}
-		}
+		public MainCanvas canvas { get; set; }
 
 		public ImageQuickInfoPanel () {
 			InitializeComponent();
@@ -32,34 +25,53 @@ namespace QLabel.Windows.Main_Canvas {
 		public void SetImageSize (double width, double height) { image_width.Text = ( (int) width ).ToString(); image_height.Text = ( (int) height ).ToString(); }
 		public void SetImageSize (int width, int height) { image_width.Text = width.ToString(); image_height.Text = height.ToString(); }
 
-		public void OneToOneRatio () {
-			var data = _img.Source;
+		public void HalfImageSize () {
+			var img = canvas.canvas_image;
+			var data = img.Source;
 
 			// 改变 canvas 的尺寸（否则 scrollbar 不会出现）
-			canvas.Width = data.Width;
-			canvas.Height = data.Height;
+			canvas.annotation_canvas.Width = data.Width * 0.5;
+			canvas.annotation_canvas.Height = data.Height * 0.5;
 
-			_img.Width = data.Width;
-			_img.Height = data.Height;
+			img.Width = data.Width * 0.5;
+			img.Height = data.Height * 0.5;
 
 			SetZoomText(1.0);
 		}
-		public void FillRatio () {
-			var data = _img.Source;
-			var hscale = data.Height / _canvas.ActualHeight;
-			var wscale = data.Width / _canvas.ActualWidth;
+		public void FullImageSize () {
+			var img = canvas.canvas_image;
+			var data = img.Source;
+
+			img.Width = data.Width;
+			img.Height = data.Height;
+
+			canvas.ChangeCanvasSize(data.Width, data.Height);
+			SetZoomText(1.0);
+		}
+		public void FitCanvas () {
+			var img = canvas.canvas_image;
+			var data = img.Source;
+
+			var hscale = data.Height / canvas.ActualHeight;
+			var wscale = data.Width / canvas.ActualWidth;
 
 			var scale = hscale > wscale ? hscale : wscale;
 
-			_img.Width = _canvas.ActualWidth;
-			_img.Height = _canvas.ActualHeight;
+			canvas.ChangeCanvasSize(canvas.ActualWidth, canvas.ActualHeight);
+
+			img.Width = canvas.ActualWidth;
+			img.Height = canvas.ActualHeight;
+
 			SetZoomText(1.0 / scale);
 		}
-		private void one_one_ratio_Click (object sender, RoutedEventArgs e) {
-			OneToOneRatio();
+		private void OneToOneClick (object sender, RoutedEventArgs e) {
+			FullImageSize();
+		}
+		private void HalfClick (object sender, RoutedEventArgs e) {
+			HalfImageSize();
 		}
 		private void fill_canvas_Click (object sender, RoutedEventArgs e) {
-			FillRatio();
+			FitCanvas();
 		}
 
 	}

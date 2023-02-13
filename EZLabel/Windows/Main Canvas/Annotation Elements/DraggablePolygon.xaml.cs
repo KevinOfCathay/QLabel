@@ -23,7 +23,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public DraggablePolygon () {
 			InitializeComponent();
 		}
-		public DraggablePolygon (Vector2[] cpoints) : base() {
+		public DraggablePolygon (Span<Vector2> cpoints) : base() {
 			vertex = cpoints.Length;
 
 			// 从 cpoints 中创建多边形的顶点
@@ -31,9 +31,10 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			foreach ( var cpoint in cpoints ) {
 				// 创建点
 			}
+			_convex_hull = CalculateConvexHull(cpoints);
 		}
 		AnnoData _data;   // 这个多边形所对应的注释数据
-
+		private Vector2[] _convex_hull;
 		public AnnoData data { get { return _data; } set { _data = value; } }
 		public Vector2[] cpoints {
 			get {
@@ -46,7 +47,9 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 				return _cpoints;
 			}
 		}
-		public Vector2[] convex_hull { get { throw new NotImplementedException(); } }
+		public Vector2[] convex_hull {
+			get { if ( _convex_hull != null ) { return _convex_hull; } else { throw new NullReferenceException(); } }
+		}
 		private int vertex;
 		private List<Dot> dots = new List<Dot>();
 
@@ -79,6 +82,51 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		}
 		public void ToPolygon (MainCanvas canvas) {
 			// 什么都不做
+		}
+		public Vector2[] CalculateConvexHull (Span<Vector2> points) {
+			// 两个点以下时，返回点
+			if ( points.Length <= 2 ) {
+				return points.ToArray();
+			}
+			// lexicographical sort
+			points.Sort((x, y) => {
+				if ( x.X < y.X ) {
+					return 1;
+				} else if ( x.X > y.X ) {
+					return -1;
+				} else {
+					if ( x.Y < y.Y ) {
+						return 1;
+					} else if ( x.Y > y.Y ) {
+						return -1;
+					}
+					return 0;
+				}
+			});
+			int k = 0, len = points.Length;
+			Span<Vector2> hull = stackalloc Vector2[2 * len];
+			// Build lower hull
+			foreach ( var point in points ) {
+				while ( k >= 2 && cross(hull[-2], hull[-1], point) <= 0 ) {
+					k -= 1;
+				}
+				hull[k] = point; k += 1;
+			}
+			// Build upper hull
+			for ( int i = len - 2, t = k + 1; i >= 0; i -= 1 ) {
+				while ( k >= t && cross(hull[k - 2], hull[k - 1], points[i]) <= 0 ) {
+					k -= 1;
+				}
+				hull[k] = points[i];
+				k += 1;
+			}
+			if ( k > 1 ) {
+				return hull.Slice(0, k - 1).ToArray();
+			}
+			return hull.ToArray();
+		}
+		private float cross (Vector2 a, Vector2 x, Vector2 y) {
+			return ( x.X - a.X ) * ( y.Y - a.Y ) - ( x.Y - a.Y ) * ( y.X - a.X );
 		}
 	}
 }

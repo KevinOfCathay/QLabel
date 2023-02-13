@@ -20,39 +20,42 @@
 				x:Name="main_menu"></local:MainMenu>
 
 			<Grid>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="30"></RowDefinition>
-					<RowDefinition Height="*"/>
-				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="4*"  MinWidth="100"></ColumnDefinition>
 					<ColumnDefinition Width="auto"></ColumnDefinition>
 					<ColumnDefinition Width="1*" MinWidth="100"></ColumnDefinition>
 				</Grid.ColumnDefinitions>
 
-				<!-- Tool Bar -->
-				<toolbx:AnnotationToolBar x:Name="toolbar" Grid.Column="0" Grid.Row="0"  
-					DockPanel.Dock="Top" ></toolbx:AnnotationToolBar>
-
-				<Grid Grid.Column="0" Grid.Row="2">
+				<Grid Grid.Column="0" Grid.Row="1">
 					<Grid.RowDefinitions>
+						<RowDefinition Height="auto"/>
 						<RowDefinition Height="3*"/>
+						<RowDefinition Height="auto"/>
 						<RowDefinition Height="auto"/>
 						<RowDefinition Height="*" MaxHeight="150" MinHeight="50"/>
 					</Grid.RowDefinitions>
-					<!-- Main Canvas -->
-					<canv:MainCanvas Grid.Row="0"
-							  x:Name="main_canvas"></canv:MainCanvas>
 
+					<!-- Tool Bar -->
+					<toolbx:AnnotationToolBar 
+						x:Name="toolbar" Grid.Row="0"></toolbx:AnnotationToolBar>
+					<!-- Main Canvas -->
+					<canv:MainCanvas Grid.Row="1"
+							  x:Name="main_canvas"></canv:MainCanvas>
+					<!-- Main Canvas -->
+					<canv:ImageQuickInfoPanel Grid.Row="2"
+							x:Name="image_quick_info_panel"
+							Height="20"
+							DockPanel.Dock="Bottom"></canv:ImageQuickInfoPanel>
+					
 					<GridSplitter 
-						Grid.Row="1" 
+						Grid.Row="3" 
 						Background="#FFD9D9D9"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
 						Height="4"/>
 
 					<!-- Image Files View -->
-					<custom:ImageListWindow x:Name="ilw"  Grid.Row="2"/>
+					<custom:ImageListWindow x:Name="ilw"  Grid.Row="4"/>
 				</Grid>
 
 				<GridSplitter 

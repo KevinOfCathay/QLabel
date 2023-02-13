@@ -70,15 +70,26 @@
 				</Style>
 			</StackPanel.Resources>
 			<Button
-			   Name="one_one_ratio"
-			   Click="one_one_ratio_Click"
+			   Name="half"
+			   Click="HalfClick"
 				>
 				<Button.Resources>
 					<Style TargetType="Border">
 						<Setter Property="CornerRadius" Value="4"/>
 					</Style>
 				</Button.Resources>
-				1:1
+				50%
+			</Button>
+			<Button
+			   Name="one_one_ratio"
+			   Click="OneToOneClick"
+				>
+				<Button.Resources>
+					<Style TargetType="Border">
+						<Setter Property="CornerRadius" Value="4"/>
+					</Style>
+				</Button.Resources>
+				100%
 			</Button>
 			<Button
 			   Name="fill_canvas"
@@ -89,7 +100,7 @@
 						<Setter Property="CornerRadius" Value="4"/>
 					</Style>
 				</Button.Resources>
-				Fill
+				Fit
 			</Button>
 		</StackPanel>
 	</StackPanel>

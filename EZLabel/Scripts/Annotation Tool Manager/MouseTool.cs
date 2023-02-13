@@ -20,12 +20,12 @@ namespace QLabel.Scripts.AnnotationToolManager {
 
 		public override void Activate (MainCanvas canvas) {
 			canvas.eMouseDown += MouseDown;
-			canvas.eMouseMove += MouseMove;
+			canvas.eCanvasMouseMove += MouseMove;
 			canvas.eMouseUp += MouseUp;
 		}
 		public override void Deactivate (MainCanvas canvas) {
 			canvas.eMouseDown -= MouseDown;
-			canvas.eMouseMove -= MouseMove;
+			canvas.eCanvasMouseMove -= MouseMove;
 			canvas.eMouseUp -= MouseUp;
 		}
 		private void MouseDown (MainCanvas canvas, MouseEventArgs e) {
