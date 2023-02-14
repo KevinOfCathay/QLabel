@@ -10,9 +10,13 @@
 			Model: <Run Name="model_name"></Run>
 		</TextBlock>
 
-		<!-- 模型列表 -->
+		<!-- 模型 SET 列表 -->
 		<ListBox Name="model_list">
 		</ListBox>
+
+		<!-- 模型 Version 列表 -->
+		<ComboBox FontSize="9.5" Name="model_version_list">
+		</ComboBox>
 
 		<!-- 模型对应的 tag 列表 -->
 		<StackPanel 

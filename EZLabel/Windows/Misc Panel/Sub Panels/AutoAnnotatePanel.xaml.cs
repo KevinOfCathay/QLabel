@@ -13,7 +13,7 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 	/// Interaction logic for AutoAnnotatePanel.xaml
 	/// </summary>
 	public partial class AutoAnnotatePanel : UserControl {
-		private BaseInferenceMachine machine;
+		private BaseInferenceMachine selected_machine;
 		private MainCanvas canvas;         // TODO: replace this
 		private HashSet<int> accepted_classes;
 		private CheckboxWithLabel[] cbxlabels;
@@ -31,21 +31,34 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 		/// 动态的初始化列表中的所有元素
 		/// </summary>
 		private void InitializeListItems () {
-			// 读取所有的 model config
-			foreach ( var config in ModelConfigs.configs ) {
+			// 读取所有的 model sets
+			foreach ( var set in ModelSets.sets ) {
 				ListBoxItem item = new ListBoxItem();
-				item.Content = config.model_name;
+				item.Content = set.name;
 
+				item.Selected += (object sender, RoutedEventArgs e) => { SetModelVersions(set); };
+				model_list.Items.Add(item);
+			}
+		}
+		private void SetModelVersions (ModelSet set) {
+			// 清除之前的内容
+			model_version_list.Items.Clear();
+			bool selected = false;
+			foreach ( var config in set.model_configs ) {
+				accepted_classes = new HashSet<int>();
 				var labels = config.class_labels;
 				var tags = config.tags;
-				item.Selected += (object sender, RoutedEventArgs e) => {
-					model_name.Text = config.model_name;
-					accepted_classes = new HashSet<int>();
-					machine = config.inf;
+
+				ComboBoxItem item = new ComboBoxItem();
+				item.Content = config.model_name;
+
+				item.Selected += delegate (object sender, RoutedEventArgs e) {
 					SetClassLabels(labels);
 					SetTags(tags);
+					selected_machine = config.inf;
 				};
-				model_list.Items.Add(item);
+				if ( !selected ) { item.IsSelected = true; selected = !selected; }
+				model_version_list.Items.Add(item);
 			}
 		}
 		private void SetTags (string[] tags) {
@@ -88,10 +101,10 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 		/// 当前的 inference 只适用于当前被打开的图像
 		/// </summary>
 		private void ApplyClick (object sender, RoutedEventArgs e) {
-			if ( machine != null ) {
-				machine.BuildSession();
+			if ( selected_machine != null ) {
+				selected_machine.BuildSession();
 				if ( canvas != null && canvas.can_annotate ) {
-					var ads = machine.RunInference(ProjectManager.cur_datafile, accepted_classes);
+					var ads = selected_machine.RunInference(ProjectManager.cur_datafile, accepted_classes);
 					foreach ( var ad in ads ) {
 						var element = ad.CreateAnnotationElement(canvas);
 						canvas.AddAnnoElements(element);
@@ -101,11 +114,11 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 			}
 		}
 		private void ApplyAllClick (object sender, RoutedEventArgs e) {
-			if ( machine != null ) {
-				machine.BuildSession();
+			if ( selected_machine != null ) {
+				selected_machine.BuildSession();
 				if ( canvas != null && canvas.can_annotate ) {
 					foreach ( var file in ProjectManager.project.data_list ) {
-						var ads = machine.RunInference(file, accepted_classes);
+						var ads = selected_machine.RunInference(file, accepted_classes);
 						foreach ( var ad in ads ) {
 							ProjectManager.AddAnnoData(file, ad);
 							if ( file == ProjectManager.cur_datafile ) {
