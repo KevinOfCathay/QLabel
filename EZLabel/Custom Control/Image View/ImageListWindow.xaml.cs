@@ -40,7 +40,7 @@ namespace QLabel.Custom_Control.Image_View {
 		public async Task SetListUI (IEnumerable<ImageData> datalist) {
 			foreach ( var data in datalist ) {
 				ImageListItem new_item = new ImageListItem();
-				Task<BitmapImage> readimagethumbnail = Util.ReadImageFromFileAsync(data.path, decode_width: 100);
+				Task<BitmapImage> readimagethumbnail = ImageUtils.ReadImageFromFileAsync(data.path, decode_width: 100);
 				new_item.data = data;
 				new_item.image_name.Text = data.filename;
 

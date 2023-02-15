@@ -60,7 +60,7 @@
 		<ListView.ItemContainerStyle>
 			<Style TargetType="ListViewItem">
 				<!-- 加入一个鼠标左键事件 -->
-				<EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />
+				<EventSetter Event="Selected" Handler="ListViewItemSelected"/>
 			</Style>
 		</ListView.ItemContainerStyle>
 	</ListView>

@@ -21,6 +21,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 	/// </summary>
 	public partial class DraggablePolygon : UserControl, IAnnotationElement {
 		public event Action<IAnnotationElement> eSelected;
+		private Vector2 mouse_down_position, mouse_cur_position;
 		private const float dot_radius = 8f;
 		public DraggablePolygon () {
 			InitializeComponent();
@@ -39,6 +40,9 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 				Dot dot = new Dot(cpoint, dot_radius);
 				Canvas.SetLeft(dot, cpoint.X - dot_radius / 2);
 				Canvas.SetTop(dot, cpoint.Y - dot_radius / 2);
+
+				// 为点创建事件
+				dot.eMouseEnter += delegate (Dot _, EventArgs _) { dot_index = index; };
 				mc.annotation_canvas.Children.Add(dot);
 				dots[index] = dot;
 			}
@@ -46,7 +50,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		}
 		AnnoData _data;   // 这个多边形所对应的注释数据
 		private Dot[] dots;
-		private int vertex;
+		private int vertex; private int dot_index;
 		private Vector2[] _convex_hull;
 		public AnnoData data { get { return _data; } set { _data = value; } }
 		public Vector2[] cpoints {
@@ -83,7 +87,10 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			Visibility = Visibility.Hidden;
 		}
 		public new void MouseDown (MainCanvas canvas, MouseEventArgs e) {
-			throw new NotImplementedException();
+			// 记录按下时的鼠标位置
+			var position = e.GetPosition(canvas);
+			mouse_down_position = new Vector2((float) position.X, (float) position.Y);
+			mouse_cur_position = mouse_down_position;
 		}
 		public void MouseDrag (MainCanvas canvas, MouseEventArgs e) {
 			throw new NotImplementedException();
@@ -96,6 +103,9 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		}
 		public void Highlight () {
 			// if ( highlight_storyboard != null ) { BeginStoryboard(highlight_storyboard); }
+		}
+		public void Densify () {
+
 		}
 		public void ToPolygon (MainCanvas canvas) {
 			// 什么都不做

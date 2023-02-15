@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
@@ -61,6 +62,8 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 		}
 		public ObservableCollection<Row> rows { get; } = new ObservableCollection<Row>();
 		public int col_sort_index = 1;
+
+		public event Action<IAnnotationElement> eItemSelected;
 
 		public AnnoList () {
 			InitializeComponent();
@@ -149,15 +152,12 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 				rows.Add(new_rows[i]);
 			}
 		}
-		private void ListViewItem_PreviewMouseLeftButtonDown (object sender, MouseButtonEventArgs e) {
+		private void ListViewItemSelected (object sender, RoutedEventArgs e) {
 			var item = sender as ListViewItem;
-			if ( item != null ) {         // node 本身不为 null
-				if ( item.DataContext != null ) {       // node 所关联的 datacontext 不为 null
-					Row row = item.DataContext as Row;
-					if ( row != null && row.elem != null ) {
-						row.elem.Highlight();
-						row.elem.Select();
-					}
+			if ( item != null && item.DataContext != null ) {       // node 本身不为 null, node 所关联的 datacontext 不为 null
+				var context = item.DataContext as Row;
+				if ( context != null ) {
+					eItemSelected?.Invoke(context.elem);
 				}
 			}
 		}

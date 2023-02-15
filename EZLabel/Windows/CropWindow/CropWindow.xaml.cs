@@ -72,7 +72,7 @@ namespace QLabel.Windows.CropWindow {
 			string path = data.path;
 			if ( Path.Exists(path) ) {
 				// 读取图片
-				var load_bitmap_task = Util.ReadBitmapFromFileAsync(path);
+				var load_bitmap_task = ImageUtils.ReadBitmapFromFileAsync(path);
 
 				var ads = data.GetAnnoData();
 				int index = 0;

@@ -48,6 +48,7 @@ namespace QLabel.Windows.Main_Canvas {
 		public void MouseDrag (MainCanvas canvas, MouseEventArgs e);
 		public void MouseUp (MainCanvas canvas, MouseEventArgs e);
 
+
 		/// <summary>
 		/// 根据所定义的点，
 		/// 对元素进行绘制 / 重新绘制

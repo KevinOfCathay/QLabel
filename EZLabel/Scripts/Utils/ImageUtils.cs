@@ -13,7 +13,16 @@ using System.Windows.Media.Media3D;
 using static OpenCvSharp.LineIterator;
 
 namespace QLabel {
-	internal static class Util {
+	internal static class ImageUtils {
+		public static Bitmap ToBitmap (this BitmapImage bitmapImage) {
+			// https://stackoverflow.com/a/6484754
+			using MemoryStream outStream = new();
+			BitmapEncoder enc = new BmpBitmapEncoder();
+			enc.Frames.Add(BitmapFrame.Create(bitmapImage));
+			enc.Save(outStream);
+			Bitmap bitmap = new Bitmap(outStream);
+			return new Bitmap(bitmap);
+		}
 		/// <summary>
 		/// Async 从文件路径中读取图片
 		/// </summary>

@@ -39,7 +39,7 @@
 					ElementName=panel,  Path=ActualWidth, 
 					ConverterParameter=0.25}">Caption</TextBlock>
 			<!--如果没有选择任何 annodata 则不允许输入-->
-			<TextBox IsEnabled="False"></TextBox>
+			<TextBox Name="caption" IsEnabled="False"></TextBox>
 		</DockPanel>
 
 		<UniformGrid Columns="4" VerticalAlignment="Center">

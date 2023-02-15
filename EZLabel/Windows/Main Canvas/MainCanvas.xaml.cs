@@ -132,7 +132,7 @@ namespace QLabel.Windows.Main_Canvas {
 		/// </summary>
 		public async Task LoadImage (ImageData data) {
 			string image_path = data.path;
-			BitmapImage image = await Util.ReadImageFromFileAsync(image_path);
+			BitmapImage image = await ImageUtils.ReadImageFromFileAsync(image_path);
 			double height = image.PixelHeight;
 			double width = image.PixelWidth;
 

@@ -77,6 +77,9 @@ namespace QLabel {
 					this.image_quick_info_panel.SetZoomText(mc.image_scale);
 					this.image_quick_info_panel.SetImageSize(image.PixelWidth, image.PixelHeight);
 				};
+				annolistpanel.annolist.eItemSelected += (IAnnotationElement elem) => {
+					misc_panel.anno_properties_panel.SetUI(elem);
+				};
 			}
 		}
 		public void InitComponents () {
