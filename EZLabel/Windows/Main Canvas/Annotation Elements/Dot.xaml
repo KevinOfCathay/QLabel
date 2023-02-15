@@ -24,10 +24,10 @@
 					<BeginStoryboard>
 						<Storyboard>
 							<DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX"
-								From="1" To="2.5" Duration="0:0:0.75">
+								From="1" To="2.5" Duration="0:0:0.5">
 							</DoubleAnimation>
 							<DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY"
-								From="1" To="2.5" Duration="0:0:0.75">
+								From="1" To="2.5" Duration="0:0:0.5">
 							</DoubleAnimation>
 						</Storyboard>
 					</BeginStoryboard>

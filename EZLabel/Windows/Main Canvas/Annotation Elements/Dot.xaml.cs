@@ -21,8 +21,9 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public Dot () {
 			InitializeComponent();
 		}
-		public Dot (Vector2 cpoint) {
+		public Dot (Vector2 cpoint, float radius = 8f) {
 			InitializeComponent();
+			Width = radius; Height = radius;
 			Canvas.SetLeft(this, cpoint.X);
 			Canvas.SetTop(this, cpoint.Y);
 		}

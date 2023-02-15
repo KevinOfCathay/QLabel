@@ -29,17 +29,17 @@ namespace QLabel.Windows.CropWindow {
 			var classlabels = GetClassLabels(new ImageData[] { ProjectManager.cur_datafile });
 			SetClassListbox(classlabels);
 		}
-		private void ConfirmButton_Click (object sender, RoutedEventArgs e) {
+		private async void ConfirmButton_Click (object sender, RoutedEventArgs e) {
 			// 裁剪并保存图像
 			switch ( target ) {
 				// 只裁剪当前的图像
 				case Target.Current:
-					CropSave(ProjectManager.cur_datafile, save_dir);
+					await CropSaveTask(ProjectManager.cur_datafile, save_dir);
 					break;
 				// 裁剪所有的图像
 				case Target.All:
 					foreach ( var datafile in ProjectManager.project.data_list ) {
-						CropSave(datafile, save_dir);
+						await CropSaveTask(datafile, save_dir);
 					}
 					break;
 				default:
@@ -68,7 +68,7 @@ namespace QLabel.Windows.CropWindow {
 				class_listbox.Items.Add(new_item);
 			}
 		}
-		private async Task CropSave (ImageData data, string top_dir) {
+		private async Task CropSaveTask (ImageData data, string top_dir) {
 			string path = data.path;
 			if ( Path.Exists(path) ) {
 				// 读取图片

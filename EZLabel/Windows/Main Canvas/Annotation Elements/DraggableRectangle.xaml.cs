@@ -226,6 +226,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void ToPolygon (MainCanvas canvas) {
 			var cpoints = this.cpoints;
 			DraggablePolygon polygon = new DraggablePolygon(
+				canvas,
 				cpoints: new Span<Vector2>(new Vector2[] {
 					cpoints[0], cpoints[1], cpoints[3], cpoints[2]
 					}));

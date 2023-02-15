@@ -18,7 +18,6 @@ namespace QLabel.Windows.Export_Window {
 		/// <summary>
 		/// VOC: VOC 数据格式
 		/// COCO: COCO 数据格式
-		/// Image: 导出为包含了注释的图片
 		/// </summary>
 		private enum Format { VOC, COCO, Image }
 		private enum Target { Current, All };

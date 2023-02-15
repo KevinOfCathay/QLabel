@@ -21,23 +21,32 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 	/// </summary>
 	public partial class DraggablePolygon : UserControl, IAnnotationElement {
 		public event Action<IAnnotationElement> eSelected;
+		private const float dot_radius = 8f;
 		public DraggablePolygon () {
 			InitializeComponent();
+			dots = Array.Empty<Dot>();
 		}
-		public DraggablePolygon (Span<Vector2> cpoints) {
+		public DraggablePolygon (MainCanvas mc, Span<Vector2> cpoints) {
 			InitializeComponent();
 			vertex = cpoints.Length;
 
 			// 从 cpoints 中创建多边形的顶点
 			polygon.Points = new PointCollection(cpoints.to_points());
+			dots = new Dot[cpoints.Length];
+			int index = 0;
 			foreach ( var cpoint in cpoints ) {
 				// 创建点
-				Dot dot = new Dot(cpoint);
-
+				Dot dot = new Dot(cpoint, dot_radius);
+				Canvas.SetLeft(dot, cpoint.X - dot_radius / 2);
+				Canvas.SetTop(dot, cpoint.Y - dot_radius / 2);
+				mc.annotation_canvas.Children.Add(dot);
+				dots[index] = dot;
 			}
 			_convex_hull = CalculateConvexHull(cpoints);
 		}
 		AnnoData _data;   // 这个多边形所对应的注释数据
+		private Dot[] dots;
+		private int vertex;
 		private Vector2[] _convex_hull;
 		public AnnoData data { get { return _data; } set { _data = value; } }
 		public Vector2[] cpoints {
@@ -54,9 +63,6 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public Vector2[] convex_hull {
 			get { if ( _convex_hull != null ) { return _convex_hull; } else { throw new NullReferenceException(); } }
 		}
-		private int vertex;
-		private List<Dot> dots = new List<Dot>();
-
 		public void Delete (MainCanvas canvas) {
 			canvas.annotation_canvas.Children.Remove(this);
 		}
