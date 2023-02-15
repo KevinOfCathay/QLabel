@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:QLabel.Windows.Main_Canvas.Annotation_Elements"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-	<Grid
-		Name="container">
+
+	<Grid>
 		<Polygon 
 			Name="polygon"
 		     Points="10,110 60,10 110,110"

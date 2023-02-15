@@ -224,9 +224,14 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			// if ( highlight_storyboard != null ) { BeginStoryboard(highlight_storyboard); }
 		}
 		public void ToPolygon (MainCanvas canvas) {
-			DraggablePolygon polygon = new DraggablePolygon(cpoints: this.cpoints);
+			var cpoints = this.cpoints;
+			DraggablePolygon polygon = new DraggablePolygon(
+				cpoints: new Span<Vector2>(new Vector2[] {
+					cpoints[0], cpoints[1], cpoints[3], cpoints[2]
+					}));
 			ADPolygon polydata = new ADPolygon(data.rpoints, data.clas, data.conf);  // 复制数据
 			polygon.data = polydata;
+			canvas.annotation_canvas.Children.Add(polygon);
 			canvas.AddAnnoElements(polygon);
 			canvas.RemoveAnnoElements(this);
 		}

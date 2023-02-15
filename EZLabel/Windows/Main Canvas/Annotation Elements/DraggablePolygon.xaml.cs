@@ -24,7 +24,8 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public DraggablePolygon () {
 			InitializeComponent();
 		}
-		public DraggablePolygon (Span<Vector2> cpoints) : base() {
+		public DraggablePolygon (Span<Vector2> cpoints) {
+			InitializeComponent();
 			vertex = cpoints.Length;
 
 			// 从 cpoints 中创建多边形的顶点
@@ -111,7 +112,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			Span<Vector2> hull = stackalloc Vector2[2 * len];
 			// Build lower hull
 			foreach ( var point in points ) {
-				while ( k >= 2 && cross(hull[-2], hull[-1], point) <= 0 ) {
+				while ( k >= 2 && cross(hull[k - 2], hull[k - 1], point) <= 0 ) {
 					k -= 1;
 				}
 				hull[k] = point; k += 1;
