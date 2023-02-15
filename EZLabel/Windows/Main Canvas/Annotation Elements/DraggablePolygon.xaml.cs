@@ -32,6 +32,8 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			polygon.Points = new PointCollection(cpoints.to_points());
 			foreach ( var cpoint in cpoints ) {
 				// 创建点
+				Dot dot = new Dot(cpoint);
+
 			}
 			_convex_hull = CalculateConvexHull(cpoints);
 		}
@@ -62,7 +64,11 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			throw new NotImplementedException();
 		}
 		public void Shift (Canvas canvas, Vector2 shift) {
-			throw new NotImplementedException();
+			Vector2[] new_points = cpoints;
+			Parallel.For(0, new_points.Length, (i) => {
+				new_points[i] += shift;
+			});
+			polygon.Points = new PointCollection(new_points.to_points());
 		}
 		public void Show () {
 			Visibility = Visibility.Visible;

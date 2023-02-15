@@ -21,6 +21,11 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public Dot () {
 			InitializeComponent();
 		}
+		public Dot (Vector2 cpoint) {
+			InitializeComponent();
+			Canvas.SetLeft(this, cpoint.X);
+			Canvas.SetTop(this, cpoint.Y);
+		}
 		private void DotMouseEnter (object sender, MouseEventArgs e) {
 			eMouseEnter?.Invoke(this, e);
 		}
