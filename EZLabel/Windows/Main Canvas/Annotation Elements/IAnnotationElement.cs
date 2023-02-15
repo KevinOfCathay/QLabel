@@ -43,6 +43,7 @@ namespace QLabel.Windows.Main_Canvas {
 		/// </summary>
 		Vector2[] convex_hull { get; }
 
+		public event Action<IAnnotationElement> eSelected;
 		public void MouseDown (MainCanvas canvas, MouseEventArgs e);
 		public void MouseDrag (MainCanvas canvas, MouseEventArgs e);
 		public void MouseUp (MainCanvas canvas, MouseEventArgs e);
@@ -56,6 +57,10 @@ namespace QLabel.Windows.Main_Canvas {
 		/// 平移元素，shift 定义了元素平移量（x, y)
 		/// </summary>
 		public void Shift (Canvas canvas, Vector2 shift);
+		/// <summary>
+		/// 在画布上选择了元素
+		/// </summary>
+		public void Select ();
 		/// <summary>
 		/// 从画布上删除元素
 		/// </summary>

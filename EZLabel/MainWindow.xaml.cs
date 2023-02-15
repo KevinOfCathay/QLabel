@@ -1,8 +1,10 @@
 ﻿using QLabel.Custom_Control.Image_View;
 using QLabel.Scripts.Projects;
 using QLabel.Windows.Main_Canvas;
+using System;
 using System.Diagnostics;
 using System.Numerics;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -10,15 +12,16 @@ using System.Windows.Media.Imaging;
 
 namespace QLabel {
 	public partial class MainWindow : Window {
+		public IAnnotationElement selected_element = null;
 
 		public MainWindow () {
 			App.main = this;
 
+			SetTitle();
 			InitializeComponent();
 			InitComponents();
 			RegisterEvents();
 		}
-
 		public void RegisterEvents () {
 			ilw.eImageListUICreated += (ImageListWindow window, ImageListItem item) => {
 				// 切换图片时的事件
@@ -47,6 +50,9 @@ namespace QLabel {
 					// 当有注释被加入时，更新注释列表以及注释树
 					annolistpanel.annolist.AddItem(iae);
 					annolistpanel.annotree.AddAnnoData(iae);
+
+					// elem 被选择时的事件
+					iae.eSelected += (elem) => { selected_element = elem; };
 				};
 				canvas.eAnnotationElementModified += (MainCanvas _, IAnnotationElement iae) => {
 					// 当有注释被移除时，更新注释列表以及注释树
@@ -56,6 +62,9 @@ namespace QLabel {
 					// 当有注释被移除时，更新注释列表以及注释树
 					annolistpanel.annolist.RemoveItem(iae);
 					annolistpanel.annotree.RemoveAnnoData(iae);
+
+					// 如果这个 elem 被选择，则将其移除
+					if ( selected_element == iae ) { selected_element = null; }
 				};
 				canvas.eMouseMove += (MainCanvas mc, MouseEventArgs e) => {
 					// 设置 Quick Info Panel
@@ -75,7 +84,13 @@ namespace QLabel {
 			this.main_menu.Init(this);
 			this.image_quick_info_panel.canvas = this.main_canvas;
 		}
-
+		private void SetTitle () {
+			try {
+				Title = string.Join(" ", "Qlabel", "Ver", Assembly.GetExecutingAssembly().GetName().Version.ToString());
+			} catch {
+				Title = "Qlabel";
+			}
+		}
 		private void Window_KeyDown (object sender, KeyEventArgs e) {
 			if ( e.Key == Key.Z ) {
 				Debug.WriteLine("触发了按键Z");

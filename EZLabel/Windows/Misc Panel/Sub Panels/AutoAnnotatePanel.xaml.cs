@@ -44,8 +44,8 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 			// 清除之前的内容
 			model_version_list.Items.Clear();
 			bool selected = false;
+			accepted_classes = new HashSet<int>();
 			foreach ( var config in set.model_configs ) {
-				accepted_classes = new HashSet<int>();
 				var labels = config.class_labels;
 				var tags = config.tags;
 
@@ -53,8 +53,8 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 				item.Content = config.model_name;
 
 				item.Selected += delegate (object sender, RoutedEventArgs e) {
-					SetClassLabels(labels);
 					SetTags(tags);
+					SetClassLabels(labels);
 					selected_machine = config.inf;
 				};
 				if ( !selected ) { item.IsSelected = true; selected = !selected; }

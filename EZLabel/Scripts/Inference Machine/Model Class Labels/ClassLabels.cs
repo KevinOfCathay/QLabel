@@ -89,6 +89,5 @@ namespace QLabel.Scripts {
 			 ,"toothbrush"
 		};
 		public static string[] voc = new string[] { };
-		public static string[] text = new string[] { };
 	}
 }

@@ -25,18 +25,25 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 		private sealed class ItemNode {
 			public TreeViewItem node = null;
 			public AnnoData data = null;
+			public CheckboxWithLabel checkbox;
 		}
 		private sealed class ClassNode {
 			public string name;      // Class name
 			public TreeViewItem node = null;
 			public List<ItemNode> items = null;
-			public List<CheckboxWithLabel> checkboxes = new List<CheckboxWithLabel>();
+			public CheckboxWithLabel checkbox;
+		}
+		private sealed class SuperCategoryNode {
+			public string name = null; // SuperCategory name
+			public TreeViewItem node = null;
+			public List<ClassNode> classes = new List<ClassNode>();
+			public CheckboxWithLabel checkbox;
 		}
 		private sealed class GroupNode {
 			public string name = null; // GroupNode name
 			public TreeViewItem node = null;
-			public List<ClassNode> classes = new List<ClassNode>();
-			public List<CheckboxWithLabel> checkboxes = new List<CheckboxWithLabel>();
+			public List<SuperCategoryNode> categories = new List<SuperCategoryNode>();
+			public CheckboxWithLabel checkbox;
 		}
 		private List<AnnoData> datalist = new List<AnnoData>();
 		private Dictionary<string, GroupNode> groups = new Dictionary<string, GroupNode>();
@@ -52,50 +59,87 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 			// 结构：GroupNode Name -- Class Name -- Item Name
 			var clas = data.clas;
 			string group_name = clas.group;
+			string category_name = clas.supercategory;
 			GroupNode group_node;
 			if ( !groups.ContainsKey(group_name) ) {
 				// 创建一个新的 group node
-				TreeViewItem groupnode = new TreeViewItem();
+				TreeViewItem group_item = new TreeViewItem();
 				CheckboxWithLabel cbxlbl = new CheckboxWithLabel(group_name, check: true);
-				groupnode.Header = cbxlbl;
-				annotree.Items.Add(groupnode);
-				var new_group_node = new GroupNode { name = group_name, node = groupnode, classes = new List<ClassNode>(), checkboxes = new List<CheckboxWithLabel>() };
+				group_item.Header = cbxlbl;
+				annotree.Items.Add(group_item);
+				var new_group_node = new GroupNode {
+					name = group_name, node = group_item,
+					categories = new List<SuperCategoryNode>(), checkbox = cbxlbl
+				};
 				groups.Add(group_name, new_group_node);
 
-				cbxlbl.eChecked += (_, _) => { foreach ( var bx in new_group_node.checkboxes ) { bx.Check(); } };
-				cbxlbl.eUnchecked += (_, _) => { foreach ( var bx in new_group_node.checkboxes ) { bx.Uncheck(); } };
+				//  check/uncheck 事件
+				cbxlbl.eChecked += (_, _) => {
+					foreach ( var cat in new_group_node.categories ) { cat.checkbox.Check(); }
+				};
+				cbxlbl.eUnchecked += (_, _) => {
+					foreach ( var cat in new_group_node.categories ) { cat.checkbox.Uncheck(); }
+				};
 			}
 			// 获取 group node
 			group_node = groups[group_name];
 
+			// 搜寻当前 group node 下是否含有 supercategory
+			var category_node = group_node.categories.Find((c) => { return c.name == category_name; });
+			if ( category_node == null ) {
+				// 创建一个新的 supercategory node
+				TreeViewItem category_item = new TreeViewItem();
+				CheckboxWithLabel cbxlbl = new CheckboxWithLabel(category_name, check: true);
+				category_item.Header = cbxlbl;
+				category_node = new SuperCategoryNode {
+					name = category_name, node = category_item, classes = new List<ClassNode>(), checkbox = cbxlbl
+				};
+				group_node.categories.Add(category_node);
+
+				//  check/uncheck 事件
+				cbxlbl.eChecked += (_, _) => {
+					foreach ( var clss in category_node.classes ) { clss.checkbox.Check(); }
+				};
+				cbxlbl.eUnchecked += (_, _) => {
+					foreach ( var clss in category_node.classes ) { clss.checkbox.Uncheck(); }
+				};
+				group_node.node.Items.Add(category_item);
+			}
+
 			string class_name = clas.name;
-			var class_node = group_node.classes.Find((i) => { return i.name == class_name; });
+			var class_node = category_node.classes.Find((c) => { return c.name == class_name; });
+
 			if ( class_node == null ) {
-				// 在 group 下创建一个新的 class node
-				TreeViewItem classnode = new TreeViewItem();
+				// 在 supercategory 下创建一个新的 class node
+				TreeViewItem class_item = new TreeViewItem();
 				CheckboxWithLabel c_cbxlbl = new CheckboxWithLabel(class_name, check: true);
+				class_item.Header = c_cbxlbl;
+				class_node = new ClassNode() {
+					name = class_name, node = class_item, items = new List<ItemNode>(), checkbox = c_cbxlbl
+				};
+				category_node.classes.Add(class_node);
 
-				classnode.Header = c_cbxlbl;
-				group_node.node.Items.Add(classnode);
-
-				class_node = new ClassNode() { name = class_name, node = classnode, items = new List<ItemNode>(), checkboxes = new List<CheckboxWithLabel>() };
-				group_node.classes.Add(class_node);
-
-				c_cbxlbl.eChecked += (_, _) => { foreach ( var bx in class_node.checkboxes ) { bx.Check(); } };
-				c_cbxlbl.eUnchecked += (_, _) => { foreach ( var bx in class_node.checkboxes ) { bx.Uncheck(); } };
-				group_node.checkboxes.Add(c_cbxlbl);
+				c_cbxlbl.eChecked += (_, _) => {
+					foreach ( var item in class_node.items ) { item.checkbox.Check(); }
+				};
+				c_cbxlbl.eUnchecked += (_, _) => {
+					foreach ( var item in class_node.items ) { item.checkbox.Uncheck(); }
+				};
+				category_node.node.Items.Add(class_item);
 			}
 
 			// 在 class 下面添加一行
-			TreeViewItem itemnode = new TreeViewItem();
+			TreeViewItem item_item = new TreeViewItem();
 			CheckboxWithLabel i_cbxlbl = new CheckboxWithLabel(string.Join(" ", class_name, data.rpoints.to_shortstring()), check: true);
+			item_item.Header = i_cbxlbl;
+			ItemNode item_node = new ItemNode {
+				data = data, node = item_item, checkbox = i_cbxlbl
+			};
 			i_cbxlbl.eChecked += (_, _) => { elem.Show(); };
 			i_cbxlbl.eUnchecked += (_, _) => { elem.Hide(); };
-			itemnode.Header = i_cbxlbl;
-			class_node.node.Items.Add(itemnode);
-			class_node.items.Add(new ItemNode { data = data, node = itemnode });
+			class_node.items.Add(item_node);
+			class_node.node.Items.Add(item_item);
 
-			class_node.checkboxes.Add(i_cbxlbl);
 		}
 		public void RemoveAnnoData (IAnnotationElement elem) {
 			datalist.Remove(elem.data);

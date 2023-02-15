@@ -20,6 +20,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 	/// </summary>
 	public partial class DraggableRectangle : UserControl, IAnnotationElement {
 		private enum DotType { Center, TopLeft, TopRight, BottomLeft, BottomRight }
+		public event Action<IAnnotationElement> eSelected;
 
 		/// <summary>
 		/// 当长方形被重新绘制时触发
@@ -214,6 +215,9 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			ChangeRectSize changesize = new ChangeRectSize(canvas, this, data, new_data);
 			changesize.Do();
 			ActionManager.PushAction(changesize);
+		}
+		public void Select () {
+			eSelected?.Invoke(this);
 		}
 		public void Highlight () {
 			// Error:

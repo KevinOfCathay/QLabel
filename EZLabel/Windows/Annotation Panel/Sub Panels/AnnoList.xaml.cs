@@ -22,6 +22,8 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 			private string _class;
 			private string _label;
 			private string _group;
+			private bool _truncated;
+			private bool _occluded;
 			private string _supercategory;
 
 			public int Index { get { return _index; } set { _index = value; OnPropertyChanged("Index"); } }
@@ -31,6 +33,8 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 			public string Label { get { return _label; } set { _label = value; OnPropertyChanged("Label"); } }
 			public string Group { get { return _group; } set { _group = value; OnPropertyChanged("Group"); } }
 			public string Supercategory { get { return _supercategory; } set { _supercategory = value; OnPropertyChanged("Supercategory"); } }
+			public bool Truncated { get { return _truncated; } set { _truncated = value; OnPropertyChanged("Truncated"); } }
+			public bool Occluded { get { return _occluded; } set { _occluded = value; OnPropertyChanged("Occluded"); } }
 			public IAnnotationElement elem { get; set; }
 			public IComparable this[int i] {
 				get {
@@ -152,6 +156,7 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 					Row row = item.DataContext as Row;
 					if ( row != null && row.elem != null ) {
 						row.elem.Highlight();
+						row.elem.Select();
 					}
 				}
 			}

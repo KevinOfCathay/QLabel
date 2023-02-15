@@ -44,6 +44,15 @@
 				<!-- 标记的上一级类别 -->
 				<GridViewColumn Header="Supercategory" DisplayMemberBinding="{Binding Path=Supercategory}">
 				</GridViewColumn>
+
+				<!-- 标记是否被 truncated -->
+				<GridViewColumn Header="Truncated" DisplayMemberBinding="{Binding Path=Truncated}">
+				</GridViewColumn>
+
+				<!-- 标记是否被 occluded -->
+				<GridViewColumn Header="Occluded" DisplayMemberBinding="{Binding Path=Occluded}">
+				</GridViewColumn>
+
 			</GridView>
 
 		</ListView.View>

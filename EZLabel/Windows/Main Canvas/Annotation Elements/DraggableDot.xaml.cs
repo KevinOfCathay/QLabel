@@ -13,6 +13,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 	/// 点
 	/// </summary>
 	public partial class DraggableDot : UserControl, IAnnotationElement {
+		public event Action<IAnnotationElement> eSelected;
 		public event Action<DraggableDot, MouseEventArgs> eMouseDown, eMouseMove, eMouseUp;
 		public bool activate { private set; get; } = false;
 		private Vector2 position, mouse_position;
@@ -74,6 +75,9 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		}
 		public void Show () {
 			Visibility = Visibility.Visible;
+		}
+		public void Select () {
+			eSelected?.Invoke(this);
 		}
 		public void Hide () {
 			Visibility = Visibility.Hidden;

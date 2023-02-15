@@ -20,6 +20,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 	/// Interaction logic for DraggablePolygon.xaml
 	/// </summary>
 	public partial class DraggablePolygon : UserControl, IAnnotationElement {
+		public event Action<IAnnotationElement> eSelected;
 		public DraggablePolygon () {
 			InitializeComponent();
 		}
@@ -76,6 +77,9 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		}
 		public new void MouseUp (MainCanvas canvas, MouseEventArgs e) {
 			throw new NotImplementedException();
+		}
+		public void Select () {
+			eSelected?.Invoke(this);
 		}
 		public void Highlight () {
 			// if ( highlight_storyboard != null ) { BeginStoryboard(highlight_storyboard); }

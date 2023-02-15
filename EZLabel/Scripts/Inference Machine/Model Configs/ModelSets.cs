@@ -60,7 +60,7 @@ namespace QLabel.Scripts {
 													model_name : "Text Detection (PANet)",
 													model_path : "",
 													width : 640, height : 640,
-													class_labels : ModelLabels.text,
+													class_labels : ModelLabels.textdet,
 													inf: null
 											){},
 				}
