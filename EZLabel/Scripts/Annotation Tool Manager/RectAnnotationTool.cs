@@ -14,6 +14,7 @@ using QLabel.Scripts.Projects;
 
 namespace QLabel.Scripts.AnnotationToolManager {
 	public class RectAnnotationTool : ToolBase {
+		Vector2 start_position, end_position;
 		DraggableRectangle rect;
 		bool dragging = false;
 		double x, y;
@@ -39,11 +40,12 @@ namespace QLabel.Scripts.AnnotationToolManager {
 
 				// 记录下起始时刻的 x, y
 				var p = e.GetPosition(canvas.annotation_canvas);
+				start_position = new Vector2((float) p.X, (float) p.Y);
 				this.x = p.X;
 				this.y = p.Y;
 
-				Canvas.SetLeft(rect, x);
-				Canvas.SetTop(rect, y);
+				Canvas.SetLeft(rect, p.X);
+				Canvas.SetTop(rect, p.Y);
 
 				canvas.annotation_canvas.Children.Add(rect);
 
@@ -71,35 +73,45 @@ namespace QLabel.Scripts.AnnotationToolManager {
 		}
 		public void StopDraw (MainCanvas canvas, MouseEventArgs e) {
 			dragging = false;
-			e.Handled = true;
-
 			if ( canvas.can_annotate ) {
 				if ( rect != null ) {
 
-					// 计算矩形四个点的实际位置
-					float left = (float) Canvas.GetLeft(rect);
-					float top = (float) Canvas.GetTop(rect);
-					float w = (float) rect.ActualWidth;
-					float h = (float) rect.ActualHeight;
+					// 记录下结束时刻的 x, y
+					var p = e.GetPosition(canvas.annotation_canvas);
+					end_position = new Vector2((float) p.X, (float) p.Y);
 
-					var tl_real = canvas.RealPosition(new Vector2(left, top));    // 左上角
-					var tr_real = canvas.RealPosition(new Vector2(left + w, top));     // 右上角
-					var bl_real = canvas.RealPosition(new Vector2(left, top + h));     // 左下角
-					var br_real = canvas.RealPosition(new Vector2(left + w, top + h));     // 右下角
+					// 只有在距离大于一定值时才创建方框
+					if ( Vector2.Distance(start_position, end_position) >= 0.5f ) {
 
-					// 创建 anno 数据
-					var data = new AnnotationData.ADRect(
-						new ReadOnlySpan<Vector2>(new Vector2[] { tl_real, tr_real, bl_real, br_real }),
-						 ProjectManager.cur_label
-						);
-					rect.data = data;
+						// 计算矩形四个点的实际位置
+						float left = (float) Canvas.GetLeft(rect);
+						float top = (float) Canvas.GetTop(rect);
+						float w = (float) rect.ActualWidth;
+						float h = (float) rect.ActualHeight;
 
-					CreateAnnotationElementManual create_rect = new CreateAnnotationElementManual(rect, canvas);
-					create_rect.Do();
+						var tl_real = canvas.RealPosition(new Vector2(left, top));    // 左上角
+						var tr_real = canvas.RealPosition(new Vector2(left + w, top));     // 右上角
+						var bl_real = canvas.RealPosition(new Vector2(left, top + h));     // 左下角
+						var br_real = canvas.RealPosition(new Vector2(left + w, top + h));     // 右下角
 
-					ActionManager.PushAction(create_rect);
+						// 创建 anno 数据
+						var data = new AnnotationData.ADRect(
+							new ReadOnlySpan<Vector2>(new Vector2[] { tl_real, tr_real, bl_real, br_real }),
+							 ProjectManager.cur_label
+							);
+						rect.data = data;
+
+						CreateAnnotationElementManual create_rect = new CreateAnnotationElementManual(rect, canvas);
+						create_rect.Do();
+
+						ActionManager.PushAction(create_rect);
+					} else {
+						canvas.annotation_canvas.Children.Remove(rect);
+						rect = null;
+					}
 				}
 			}
+			e.Handled = true;
 		}
 		/// <summary>
 		/// 创建一个 annotation 并将其放置在画布上

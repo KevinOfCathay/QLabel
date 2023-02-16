@@ -93,7 +93,10 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			mouse_cur_position = mouse_down_position;
 		}
 		public void MouseDrag (MainCanvas canvas, MouseEventArgs e) {
-			throw new NotImplementedException();
+			// 记录按下时的鼠标位置
+			var position = e.GetPosition(canvas);
+			var mouse_temp_position = new Vector2((float) position.X, (float) position.Y);
+			var shift = mouse_temp_position - mouse_cur_position;
 		}
 		public new void MouseUp (MainCanvas canvas, MouseEventArgs e) {
 			throw new NotImplementedException();
@@ -104,7 +107,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Highlight () {
 			// if ( highlight_storyboard != null ) { BeginStoryboard(highlight_storyboard); }
 		}
-		public void Densify () {
+		public void Densify (float distance) {
 
 		}
 		public void ToPolygon (MainCanvas canvas) {

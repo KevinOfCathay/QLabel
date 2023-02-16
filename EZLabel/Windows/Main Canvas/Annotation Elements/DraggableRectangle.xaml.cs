@@ -205,7 +205,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			}
 			mouse_cur_position = mouse_temp_position;
 		}
-		public new void MouseUp (MainCanvas canvas, MouseEventArgs e) {
+		public new void MouseUp (MainCanvas canvas, MouseEventArgs e) {   
 			// 创建新的 AnnoData
 			ADRect new_data = new ADRect(
 				new ReadOnlySpan<Vector2>(new Vector2[] {
