@@ -28,34 +28,39 @@
 
 				<Grid Grid.Column="0" Grid.Row="1">
 					<Grid.RowDefinitions>
+						<RowDefinition Height="*"/>
 						<RowDefinition Height="auto"/>
-						<RowDefinition Height="3*"/>
-						<RowDefinition Height="auto"/>
-						<RowDefinition Height="auto"/>
-						<RowDefinition Height="*" MaxHeight="150" MinHeight="50"/>
+						<RowDefinition Height="150" MaxHeight="160" MinHeight="25"/>
 					</Grid.RowDefinitions>
-
-					<!-- Tool Bar -->
-					<toolbx:AnnotationToolBar 
+					<Grid Grid.Row="0">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="auto"/>
+							<RowDefinition Height="*"/>
+							<RowDefinition Height="20" MaxHeight="20"/>
+						</Grid.RowDefinitions>
+						<!-- Tool Bar -->
+						<toolbx:AnnotationToolBar 
 						x:Name="toolbar" Grid.Row="0"></toolbx:AnnotationToolBar>
-					<!-- Main Canvas -->
-					<canv:MainCanvas Grid.Row="1"
+						<!-- Main Canvas -->
+						<canv:MainCanvas Grid.Row="1"
 							  x:Name="main_canvas"></canv:MainCanvas>
-					<!-- Main Canvas -->
-					<canv:ImageQuickInfoPanel Grid.Row="2"
+
+						<!-- Main Canvas -->
+						<canv:ImageQuickInfoPanel Grid.Row="2"
 							x:Name="image_quick_info_panel"
-							Height="20"
 							DockPanel.Dock="Bottom"></canv:ImageQuickInfoPanel>
-					
+					</Grid>
+
 					<GridSplitter 
-						Grid.Row="3" 
+						Grid.Row="1" 
 						Background="#FFD9D9D9"
 						HorizontalAlignment="Stretch"
-						VerticalAlignment="Stretch"
+						VerticalAlignment="Center"
+						ResizeDirection="Rows"
 						Height="4"/>
 
 					<!-- Image Files View -->
-					<custom:ImageListWindow x:Name="ilw"  Grid.Row="4"/>
+					<custom:ImageListWindow x:Name="ilw" Grid.Row="2"/>
 				</Grid>
 
 				<GridSplitter 
@@ -64,30 +69,32 @@
 					Background="#FFD9D9D9"
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Stretch"
+					ResizeDirection="Columns"
 					Width="4"/>
 
 				<Grid Grid.Column="2" Grid.Row="0" Grid.RowSpan="4">
 					<Grid.RowDefinitions>
-						<RowDefinition Height="*" MinHeight="100"></RowDefinition>
+						<RowDefinition Height="*" MinHeight="100"/>
 						<RowDefinition Height="auto"/>
 						<RowDefinition Height="*" MinHeight="100"/>
 					</Grid.RowDefinitions>
 					<!-- 图片的属性栏-->
 					<misc:MiscPanel
 						Grid.Row="0"
-						x:Name="misc_panel" DockPanel.Dock="Top"/>
+						x:Name="misc_panel"/>
 
 					<GridSplitter 
 						Grid.Row="1" 
 						Background="#FFD9D9D9"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
+						ResizeDirection="Rows"
 						Height="4"/>
-					
+
 					<!-- Annotation Lists -->
 					<ann:AnnoListPanel 
 						Grid.Row="2"
-						x:Name="annolistpanel"  DockPanel.Dock="Top"/>
+						x:Name="annolistpanel"/>
 				</Grid>
 			</Grid>
 		</DockPanel>

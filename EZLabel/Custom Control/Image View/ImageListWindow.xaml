@@ -6,24 +6,22 @@
              xmlns:local="clr-namespace:QLabel.Custom_Control.Image_View"
              mc:Ignorable="d" 
              d:DesignHeight="170">
-	<Grid MinHeight="170">
-		<TabControl>
-			<TabItem Header="Thumbnail" FontSize="10.5">
-				<ListBox Name="image_view_listbox" ScrollViewer.HorizontalScrollBarVisibility="Visible">
-					<ListBox.ItemsPanel>
-						<ItemsPanelTemplate>
-							<WrapPanel IsItemsHost="True" />
-						</ItemsPanelTemplate>
-					</ListBox.ItemsPanel>
-				</ListBox>
-			</TabItem>
-			<TabItem Header="List" FontSize="10.5">
-				<ListBox Name="image_listbox">
-					<ListBoxItem>
-						<TextBlock>Name</TextBlock>
-					</ListBoxItem>
-				</ListBox>
-			</TabItem>
-		</TabControl>
-	</Grid>
+	<TabControl>
+		<TabItem Header="Thumbnail" FontSize="10.5">
+			<ListBox Name="image_view_listbox" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+				<ListBox.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel IsItemsHost="True" />
+					</ItemsPanelTemplate>
+				</ListBox.ItemsPanel>
+			</ListBox>
+		</TabItem>
+		<TabItem Header="List" FontSize="10.5">
+			<ListBox Name="image_listbox">
+				<ListBoxItem>
+					<TextBlock>Name</TextBlock>
+				</ListBoxItem>
+			</ListBox>
+		</TabItem>
+	</TabControl>
 </UserControl>

@@ -70,6 +70,17 @@
 				</Style>
 			</StackPanel.Resources>
 			<Button
+			   Name="quarter"
+			   Click="QuarterClick"
+				>
+				<Button.Resources>
+					<Style TargetType="Border">
+						<Setter Property="CornerRadius" Value="4"/>
+					</Style>
+				</Button.Resources>
+				25%
+			</Button>
+			<Button
 			   Name="half"
 			   Click="HalfClick"
 				>

@@ -180,9 +180,7 @@ namespace QLabel.Windows.Main_Canvas {
 			canvas_image.Width = image_width;
 			canvas_image.Height = image_height;
 
-			var canvas_width = annotation_canvas.ActualWidth;
-			var canvas_height = annotation_canvas.ActualHeight;
-
+			double canvas_width = annotation_canvas.ActualWidth, canvas_height = annotation_canvas.ActualHeight;
 			double new_width = double.NaN, new_height = double.NaN;
 			if ( image_width + margin > canvas_width ) {
 				new_width = image_width + margin;

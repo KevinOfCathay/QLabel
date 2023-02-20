@@ -26,9 +26,13 @@ namespace QLabel.Windows.Main_Canvas {
 		public void SetImageSize (double width, double height) { image_width.Text = ( (int) width ).ToString(); image_height.Text = ( (int) height ).ToString(); }
 		public void SetImageSize (int width, int height) { image_width.Text = width.ToString(); image_height.Text = height.ToString(); }
 
+		public void QuarterImageSize () {
+			canvas.SetImageScale(0.25f);
+			SetZoomText(25);
+		}
 		public void HalfImageSize () {
 			canvas.SetImageScale(0.5f);
-			SetZoomText(0.5);
+			SetZoomText(50);
 		}
 		public void FullImageSize () {
 			canvas.SetImageScale(1f);
@@ -52,6 +56,9 @@ namespace QLabel.Windows.Main_Canvas {
 		}
 		private void OneToOneClick (object sender, RoutedEventArgs e) {
 			FullImageSize();
+		}
+		private void QuarterClick (object sender, RoutedEventArgs e) {
+			HalfImageSize();
 		}
 		private void HalfClick (object sender, RoutedEventArgs e) {
 			HalfImageSize();
