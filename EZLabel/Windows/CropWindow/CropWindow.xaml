@@ -8,8 +8,8 @@
         xmlns:textboxes="clr-namespace:QLabel.Custom_Control.Small_Tools.Textboxes"
         mc:Ignorable="d"
 	   Background="AliceBlue"
-	   Height="280" Width="420"
-	   MinHeight="280" MinWidth="420"
+	   Height="280" Width="450"
+	   MinHeight="280" MinWidth="450"
         Title="Crop...">
 	<Grid  Margin="10">
 		<Grid.RowDefinitions>

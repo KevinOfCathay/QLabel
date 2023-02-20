@@ -13,9 +13,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 
 namespace QLabel.Windows.Main_Canvas {
 	public partial class MainCanvas : UserControl {
+		public const float margin = 10f;         // 图片四周预留的 margin
+
 		public Canvas canvas { get { return annotation_canvas; } }
 		public bool can_annotate { get; private set; } = false;      // 当前画布是否可以进行标注
 		public Vector2 canvas_size_before;
@@ -131,30 +134,37 @@ namespace QLabel.Windows.Main_Canvas {
 		/// 将图片加载到画布上
 		/// </summary>
 		public async Task LoadImage (ImageData data) {
-			string image_path = data.path;
-			BitmapImage image = await ImageUtils.ReadImageFromFileAsync(image_path);
-			double height = image.PixelHeight;
-			double width = image.PixelWidth;
+			BitmapImage image = await ImageUtils.ReadImageFromFileAsync(data.path);
+
+			// 获取图像尺寸
+			double image_height = image.PixelHeight;
+			double image_width = image.PixelWidth;
+			image_size = new Vector2((float) image_width, (float) image_height);
 
 			// 设置当前的图像源
 			canvas_image.Source = image;
 
-			var hscale = height / canvas.ActualHeight;
-			var wscale = width / canvas.ActualWidth;
+			// 宽 20, 画布 10, scale = 2, scale = 1/2 = 50%
+			var hscale = image_height / ( canvas.ActualHeight - margin );
+			var wscale = image_width / ( canvas.ActualWidth - margin );
 
 			double target_height, target_width;
-			// Resize canvas to auto
 			if ( hscale <= 1 && wscale <= 1 ) {
-				target_height = height;
-				target_width = width;
+				// 如果高和宽都小于画布尺寸，则不做任何处理
+				canvas_image.Width = image_width;
+				canvas_image.Height = image_height;
 				image_scale = 1f;
 			} else {
+				// 如果有一边超出画布尺寸，则做缩放处理
 				var scale = hscale > wscale ? hscale : wscale;
-				target_height = annotation_canvas.ActualHeight;
-				target_width = annotation_canvas.ActualWidth;
+				canvas_image.Width = image_width / scale;
+				canvas_image.Height = image_height / scale;
 				image_scale = 1f / (float) scale;
 			}
+
 			// 设置画布的尺寸
+			target_height = annotation_canvas.ActualHeight;
+			target_width = annotation_canvas.ActualWidth;
 			ChangeCanvasSize(target_width, target_height);
 			canvas_size_before = canvas_size;
 
@@ -164,6 +174,23 @@ namespace QLabel.Windows.Main_Canvas {
 			// 加载完了图片以后就可以开始 annotate
 			can_annotate = true;
 			eImageLoaded?.Invoke(this, image);
+		}
+		public void SetImageScale (float scale = 0.5f) {
+			double image_height = image_size.Y * scale, image_width = image_size.X * scale;
+			canvas_image.Width = image_width;
+			canvas_image.Height = image_height;
+
+			var canvas_width = annotation_canvas.ActualWidth;
+			var canvas_height = annotation_canvas.ActualHeight;
+
+			double new_width = double.NaN, new_height = double.NaN;
+			if ( image_width + margin > canvas_width ) {
+				new_width = image_width + margin;
+			}
+			if ( image_height + margin > canvas_height ) {
+				new_height = image_height + margin;
+			}
+			ChangeCanvasSize(new_width, new_height);
 		}
 		public void AddAnnoElements (IAnnotationElement element) {
 			if ( can_annotate ) {          // 只有在画布上有内容时才会加入 element
@@ -196,8 +223,6 @@ namespace QLabel.Windows.Main_Canvas {
 			}
 		}
 		public void ChangeCanvasSize (double width, double height) {
-			//canvas_image.Width = width;
-			//canvas_image.Height = height;
 			annotation_canvas.Width = width;
 			annotation_canvas.Height = height;
 
