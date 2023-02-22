@@ -58,7 +58,7 @@ namespace QLabel.Windows.Main_Canvas {
 			FullImageSize();
 		}
 		private void QuarterClick (object sender, RoutedEventArgs e) {
-			HalfImageSize();
+			QuarterImageSize();
 		}
 		private void HalfClick (object sender, RoutedEventArgs e) {
 			HalfImageSize();

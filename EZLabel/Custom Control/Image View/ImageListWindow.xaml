@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QLabel.Custom_Control.Image_View"
              mc:Ignorable="d" 
-             d:DesignHeight="170">
+             d:DesignHeight="150">
 	<TabControl>
 		<TabItem Header="Thumbnail" FontSize="10.5">
 			<ListBox Name="image_view_listbox" ScrollViewer.HorizontalScrollBarVisibility="Visible">

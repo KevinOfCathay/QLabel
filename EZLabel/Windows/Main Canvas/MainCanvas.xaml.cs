@@ -38,7 +38,7 @@ namespace QLabel.Windows.Main_Canvas {
 			InitializeComponent();
 		}
 		public Vector2 GetImageSize () {
-			return new Vector2((float) canvas_image.ActualWidth, (float) canvas_image.ActualHeight);
+			return image_size * image_scale;
 		}
 		public Vector2 GetCanvasSize () {
 			return new Vector2((float) annotation_canvas.ActualWidth, (float) annotation_canvas.ActualHeight);
@@ -57,11 +57,12 @@ namespace QLabel.Windows.Main_Canvas {
 			Vector2 tl = ( canvas_sz - img_sz ) / new Vector2(2f, 2f);
 
 			// 2. 考虑 scroll offset 的影响
-			// 例如：当 x offset = 10 时，坐标 （0, 0）所对应的实际点为 （10, 0）
+			// 例如：当 offset = (10, 5) 时，坐标 （2, 2）所对应的实际点为 （10+2, 5+2）
+			// 右下角点的坐标 + max offset = 图像尺寸
 			Vector2 offset = new Vector2((float) scroll.HorizontalOffset, (float) scroll.VerticalOffset);
 
 			// 3.  计算点与左上角点的差
-			Vector2 diff = new Vector2(cpoint.X, cpoint.Y) - ( tl + offset );
+			Vector2 diff = new Vector2(cpoint.X, cpoint.Y) - tl + offset;
 
 			// 4. 考虑图片尺寸缩放的影响
 			// 如果图片缩放比例为 0.5, 则所有坐标都需要 / 0.5 （即×2）
@@ -87,7 +88,7 @@ namespace QLabel.Windows.Main_Canvas {
 			Vector2 offset = new Vector2((float) scroll.HorizontalOffset, (float) scroll.VerticalOffset);
 
 			// 3.  计算点与左上角点的差
-			cpoint = new Vector2(cpoint.X, cpoint.Y) + ( tl + offset );
+			cpoint = new Vector2(cpoint.X, cpoint.Y) + tl - offset;
 
 			return cpoint;
 		}
@@ -188,6 +189,7 @@ namespace QLabel.Windows.Main_Canvas {
 			if ( image_height + margin > canvas_height ) {
 				new_height = image_height + margin;
 			}
+			image_scale = scale;
 			ChangeCanvasSize(new_width, new_height);
 		}
 		public void AddAnnoElements (IAnnotationElement element) {

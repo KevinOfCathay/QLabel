@@ -19,6 +19,14 @@
 					Background="#FFC3C3C3"
 					VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible"
 					ScrollChanged="scroll_ScrollChanged">
+			<ScrollViewer.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform ScaleX="1"/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform/>
+				</TransformGroup>
+			</ScrollViewer.RenderTransform>
 			<Canvas 
 				Name="annotation_canvas"
 				SizeChanged="AnnotationCanvasSizeChanged"

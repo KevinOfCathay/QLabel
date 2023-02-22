@@ -6,23 +6,22 @@
              xmlns:local="clr-namespace:QLabel.Custom_Control.Image_View"
              mc:Ignorable="d" 
              d:DesignHeight="130" d:DesignWidth="130">
-	<StackPanel HorizontalAlignment="Center" Name="ViewImageContainer">
-		<Border 
-			Name="thumbnail_image_border" 
-			Height="100" Width="100"
-			BorderThickness="2" 
-			BorderBrush="LightGray">
-			<Button 
-				BorderThickness="0" 
+	<StackPanel
+		HorizontalAlignment="Center" Name="ViewImageContainer">
+		<Button x:Name="button"
+				BorderThickness="2" 
+				BorderBrush="LightGray"
 				Background="Transparent" 
+				Height="100" 
+				Width="100"
 				Click="ImageButtonClick">
-				<Image  Name="thumbnail_image" Height="100" Width="100"></Image>
-			</Button>
-		</Border>
+			<Image Name="thumbnail_image"
+				  Height="{Binding ActualHeight, ElementName=button, Mode=OneWay}" 
+				  Width="{Binding ActualWidth, ElementName=button, Mode=OneWay}"></Image>
+		</Button>
 		<TextBlock 
 				Name="image_name" 
-				Width="100" 
-				Height="25"
+				MaxHeight="25"
 				FontSize="10.5"
 				TextWrapping="Wrap">Image Name</TextBlock>
 	</StackPanel>
