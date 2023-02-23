@@ -22,7 +22,8 @@ namespace QLabel.Windows.Main_Canvas {
 		public Canvas canvas { get { return annotation_canvas; } }
 		public bool can_annotate { get; private set; } = false;      // 当前画布是否可以进行标注
 		public Vector2 canvas_size_before;
-		public Vector2 canvas_size { get { return new Vector2((float) this.scroll.ActualWidth, (float) this.scroll.ActualHeight); } }
+		public Vector2 canvas_actual_size { get { return new Vector2((float) this.scroll.ActualWidth, (float) this.scroll.ActualHeight); } }
+		public Vector2 canvas_size { get { return new Vector2((float) this.scroll.Width, (float) this.scroll.Height); } }
 		public float image_scale { get; private set; } = 0f;          // image scale level
 		public Vector2 image_size { get; private set; } = new Vector2(0, 0);      // 图片大小，用于计算annotation的位置，在未加载时图片大小为 0
 		public Vector2 scroll_offset { get { return new Vector2((float) scroll.HorizontalOffset, (float) scroll.VerticalOffset); } }      // 图片在画布上的偏移量，用于计算annotation的位置，在未加载时图片，或者图片居中时大小为 0		
@@ -36,12 +37,20 @@ namespace QLabel.Windows.Main_Canvas {
 
 		public MainCanvas () {
 			InitializeComponent();
+
+			// 加入一个 size changed event
+			// 只有在 size changed 之后，才能获得 re-rendered ActualWidth 和 ActualHeight
+			annotation_canvas.SizeChanged += (object sender, SizeChangedEventArgs e) => {
+				foreach ( var elem in annotation_elements ) {
+					// 重新绘制元素
+					var cpoints = CanvasPosition(elem.data.rpoints);
+					elem.Draw(this.annotation_canvas, cpoints);
+				}
+				eCanvasImageSizeChanged?.Invoke(this);
+			};
 		}
 		public Vector2 GetImageSize () {
 			return image_size * image_scale;
-		}
-		public Vector2 GetCanvasSize () {
-			return new Vector2((float) annotation_canvas.ActualWidth, (float) annotation_canvas.ActualHeight);
 		}
 		/// <summary>
 		/// 画布上的点对应的图片上的点
@@ -52,7 +61,7 @@ namespace QLabel.Windows.Main_Canvas {
 			// 例如：图片尺寸为 128×128 且居中，
 			// 左上角的点为 (画布宽W-128)/2,  (画布高H-128)/2
 			// 即，点 （  (画布宽W-128)/2,  (画布高H-128)/2 ）--> （0, 0）
-			Vector2 canvas_sz = GetCanvasSize();
+			Vector2 canvas_sz = canvas_actual_size;
 			Vector2 img_sz = GetImageSize();
 			Vector2 tl = ( canvas_sz - img_sz ) / new Vector2(2f, 2f);
 
@@ -75,7 +84,7 @@ namespace QLabel.Windows.Main_Canvas {
 		/// 图片上的点对应的画布上的点
 		/// </summary>
 		public Vector2 CanvasPosition (Vector2 rpoint) {
-			Vector2 canvas_sz = GetCanvasSize();
+			Vector2 canvas_sz = canvas_actual_size;
 			Vector2 img_sz = GetImageSize();
 			Vector2 tl = ( canvas_sz - img_sz ) / new Vector2(2f, 2f);
 
@@ -96,7 +105,8 @@ namespace QLabel.Windows.Main_Canvas {
 		/// 图片上的点对应的画布上的点
 		/// </summary>
 		public Vector2[] CanvasPosition (Vector2[] rpoints) {
-			Vector2 canvas_sz = GetCanvasSize();
+			if ( rpoints.Length == 0 ) { return new Vector2[0]; }
+			Vector2 canvas_sz = canvas_actual_size;
 			Vector2 img_sz = GetImageSize();
 			Vector2 tl = ( canvas_sz - img_sz ) / new Vector2(2f, 2f);
 
@@ -166,7 +176,7 @@ namespace QLabel.Windows.Main_Canvas {
 			target_height = annotation_canvas.ActualHeight;
 			target_width = annotation_canvas.ActualWidth;
 			ChangeCanvasSize(target_width, target_height);
-			canvas_size_before = canvas_size;
+			canvas_size_before = canvas_actual_size;
 
 			// 加载完了图片以后就可以开始 annotate
 			can_annotate = true;
@@ -221,17 +231,10 @@ namespace QLabel.Windows.Main_Canvas {
 		public void ChangeCanvasSize (double width, double height) {
 			annotation_canvas.Width = width;
 			annotation_canvas.Height = height;
-
-			foreach ( var elem in annotation_elements ) {
-				// 重新绘制元素
-				var cpoints = CanvasPosition(elem.data.rpoints);
-				elem.Draw(this.annotation_canvas, cpoints);
-			}
-			eCanvasImageSizeChanged?.Invoke(this);
 		}
 
 		private void AnnotationCanvasSizeChanged (object sender, SizeChangedEventArgs e) {
-			var new_size = canvas_size;
+			var new_size = canvas_actual_size;
 			foreach ( var elem in annotation_elements ) {
 				elem.Shift(this.annotation_canvas, ( new_size - canvas_size_before ) / 2f);
 			}
