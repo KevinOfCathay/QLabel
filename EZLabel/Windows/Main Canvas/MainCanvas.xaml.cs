@@ -25,7 +25,7 @@ namespace QLabel.Windows.Main_Canvas {
 		public Vector2 canvas_size { get { return new Vector2((float) this.scroll.ActualWidth, (float) this.scroll.ActualHeight); } }
 		public float image_scale { get; private set; } = 0f;          // image scale level
 		public Vector2 image_size { get; private set; } = new Vector2(0, 0);      // 图片大小，用于计算annotation的位置，在未加载时图片大小为 0
-		public Vector2 image_offset { get; private set; } = new Vector2(0, 0);      // 图片在画布上的偏移量，用于计算annotation的位置，在未加载时图片，或者图片居中时大小为 0		
+		public Vector2 scroll_offset { get { return new Vector2((float) scroll.HorizontalOffset, (float) scroll.VerticalOffset); } }      // 图片在画布上的偏移量，用于计算annotation的位置，在未加载时图片，或者图片居中时大小为 0		
 		public MouseButtonState button_state = MouseButtonState.Released;
 		public event Action<MainCanvas, BitmapImage> eImageLoaded;
 		public event Action<MainCanvas, IAnnotationElement> eAnnotationElementAdded, eAnnotationElementModified, eAnnotationElementRemoved;
@@ -59,7 +59,7 @@ namespace QLabel.Windows.Main_Canvas {
 			// 2. 考虑 scroll offset 的影响
 			// 例如：当 offset = (10, 5) 时，坐标 （2, 2）所对应的实际点为 （10+2, 5+2）
 			// 右下角点的坐标 + max offset = 图像尺寸
-			Vector2 offset = new Vector2((float) scroll.HorizontalOffset, (float) scroll.VerticalOffset);
+			Vector2 offset = scroll_offset;
 
 			// 3.  计算点与左上角点的差
 			Vector2 diff = new Vector2(cpoint.X, cpoint.Y) - tl + offset;
@@ -85,10 +85,10 @@ namespace QLabel.Windows.Main_Canvas {
 			var cpoint = rpoint * imgsc;
 
 			// 2. 考虑 scroll offset 的影响
-			Vector2 offset = new Vector2((float) scroll.HorizontalOffset, (float) scroll.VerticalOffset);
+			Vector2 offset = scroll_offset;
 
 			// 3.  计算点与左上角点的差
-			cpoint = new Vector2(cpoint.X, cpoint.Y) + tl - offset;
+			cpoint = cpoint + tl - offset;
 
 			return cpoint;
 		}
@@ -102,19 +102,18 @@ namespace QLabel.Windows.Main_Canvas {
 
 			// 1. 逆运算，考虑图片尺寸缩放的影响
 			// 如果图片缩放比例为 0.5, 则所有坐标都需要 * 0.5
-			float imgsc = ( image_scale == 0f ? 1f : image_scale );
+			float imgsc = ( image_scale == 0f ? 1f : image_scale );          // 防止 inf
 
-			// 防止 inf
 			// 2. 考虑 scroll offset 的影响
-			Vector2 offset = new Vector2((float) scroll.HorizontalOffset, (float) scroll.VerticalOffset);
+			Vector2 offset = scroll_offset;
 
-			Vector2[] cpoints = new Vector2[rpoints.Length];
-			Parallel.For(0, rpoints.Length, (index) => {
+			Span<Vector2> cpoints = stackalloc Vector2[rpoints.Length];
+			for ( int index = 0; index < rpoints.Length; index += 1 ) {
 				var cpoint = rpoints[index] * imgsc;
-				cpoint = new Vector2(cpoint.X, cpoint.Y) + ( tl + offset );
+				cpoint = cpoint + ( tl - offset );
 				cpoints[index] = cpoint;
-			});
-			return cpoints;
+			}
+			return cpoints.ToArray();
 		}
 		public void ClearCanvas () {
 			foreach ( var elem in annotation_elements ) {
@@ -168,9 +167,6 @@ namespace QLabel.Windows.Main_Canvas {
 			target_width = annotation_canvas.ActualWidth;
 			ChangeCanvasSize(target_width, target_height);
 			canvas_size_before = canvas_size;
-
-			// 重置图像的 offset
-			image_offset = GetOffsetFromScroll();
 
 			// 加载完了图片以后就可以开始 annotate
 			can_annotate = true;
@@ -233,13 +229,6 @@ namespace QLabel.Windows.Main_Canvas {
 			}
 			eCanvasImageSizeChanged?.Invoke(this);
 		}
-		/// <summary>
-		/// 从 scrollbar 中获取当前的 offset
-		/// 如果 offset = 0, 意味着 scrollbar 没有转动
-		/// </summary>
-		private Vector2 GetOffsetFromScroll () {
-			return new Vector2((float) scroll.HorizontalOffset, (float) scroll.VerticalOffset);
-		}
 
 		private void AnnotationCanvasSizeChanged (object sender, SizeChangedEventArgs e) {
 			var new_size = canvas_size;
@@ -249,11 +238,7 @@ namespace QLabel.Windows.Main_Canvas {
 			canvas_size_before = new_size;
 			eCanvasSizeChanged?.Invoke(this, new_size);
 		}
-		private void scroll_ScrollChanged (object sender, ScrollChangedEventArgs e) {
-			// 重新设定图片的 offset
-			Vector2 p = GetOffsetFromScroll();
-			image_offset = p;
-		}
+		private void scroll_ScrollChanged (object sender, ScrollChangedEventArgs e) { }
 
 		#region MouseEvents
 		private void CanvasMouseDown (object sender, MouseButtonEventArgs e) {
