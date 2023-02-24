@@ -7,6 +7,12 @@ namespace QLabel.Scripts {
 				name = "Manga Object Detection",
 				model_configs = new Config[] {
 								new Yolov7Config (
+										model_name : "v230224",
+										model_path : @"Resources/Models/yolov7-manga-230224.onnx",
+										width : 640, height : 640,
+										class_labels : ModelLabels.manga_v230224
+									){ tags = new string[]{ "yolov7", "640×640", "75.5 GFlops", "map.5=50.4%", "23-02-24" } },
+								new Yolov7Config (
 										model_name : "v230214",
 										model_path : @"Resources/Models/yolov7-manga-230214.onnx",
 										width : 640, height : 640,

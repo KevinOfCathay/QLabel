@@ -84,7 +84,6 @@ namespace QLabel.Windows.Toolbar_Window {
 
 				// 切换 selected_tool
 				SwitchTool(cur_button_index);
-
 				HighlightButton(button);
 			}
 			e.Handled = true;

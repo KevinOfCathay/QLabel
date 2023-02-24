@@ -17,6 +17,7 @@
     <None Remove="Resources\Icons\line.png" />
     <None Remove="Resources\Icons\pentagon.png" />
     <None Remove="Resources\Models\yolov7-manga-230214.onnx" />
+    <None Remove="Resources\Models\yolov7-manga-230224.onnx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,6 +45,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Models\yolov7-manga-230214.onnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Models\yolov7-manga-230224.onnx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Resources\Icons\button.png">

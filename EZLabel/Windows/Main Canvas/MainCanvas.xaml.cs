@@ -22,8 +22,8 @@ namespace QLabel.Windows.Main_Canvas {
 		public Canvas canvas { get { return annotation_canvas; } }
 		public bool can_annotate { get; private set; } = false;      // 当前画布是否可以进行标注
 		public Vector2 canvas_size_before;
-		public Vector2 canvas_actual_size { get { return new Vector2((float) this.scroll.ActualWidth, (float) this.scroll.ActualHeight); } }
-		public Vector2 canvas_size { get { return new Vector2((float) this.scroll.Width, (float) this.scroll.Height); } }
+		public Vector2 canvas_actual_size { get { return new Vector2((float) this.annotation_canvas.ActualWidth, (float) this.annotation_canvas.ActualHeight); } }
+		public Vector2 canvas_size { get { return new Vector2((float) this.annotation_canvas.Width, (float) this.annotation_canvas.Height); } }
 		public float image_scale { get; private set; } = 0f;          // image scale level
 		public Vector2 image_size { get; private set; } = new Vector2(0, 0);      // 图片大小，用于计算annotation的位置，在未加载时图片大小为 0
 		public Vector2 scroll_offset { get { return new Vector2((float) scroll.HorizontalOffset, (float) scroll.VerticalOffset); } }      // 图片在画布上的偏移量，用于计算annotation的位置，在未加载时图片，或者图片居中时大小为 0		
