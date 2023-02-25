@@ -11,17 +11,6 @@ namespace QLabel.Scripts {
 	internal class Config {
 		public Config (
 			string model_name, string model_path,
-			int width, int height, string[] class_labels, BaseInferenceMachine inf) {
-
-			this.model_name = model_name;
-			this.model_path = model_path;
-			this.width = width;
-			this.height = height;
-			this.class_labels = GetClassLabels(class_labels);
-			this.inf = inf;
-		}
-		public Config (
-			string model_name, string model_path,
 			int width, int height, ClassLabel[] class_labels, BaseInferenceMachine inf) {
 
 			this.model_name = model_name;
@@ -68,7 +57,7 @@ namespace QLabel.Scripts {
 	}
 	internal class Yolov5Config : Config {
 		public Yolov5Config (
-			string model_name, string model_path, int width, int height, string[] class_labels) :
+			string model_name, string model_path, int width, int height, ClassLabel[] class_labels) :
 			base(model_name, model_path, width, height, class_labels,
 				new Yolov5Inference(model_path, class_labels, width, height, class_labels.Length)
 				) { }
@@ -78,6 +67,13 @@ namespace QLabel.Scripts {
 			string model_name, string model_path, int width, int height, ClassLabel[] class_labels) :
 			base(model_name, model_path, width, height, class_labels,
 				new Yolov7Inference(model_path, class_labels, width, height, class_labels.Length)
+				) { }
+	}
+	internal class PANetConfig : Config {
+		public PANetConfig (
+			string model_name, string model_path, int width, int height, ClassLabel[] class_labels) :
+			base(model_name, model_path, width, height, class_labels,
+				new PANetInference(model_path, class_labels, width, height, class_labels.Length)
 				) { }
 	}
 }

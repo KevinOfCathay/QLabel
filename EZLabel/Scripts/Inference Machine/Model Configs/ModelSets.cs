@@ -62,12 +62,11 @@ namespace QLabel.Scripts {
 			new ModelSet {
 				name = "Text Detection",
 				model_configs = new Config[] {
-											new Config (
+											new PANetConfig (
 													model_name : "Text Detection (PANet)",
 													model_path : "",
 													width : 640, height : 640,
-													class_labels : ModelLabels.textdet,
-													inf: null
+													class_labels : ModelLabels.textdet
 											){},
 				}
 			},

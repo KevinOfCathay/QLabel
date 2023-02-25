@@ -182,6 +182,9 @@ namespace QLabel.Windows.Main_Canvas {
 			can_annotate = true;
 			eImageLoaded?.Invoke(this, image);
 		}
+		public void ResizeImage (Vector2 target_size) {
+
+		}
 		public void SetImageScale (float scale = 0.5f) {
 			double image_height = image_size.Y * scale, image_width = image_size.X * scale;
 			canvas_image.Width = image_width;

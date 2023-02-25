@@ -16,7 +16,7 @@ using System.Drawing.Imaging;
 namespace QLabel.Scripts.Inference_Machine {
 	internal sealed class Yolov5Inference : BaseInferenceMachine {
 		public int width, height, classes;
-		private string[] labels;
+		private readonly ClassLabel[] labels;
 		private float conf_threshold = 0.35f;
 		private float score_threshold = 0.5f;
 
@@ -24,7 +24,7 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// 初始化所有参数
 		/// </summary>
 		/// <param name="path">模型的路径</param>
-		public Yolov5Inference (string path, string[] labels, int width = 640, int height = 640, int classes = 80) :
+		public Yolov5Inference (string path, ClassLabel[] labels, int width = 640, int height = 640, int classes = 80) :
 			base(new[] { 1, 3, height, width }, new[] { 25200, classes + 5 }) {
 			model_path = path;
 			this.width = width;
@@ -57,7 +57,7 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// <summary>
 		/// 运行模型并以 float[] 形式返回结果
 		/// </summary>
-		protected float[] Run<T> (DenseTensor<T> input) {
+		public float[] Run<T> (DenseTensor<T> input) {
 			// 从 Dense Tensor 创建一个 Input
 			var input_node = new List<NamedOnnxValue> { NamedOnnxValue.CreateFromTensor<T>("images", input) };
 			if ( session != null ) {
@@ -68,7 +68,7 @@ namespace QLabel.Scripts.Inference_Machine {
 			}
 		}
 
-		protected (int[] ind, float[] scores, Rect[] boxes, int[] classes) NMS (float[] output) {
+		private (int[] ind, float[] scores, Rect[] boxes, int[] classes) NMS (float[] output) {
 			List<Rect> boxes = new List<Rect>();
 			List<float> scores = new List<float>();
 			List<int> classes = new List<int>();
@@ -141,7 +141,7 @@ namespace QLabel.Scripts.Inference_Machine {
 						continue;
 					}
 				}
-				ClassLabel cl = new ClassLabel(group: "None", name: labels[c]);
+				ClassLabel cl = new ClassLabel(labels[c]);
 				data.Add(new ADRect(
 					points, cl, conf: final_scores[i]
 					));

@@ -99,6 +99,9 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Highlight () {
 			throw new NotImplementedException();
 		}
+		public void Densify (MainCanvas canvas) {
+
+		}
 		public void ToPolygon (MainCanvas canvas) {
 		}
 	}

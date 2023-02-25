@@ -20,19 +20,19 @@ namespace QLabel.Scripts.Inference_Machine {
 		public int width, height, classes;
 		private const int out_width = 160, out_height = 160;
 		public float downsample_ratio = 0.25f;
-		public string[] labels;
+		private readonly ClassLabel[] labels;
 
 		/// <summary>
 		/// 初始化所有参数
 		/// </summary>
 		/// <param name="path">模型的路径</param>
-		public PANetInference (string path, int width = 640, int height = 640, int classes = 80) :
+		public PANetInference (string path, ClassLabel[] labels, int width = 640, int height = 640, int classes = 80) :
 			base(new int[0], new int[0]) {
 			model_path = path;
 			this.width = width;
 			this.height = height;
 			this.classes = classes;
-			this.labels = ModelLabels.coco80;
+			this.labels = labels;
 		}
 
 		public override AnnoData[] RunInference (ImageData data, HashSet<int> class_filter = null) {

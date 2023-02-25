@@ -107,7 +107,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Highlight () {
 			// if ( highlight_storyboard != null ) { BeginStoryboard(highlight_storyboard); }
 		}
-		public void Densify (float distance) {
+		public void Densify (MainCanvas canvas) {
 
 		}
 		public void ToPolygon (MainCanvas canvas) {

@@ -71,6 +71,10 @@ namespace QLabel.Windows.Main_Canvas {
 		/// </summary>
 		public void ToPolygon (MainCanvas canvas);
 		/// <summary>
+		/// 将对象转化为多边形（不是每个物体都可以转化）
+		/// </summary>
+		public void Densify (MainCanvas canvas);
+		/// <summary>
 		/// 在画布上突出元素的位置
 		/// </summary>
 		public void Highlight ();
