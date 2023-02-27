@@ -43,7 +43,7 @@ namespace QLabel.Windows.Main_Canvas {
 		/// </summary>
 		Vector2[] convex_hull { get; }
 
-		public event Action<IAnnotationElement> eSelected;
+		public event Action<IAnnotationElement> eSelected, eUnselected;
 		public void MouseDown (MainCanvas canvas, MouseEventArgs e);
 		public void MouseDrag (MainCanvas canvas, MouseEventArgs e);
 		public void MouseUp (MainCanvas canvas, MouseEventArgs e);
@@ -62,6 +62,7 @@ namespace QLabel.Windows.Main_Canvas {
 		/// 在画布上选择了元素
 		/// </summary>
 		public void Select ();
+		public void Unselect ();
 		/// <summary>
 		/// 从画布上删除元素
 		/// </summary>

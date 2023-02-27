@@ -20,7 +20,8 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 	/// Interaction logic for DraggablePolygon.xaml
 	/// </summary>
 	public partial class DraggablePolygon : UserControl, IAnnotationElement {
-		public event Action<IAnnotationElement> eSelected;
+		public event Action<IAnnotationElement> eSelected, eUnselected;
+
 		private Vector2 mouse_down_position, mouse_cur_position;
 		private const float dot_radius = 8f;
 		public DraggablePolygon () {
@@ -42,9 +43,12 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 				Canvas.SetTop(dot, cpoint.Y - dot_radius / 2);
 
 				// 为点创建事件
-				dot.eMouseEnter += delegate (Dot _, EventArgs _) { dot_index = index; };
+				int idx = index;
+				dot.eMouseEnter += (Dot _, EventArgs _) => { this.dot_index = idx; };
+
 				mc.annotation_canvas.Children.Add(dot);
 				dots[index] = dot;
+				index += 1;
 			}
 			_convex_hull = CalculateConvexHull(cpoints);
 		}
@@ -57,8 +61,8 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			get {
 				Vector2[] _cpoints = new Vector2[vertex];
 				int index = 0;
-				foreach ( var point in polygon.Points ) {
-					_cpoints[index] = new Vector2((float) point.X, (float) point.Y);
+				foreach ( var dot in dots ) {
+					_cpoints[index] = new Vector2((float) Canvas.GetLeft(dot), (float) Canvas.GetTop(dot));
 					index += 1;
 				}
 				return _cpoints;
@@ -97,17 +101,29 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			var position = e.GetPosition(canvas);
 			var mouse_temp_position = new Vector2((float) position.X, (float) position.Y);
 			var shift = mouse_temp_position - mouse_cur_position;
+
+			Canvas.SetLeft(dots[dot_index], Canvas.GetLeft(dots[dot_index]) + shift.X);
+			Canvas.SetTop(dots[dot_index], Canvas.GetTop(dots[dot_index]) + shift.Y);
+
+			polygon.Points = new PointCollection(cpoints.to_points());
+
+			mouse_cur_position = mouse_temp_position;
 		}
 		public new void MouseUp (MainCanvas canvas, MouseEventArgs e) {
-			throw new NotImplementedException();
+
 		}
 		public void Select () {
 			eSelected?.Invoke(this);
+		}
+		public void Unselect () {
+			eUnselected?.Invoke(this);
 		}
 		public void Highlight () {
 			// if ( highlight_storyboard != null ) { BeginStoryboard(highlight_storyboard); }
 		}
 		public void Densify (MainCanvas canvas) {
+			// 在每个线段的中点处增加一个点
+			// 当线段长度小于一定值时不增加
 
 		}
 		public void ToPolygon (MainCanvas canvas) {

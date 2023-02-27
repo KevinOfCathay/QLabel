@@ -53,6 +53,7 @@ namespace QLabel {
 
 					// elem 被选择时的事件
 					iae.eSelected += (elem) => { selected_element = elem; };
+					iae.eUnselected += (elem) => { selected_element = null; };
 				};
 				canvas.eAnnotationElementModified += (MainCanvas _, IAnnotationElement iae) => {
 					// 当有注释被移除时，更新注释列表以及注释树
