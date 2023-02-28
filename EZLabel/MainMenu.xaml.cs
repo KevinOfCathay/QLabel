@@ -2,6 +2,7 @@
 using QLabel.Scripts.Projects;
 using QLabel.Windows.CropWindow;
 using QLabel.Windows.Export_Window;
+using QLabel.Windows.Import_Window;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -23,6 +24,9 @@ namespace QLabel {
 		}
 		public void Init (MainWindow mw) {
 			this.main = mw;
+		}
+		public void LoadImageFromData (ImageData[] data_list) {
+
 		}
 		private async void New_Click (object sender, RoutedEventArgs e) {
 			if ( main != null ) {
@@ -91,11 +95,20 @@ namespace QLabel {
 			if ( !ProjectManager.empty ) {
 				ExportWindow window = new ExportWindow();
 				main.LockWindow();
-				window.Closed += (object? sender, EventArgs e) => { main.UnlockWindow(); };
+				window.Closed += (object? _, EventArgs _) => { main.UnlockWindow(); };
 				window.Show();
 			} else {
 				MessageBox.Show("There is no project opened.", "Error", MessageBoxButton.OK);
 			}
+		}
+		/// <summary>
+		/// 导出注释数据到其他格式
+		/// </summary>
+		private void ImportClick (object sender, RoutedEventArgs e) {
+			ImportWindow window = new ImportWindow();
+			main.LockWindow();
+			window.Closed += (object? _, EventArgs _) => { main.UnlockWindow(); };
+			window.Show();
 		}
 		/// <summary>
 		/// 打开裁剪窗口，裁剪注释并保存

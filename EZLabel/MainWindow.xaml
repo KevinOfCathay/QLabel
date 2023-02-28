@@ -11,7 +11,9 @@
 	   xmlns:toolbx="clr-namespace:QLabel.Windows.Toolbar_Window"
         mc:Ignorable="d"
 	   KeyDown="Window_KeyDown"
-	   Height="720" Width="1280">
+	   Height="720" Width="1280"
+	   Initialized="RegisterEvents"
+	   >
 	<Grid>
 		<DockPanel HorizontalAlignment="Stretch">
 			<!-- Menu Bar -->

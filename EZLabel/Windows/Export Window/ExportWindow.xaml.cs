@@ -19,7 +19,8 @@ namespace QLabel.Windows.Export_Window {
 		/// VOC: VOC 数据格式
 		/// COCO: COCO 数据格式
 		/// </summary>
-		private enum Format { VOC, COCO, Image }
+		private enum Format { VOC, COCO, YOLO }
+		private enum YOLOFormat { XYWH, XYs }
 		private enum Target { Current, All };
 
 		private Format fmt = Format.VOC;
@@ -27,14 +28,14 @@ namespace QLabel.Windows.Export_Window {
 		private string save_dir = "";
 		public ExportWindow () {
 			InitializeComponent();
-
+		}
+		private void RegisterEvents (object? sender, EventArgs e) {
 			// Register Events
 			this.dir_selector.eDirectorySelected += (path) => { save_dir = path; };
 			this.dir_selector.eDialogClosed += () => { this.Topmost = true; this.Activate(); };
 
 			confirm_cancel.eConfirmClick += ConfirmClick;
 			confirm_cancel.eCancelClick += CancelClick;
-
 		}
 		private void ConfirmClick (object sender, RoutedEventArgs e) {
 			List<ImageData> datalist = new List<ImageData>();
@@ -67,6 +68,9 @@ namespace QLabel.Windows.Export_Window {
 				case Format.COCO:
 					await ExportToCoco(data, path);
 					break;
+				case Format.YOLO:
+					await ExportToYolo(data, path, (YOLOFormat) yolo_format_combobox.SelectedIndex);
+					break;
 				default:
 					break;
 			}
@@ -74,6 +78,17 @@ namespace QLabel.Windows.Export_Window {
 		private void FormatSelectionChanged (object sender, SelectionChangedEventArgs e) {
 			if ( format.SelectedItem != null ) {
 				fmt = (Format) format.SelectedIndex;
+				if ( fmt == Format.YOLO ) {
+					if ( yolo_format_label != null && yolo_format_combobox != null ) {
+						yolo_format_label.Visibility = Visibility.Visible;
+						yolo_format_combobox.Visibility = Visibility.Visible;
+					}
+				} else {
+					if ( yolo_format_label != null && yolo_format_combobox != null ) {
+						yolo_format_label.Visibility = Visibility.Collapsed;
+						yolo_format_combobox.Visibility = Visibility.Collapsed;
+					}
+				}
 			}
 		}
 		private void TargetSelectionChanged (object sender, SelectionChangedEventArgs e) {

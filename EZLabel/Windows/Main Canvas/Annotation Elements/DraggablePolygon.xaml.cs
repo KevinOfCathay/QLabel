@@ -1,4 +1,5 @@
-﻿using QLabel.Scripts.AnnotationData;
+﻿using OpenCvSharp.Flann;
+using QLabel.Scripts.AnnotationData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,7 +63,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 				Vector2[] _cpoints = new Vector2[vertex];
 				int index = 0;
 				foreach ( var dot in dots ) {
-					_cpoints[index] = new Vector2((float) Canvas.GetLeft(dot), (float) Canvas.GetTop(dot));
+					_cpoints[index] = new Vector2((float) Canvas.GetLeft(dot) - dot_radius / 2, (float) Canvas.GetTop(dot) - dot_radius / 2);
 					index += 1;
 				}
 				return _cpoints;
@@ -102,10 +103,21 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			var mouse_temp_position = new Vector2((float) position.X, (float) position.Y);
 			var shift = mouse_temp_position - mouse_cur_position;
 
-			Canvas.SetLeft(dots[dot_index], Canvas.GetLeft(dots[dot_index]) + shift.X);
-			Canvas.SetTop(dots[dot_index], Canvas.GetTop(dots[dot_index]) + shift.Y);
+			var dot = dots[dot_index];
+			double left = polygon.Points[dot_index].X + shift.X, top = polygon.Points[dot_index].Y + shift.Y;
+			Canvas.SetLeft(dot, left - dot_radius / 2);
+			Canvas.SetTop(dot, top - dot_radius / 2);
 
-			polygon.Points = new PointCollection(cpoints.to_points());
+			// 更改多边形的形状
+			Span<Point> points = stackalloc Point[vertex];
+			for ( int index = 0; index < polygon.Points.Count; index += 1 ) {
+				if ( index == dot_index ) {
+					points[index] = new Point(left, top);
+				} else {
+					points[index] = polygon.Points[index];
+				}
+			}
+			polygon.Points = new PointCollection(points.ToArray());
 
 			mouse_cur_position = mouse_temp_position;
 		}

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace QLabel.Scripts.AnnotationData {
 	/// <summary>
@@ -15,6 +16,11 @@ namespace QLabel.Scripts.AnnotationData {
 		public ADRect
 			(ReadOnlySpan<Vector2> points, ClassLabel clas, float conf = 1.0f) :
 			base(points, Type.Rectangle, clas, conf) {
+		}
+		public ADRect
+			(float xmin, float ymin, float xmax, float ymax, ClassLabel clas, float conf = 1.0f) :
+			base(new ReadOnlySpan<Vector2>(new Vector2[] { new Vector2(xmin, ymin), new Vector2(xmax, ymin), new Vector2(xmin, ymax), new Vector2(xmax, ymax) }),
+				Type.Rectangle, clas, conf) {
 		}
 
 		public override IAnnotationElement CreateAnnotationElement (MainCanvas canvas) {

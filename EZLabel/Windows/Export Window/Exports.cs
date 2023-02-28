@@ -89,5 +89,8 @@ namespace QLabel.Windows.Export_Window {
 				}
 			});
 		}
+		private async Task ExportToYolo (ImageData[] data_array, string path, YOLOFormat format) {
+
+		}
 	}
 }

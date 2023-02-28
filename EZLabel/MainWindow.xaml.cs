@@ -16,13 +16,11 @@ namespace QLabel {
 
 		public MainWindow () {
 			App.main = this;
-
 			SetTitle();
 			InitializeComponent();
 			InitComponents();
-			RegisterEvents();
 		}
-		public void RegisterEvents () {
+		public void RegisterEvents (object? sender, EventArgs e) {
 			ilw.eImageListUICreated += (ImageListWindow window, ImageListItem item) => {
 				// 切换图片时的事件
 				item.eSwitchImage += async (i) => {

@@ -1,0 +1,39 @@
+﻿<Window x:Class="QLabel.Windows.Import_Window.ImportWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QLabel.Windows.Import_Window"
+	    xmlns:tool="clr-namespace:QLabel.Custom_Control.Small_Tools"
+        mc:Ignorable="d"
+	   Background="AliceBlue"
+        Title="Import From..." 
+	   Height="280" Width="450"
+	   MinHeight="280" MinWidth="450">
+	<Grid Margin="10">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="auto"></RowDefinition>
+		</Grid.RowDefinitions>
+
+		<StackPanel Grid.Row="0">
+			<Label FontSize="8.5">Format:</Label>
+			<ComboBox 
+				Name="format" FontSize="8.5" Margin="4,0"
+				SelectionChanged="FormatSelectionChanged">
+				<ComboBoxItem IsSelected="True">Pascal VOC</ComboBoxItem>
+			</ComboBox>
+
+			<Label FontSize="8.5">Missing Image:</Label>
+			<ComboBox 
+				Name="missing" FontSize="8.5" Margin="4,0">
+				<ComboBoxItem IsSelected="True">Search Local Directory</ComboBoxItem>
+				<ComboBoxItem>Ignore</ComboBoxItem>
+			</ComboBox>
+
+			<Label FontSize="8.5">Open From:</Label>
+			<tool:DirectorySelector x:Name="dir_selector"></tool:DirectorySelector>
+		</StackPanel>
+		<tool:ConfirmCancel Grid.Row="1" x:Name="confirm_cancel"/>
+	</Grid>
+</Window>

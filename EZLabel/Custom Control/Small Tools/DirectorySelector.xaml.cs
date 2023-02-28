@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace QLabel.Custom_Control.Small_Tools {
 	public partial class DirectorySelector : UserControl {
+		public string directory { get; private set; }
 		public event Action<string> eDirectorySelected;
 		public event Action eDialogClosed;
 		public DirectorySelector () {
@@ -30,7 +32,7 @@ namespace QLabel.Custom_Control.Small_Tools {
 				if ( dialog.ShowDialog() == CommonFileDialogResult.Ok ) {
 					var path = dialog.FileName;
 					this.path.Text = path;
-
+					directory = path;
 					eDirectorySelected?.Invoke(path);
 				}
 			}

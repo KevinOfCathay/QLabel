@@ -6,16 +6,18 @@
         xmlns:local="clr-namespace:QLabel.Windows.Export_Window"
 	    xmlns:tool="clr-namespace:QLabel.Custom_Control.Small_Tools"
         mc:Ignorable="d"
-	   ResizeMode="NoResize"
 	   Background="AliceBlue"
-        Title="Export To..." Height="250" Width="380">
+        Title="Export To..." 
+	   Height="280" Width="450"
+	   MinHeight="280" MinWidth="450"
+	   Initialized="RegisterEvents"
+	   >
 	<Grid Margin="10">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*"></RowDefinition>
 			<RowDefinition Height="auto"></RowDefinition>
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0">
-
 			<Label FontSize="8.5">Target:</Label>
 			<ComboBox 
 				Name="target" FontSize="8.5" Margin="4,0"
@@ -30,7 +32,18 @@
 				SelectionChanged="FormatSelectionChanged">
 				<ComboBoxItem IsSelected="True">VOC</ComboBoxItem>
 				<ComboBoxItem>COCO</ComboBoxItem>
+				<ComboBoxItem>YOLO</ComboBoxItem>
 			</ComboBox>
+
+			<Label FontSize="8.5" 
+				  Name="yolo_format_label" Visibility="Collapsed">Format (Yolo):</Label>
+			<ComboBox 
+				Visibility="Collapsed"
+				Name="yolo_format_combobox" FontSize="8.5" Margin="4,0">
+				<ComboBoxItem IsSelected="True" ToolTip="For object detection">X Y W H</ComboBoxItem>
+				<ComboBoxItem ToolTip="For segmentation">XY Coords</ComboBoxItem>
+			</ComboBox>
+
 			<Label FontSize="8.5">Save To:</Label>
 			<tool:DirectorySelector x:Name="dir_selector"></tool:DirectorySelector>
 		</StackPanel>
