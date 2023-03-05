@@ -8,14 +8,14 @@ using OpenCvSharp.Aruco;
 namespace QLabel.Scripts.Projects {
 	public class Project {
 		public Project () {
-			_data_list = new List<ImageData>();
+			_datas = new List<ImageData>();
 			label_counts = new Dictionary<ClassLabel, int>();
 		}
 		/// <summary> 所有的 data（只能获取不能进行变更） </summary>
-		public IEnumerable<ImageData> data_list { get { return _data_list; } }
+		public IEnumerable<ImageData> datas { get { return _datas; } }
 
 		/// <summary> Project 包含的数据源 </summary>
-		private List<ImageData> _data_list;
+		private List<ImageData> _datas;
 		/// <summary> Project 下所有数据的类别标签的个数统计 </summary>
 		private Dictionary<ClassLabel, int> label_counts;
 		public ClassLabel[] label_set { get { return label_counts.Keys.ToArray(); } }
@@ -23,8 +23,8 @@ namespace QLabel.Scripts.Projects {
 		public event Action<ClassLabel> eAddLabel, eRemoveLabel;
 
 		public void AddImageData (ImageData data) {
-			if ( !_data_list.Contains(data) ) {          // 不重复添加 image data
-				_data_list.Add(data);
+			if ( !_datas.Contains(data) ) {          // 不重复添加 image data
+				_datas.Add(data);
 				foreach ( var anno in data.annodata ) {
 					var class_label = anno.clas;
 					if ( label_counts.ContainsKey(class_label) ) {

@@ -117,7 +117,7 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 			if ( selected_machine != null ) {
 				selected_machine.BuildSession();
 				if ( canvas != null && canvas.can_annotate ) {
-					foreach ( var file in ProjectManager.project.data_list ) {
+					foreach ( var file in ProjectManager.project.datas ) {
 						var ads = selected_machine.RunInference(file, accepted_classes);
 						foreach ( var ad in ads ) {
 							ProjectManager.AddAnnoData(file, ad);

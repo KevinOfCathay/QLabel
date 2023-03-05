@@ -15,7 +15,7 @@ namespace QLabel.Windows.Export_Window {
 			var class_labels = ProjectManager.project.label_set;     // categories
 
 			var categories_task = ClassLabelsToCategoryAsync(class_labels);
-			var image_task = ImageDatasToImageAsync(ProjectManager.project.data_list);
+			var image_task = ImageDatasToImageAsync(ProjectManager.project.datas);
 
 			if ( !Path.Exists(save_loc) ) {    // 不要覆盖现有的文件
 				var coco_obj = new {

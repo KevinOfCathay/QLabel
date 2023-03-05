@@ -73,7 +73,7 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 				};
 				groups.Add(group_name, new_group_node);
 
-				//  check/uncheck 事件
+				//  eCheck/eUncheck 事件
 				cbxlbl.eChecked += (_, _) => {
 					foreach ( var cat in new_group_node.categories ) { cat.checkbox.Check(); }
 				};
@@ -96,7 +96,7 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 				};
 				group_node.categories.Add(category_node);
 
-				//  check/uncheck 事件
+				//  eCheck/eUncheck 事件
 				cbxlbl.eChecked += (_, _) => {
 					foreach ( var clss in category_node.classes ) { clss.checkbox.Check(); }
 				};

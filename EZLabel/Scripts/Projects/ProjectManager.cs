@@ -61,7 +61,7 @@ namespace QLabel.Scripts.Projects {
 		}
 		public static async Task SaveProject () {
 			await Task.Run(() => {
-				foreach ( var data in project.data_list ) {
+				foreach ( var data in project.datas ) {
 					JsonSerializer serializer = new JsonSerializer();
 					using ( JsonWriter writer = new JsonTextWriter(
 						new StreamWriter(

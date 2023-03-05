@@ -1,12 +1,10 @@
-﻿using QLabel.Scripts.AnnotationData;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using QLabel.Scripts.AnnotationData;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -25,7 +23,7 @@ namespace QLabel.Scripts.Projects {
 		public double width { get; set; }
 		public double height { get; set; }
 		public int depth { get; set; } = 3;
-		public PixelFormat format { get; set; }
+		[JsonConverter(typeof(StringEnumConverter))] public PixelFormat format { get; set; }
 
 		public long size { get; set; }     // 文件大小
 		public List<AnnoData> annodata { get; private set; } = new List<AnnoData>();

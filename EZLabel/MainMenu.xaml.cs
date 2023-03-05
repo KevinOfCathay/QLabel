@@ -78,7 +78,7 @@ namespace QLabel {
 									}
 								}
 							}
-							await main.ilw.SetListUI(ProjectManager.project.data_list);
+							await main.ilw.SetListUI(ProjectManager.project.datas);
 						}
 					} catch ( Exception ) {
 					}

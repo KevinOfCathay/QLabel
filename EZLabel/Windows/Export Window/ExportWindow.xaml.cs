@@ -1,8 +1,11 @@
-﻿using QLabel.Scripts.Projects;
+﻿using QLabel.Scripts;
+using QLabel.Scripts.AnnotationData;
+using QLabel.Scripts.Projects;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -26,8 +29,13 @@ namespace QLabel.Windows.Export_Window {
 		private Format fmt = Format.VOC;
 		private Target tar = Target.Current;
 		private string save_dir = "";
+		private HashSet<ClassLabel> exported_classes = new HashSet<ClassLabel>();
 		public ExportWindow () {
 			InitializeComponent();
+			labeltree.SetUI(
+				ProjectManager.project.label_set,
+				(label) => { exported_classes.Add(label); },
+				(label) => { exported_classes.Remove(label); });
 		}
 		private void RegisterEvents (object? sender, EventArgs e) {
 			// Register Events
@@ -44,7 +52,7 @@ namespace QLabel.Windows.Export_Window {
 					datalist.Add(ProjectManager.cur_datafile);
 					break;
 				case Target.All:
-					foreach ( var datafile in ProjectManager.project.data_list ) {
+					foreach ( var datafile in ProjectManager.project.datas ) {
 						datalist.Add(datafile);
 					}
 					break;

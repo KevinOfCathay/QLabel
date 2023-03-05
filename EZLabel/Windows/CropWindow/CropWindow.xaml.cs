@@ -38,7 +38,7 @@ namespace QLabel.Windows.CropWindow {
 					break;
 				// 裁剪所有的图像
 				case Target.All:
-					foreach ( var datafile in ProjectManager.project.data_list ) {
+					foreach ( var datafile in ProjectManager.project.datas ) {
 						await CropSaveTask(datafile, save_dir);
 					}
 					break;
@@ -104,7 +104,7 @@ namespace QLabel.Windows.CropWindow {
 						classlabels = GetClassLabels(new ImageData[] { ProjectManager.cur_datafile });
 						break;
 					case Target.All:
-						classlabels = GetClassLabels(ProjectManager.project.data_list);
+						classlabels = GetClassLabels(ProjectManager.project.datas);
 						break;
 					default:
 						classlabels = GetClassLabels(new ImageData[] { ProjectManager.cur_datafile });
