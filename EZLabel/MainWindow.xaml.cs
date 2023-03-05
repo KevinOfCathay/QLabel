@@ -2,13 +2,16 @@
 using QLabel.Scripts.Projects;
 using QLabel.Windows.Main_Canvas;
 using System;
+using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Numerics;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using System.Xml.Serialization;
 
 namespace QLabel {
 	public partial class MainWindow : Window {
@@ -16,8 +19,8 @@ namespace QLabel {
 
 		public MainWindow () {
 			App.main = this;
-			SetTitle();
 			InitializeComponent();
+			SetTitle();
 			InitComponents();
 		}
 		private void RegisterEvents (object? sender, EventArgs e) {
@@ -86,17 +89,15 @@ namespace QLabel {
 			this.main_menu.Init(this);
 			this.image_quick_info_panel.canvas = this.main_canvas;
 		}
-
 		/// <summary>
 		/// 根据 Image data 设置 UI 等
 		/// </summary>
-		public async Task SetImageData (ImageData[] data) {
+		public async Task SetImageData (ImageData[] datas) {
 			// 设置底层的的 UI 缩略图等
-			var set_list_ui_task = ilw.SetListUI(data);
+			var set_list_ui_task = ilw.SetListUI(datas);
 
 			await set_list_ui_task;
 		}
-
 		private void SetTitle () {
 			try {
 				Title = string.Join(" ", "Qlabel", "Ver", Assembly.GetExecutingAssembly().GetName().Version.ToString());
@@ -107,7 +108,7 @@ namespace QLabel {
 		private void Window_KeyDown (object sender, KeyEventArgs e) {
 			if ( e.Key == Key.Z ) {
 				if ( e.KeyboardDevice.Modifiers == ModifierKeys.Control ) {
-					ActionManager.PopAction();		// 撤销
+					ActionManager.PopAction();         // 撤销
 				}
 			} else if ( e.Key >= Key.D1 && e.Key <= Key.D8 ) {
 				toolbar.SetCurrentTool(e.Key - Key.D1);

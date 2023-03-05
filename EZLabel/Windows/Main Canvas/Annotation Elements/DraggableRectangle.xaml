@@ -17,7 +17,7 @@
 			</Style>
 		</Grid.Resources>
 		<Label x:Name="class_label" 
-			Padding="1" Margin="1"
+			Padding="1, 0" Margin="1, 2"
 			FontSize="10.5"
 			Foreground="{Binding Stroke, ElementName=rect}"
 			HorizontalAlignment="Right"

@@ -35,14 +35,23 @@
 				<ComboBoxItem>YOLO</ComboBoxItem>
 			</ComboBox>
 
-			<Label FontSize="8.5" 
-				  Name="yolo_format_label" Visibility="Collapsed">Format (Yolo):</Label>
-			<ComboBox 
-				Visibility="Collapsed"
+			<!-- YOLO -->
+			<StackPanel  Name="yolo_format_label" Visibility="Collapsed">
+				<Label FontSize="8.5">Format (Yolo):</Label>
+				<ComboBox 
 				Name="yolo_format_combobox" FontSize="8.5" Margin="4,0">
-				<ComboBoxItem IsSelected="True" ToolTip="For object detection">X Y W H</ComboBoxItem>
-				<ComboBoxItem ToolTip="For segmentation">XY Coords</ComboBoxItem>
-			</ComboBox>
+					<ComboBoxItem IsSelected="True" ToolTip="For object detection">X Y W H</ComboBoxItem>
+					<ComboBoxItem ToolTip="For segmentation">XY Coords</ComboBoxItem>
+				</ComboBox>
+			</StackPanel>
+
+			<StackPanel Name="yolo_scale_label" Visibility="Collapsed">
+				<Label FontSize="8.5">Scale (Yolo):</Label>
+				<ComboBox Name="yolo_scale_combobox" FontSize="8.5" Margin="4,0">
+					<ComboBoxItem IsSelected="True">Percentage</ComboBoxItem>
+					<ComboBoxItem>Absolute</ComboBoxItem>
+				</ComboBox>
+			</StackPanel>
 
 			<Label FontSize="8.5">Save To:</Label>
 			<tool:DirectorySelector x:Name="dir_selector"></tool:DirectorySelector>

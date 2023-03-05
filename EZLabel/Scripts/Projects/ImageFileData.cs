@@ -16,12 +16,12 @@ namespace QLabel.Scripts.Projects {
 		public string folder { get; private set; }
 		public string filename { get; private set; }
 
+		[XmlIgnore]
 		public string path {
 			get { return _path; }
-			set {
-				_path = value; folder = Directory.GetParent(value).FullName; filename = Path.GetFileName(path);
-			}
+			set { _path = value; folder = Directory.GetParent(value).FullName; filename = Path.GetFileName(path); }
 		}
+
 		public double width { get; set; }
 		public double height { get; set; }
 		public int depth { get; set; } = 3;

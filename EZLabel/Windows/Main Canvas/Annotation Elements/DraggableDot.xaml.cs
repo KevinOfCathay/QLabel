@@ -7,6 +7,7 @@ using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 	/// <summary>
@@ -28,6 +29,8 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			}
 		}
 		public Vector2[] convex_hull { get { return cpoints; } }
+		public Color stroke_color { set { dot.Stroke = new SolidColorBrush(value); } }
+		public Color fill_color { set { dot.Fill = new SolidColorBrush(value); } }
 		/// <summary>
 		/// 这个点相关联的线
 		/// </summary>
@@ -82,9 +85,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Select () {
 			eSelected?.Invoke(this);
 		}
-		public void Unselect () {
-			eUnselected?.Invoke(this);
-		}
+		public void Unselect () { eUnselected?.Invoke(this); }
 		public void Hide () {
 			Visibility = Visibility.Hidden;
 		}

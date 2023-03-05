@@ -69,7 +69,10 @@ namespace QLabel.Windows.Export_Window {
 					await ExportToCoco(data, path);
 					break;
 				case Format.YOLO:
-					await ExportToYolo(data, path, (YOLOFormat) yolo_format_combobox.SelectedIndex);
+					await ExportToYolo(data, path,
+						(YOLOFormat) yolo_format_combobox.SelectedIndex,
+						yolo_scale_combobox.SelectedIndex == 0 ? true : false
+						);
 					break;
 				default:
 					break;
@@ -79,14 +82,18 @@ namespace QLabel.Windows.Export_Window {
 			if ( format.SelectedItem != null ) {
 				fmt = (Format) format.SelectedIndex;
 				if ( fmt == Format.YOLO ) {
-					if ( yolo_format_label != null && yolo_format_combobox != null ) {
+					if ( yolo_format_label != null ) {
 						yolo_format_label.Visibility = Visibility.Visible;
-						yolo_format_combobox.Visibility = Visibility.Visible;
+					}
+					if ( yolo_scale_label != null ) {
+						yolo_scale_label.Visibility = Visibility.Visible;
 					}
 				} else {
-					if ( yolo_format_label != null && yolo_format_combobox != null ) {
+					if ( yolo_format_label != null ) {
 						yolo_format_label.Visibility = Visibility.Collapsed;
-						yolo_format_combobox.Visibility = Visibility.Collapsed;
+					}
+					if ( yolo_scale_label != null ) {
+						yolo_scale_label.Visibility = Visibility.Collapsed;
 					}
 				}
 			}

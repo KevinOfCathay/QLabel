@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QLabel.Windows.Misc_Panel.Sub_Panels"
-		   xmlns:cvt="clr-namespace:QLabel.Scripts.Converters"
+		   xmlns:cvt="clr-namespace:QLabel.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="300">
 	<UserControl.Resources>

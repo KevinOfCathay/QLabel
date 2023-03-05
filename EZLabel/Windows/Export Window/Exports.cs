@@ -89,17 +89,17 @@ namespace QLabel.Windows.Export_Window {
 				}
 			});
 		}
-		private async Task ExportToYolo (ImageData[] data_array, string path, YOLOFormat format) {
+		private async Task ExportToYolo (ImageData[] data_array, string path, YOLOFormat format, bool percentage) {
 			await Task.Run(() => {
 				foreach ( var data in data_array ) {
 					string save_loc = Path.Join(path, data.filename + ".txt");
 					if ( !Path.Exists(save_loc) ) {    // 不要覆盖现有的文件
 						switch ( format ) {
 							case YOLOFormat.XYWH:
-								data.ToYoloXYWH(save_loc, ProjectManager.project.label_set);
+								data.ToYoloXYWH(save_loc, ProjectManager.project.label_set, percentage);
 								break;
 							case YOLOFormat.XYs:
-								data.ToYoloXYCoords(save_loc, ProjectManager.project.label_set);
+								data.ToYoloXYCoords(save_loc, ProjectManager.project.label_set, percentage);
 								break;
 						}
 					}

@@ -1,10 +1,13 @@
-﻿using QLabel.Scripts.AnnotationData;
+﻿using OpenCvSharp;
+using QLabel.Scripts.AnnotationData;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace QLabel.Scripts.Projects {
 	public static class ProjectManager {
@@ -56,8 +59,17 @@ namespace QLabel.Scripts.Projects {
 				eAnnoDataRemoved?.Invoke(imgdata, annodata);
 			}
 		}
-		public static void SaveProject () {
-			throw new NotImplementedException();
+		public static async Task SaveProject () {
+			await Task.Run(() => {
+				foreach ( var data in project.data_list ) {
+					JsonSerializer serializer = new JsonSerializer();
+					using ( JsonWriter writer = new JsonTextWriter(
+						new StreamWriter(
+							Path.Join(save_dir, data.filename + ".json"))) ) {
+						serializer.Serialize(writer, data);
+					}
+				}
+			});
 		}
 	}
 }

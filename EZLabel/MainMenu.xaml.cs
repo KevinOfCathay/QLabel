@@ -104,6 +104,12 @@ namespace QLabel {
 		/// <summary>
 		/// 导出注释数据到其他格式
 		/// </summary>
+		private async void SaveClick (object sender, RoutedEventArgs e) {
+			await ProjectManager.SaveProject();
+		}
+		/// <summary>
+		/// 导出注释数据到其他格式
+		/// </summary>
 		private void ImportClick (object sender, RoutedEventArgs e) {
 			ImportWindow window = new ImportWindow(main);
 			window.Initialized += (object? _, EventArgs _) => { main.LockWindow(); };
