@@ -11,7 +11,6 @@ namespace QLabel.Scripts.Projects {
 			_data_list = new List<ImageData>();
 			label_counts = new Dictionary<ClassLabel, int>();
 		}
-		public ClassLabel[] class_labels { get { return label_counts.Keys.ToArray(); } }
 		/// <summary> 所有的 data（只能获取不能进行变更） </summary>
 		public IEnumerable<ImageData> data_list { get { return _data_list; } }
 

@@ -12,7 +12,7 @@ namespace QLabel.Windows.Export_Window {
 	public partial class ExportWindow : Window {
 		private async Task ExportToCoco (ImageData[] data_array, string path) {
 			string save_loc = Path.Join(path, "coco.json");
-			var class_labels = ProjectManager.project.class_labels;     // categories
+			var class_labels = ProjectManager.project.label_set;     // categories
 
 			var categories_task = ClassLabelsToCategoryAsync(class_labels);
 			var image_task = ImageDatasToImageAsync(ProjectManager.project.data_list);
