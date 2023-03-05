@@ -31,12 +31,16 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		/// <summary>
 		/// 这个点相关联的线
 		/// </summary>
-		public List<IAnnotationElement> linked_elements;
+		public List<Line> linked_line;
+
 		public DraggableDot () {
 			InitializeComponent();
-			linked_elements = new List<IAnnotationElement>();
+			linked_line = new List<Line>();
 		}
-
+		public DraggableDot (Line[] lines) {
+			InitializeComponent();
+			linked_line = new List<Line>(lines);
+		}
 		public void Draw (Canvas canvas, Vector2[] points) {
 			if ( points != null ) {
 				switch ( points.Length ) {
@@ -56,7 +60,6 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			Canvas.SetLeft(this, this.position.X);
 			Canvas.SetTop(this, this.position.Y);
 		}
-
 		private void dot_PreviewMouseDown (object sender, MouseButtonEventArgs e) {
 			if ( sender == e.OriginalSource ) {
 				activate = true;

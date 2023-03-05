@@ -27,7 +27,6 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 		public void SetUI (IAnnotationElement elem) {
 			if ( elem != null ) {
 				var data = elem.data;
-
 				if ( data != null ) {
 					points.Text = data.rpoints.to_shortstring(25);
 					caption.Text = data.caption;

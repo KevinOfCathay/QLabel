@@ -5,36 +5,38 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QLabel.Windows.Main_Canvas.Annotation_Elements"
              mc:Ignorable="d">
-
-	<Polygon 
+	
+	<Canvas Name="container">
+		<Polygon 
 			Name="polygon"
-		     Points="10,110 60,10 110,110"
+		     Points="50,50 100,50 50,100"
 		     Stroke="#FF6696FF"
 		     StrokeThickness="2"
 		>
-		<!-- Highlight 动画 -->
-		<Polygon.Triggers>
-			<EventTrigger RoutedEvent="MouseEnter">
-				<EventTrigger.Actions>
-					<BeginStoryboard>
-						<Storyboard Name="highlight_storyboard">
-							<ColorAnimation Storyboard.TargetProperty="(Rectangle.Stroke).(SolidColorBrush.Color)"
+			<!-- Highlight 动画 -->
+			<Polygon.Triggers>
+				<EventTrigger RoutedEvent="MouseEnter">
+					<EventTrigger.Actions>
+						<BeginStoryboard>
+							<Storyboard Name="highlight_storyboard">
+								<ColorAnimation Storyboard.TargetProperty="(Rectangle.Stroke).(SolidColorBrush.Color)"
 									From="#FF6696FF" To="White" Duration="0:0:0.5"
 									BeginTime="0:0:0"/>
-							<ColorAnimation Storyboard.TargetProperty="(Rectangle.Stroke).(SolidColorBrush.Color)"
+								<ColorAnimation Storyboard.TargetProperty="(Rectangle.Stroke).(SolidColorBrush.Color)"
 									From="White" 
 									To="Black" 
 									Duration="0:0:0.5"
 									BeginTime="0:0:0.5"/>
-							<ColorAnimation Storyboard.TargetProperty="(Rectangle.Stroke).(SolidColorBrush.Color)"
+								<ColorAnimation Storyboard.TargetProperty="(Rectangle.Stroke).(SolidColorBrush.Color)"
 									From="Black" 
 									To="#FF6696FF" 
 									Duration="0:0:0.5"
 									BeginTime="0:0:1"/>
-						</Storyboard>
-					</BeginStoryboard>
-				</EventTrigger.Actions>
-			</EventTrigger>
-		</Polygon.Triggers>
-	</Polygon>
+							</Storyboard>
+						</BeginStoryboard>
+					</EventTrigger.Actions>
+				</EventTrigger>
+			</Polygon.Triggers>
+		</Polygon>
+	</Canvas>
 </UserControl>

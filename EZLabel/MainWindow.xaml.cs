@@ -20,7 +20,7 @@ namespace QLabel {
 			InitializeComponent();
 			InitComponents();
 		}
-		public void RegisterEvents (object? sender, EventArgs e) {
+		private void RegisterEvents (object? sender, EventArgs e) {
 			ilw.eImageListUICreated += (ImageListWindow window, ImageListItem item) => {
 				// 切换图片时的事件
 				item.eSwitchImage += async (i) => {
@@ -86,6 +86,17 @@ namespace QLabel {
 			this.main_menu.Init(this);
 			this.image_quick_info_panel.canvas = this.main_canvas;
 		}
+
+		/// <summary>
+		/// 根据 Image data 设置 UI 等
+		/// </summary>
+		public async Task SetImageData (ImageData[] data) {
+			// 设置底层的的 UI 缩略图等
+			var set_list_ui_task = ilw.SetListUI(data);
+
+			await set_list_ui_task;
+		}
+
 		private void SetTitle () {
 			try {
 				Title = string.Join(" ", "Qlabel", "Ver", Assembly.GetExecutingAssembly().GetName().Version.ToString());
@@ -95,7 +106,9 @@ namespace QLabel {
 		}
 		private void Window_KeyDown (object sender, KeyEventArgs e) {
 			if ( e.Key == Key.Z ) {
-				Debug.WriteLine("触发了按键Z");
+				if ( e.KeyboardDevice.Modifiers == ModifierKeys.Control ) {
+					ActionManager.PopAction();		// 撤销
+				}
 			} else if ( e.Key >= Key.D1 && e.Key <= Key.D8 ) {
 				toolbar.SetCurrentTool(e.Key - Key.D1);
 			}

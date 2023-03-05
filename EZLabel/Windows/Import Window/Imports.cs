@@ -13,23 +13,23 @@ using System.Xml;
 namespace QLabel.Windows.Import_Window {
 	public partial class ImportWindow : Window {
 		private HashSet<string> accepted_ext = new HashSet<string> { ".bmp", ".jpg", ".png", ".jpeg" };
-		private string[] GetVOCFiles (string path) {
+		private List<string> GetVOCFiles (string path) {
 			var paths = Directory.GetFiles(path);
 			int len = paths.Length; int count = 0;
-			Span<string> xmls = new Span<string>(new string[len]);
+			List<string> xmls = new List<string>(capacity: len);
 			for ( int i = 0; i < len; i += 1 ) {
 				if ( Path.GetExtension(paths[i]) == ".xml" ) {
-					xmls[count] = paths[i];
+					xmls.Add(paths[i]);
 					count += 1;
 				}
 			}
-			return xmls.Slice(0, count).ToArray();
+			return xmls;
 		}
-		private async Task<ImageData[]> ImportFromVOCAsync (string[] paths, string? local_path) {
+		private async Task<ImageData[]> ImportFromVOCAsync (List<string> paths, string? local_path) {
 			return await Task.Run(() => { return ImportFromVOC(paths, local_path); });
 		}
-		private ImageData[] ImportFromVOC (string[] paths, string? local_path) {
-			List<ImageData> data_list = new List<ImageData>(capacity: paths.Length);
+		private ImageData[] ImportFromVOC (List<string> paths, string? local_path) {
+			List<ImageData> data_list = new List<ImageData>(capacity: paths.Count);
 			foreach ( var path in paths ) {
 				if ( Path.Exists(path) ) {
 					try {

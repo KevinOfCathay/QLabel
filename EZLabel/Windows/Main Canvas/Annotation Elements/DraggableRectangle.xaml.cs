@@ -213,8 +213,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 					canvas.RealPosition(cpoints[2]), canvas.RealPosition(cpoints[3]) }),
 				data.clas, data.conf);
 			ChangeRectSize changesize = new ChangeRectSize(canvas, this, data, new_data);
-			changesize.Do();
-			ActionManager.PushAction(changesize);
+			ActionManager.PushAndExecute(changesize);
 		}
 		public void Select () {
 			eSelected?.Invoke(this);
@@ -236,7 +235,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 				cpoints: new Span<Vector2>(new Vector2[] {
 					cpoints[0], cpoints[1], cpoints[3], cpoints[2]
 					}));
-			ADPolygon polydata = new ADPolygon(data.rpoints, data.clas, data.conf);  // 复制数据
+			ADPolygon polydata = new ADPolygon(data.rpoints, data.clas, 4, data.conf);  // 复制数据
 			polygon.data = polydata;
 			canvas.annotation_canvas.Children.Add(polygon);
 			canvas.AddAnnoElements(polygon);

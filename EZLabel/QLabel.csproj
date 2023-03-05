@@ -126,6 +126,9 @@
     <Compile Update="Windows\Main Canvas\Annotation Elements\Dot.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\Main Canvas\Annotation Elements\Line.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

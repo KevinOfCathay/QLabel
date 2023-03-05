@@ -47,6 +47,8 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 						case 4: return Label;
 						case 5: return Group;
 						case 6: return Supercategory;
+						case 7: return Truncated;
+						case 8: return Occluded;
 						default: return Index;
 					}
 				}
@@ -101,12 +103,14 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 				if ( rows[i].elem == elem ) { // 找到当前的 elem
 					var data = elem.data;
 					if ( data != null ) {
-						rows[i].Type = data.type;
-						rows[i].Class = data.clas.name;
-						rows[i].Group = data.clas.group;
-						rows[i].Supercategory = data.clas.supercategory;
+						if ( data.type != rows[i].Type ) { rows[i].Type = data.type; }
+						if ( data.clas.name != rows[i].Class ) { rows[i].Class = data.clas.name; }
+						if ( data.clas.group != rows[i].Group ) { rows[i].Group = data.clas.group; }
+						if ( data.clas.supercategory != rows[i].Supercategory ) { rows[i].Supercategory = data.clas.supercategory; }
+						if ( data.label != rows[i].Label ) { rows[i].Label = data.label; }
+						if ( data.truncated != rows[i].Truncated ) { rows[i].Truncated = data.truncated; }
+						if ( data.occluded != rows[i].Occluded ) { rows[i].Occluded = data.occluded; }
 						rows[i].Points = data.rpoints.to_string();
-						rows[i].Label = data.label;
 					}
 					break;
 				}

@@ -21,12 +21,18 @@ namespace QLabel.Windows.Import_Window {
 		/// <summary>
 		/// VOC: VOC 数据格式
 		private enum Format { VOC }
+
+		private readonly MainWindow main;
 		private Format fmt = Format.VOC;
 		private string load_dir;
 		public ImportWindow () {
 			InitializeComponent();
-
-			// Register Events
+		}
+		public ImportWindow (MainWindow main) {
+			InitializeComponent();
+			this.main = main;
+		}
+		private void RegisterEvents (object? sender, EventArgs e) {
 			this.dir_selector.eDirectorySelected += (path) => { load_dir = path; };
 			this.dir_selector.eDialogClosed += () => { this.Topmost = true; this.Activate(); };
 
@@ -34,7 +40,7 @@ namespace QLabel.Windows.Import_Window {
 			confirm_cancel.eCancelClick += CancelClick;
 		}
 		private void ConfirmClick (object sender, RoutedEventArgs e) {
-			Import();
+			Import(main);
 			CloseWindow();
 		}
 		private void CancelClick (object sender, RoutedEventArgs e) {
@@ -43,12 +49,13 @@ namespace QLabel.Windows.Import_Window {
 		private void CloseWindow () {
 			this.Close();
 		}
-		private async void Import () {
+		private async void Import (MainWindow main) {
 			switch ( fmt ) {
 				case Format.VOC:
 					var paths = GetVOCFiles(load_dir);
 					string? local_path = missing.SelectedIndex == 0 ? load_dir : null;
 					var image_data = await ImportFromVOCAsync(paths, local_path);
+					await main.SetImageData(image_data);
 					break;
 				default:
 					break;

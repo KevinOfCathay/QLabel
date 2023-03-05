@@ -105,8 +105,8 @@ namespace QLabel {
 		/// 导出注释数据到其他格式
 		/// </summary>
 		private void ImportClick (object sender, RoutedEventArgs e) {
-			ImportWindow window = new ImportWindow();
-			main.LockWindow();
+			ImportWindow window = new ImportWindow(main);
+			window.Initialized += (object? _, EventArgs _) => { main.LockWindow(); };
 			window.Closed += (object? _, EventArgs _) => { main.UnlockWindow(); };
 			window.Show();
 		}

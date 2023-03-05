@@ -28,13 +28,10 @@ namespace QLabel.Scripts.Projects {
 		public PixelFormat format { get; set; }
 
 		public long size { get; set; }     // 文件大小
-		private List<AnnoData> annodata = new List<AnnoData>();
+		public List<AnnoData> annodata { get; private set; } = new List<AnnoData>();
 		private Dictionary<ClassLabel, int> label_counts = new Dictionary<ClassLabel, int>();  // 这个文件所包含的 class label
 
 		#region Data
-		public IEnumerable<AnnoData> GetAnnoData () {
-			return annodata;
-		}
 		public void AddAnnoData (AnnoData data) {
 			annodata.Add(data);
 			if ( label_counts.ContainsKey(data.clas) ) {
@@ -79,6 +76,46 @@ namespace QLabel.Scripts.Projects {
 			writer.WriteEndElement();
 
 			writer.WriteEndElement();
+		}
+		public void ToYoloXYWH (string save_path, ClassLabel[] labelset, bool percentage = true) {
+			using ( StreamWriter sw = new StreamWriter(save_path) ) {
+				foreach ( var data in annodata ) {
+					var bbox = data.bbox;
+					int class_index = Array.IndexOf(labelset, data.clas);
+					if ( percentage ) {
+						sw.WriteLine(string.Join(" ", class_index.ToString(),
+							( ( ( bbox.br.X + bbox.tl.X ) / 2f ) / width ).ToString(), ( ( ( bbox.br.Y + bbox.tl.Y ) / 2f ) / height ).ToString(),
+							( ( bbox.br.X - bbox.tl.X ) / width ).ToString(), ( ( bbox.br.Y - bbox.tl.Y ) / height ).ToString()
+							));
+					} else {
+						sw.WriteLine(string.Join(" ", class_index.ToString(),
+							( ( bbox.br.X + bbox.tl.X ) / 2f ).ToString(), ( ( bbox.br.Y + bbox.tl.Y ) / 2f ).ToString(),
+							( bbox.br.X - bbox.tl.X ).ToString(), ( bbox.br.Y - bbox.tl.Y ).ToString()
+							));
+					}
+				}
+			}
+		}
+		public void ToYoloXYCoords (string save_path, ClassLabel[] labelset, bool percentage = true) {
+			using ( StreamWriter sw = new StreamWriter(save_path) ) {
+				foreach ( var data in annodata ) {
+					int class_index = Array.IndexOf(labelset, data.clas);
+					int len = data.rpoints.Length;
+					string[] str = new string[len * 2 + 1]; str[0] = class_index.ToString();
+					if ( percentage ) {
+						for ( int i = 0; i < len; i += 1 ) {
+							str[i * 2 + 1] = ( data.rpoints[i].X / width ).ToString();
+							str[i * 2 + 2] = ( data.rpoints[i].Y / height ).ToString();
+						}
+					} else {
+						for ( int i = 0; i < len; i += 1 ) {
+							str[i * 2 + 1] = ( data.rpoints[i].X ).ToString();
+							str[i * 2 + 2] = ( data.rpoints[i].Y ).ToString();
+						}
+					}
+					sw.WriteLine(string.Join(" ", str));
+				}
+			}
 		}
 		public void ToVOC (string save_path) {
 			XmlWriter writer = XmlWriter.Create(save_path);

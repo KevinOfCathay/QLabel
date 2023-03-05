@@ -82,7 +82,7 @@ namespace QLabel.Windows.Export_Window {
 		private async Task ExportToVOC (ImageData[] data_array, string path) {
 			await Task.Run(() => {
 				foreach ( var d in data_array ) {
-					string save_loc = Path.Join(path, data_array[0].filename + "_voc.xml");
+					string save_loc = Path.Join(path, d.filename + "_voc.xml");
 					if ( !Path.Exists(save_loc) ) {    // 不要覆盖现有的文件
 						d.ToVOC(save_loc);
 					}
@@ -90,7 +90,21 @@ namespace QLabel.Windows.Export_Window {
 			});
 		}
 		private async Task ExportToYolo (ImageData[] data_array, string path, YOLOFormat format) {
-
+			await Task.Run(() => {
+				foreach ( var data in data_array ) {
+					string save_loc = Path.Join(path, data.filename + ".txt");
+					if ( !Path.Exists(save_loc) ) {    // 不要覆盖现有的文件
+						switch ( format ) {
+							case YOLOFormat.XYWH:
+								data.ToYoloXYWH(save_loc, ProjectManager.project.label_set);
+								break;
+							case YOLOFormat.XYs:
+								data.ToYoloXYCoords(save_loc, ProjectManager.project.label_set);
+								break;
+						}
+					}
+				}
+			});
 		}
 	}
 }

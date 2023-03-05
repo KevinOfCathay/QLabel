@@ -135,7 +135,7 @@ namespace QLabel.Windows.Main_Canvas {
 		/// 将 ImageData 中的所有 annotation 放置到画布上
 		/// </summary>
 		public void LoadAnnotations (ImageData data) {
-			foreach ( var anno in data.GetAnnoData() ) {
+			foreach ( var anno in data.annodata ) {
 				var elem = anno.CreateAnnotationElement(this);
 				AddAnnoElements(elem);
 			}

@@ -1,20 +1,11 @@
-﻿using OpenCvSharp.Flann;
-using QLabel.Scripts.AnnotationData;
+﻿using QLabel.Scripts.AnnotationData;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 	/// <summary>
@@ -47,7 +38,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 				int idx = index;
 				dot.eMouseEnter += (Dot _, EventArgs _) => { this.dot_index = idx; };
 
-				mc.annotation_canvas.Children.Add(dot);
+				container.Children.Add(dot);
 				dots[index] = dot;
 				index += 1;
 			}
@@ -62,8 +53,8 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			get {
 				Vector2[] _cpoints = new Vector2[vertex];
 				int index = 0;
-				foreach ( var dot in dots ) {
-					_cpoints[index] = new Vector2((float) Canvas.GetLeft(dot) - dot_radius / 2, (float) Canvas.GetTop(dot) - dot_radius / 2);
+				foreach ( var p in polygon.Points ) {
+					_cpoints[index] = new Vector2((float) p.X, (float) p.Y);
 					index += 1;
 				}
 				return _cpoints;
@@ -122,7 +113,16 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			mouse_cur_position = mouse_temp_position;
 		}
 		public new void MouseUp (MainCanvas canvas, MouseEventArgs e) {
+			// 创建新的 AnnoData
+			Vector2[] rpoints = new Vector2[vertex];
 
+			for ( int i = 0; i < vertex; i += 1 ) {
+				var p = polygon.Points[i];
+				rpoints[i] = canvas.RealPosition(new Vector2((float) p.X, (float) p.Y));
+			}
+			ADPolygon new_data = new ADPolygon(rpoints, data.clas, vertex, data.conf);
+			ChangePolygonSize change_size = new ChangePolygonSize(canvas, this, data, new_data);
+			ActionManager.PushAndExecute(change_size);
 		}
 		public void Select () {
 			eSelected?.Invoke(this);
@@ -136,7 +136,9 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Densify (MainCanvas canvas) {
 			// 在每个线段的中点处增加一个点
 			// 当线段长度小于一定值时不增加
+			for ( int i = 0; i < vertex; i += 1 ) {
 
+			}
 		}
 		public void ToPolygon (MainCanvas canvas) {
 			// 什么都不做

@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace QLabel {
-	public class ChangeRectSize : IAction {
-		public ChangeRectSize (
-			MainCanvas canvas, DraggableRectangle elem,
+	public class ChangePolygonSize : IAction {
+		public ChangePolygonSize (
+			MainCanvas canvas, DraggablePolygon elem,
 			AnnoData data_before, AnnoData data_after) {
 			this.canvas = canvas;
 			this.elem = elem;
@@ -22,7 +22,7 @@ namespace QLabel {
 		}
 		private bool initialize;
 		private readonly MainCanvas canvas;
-		private readonly DraggableRectangle elem;
+		private readonly DraggablePolygon elem;
 		private readonly AnnoData data_before, data_after;
 		public void Do () {
 			// 新的 annodata

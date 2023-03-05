@@ -44,14 +44,14 @@ namespace QLabel.Scripts.Projects {
 			return true;
 		}
 		public static void AddAnnoData (ImageData imgdata, AnnoData annodata) {
-			if ( imgdata != null && annodata != null && !imgdata.GetAnnoData().Contains(annodata) ) {
+			if ( imgdata != null && annodata != null && !imgdata.annodata.Contains(annodata) ) {
 				imgdata.AddAnnoData(annodata);   // 加入到 annodata 中
-				project.AddLabel(annodata.clas);
+				project.AddClassLabel(annodata.clas);
 				eAnnoDataAdded?.Invoke(imgdata, annodata);
 			}
 		}
 		public static void RemoveAnnoData (ImageData imgdata, AnnoData annodata) {
-			if ( imgdata != null && annodata != null && imgdata.GetAnnoData().Contains(annodata) ) {
+			if ( imgdata != null && annodata != null && imgdata.annodata.Contains(annodata) ) {
 				imgdata.RemoveAnnoData(annodata);   // 加入到 annodata 中
 				eAnnoDataRemoved?.Invoke(imgdata, annodata);
 			}
