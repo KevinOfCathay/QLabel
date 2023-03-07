@@ -129,21 +129,14 @@ namespace QLabel {
 				MessageBox.Show("There is no project opened.", "Error", MessageBoxButton.OK);
 			}
 		}
-		/// <summary>
-		/// 打开裁剪窗口，裁剪注释并保存
-		/// </summary>
 		private void ToPolygon_Click (object sender, RoutedEventArgs e) {
-			if ( main.selected_element != null ) {
-				main.selected_element.ToPolygon(main.main_canvas);
-			}
+			main.ToPolygon();
 		}
 		/// <summary>
 		/// 打开裁剪窗口，裁剪注释并保存
 		/// </summary>
 		private void Densify_Click (object sender, RoutedEventArgs e) {
-			if ( main.selected_element != null ) {
-				main.selected_element.Densify(main.main_canvas);
-			}
+			main.Densify();
 		}
 	}
 }

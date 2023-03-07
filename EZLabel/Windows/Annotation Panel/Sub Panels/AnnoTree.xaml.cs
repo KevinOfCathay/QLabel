@@ -130,13 +130,14 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 
 			// 在 class 下面添加一行
 			TreeViewItem item_item = new TreeViewItem();
-			CheckboxWithLabel i_cbxlbl = new CheckboxWithLabel(string.Join(" ", class_name, data.rpoints.to_shortstring()), check: true);
+			CheckboxWithLabel i_cbxlbl = new CheckboxWithLabel(
+				string.Join(" ", class_name, data.rpoints.to_shortstring()), check: elem.data.check);
 			item_item.Header = i_cbxlbl;
 			ItemNode item_node = new ItemNode {
 				data = data, node = item_item, checkbox = i_cbxlbl
 			};
-			i_cbxlbl.eChecked += (_, _) => { elem.Show(); };
-			i_cbxlbl.eUnchecked += (_, _) => { elem.Hide(); };
+			i_cbxlbl.eChecked += (_, _) => { elem.data.check = true; elem.Show(); };
+			i_cbxlbl.eUnchecked += (_, _) => { elem.data.check = false; elem.Hide(); };
 			class_node.items.Add(item_node);
 			class_node.node.Items.Add(item_item);
 

@@ -20,13 +20,20 @@ namespace QLabel.Windows.Toolbar_Window {
 	/// Interaction logic for AnnotationToolBar.xaml
 	/// </summary>
 	public partial class AnnotationToolBar : UserControl {
+		public enum Tool { Mouse, Dot, Rectangle, Square, Tetragon, Polygon, Circle, Selection }
+
 		private static Brush button_background_normal = new SolidColorBrush(Color.FromArgb(255, 221, 221, 211));
-		private static Brush button_background_highlight = new SolidColorBrush(Color.FromArgb(255, 160, 150, 210));
+		private static Brush button_background_highlight = new SolidColorBrush(Color.FromArgb(255, 189, 205, 214));
+		private Tool _cur_tool = Tool.Selection;
 		private ToolBase selected_tool = null;
 		private MainCanvas mc { get; set; }
 
 		public Button[] button_group;
-		public int cur_button_index = 0;
+		/// <summary>
+		/// <para>Get: 返回当前选择的 Tool </para>
+		/// <para>Set: 设置 Tool </para>
+		/// </summary>
+		public Tool cur_tool { get { return _cur_tool; } set { SetCurrentTool(value); } }
 
 		public AnnotationToolBar () {
 			InitializeComponent();
@@ -41,36 +48,38 @@ namespace QLabel.Windows.Toolbar_Window {
 				Circle_Button,
 				Selection_Button
 			};
+			cur_tool = Tool.Mouse;        // 设置 default tool 为鼠标
 		}
 		public void Init (MainCanvas mc) {
 			this.mc = mc;
 		}
-		public void SetCurrentTool (int tool_index) {
-			NormalButton(button_group[cur_button_index]);
-			Button button = button_group[tool_index];
+		public void SetCurrentTool (Tool tool) {
+			if ( tool == _cur_tool ) { return; }
+			NormalButton(button_group[(int) _cur_tool]);
+			Button button = button_group[(int) tool];
 
 			// 切换 selected_tool
-			SwitchTool(cur_button_index);
-			cur_button_index = tool_index;
+			SwitchTool(tool);
+			_cur_tool = tool;
 
 			HighlightButton(button);
 		}
-		private void SwitchTool (int tool_index) {
-			switch ( tool_index ) {
-				case 0:
+		private void SwitchTool (Tool tool) {
+			switch ( tool ) {
+				case Tool.Mouse:
 					SwitchTool(new MouseTool());
 					break;
-				case 1:
+				case Tool.Dot:
 					SwitchTool(new DotAnnotationTool());
 					break;
-				case 2:
+				case Tool.Rectangle:
 					SwitchTool(new RectAnnotationTool());
 					break;
 				default:
 					break;
 			}
 		}
-		public void SwitchTool (ToolBase tool) {
+		private void SwitchTool (ToolBase tool) {
 			if ( mc != null ) {
 				if ( this.selected_tool != null ) { this.selected_tool.Deactivate(mc); }
 				this.selected_tool = tool;
@@ -78,12 +87,12 @@ namespace QLabel.Windows.Toolbar_Window {
 			}
 		}
 		private void ToolClick (object sender, RoutedEventArgs e) {
-			NormalButton(button_group[cur_button_index]);
+			NormalButton(button_group[(int) _cur_tool]);
 			if ( sender is Button button ) {
-				cur_button_index = Array.IndexOf(button_group, button);
+				var tool_selected = (Tool) Array.IndexOf(button_group, button);
 
 				// 切换 selected_tool
-				SwitchTool(cur_button_index);
+				SwitchTool(tool_selected);
 				HighlightButton(button);
 			}
 			e.Handled = true;

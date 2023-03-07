@@ -1,5 +1,6 @@
 ﻿using QLabel.Scripts.AnnotationData;
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Threading.Tasks;
 using System.Windows;
@@ -66,7 +67,12 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Delete (MainCanvas canvas) {
 			canvas.annotation_canvas.Children.Remove(this);
 		}
-		public void Draw (Canvas canvas, Vector2[] points) {
+		public void Draw (Canvas canvas, Vector2[] cpoints) {
+			// 绘制多边形的顶点
+			polygon.Points = new PointCollection(cpoints.to_points());
+			vertex = cpoints.Length;
+
+
 			throw new NotImplementedException();
 		}
 		public void Shift (Canvas canvas, Vector2 shift) {
@@ -136,9 +142,29 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Densify (MainCanvas canvas) {
 			// 在每个线段的中点处增加一个点
 			// 当线段长度小于一定值时不增加
-			for ( int i = 0; i < vertex; i += 1 ) {
+			var cp = cpoints;
+			List<Vector2> new_rpoints = new List<Vector2>(cp.Length * 2);
+			for ( int i = 0; i < vertex - 1; i += 1 ) {
+				Vector2 rp1 = canvas.RealPosition(cp[i]);
+				Vector2 rp2 = canvas.RealPosition(cp[i + 1]);
+				new_rpoints.Add(rp1);
 
+				if ( Vector2.Distance(rp1, rp2) >= 2f ) {
+					Vector2 rin = Vector2.Lerp(rp1, rp2, 0.5f);
+					new_rpoints.Add(rin);
+				}
 			}
+			Vector2 rlast = canvas.RealPosition(cp[vertex - 1]);
+			Vector2 rfirst = canvas.RealPosition(cp[0]);
+			new_rpoints.Add(rlast);
+
+			if ( Vector2.Distance(rlast, rfirst) >= 2f ) {
+				Vector2 rin = Vector2.Lerp(rlast, rfirst, 0.5f);
+				new_rpoints.Add(rin);
+			}
+
+			// 重新绘制 Polygon
+
 		}
 		public void ToPolygon (MainCanvas canvas) {
 			// 什么都不做

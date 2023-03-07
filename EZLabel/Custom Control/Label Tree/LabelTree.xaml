@@ -20,7 +20,7 @@
 							<Border 
 								Name="Border" 
 								CornerRadius="8" 
-								Background="white"
+								Background="Transparent"
 								BorderBrush="LightGray"
 								BorderThickness="1" >
 								<ScrollViewer 

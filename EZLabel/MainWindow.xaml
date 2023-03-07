@@ -42,7 +42,7 @@
 						</Grid.RowDefinitions>
 						<!-- Tool Bar -->
 						<toolbx:AnnotationToolBar 
-						x:Name="toolbar" Grid.Row="0"></toolbx:AnnotationToolBar>
+								x:Name="toolbar" Grid.Row="0"></toolbx:AnnotationToolBar>
 						<!-- Main Canvas -->
 						<canv:MainCanvas Grid.Row="1"
 							  x:Name="main_canvas"></canv:MainCanvas>

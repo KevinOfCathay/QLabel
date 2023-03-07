@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
+using static QLabel.Windows.Toolbar_Window.AnnotationToolBar;
 
 namespace QLabel {
 	public partial class MainWindow : Window {
@@ -111,7 +112,11 @@ namespace QLabel {
 					ActionManager.PopAction();         // 撤销
 				}
 			} else if ( e.Key >= Key.D1 && e.Key <= Key.D8 ) {
-				toolbar.SetCurrentTool(e.Key - Key.D1);
+				toolbar.SetCurrentTool((Tool) ( e.Key - Key.D1 ));
+			} else if ( e.Key == Key.P ) {
+				ToPolygon();
+			} else if ( e.Key == Key.D ) {
+				Densify();
 			}
 		}
 		public void LockWindow () {
@@ -119,6 +124,16 @@ namespace QLabel {
 		}
 		public void UnlockWindow () {
 			this.IsEnabled = true;
+		}
+		public void ToPolygon () {
+			if ( toolbar.cur_tool == Tool.Mouse && selected_element != null ) {
+				selected_element.ToPolygon(main_canvas);          // To Polygon
+			}
+		}
+		public void Densify () {
+			if ( toolbar.cur_tool == Tool.Mouse && selected_element != null ) {
+				selected_element.Densify(main_canvas);          // Densify
+			}
 		}
 	}
 }
