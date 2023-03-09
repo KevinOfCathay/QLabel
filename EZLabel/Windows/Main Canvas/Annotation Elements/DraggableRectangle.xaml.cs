@@ -228,7 +228,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Densify (MainCanvas canvas) {
 
 		}
-		public void ToPolygon (MainCanvas canvas) {
+		public IAnnotationElement ToPolygon (MainCanvas canvas) {
 			var cpoints = this.cpoints;
 			DraggablePolygon polygon = new DraggablePolygon(
 				canvas,
@@ -240,6 +240,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			canvas.annotation_canvas.Children.Add(polygon);
 			canvas.AddAnnoElements(polygon);
 			canvas.RemoveAnnoElements(this);
+			return polygon;
 		}
 	}
 }

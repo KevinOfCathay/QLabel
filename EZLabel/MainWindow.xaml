@@ -46,7 +46,6 @@
 						<!-- Main Canvas -->
 						<canv:MainCanvas Grid.Row="1"
 							  x:Name="main_canvas"></canv:MainCanvas>
-
 						<!-- Main Canvas -->
 						<canv:ImageQuickInfoPanel Grid.Row="2"
 							x:Name="image_quick_info_panel"

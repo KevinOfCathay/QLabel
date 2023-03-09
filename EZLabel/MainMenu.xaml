@@ -9,22 +9,31 @@
 	<Menu Height="20">
 		<MenuItem Header="_File" >
 			<MenuItem Header="_New Project" Click="New_Click"/>
-			<MenuItem Header="_Open Saved Project" />
+			<!-- 打开已保存的文件 -->
+			<MenuItem Header="_Open Project" />
+			<!-- 保存工程文件 -->
 			<MenuItem Header="_Save Project"  Click="SaveClick"/>
 			<Separator />
+			<!-- 导入 -->
 			<MenuItem Header="_Import" Click="ImportClick"/>
+			<!-- 导出 -->
 			<MenuItem Header="_Export" Click="ExportClick"/>
-			<MenuItem Header="_Close" />
 		</MenuItem>
 		<MenuItem Header="_Edit" >
+			<!-- 撤销 -->
 			<MenuItem Header="_Undo" Click="Undo_Click"/>
+			<!-- 根据 Class 标签查询元素 -->
+			<MenuItem Header="_Find..."/>
+			<Separator />
 			<MenuItem Header="_Adjustments">
 				<MenuItem Header="Brightness/Contrast" />
 			</MenuItem>
+			<!-- 裁剪标注 -->
 			<MenuItem Header="_Crop" Click="Crop_Click"/>
 		</MenuItem>
 		<MenuItem Header="_Shape" >
 			<MenuItem Header="_To Polygon" Click="ToPolygon_Click"/>
+			<MenuItem Header="_Densify" Click="Densify_Click"/>
 		</MenuItem>
 	</Menu>
 </UserControl>

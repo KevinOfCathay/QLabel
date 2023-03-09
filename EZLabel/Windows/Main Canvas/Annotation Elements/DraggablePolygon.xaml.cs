@@ -72,8 +72,26 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			polygon.Points = new PointCollection(cpoints.to_points());
 			vertex = cpoints.Length;
 
+			foreach ( var dot in dots ) {
+				container.Children.Remove(dot);
+			}
 
-			throw new NotImplementedException();
+			dots = new Dot[vertex];
+			int index = 0;
+			foreach ( var cpoint in cpoints ) {
+				Dot dot = new Dot(cpoint, dot_radius);
+				Canvas.SetLeft(dot, cpoint.X - dot_radius / 2);
+				Canvas.SetTop(dot, cpoint.Y - dot_radius / 2);
+
+				int idx = index;
+				dot.eMouseEnter += (Dot _, EventArgs _) => { this.dot_index = idx; };
+
+				dots[index] = dot;
+				container.Children.Add(dot);
+
+				index += 1;
+			}
+			this.polygon.Points = new PointCollection(cpoints.to_points());
 		}
 		public void Shift (Canvas canvas, Vector2 shift) {
 			Vector2[] new_points = cpoints;
@@ -143,31 +161,49 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			// 在每个线段的中点处增加一个点
 			// 当线段长度小于一定值时不增加
 			var cp = cpoints;
+			List<Vector2> new_cpoints = new List<Vector2>(cp.Length * 2);
 			List<Vector2> new_rpoints = new List<Vector2>(cp.Length * 2);
 			for ( int i = 0; i < vertex - 1; i += 1 ) {
 				Vector2 rp1 = canvas.RealPosition(cp[i]);
 				Vector2 rp2 = canvas.RealPosition(cp[i + 1]);
 				new_rpoints.Add(rp1);
+				new_cpoints.Add(cp[i]);
 
 				if ( Vector2.Distance(rp1, rp2) >= 2f ) {
 					Vector2 rin = Vector2.Lerp(rp1, rp2, 0.5f);
 					new_rpoints.Add(rin);
+
+					Vector2 cin = Vector2.Lerp(cp[i], cp[i + 1], 0.5f);
+					new_cpoints.Add(cin);
 				}
 			}
 			Vector2 rlast = canvas.RealPosition(cp[vertex - 1]);
 			Vector2 rfirst = canvas.RealPosition(cp[0]);
 			new_rpoints.Add(rlast);
+			new_cpoints.Add(cp[vertex - 1]);
 
 			if ( Vector2.Distance(rlast, rfirst) >= 2f ) {
 				Vector2 rin = Vector2.Lerp(rlast, rfirst, 0.5f);
 				new_rpoints.Add(rin);
+
+				Vector2 cin = Vector2.Lerp(cp[vertex - 1], cp[0], 0.5f);
+				new_cpoints.Add(cin);
 			}
-
 			// 重新绘制 Polygon
+			Draw(canvas.annotation_canvas, new_cpoints.ToArray());
 
+			// 变更 AnnoData
+			Vector2[] rpoints = new Vector2[vertex];
+			for ( int i = 0; i < vertex; i += 1 ) {
+				var p = polygon.Points[i];
+				rpoints[i] = canvas.RealPosition(new Vector2((float) p.X, (float) p.Y));
+			}
+			ADPolygon new_data = new ADPolygon(rpoints, data.clas, vertex, data.conf);
+			ChangePolygonSize change_size = new ChangePolygonSize(canvas, this, data, new_data);
+			ActionManager.PushAndExecute(change_size);
 		}
-		public void ToPolygon (MainCanvas canvas) {
-			// 什么都不做
+		public IAnnotationElement ToPolygon (MainCanvas canvas) {
+			return this;
 		}
 		public Vector2[] CalculateConvexHull (Span<Vector2> points) {
 			// 两个点以下时，返回点

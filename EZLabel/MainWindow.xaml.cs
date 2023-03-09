@@ -114,9 +114,13 @@ namespace QLabel {
 			} else if ( e.Key >= Key.D1 && e.Key <= Key.D8 ) {
 				toolbar.SetCurrentTool((Tool) ( e.Key - Key.D1 ));
 			} else if ( e.Key == Key.P ) {
-				ToPolygon();
+				if ( e.KeyboardDevice.Modifiers == ModifierKeys.Control ) {
+					ToPolygon();
+				}
 			} else if ( e.Key == Key.D ) {
-				Densify();
+				if ( e.KeyboardDevice.Modifiers == ModifierKeys.Control ) {
+					Densify();
+				}
 			}
 		}
 		public void LockWindow () {
@@ -127,7 +131,7 @@ namespace QLabel {
 		}
 		public void ToPolygon () {
 			if ( toolbar.cur_tool == Tool.Mouse && selected_element != null ) {
-				selected_element.ToPolygon(main_canvas);          // To Polygon
+				selected_element = selected_element.ToPolygon(main_canvas);          // To Polygon
 			}
 		}
 		public void Densify () {

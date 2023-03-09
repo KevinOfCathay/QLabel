@@ -109,7 +109,8 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Densify (MainCanvas canvas) {
 
 		}
-		public void ToPolygon (MainCanvas canvas) {
+		public IAnnotationElement ToPolygon (MainCanvas canvas) {
+			return this;
 		}
 	}
 }

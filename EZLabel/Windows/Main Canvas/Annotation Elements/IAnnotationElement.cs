@@ -48,7 +48,6 @@ namespace QLabel.Windows.Main_Canvas {
 		public void MouseDrag (MainCanvas canvas, MouseEventArgs e);
 		public void MouseUp (MainCanvas canvas, MouseEventArgs e);
 
-
 		/// <summary>
 		/// 根据所定义的点，
 		/// 对元素进行绘制 / 重新绘制
@@ -69,8 +68,9 @@ namespace QLabel.Windows.Main_Canvas {
 		public void Delete (MainCanvas canvas);
 		/// <summary>
 		/// 将对象转化为多边形（不是每个物体都可以转化）
+		/// 返回转换后的 element
 		/// </summary>
-		public void ToPolygon (MainCanvas canvas);
+		public IAnnotationElement ToPolygon (MainCanvas canvas);
 		/// <summary>
 		/// 将对象转化为多边形（不是每个物体都可以转化）
 		/// </summary>
