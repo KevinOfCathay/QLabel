@@ -15,7 +15,7 @@ using System.Drawing.Imaging;
 
 namespace QLabel.Scripts.Inference_Machine {
 	internal sealed class Yolov5Inference : BaseInferenceMachine {
-		public int width, height, classes;
+		public readonly int width, height, classes;
 		private readonly ClassLabel[] labels;
 		private float conf_threshold = 0.35f;
 		private float score_threshold = 0.5f;
@@ -24,12 +24,12 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// 初始化所有参数
 		/// </summary>
 		/// <param name="path">模型的路径</param>
-		public Yolov5Inference (string path, ClassLabel[] labels, int width = 640, int height = 640, int classes = 80) :
-			base(new[] { 1, 3, height, width }, new[] { 25200, classes + 5 }) {
+		public Yolov5Inference (string path, ClassLabel[] labels, int width = 640, int height = 640) :
+			base(new[] { 1, 3, height, width }, new[] { 25200, labels.Length + 5 }) {
 			model_path = path;
 			this.width = width;
 			this.height = height;
-			this.classes = classes;
+			this.classes = labels.Length;
 			this.labels = labels;
 		}
 		protected override DenseTensor<float> GetInputTensor (Bitmap image) {
@@ -110,18 +110,17 @@ namespace QLabel.Scripts.Inference_Machine {
 			}
 			return (ind, final_scores, final_boxes, final_classes);
 		}
-		public override AnnoData[] RunInference (ImageData img_file, HashSet<int> class_filter = null) {
+		public override AnnoData[] RunInference (Bitmap image, HashSet<int> class_filter = null) {
 			eRunBefore?.Invoke(this);
 
-			var origin = new Bitmap(Image.FromFile(img_file.path));
-			var bitmap = ResizeImage(origin, width, height);
+			var bitmap = ImageUtils.ResizeBitmap(image, width, height);
 			var input_tensor = GetInputTensor(bitmap);
 			var output = Run(input_tensor);
 			var (ind, final_scores, final_boxes, final_classes) = NMS(output);
 
 			int len = ind.Length;
 			List<AnnoData> data = new List<AnnoData>();
-			Vector2 scale = new Vector2((float) img_file.width / (float) width, (float) img_file.height / (float) height);
+			Vector2 scale = new Vector2(( (float) image.Width ) / ( (float) width ), ( (float) image.Height ) / ( (float) height ));
 			// 根据 result 建立 annodata
 			for ( int i = 0; i < len; i += 1 ) {
 				ReadOnlySpan<Vector2> points = new ReadOnlySpan<Vector2>(
@@ -137,7 +136,7 @@ namespace QLabel.Scripts.Inference_Machine {
 
 				// 类别过滤
 				if ( class_filter != null ) {
-					if ( !class_filter.Contains(c) ) {
+					if ( !class_filter.Contains(c) ) {      // 如果 class_filter 不包含 class c 跳过
 						continue;
 					}
 				}
@@ -146,7 +145,6 @@ namespace QLabel.Scripts.Inference_Machine {
 					points, cl, conf: final_scores[i]
 					));
 			}
-
 			eRunAfter?.Invoke(this);
 			return data.ToArray();
 		}

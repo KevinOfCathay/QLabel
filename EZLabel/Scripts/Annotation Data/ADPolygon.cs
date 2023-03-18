@@ -1,4 +1,5 @@
 ﻿using QLabel.Windows.Main_Canvas;
+using QLabel.Windows.Main_Canvas.Annotation_Elements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +15,18 @@ namespace QLabel.Scripts.AnnotationData {
 	public record ADPolygon : AnnoData {
 		public int vertex;
 		public ADPolygon
-			(ReadOnlySpan<Vector2> rpoints, ClassLabel clas, int vertex, float conf = 1.0f) :
+			(ReadOnlySpan<Vector2> rpoints, ClassLabel clas, float conf = 1.0f) :
 			base(rpoints, Type.Polygon, clas, conf) {
+			vertex = rpoints.Length;
 		}
 
 		public override IAnnotationElement CreateAnnotationElement (MainCanvas canvas) {
-			throw new NotImplementedException();
+			// 创建一个矩形
+			var cpoints = canvas.CanvasPosition(rpoints);
+			DraggablePolygon polygon = new DraggablePolygon(canvas, cpoints) { data = this };
+			// 将新创建的矩形加入到画布中
+			canvas.annotation_canvas.Children.Add(polygon);
+			return polygon;
 		}
 	}
 }

@@ -22,9 +22,14 @@ using System.Windows.Shapes;
 
 namespace QLabel.Custom_Control.Label_Tree {
 	public partial class LabelTree : UserControl {
+		public bool checkbox_active = true;
 		public Action<ClassLabel> eCheck, eUncheck;
 		public LabelTree () {
 			InitializeComponent();
+		}
+		public LabelTree (bool checkbox_active = true) {
+			InitializeComponent();
+			this.checkbox_active = checkbox_active;
 		}
 		#region Classes
 		private class Node {
@@ -47,7 +52,7 @@ namespace QLabel.Custom_Control.Label_Tree {
 			this.eCheck = check;
 			this.eUncheck = uncheck;
 		}
-		public void AddElementToTree (ClassLabel label) {
+		private void AddElementToTree (ClassLabel label) {
 			// 将数据加入到 Tree 中
 			// 结构：GroupNode  -- ClassNode -- ItemNode --> Item
 			string class_name = label.name;
@@ -59,7 +64,7 @@ namespace QLabel.Custom_Control.Label_Tree {
 				// 如果 group child 为空（未找到）
 				// 创建一个新的 group child
 				TreeViewItem group_item = new TreeViewItem();
-				CheckboxWithLabel cbxlbl = new CheckboxWithLabel(group_name, check: true);
+				CheckboxWithLabel cbxlbl = new CheckboxWithLabel(group_name, check: true, enable_checkbox: checkbox_active);
 				group_item.Header = cbxlbl;
 
 				labeltree.Items.Add(group_item);
@@ -83,7 +88,7 @@ namespace QLabel.Custom_Control.Label_Tree {
 			if ( category_node == null ) {
 				// 创建一个新的 supercategory child
 				TreeViewItem category_item = new TreeViewItem();
-				CheckboxWithLabel cbxlbl = new CheckboxWithLabel(category_name, check: true);
+				CheckboxWithLabel cbxlbl = new CheckboxWithLabel(category_name, check: true, enable_checkbox: checkbox_active);
 				category_item.Header = cbxlbl;
 				category_node = new Node {
 					name = category_name, node = category_item,
@@ -107,7 +112,7 @@ namespace QLabel.Custom_Control.Label_Tree {
 			if ( class_node == null ) {
 				// 在 supercategory 下创建一个新的 class child
 				TreeViewItem class_item = new TreeViewItem();
-				CheckboxWithLabel c_cbxlbl = new CheckboxWithLabel(class_name, check: true);
+				CheckboxWithLabel c_cbxlbl = new CheckboxWithLabel(class_name, check: true, enable_checkbox: checkbox_active);
 				class_item.Header = c_cbxlbl;
 				class_node = new Node() {
 					name = class_name, node = class_item,

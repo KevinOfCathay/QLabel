@@ -17,7 +17,6 @@ using System.Windows.Shapes;
 namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 	/// <summary>
 	/// 选择框
-	///  *SelectionBox 不属于 Annotation Element
 	/// </summary>
 	public partial class SelectionBox : UserControl {
 		public SelectionBox () {

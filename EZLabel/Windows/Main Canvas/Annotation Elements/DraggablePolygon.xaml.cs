@@ -13,6 +13,9 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 	/// Interaction logic for DraggablePolygon.xaml
 	/// </summary>
 	public partial class DraggablePolygon : UserControl, IAnnotationElement {
+		private static readonly Brush brush_fill_transparent = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+		private static readonly Brush brush_fill_highlight = new SolidColorBrush(Color.FromArgb(35, 201, 238, 255));
+
 		public event Action<IAnnotationElement> eSelected, eUnselected;
 
 		private Vector2 mouse_down_position, mouse_cur_position;
@@ -94,11 +97,11 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			this.polygon.Points = new PointCollection(cpoints.to_points());
 		}
 		public void Shift (Canvas canvas, Vector2 shift) {
-			Vector2[] new_points = cpoints;
-			Parallel.For(0, new_points.Length, (i) => {
-				new_points[i] += shift;
-			});
-			polygon.Points = new PointCollection(new_points.to_points());
+			PointCollection new_points = polygon.Points;
+			for ( int i = 0; i < new_points.Count; i += 1 ) {
+				new_points[i] = new Point(new_points[i].X + shift.X, new_points[i].Y + shift.Y);
+			};
+			polygon.Points = new_points;
 		}
 		public void Show () {
 			Visibility = Visibility.Visible;
@@ -144,7 +147,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 				var p = polygon.Points[i];
 				rpoints[i] = canvas.RealPosition(new Vector2((float) p.X, (float) p.Y));
 			}
-			ADPolygon new_data = new ADPolygon(rpoints, data.clas, vertex, data.conf);
+			ADPolygon new_data = new ADPolygon(rpoints, data.clas, data.conf);
 			ChangePolygonSize change_size = new ChangePolygonSize(canvas, this, data, new_data);
 			ActionManager.PushAndExecute(change_size);
 		}
@@ -198,12 +201,18 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 				var p = polygon.Points[i];
 				rpoints[i] = canvas.RealPosition(new Vector2((float) p.X, (float) p.Y));
 			}
-			ADPolygon new_data = new ADPolygon(rpoints, data.clas, vertex, data.conf);
+			ADPolygon new_data = new ADPolygon(rpoints, data.clas, data.conf);
 			ChangePolygonSize change_size = new ChangePolygonSize(canvas, this, data, new_data);
 			ActionManager.PushAndExecute(change_size);
 		}
 		public IAnnotationElement ToPolygon (MainCanvas canvas) {
 			return this;
+		}
+		private void PolygonMouseEnter (object sender, MouseEventArgs e) {
+			polygon.Fill = brush_fill_highlight;
+		}
+		private void PolygonMouseLeave (object sender, MouseEventArgs e) {
+			polygon.Fill = brush_fill_transparent;
 		}
 		public Vector2[] CalculateConvexHull (Span<Vector2> points) {
 			// 两个点以下时，返回点

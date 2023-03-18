@@ -7,10 +7,9 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 namespace QLabel.Scripts.Projects {
-	public static class ProjectManager {
+	internal static class ProjectManager {
 		public static Project project { get; private set; }
 
 		/// <summary>
@@ -49,7 +48,7 @@ namespace QLabel.Scripts.Projects {
 		public static void AddAnnoData (ImageData imgdata, AnnoData annodata) {
 			if ( imgdata != null && annodata != null && !imgdata.annodata.Contains(annodata) ) {
 				imgdata.AddAnnoData(annodata);   // 加入到 annodata 中
-				project.AddClassLabel(annodata.clas);
+				project.class_label_manager.AddClassLabel(annodata.clas);
 				eAnnoDataAdded?.Invoke(imgdata, annodata);
 			}
 		}

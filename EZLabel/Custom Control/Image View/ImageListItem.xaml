@@ -8,21 +8,20 @@
              d:DesignHeight="130" d:DesignWidth="130">
 	<StackPanel
 		HorizontalAlignment="Center" Name="ViewImageContainer">
-		<Button x:Name="button"
+		<Border x:Name="bdr"
 				BorderThickness="2" 
 				BorderBrush="LightGray"
 				Background="Transparent" 
 				Height="100" 
-				Width="100"
-				Click="ImageButtonClick">
+				Width="100">
 			<Image Name="thumbnail_image"
-				  Height="{Binding ActualHeight, ElementName=button, Mode=OneWay}" 
-				  Width="{Binding ActualWidth, ElementName=button, Mode=OneWay}"></Image>
-		</Button>
+				  Height="{Binding ActualHeight, ElementName=bdr, Mode=OneWay}" 
+				  Width="{Binding ActualWidth, ElementName=bdr, Mode=OneWay}"></Image>
+		</Border>
 		<TextBlock 
 				Name="image_name" 
 				MaxHeight="25"
-				FontSize="10.5"
+				FontSize="9.5"
 				TextWrapping="Wrap">Image Name</TextBlock>
 	</StackPanel>
 </UserControl>

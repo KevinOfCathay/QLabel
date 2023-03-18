@@ -109,18 +109,17 @@ namespace QLabel.Scripts.Inference_Machine {
 			}
 			return (ind, final_scores, final_boxes, final_classes);
 		}
-		public override AnnoData[] RunInference (ImageData img_file, HashSet<int> class_filter = null) {
+		public override AnnoData[] RunInference (Bitmap image, HashSet<int> class_filter = null) {
 			eRunBefore?.Invoke(this);
 
-			var origin = new Bitmap(Image.FromFile(img_file.path));
-			var bitmap = ResizeImage(origin, width, height);
+			var bitmap = ImageUtils.ResizeBitmap(image, width, height);
 			var input_tensor = GetInputTensor(bitmap);
 			var output = Run(input_tensor);
 			var (ind, final_scores, final_boxes, final_classes) = NMS(output);
 
 			int len = ind.Length;
 			List<AnnoData> data = new List<AnnoData>();
-			Vector2 scale = new Vector2((float) img_file.width / (float) width, (float) img_file.height / (float) height);
+			Vector2 scale = new Vector2(( (float) image.Width ) / ( (float) width ), ( (float) image.Height ) / ( (float) height ));
 			// 根据 result 建立 annodata
 			for ( int i = 0; i < len; i += 1 ) {
 				ReadOnlySpan<Vector2> points = new ReadOnlySpan<Vector2>(

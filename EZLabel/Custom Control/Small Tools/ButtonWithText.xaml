@@ -18,9 +18,9 @@
 			<Image Source="/Resources/Icons/rhombus.png"/>
 		</Button>
 
-		<TextBlock Name="text">
+		<TextBlock Name="text" FontSize="9.5">
 			Text
 		</TextBlock>
-		
+
 	</StackPanel>
 </UserControl>

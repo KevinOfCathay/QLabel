@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -99,6 +100,35 @@ namespace QLabel {
 			    }
 			);
 		}
+		public static Bitmap GetBitmapFromPath (string path) {
+			return new Bitmap(Image.FromFile(path));
+		}
+		public static Bitmap ResizeBitmap (
+			Bitmap source, int target_width, int target_height,
+			InterpolationMode interp = InterpolationMode.Bilinear) {
+			if ( source != null ) {
+				var result = new Bitmap(target_width, target_height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+				using ( Graphics g = Graphics.FromImage(result) ) {
+					g.InterpolationMode = interp;
+					g.DrawImage(source, 0, 0, target_width, target_height);
+				}
+				return result;
+			} else {
+				throw new ArgumentNullException("当前没有任何图片");
+			}
+		}
+		public static Bitmap CropBitmap (Bitmap source, Vector2 xy, Vector2 wh,
+			InterpolationMode interp = InterpolationMode.Bilinear) {
+			int width = (int) ( wh.X );
+			int height = (int) ( wh.Y );
 
+			Bitmap target = new Bitmap(width, height);
+			using ( Graphics g = Graphics.FromImage(target) ) {
+				g.InterpolationMode = interp;
+				g.DrawImage(source, new Rectangle(0, 0, width, height),
+				   new Rectangle((int) xy.X, (int) xy.Y, width, height), GraphicsUnit.Pixel);
+			}
+			return target;
+		}
 	}
 }

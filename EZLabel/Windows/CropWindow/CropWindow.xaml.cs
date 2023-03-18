@@ -34,12 +34,12 @@ namespace QLabel.Windows.CropWindow {
 			switch ( target ) {
 				// 只裁剪当前的图像
 				case Target.Current:
-					await CropSaveTask(ProjectManager.cur_datafile, save_dir);
+					await CropSaveAsync(ProjectManager.cur_datafile, save_dir);
 					break;
 				// 裁剪所有的图像
 				case Target.All:
 					foreach ( var datafile in ProjectManager.project.datas ) {
-						await CropSaveTask(datafile, save_dir);
+						await CropSaveAsync(datafile, save_dir);
 					}
 					break;
 				default:
@@ -68,7 +68,7 @@ namespace QLabel.Windows.CropWindow {
 				class_listbox.Items.Add(new_item);
 			}
 		}
-		private async Task CropSaveTask (ImageData data, string top_dir) {
+		private async Task CropSaveAsync (ImageData data, string top_dir) {
 			string path = data.path;
 			if ( Path.Exists(path) ) {
 				// 读取图片

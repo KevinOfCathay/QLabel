@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:QLabel.Custom_Control.Label_Tree"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="300">
-	<TreeView 	Name="labeltree">
+
+	<TreeView Name="labeltree">
 		<TreeView.Resources>
 			<!-- https://stackoverflow.com/a/2517647 -->
 			<Style x:Key="{x:Type TreeView}" TargetType="TreeView">

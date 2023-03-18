@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="150">
 	<TabControl>
-		<TabItem Header="Thumbnail" FontSize="10.5">
+		<TabItem Header="Thumbnail" FontSize="9.5">
 			<ListBox Name="image_view_listbox" ScrollViewer.HorizontalScrollBarVisibility="Visible">
 				<ListBox.ItemsPanel>
 					<ItemsPanelTemplate>
@@ -16,7 +16,7 @@
 				</ListBox.ItemsPanel>
 			</ListBox>
 		</TabItem>
-		<TabItem Header="List" FontSize="10.5">
+		<TabItem Header="List" FontSize="9.5">
 			<ListBox Name="image_listbox">
 				<ListBoxItem>
 					<TextBlock>Name</TextBlock>

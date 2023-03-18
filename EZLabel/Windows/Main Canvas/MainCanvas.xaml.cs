@@ -182,10 +182,9 @@ namespace QLabel.Windows.Main_Canvas {
 			can_annotate = true;
 			eImageLoaded?.Invoke(this, image);
 		}
-		public void ResizeImage (Vector2 target_size) {
+		public void SetImageScale (float scale) {
+			if ( scale <= 0f ) { return; }
 
-		}
-		public void SetImageScale (float scale = 0.5f) {
 			double image_height = image_size.Y * scale, image_width = image_size.X * scale;
 			canvas_image.Width = image_width;
 			canvas_image.Height = image_height;
@@ -244,6 +243,17 @@ namespace QLabel.Windows.Main_Canvas {
 			canvas_size_before = new_size;
 			eCanvasSizeChanged?.Invoke(this, new_size);
 		}
+
+		private void MouseWheelChanged (object sender, MouseWheelEventArgs e) {
+			if ( Keyboard.Modifiers == ModifierKeys.Alt ) {
+				if ( e.Delta > 0 ) {
+					SetImageScale(image_scale + 0.2f);
+				} else if ( e.Delta < 0 ) {
+					SetImageScale(image_scale - 0.2f);
+				}
+			}
+		}
+
 		private void scroll_ScrollChanged (object sender, ScrollChangedEventArgs e) { }
 
 		#region MouseEvents

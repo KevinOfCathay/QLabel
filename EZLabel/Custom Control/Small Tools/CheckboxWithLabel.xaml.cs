@@ -22,10 +22,11 @@ namespace QLabel.Custom_Control.Small_Tools {
 		public CheckboxWithLabel () {
 			InitializeComponent();
 		}
-		public CheckboxWithLabel (string text, bool check) : base() {
+		public CheckboxWithLabel (string text, bool check, bool enable_checkbox = true) : base() {
 			InitializeComponent();
 			label.Content = text;
 			this.checkbox.IsChecked = check;
+			if ( !enable_checkbox ) { checkbox.IsEnabled = false; }
 		}
 		public void SetLabel (string text) {
 			label.Content = text;

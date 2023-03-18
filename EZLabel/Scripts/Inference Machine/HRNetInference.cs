@@ -97,17 +97,16 @@ namespace QLabel.Scripts.Inference_Machine {
 			var input_node = new List<NamedOnnxValue> { NamedOnnxValue.CreateFromTensor<T>("input.1", input) };
 			if ( session != null ) {
 				var output = session.Run(input_node);
-				return output.First().AsTensor<float>();		// 返回 tensor 更加容易 index
+				return output.First().AsTensor<float>();          // 返回 tensor 更加容易 index
 			} else {
 				throw new ApplicationException("Session 未被加载. 无法进行 inference.");
 			}
 		}
 
-		public override AnnoData[] RunInference (ImageData img_file, HashSet<int> class_filter = null) {
+		public override AnnoData[] RunInference (Bitmap image, HashSet<int> class_filter = null) {
 			eRunBefore?.Invoke(this);
 
-			var origin = new Bitmap(Image.FromFile(img_file.path));
-			var bitmap = ResizeImage(origin, in_width, in_height);
+			var bitmap = ImageUtils.ResizeBitmap(image, in_width, in_height);
 			var input = GetInputTensor(bitmap);
 			var o = Run(input);
 			var (idx, maxvals) = GetMaxPreds(o);

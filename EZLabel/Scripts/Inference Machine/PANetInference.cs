@@ -11,10 +11,12 @@ using System.Text;
 using System.Threading.Tasks;
 using QLabel.Scripts.Projects;
 using QLabel.Scripts.AnnotationData;
+using System.Drawing.Imaging;
+using static OpenCvSharp.LineIterator;
 
 namespace QLabel.Scripts.Inference_Machine {
 	/// <summary>
-	/// PANet Text Detection
+	/// PANet labeltext Detection
 	/// </summary>
 	internal sealed class PANetInference : BaseInferenceMachine {
 		public int width, height, classes;
@@ -27,7 +29,7 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// </summary>
 		/// <param name="path">模型的路径</param>
 		public PANetInference (string path, ClassLabel[] labels, int width = 640, int height = 640, int classes = 80) :
-			base(new int[0], new int[0]) {
+			base(new int[] { 1, 3, width, height }, new int[] { 1, 6, width / 4, height / 4 }) {
 			model_path = path;
 			this.width = width;
 			this.height = height;
@@ -35,11 +37,37 @@ namespace QLabel.Scripts.Inference_Machine {
 			this.labels = labels;
 		}
 
-		public override AnnoData[] RunInference (ImageData data, HashSet<int> class_filter = null) {
+		public override AnnoData[] RunInference (Bitmap image, HashSet<int> class_filter = null) {
+			var resized = ImageUtils.ResizeBitmap(image, width, height);
+			var input_tensor = GetInputTensor(resized);
+			var input = new List<NamedOnnxValue> { NamedOnnxValue.CreateFromTensor<float>("input", input_tensor) };
+			Vector2 scale = new Vector2(( (float) image.Width ) / ( (float) width ), ( (float) image.Height ) / ( (float) height ));
+			if ( session != null ) {
+				var run_output = session.Run(input);
+				var output_tensor = run_output.First().AsTensor<float>();
+				var (boundaries, scores) = GetBoundaries(output_tensor);
+
+				var len = boundaries.Count;
+				AnnoData[] data = new AnnoData[len];
+				for ( int i = 0; i < len; i += 1 ) {
+					// 创建 annodata
+					ClassLabel cl = new ClassLabel(labels[0]);
+
+					var boundary = boundaries[i];
+					Vector2[] rpoints = new Vector2[boundary.Length];
+					Parallel.For(0, boundary.Length, (index) => {
+						rpoints[index] = new Vector2(boundary[index].X, boundary[index].Y) * scale;
+					});
+					data[i] = new ADPolygon(rpoints, cl, conf: scores[i]);
+				}
+				return data;
+			} else {
+				throw new ApplicationException("Session 未被加载. 无法进行 inference.");
+			}
 			throw new NotImplementedException();
 		}
 
-		private (List<OpenCvSharp.Point[]>, List<float>) GetBoundaries (Mat output) {
+		private (List<OpenCvSharp.Point[]>, List<float>) GetBoundaries (Tensor<float> output) {
 			// adapted from
 			// mmocr\models\textdet\dense_heads\head_mixin.py
 			// mmocr\models\textdet\postprocess\pan_postprocessor.py
@@ -55,20 +83,20 @@ namespace QLabel.Scripts.Inference_Machine {
 				for ( int y = 0; y < out_height; y += 1 ) {
 					// preds[:2, :, :] = torch.sigmoid(preds[:2, :, :])
 					// text = preds[0] > self.min_text_confidence
-					var score_temp = output.At<float>(0, 0, x, y);
+					var score_temp = output[0, 0, x, y];
 					score[x, y] = 1f / ( 1f + MathF.Exp(-score_temp) );
 					text[x, y] = (byte) ( score[x, y] > 0.5f ? 1 : 0 );
 
-					var kernel_temp = 1f / ( 1f + MathF.Exp(-output.At<float>(0, 1, x, y)) );
+					var kernel_temp = 1f / ( 1f + MathF.Exp(-output[0, 1, x, y]) );
 					kernel_temp = kernel_temp > 0.5f ? 1f : 0f;
 					kernel[x, y] = (byte) ( kernel_temp * text[x, y] );
 
 					// embeddings = preds[2:].transpose((1, 2, 0))  # (h, w, 4)
 					//         1  2  0                        0  1  2
-					embeddings[x, y, 0] = output.At<float>(0, 2, x, y);
-					embeddings[x, y, 1] = output.At<float>(0, 3, x, y);
-					embeddings[x, y, 2] = output.At<float>(0, 4, x, y);
-					embeddings[x, y, 3] = output.At<float>(0, 5, x, y);
+					embeddings[x, y, 0] = output[0, 2, x, y];
+					embeddings[x, y, 1] = output[0, 3, x, y];
+					embeddings[x, y, 2] = output[0, 4, x, y];
+					embeddings[x, y, 3] = output[0, 5, x, y];
 				}
 			}
 
@@ -277,7 +305,26 @@ namespace QLabel.Scripts.Inference_Machine {
 		}
 
 		protected override DenseTensor<float> GetInputTensor (Bitmap image) {
-			throw new NotImplementedException();
+			var input = new DenseTensor<float>(input_dims);
+
+			// https://stackoverflow.com/a/74337947
+			BitmapData bitmap_data = image.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+			int bytesPerPixel = Image.GetPixelFormatSize(bitmap_data.PixelFormat) / 8;
+			int stride = bitmap_data.Stride;
+
+			unsafe {
+				Parallel.For(0, height, (y) => {
+					Parallel.For(0, width, (x) => {
+						var rgb = (byte*) ( bitmap_data.Scan0 + y * stride );
+						// 这里的顺序应当为 batch, channel, y, x
+						input[0, 0, y, x] = ( (float) ( rgb[x * bytesPerPixel + 0] ) - 123.675f ) / 58.395f;
+						input[0, 1, y, x] = ( (float) ( rgb[x * bytesPerPixel + 1] ) - 116.28f ) / 57.12f;
+						input[0, 2, y, x] = ( (float) ( rgb[x * bytesPerPixel + 2] ) - 103.53f ) / 57.375f;
+					});
+				});
+			}
+
+			return input;
 		}
 	}
 }

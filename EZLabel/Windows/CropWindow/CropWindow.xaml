@@ -64,7 +64,6 @@
 				</ListBox.ItemsPanel>
 			</ListBox>
 
-
 			<Label FontSize="9">Target:</Label>
 			<ComboBox 
 				Name="crop_target" FontSize="9" Margin="4,0"
@@ -83,21 +82,11 @@
 				<StackPanel Margin="3">
 					<Label>Width</Label>
 					<textboxes:IntBox x:Name="preferred_width">
-						<textboxes:IntBox.Resources>
-							<Style TargetType="Border">
-								<Setter Property="CornerRadius" Value="3"/>
-							</Style>
-						</textboxes:IntBox.Resources>
 					</textboxes:IntBox>
 				</StackPanel>
 				<StackPanel Margin="3">
 					<Label>Height</Label>
 					<textboxes:IntBox x:Name="preferred_height">
-						<textboxes:IntBox.Resources>
-							<Style TargetType="Border">
-								<Setter Property="CornerRadius" Value="3"/>
-							</Style>
-						</textboxes:IntBox.Resources>
 					</textboxes:IntBox>
 				</StackPanel>
 			</UniformGrid>

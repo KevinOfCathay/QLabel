@@ -1,12 +1,13 @@
 ﻿using QLabel.Custom_Control.Small_Tools;
 using QLabel.Scripts;
+using QLabel;
 using QLabel.Scripts.Inference_Machine;
 using QLabel.Scripts.Projects;
 using QLabel.Windows.Main_Canvas;
 using System.Collections.Generic;
-using System.Reflection.Emit;
 using System.Windows;
 using System.Windows.Controls;
+using QLabel.Scripts.AnnotationData;
 
 namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 	/// <summary>
@@ -104,7 +105,9 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 			if ( selected_machine != null ) {
 				selected_machine.BuildSession();
 				if ( canvas != null && canvas.can_annotate ) {
-					var ads = selected_machine.RunInference(ProjectManager.cur_datafile, accepted_classes);
+					if ( accepted_classes.Count == 0 ) { return; }
+					var bitmap = ImageUtils.GetBitmapFromPath(ProjectManager.cur_datafile.path);
+					var ads = selected_machine.RunInference(bitmap, accepted_classes);
 					foreach ( var ad in ads ) {
 						var element = ad.CreateAnnotationElement(canvas);
 						canvas.AddAnnoElements(element);
@@ -117,11 +120,13 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 			if ( selected_machine != null ) {
 				selected_machine.BuildSession();
 				if ( canvas != null && canvas.can_annotate ) {
-					foreach ( var file in ProjectManager.project.datas ) {
-						var ads = selected_machine.RunInference(file, accepted_classes);
+					if ( accepted_classes.Count == 0 ) { return; }
+					foreach ( var data in ProjectManager.project.datas ) {
+						var bitmap = ImageUtils.GetBitmapFromPath(data.path);
+						var ads = selected_machine.RunInference(bitmap, accepted_classes);
 						foreach ( var ad in ads ) {
-							ProjectManager.AddAnnoData(file, ad);
-							if ( file == ProjectManager.cur_datafile ) {
+							ProjectManager.AddAnnoData(data, ad);
+							if ( data == ProjectManager.cur_datafile ) {
 								var element = ad.CreateAnnotationElement(canvas);
 								canvas.AddAnnoElements(element);
 							}

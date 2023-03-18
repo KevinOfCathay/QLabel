@@ -19,15 +19,22 @@ namespace QLabel.Custom_Control.Image_View {
 	/// Interaction logic for ImageListItem.xaml
 	/// </summary>
 	public partial class ImageListItem : UserControl {
-		public Action<ImageListItem> eSwitchImage;
-		public ImageData data;		// 文件路径
+		private static readonly SolidColorBrush border_highlight = new SolidColorBrush(Color.FromArgb(255, 255, 190, 155));
+		private static readonly SolidColorBrush text_highlight = new SolidColorBrush(Color.FromArgb(255, 180, 96, 96));
+		private static readonly SolidColorBrush border_normal = new SolidColorBrush(Color.FromArgb(255, 211, 211, 211));
+		private static readonly SolidColorBrush text_normal = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
+		public ImageData data;        // 文件路径
 
 		public ImageListItem () {
 			InitializeComponent();
 		}
-
-		private void ImageButtonClick (object sender, RoutedEventArgs e) {
-			eSwitchImage?.Invoke(this);
+		public void Highlight () {
+			bdr.BorderBrush = border_highlight;
+			image_name.Foreground = text_highlight;
+		}
+		public void UnHighlight () {
+			bdr.BorderBrush = border_normal;
+			image_name.Foreground = text_normal;
 		}
 	}
 }

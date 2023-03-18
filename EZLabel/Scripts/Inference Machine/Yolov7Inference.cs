@@ -14,19 +14,19 @@ using System.Drawing.Imaging;
 
 namespace QLabel.Scripts.Inference_Machine {
 	internal sealed class Yolov7Inference : BaseInferenceMachine {
-		public int width, height, classes;
+		public readonly int width, height, classes;
 		private readonly ClassLabel[] labels;
 
 		/// <summary>
 		/// 初始化所有参数
 		/// </summary>
 		/// <param name="path">模型的路径</param>
-		public Yolov7Inference (string path, ClassLabel[] labels, int width = 640, int height = 640, int classes = 14) :
+		public Yolov7Inference (string path, ClassLabel[] labels, int width = 640, int height = 640) :
 			base(new[] { 1, 3, height, width }, null) {
 			model_path = path;
 			this.width = width;
 			this.height = height;
-			this.classes = classes;
+			this.classes = labels.Length;
 			this.labels = labels;
 		}
 		protected override DenseTensor<float> GetInputTensor (Bitmap image) {
@@ -65,19 +65,16 @@ namespace QLabel.Scripts.Inference_Machine {
 			}
 		}
 
-		public override AnnoData[] RunInference (ImageData img_file, HashSet<int> class_filter = null) {
+		public override AnnoData[] RunInference (Bitmap image, HashSet<int> class_filter = null) {
 			eRunBefore?.Invoke(this);
-
-			var origin = new Bitmap(Image.FromFile(img_file.path));
-			var bitmap = ResizeImage(origin, width, height);
-
+			var bitmap = ImageUtils.ResizeBitmap(image, width, height);
 			var input_tensor = GetInputTensor(bitmap);
 			var output = Run(input_tensor);
 
 			int len = output.Length;
 
 			List<AnnoData> data = new List<AnnoData>();
-			Vector2 scale = new Vector2((float) img_file.width / (float) width, (float) img_file.height / (float) height);
+			Vector2 scale = new Vector2(( (float) image.Width ) / ( (float) width ), ( (float) image.Height ) / ( (float) height ));
 			// 根据 result 建立 annodata
 			for ( int i = 0; i < len / 7; i += 1 ) {
 				float x = ClipX(output[i * 7 + 1]);

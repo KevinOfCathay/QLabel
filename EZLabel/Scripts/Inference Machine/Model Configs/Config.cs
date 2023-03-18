@@ -59,14 +59,14 @@ namespace QLabel.Scripts {
 		public Yolov5Config (
 			string model_name, string model_path, int width, int height, ClassLabel[] class_labels) :
 			base(model_name, model_path, width, height, class_labels,
-				new Yolov5Inference(model_path, class_labels, width, height, class_labels.Length)
+				new Yolov5Inference(model_path, class_labels, width, height)
 				) { }
 	}
 	internal class Yolov7Config : Config {
 		public Yolov7Config (
 			string model_name, string model_path, int width, int height, ClassLabel[] class_labels) :
 			base(model_name, model_path, width, height, class_labels,
-				new Yolov7Inference(model_path, class_labels, width, height, class_labels.Length)
+				new Yolov7Inference(model_path, class_labels, width, height)
 				) { }
 	}
 	internal class PANetConfig : Config {
