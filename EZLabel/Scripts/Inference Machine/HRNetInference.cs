@@ -17,6 +17,7 @@ namespace QLabel.Scripts.Inference_Machine {
 	internal sealed class HRNetInference : BaseInferenceMachine {
 		private readonly int[] input_dims, output_dims;
 		private readonly ClassLabel[] labels;
+		private readonly (int x, int y, ClassLabel)[] skeletons;
 		private readonly int in_width, in_height;
 		private readonly int o_width, o_height;
 		private bool post_process = true;
@@ -26,12 +27,13 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// 初始化所有参数
 		/// </summary>
 		/// <param name="path">模型的路径</param>
-		public HRNetInference (string path, ClassLabel[] labels, int[] input_dims, int[] output_dims) :
+		public HRNetInference (string path, ClassLabel[] labels, (int x, int y, ClassLabel)[] skeletons, int[] input_dims, int[] output_dims) :
 			base(input_dims, null) {
 			model_path = path;
 			this.input_dims = input_dims;
 			this.output_dims = output_dims;
 			this.labels = labels;
+			this.skeletons = skeletons;
 
 			this.in_width = input_dims[3];
 			this.in_height = input_dims[2];
@@ -48,13 +50,20 @@ namespace QLabel.Scripts.Inference_Machine {
 				var (idx, maxvals) = GetMaxPreds(output);
 				int len = maxvals.Length;
 				List<AnnoData> datas = new List<AnnoData>(len);
+				HashSet<int> keypoints = new HashSet<int>(len);
+
 				for ( int i = 0; i < len; i += 1 ) {
 					if ( maxvals[i] > keypoint_threshold ) {
 						Vector2 rpoint = new Vector2(idx[i, 0], idx[i, 1]) * scale;
 						ClassLabel cl = new ClassLabel(labels[i]);
-						// 生产 AnnoData
-						ADDot dot = new ADDot(rpoint, cl, maxvals[i]);
+						ADDot dot = new ADDot(rpoint, cl, maxvals[i]);    // 生成 AnnoData
 						datas.Add(dot);
+						keypoints.Add(i);
+					}
+				}
+				foreach ( var (x, y, label) in skeletons ) {
+					if ( keypoints.Contains(x) && keypoints.Contains(y) ) {
+						ClassLabel cl = new ClassLabel(label);
 					}
 				}
 				return datas.ToArray();

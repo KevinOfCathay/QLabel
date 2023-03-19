@@ -55,7 +55,8 @@ namespace QLabel.Scripts {
 													model_name : "Keypoint Detection (HRNet)",
 													model_path : @"Resources/Models/topdown_hrnet_w32_coco_384x288_rm_inzr.onnx",
 													width : 640, height : 640,
-													class_labels : ModelLabels.keypoints16
+													class_labels : ModelLabels.keypoints16,
+													skeletons: ModelLabels.keypoints16_skeleton
 											){},
 				}
 			},

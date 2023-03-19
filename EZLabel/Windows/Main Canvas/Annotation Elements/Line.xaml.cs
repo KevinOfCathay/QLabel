@@ -14,7 +14,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public event Action<IAnnotationElement> eSelected, eUnselected;
 		public event Action<Line, MouseEventArgs> eMouseDown, eMouseMove, eMouseUp;
 
-		public List<DraggableDot> linked_dots;
+		public List<DraggableDot> linked_dots = new List<DraggableDot>();
 		AnnoData _data;   // 这个矩形所对应的注释数据
 
 		public Vector2[] cpoints { get { return new Vector2[] { new Vector2((float) line.X1, (float) line.Y1), new Vector2((float) line.X2, (float) line.Y2) }; } }
@@ -22,15 +22,18 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public UIElement ui_element => this;
 		public Vector2[] convex_hull { get { return Array.Empty<Vector2>(); } set { } }
 
-
 		public Line () {
 			InitializeComponent();
 		}
 		public Line (DraggableDot[] dots) {
 			InitializeComponent();
-			this.linked_dots = new List<DraggableDot>(dots);
+			if ( dots != null && dots.Length != 0 ) {
+				this.linked_dots.AddRange(dots);
+			}
 		}
-
+		public void AddLink (DraggableDot dot) {
+			linked_dots.Add(dot);
+		}
 		void IAnnotationElement.MouseDown (MainCanvas canvas, MouseEventArgs e) {
 			throw new NotImplementedException();
 		}
