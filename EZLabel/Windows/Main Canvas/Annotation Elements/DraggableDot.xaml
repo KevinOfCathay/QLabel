@@ -5,7 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QLabel.Windows.Main_Canvas.Annotation_Elements"
              mc:Ignorable="d" 
-             d:DesignHeight="10" d:DesignWidth="10">
+		   xmlns:System="clr-namespace:System;assembly=mscorlib"
+             Height="8" Width="8">
+
+	<UserControl.Resources>
+		<System:Double x:Key="transform_from">1.0</System:Double>
+		<System:Double x:Key="transform_to">2.0</System:Double>
+	</UserControl.Resources>
+
 	<!-- 一个简单的圆圈 -->
 	<Ellipse 
 		Name="dot"
@@ -15,5 +22,48 @@
 		PreviewMouseDown="dot_PreviewMouseDown"
 		PreviewMouseMove="dot_PreviewMouseMove"
 		PreviewMouseUp="dot_PreviewMouseUp"
-		/>
+		RenderTransformOrigin="0.5,0.5"
+		>
+		<Ellipse.RenderTransform>
+			<ScaleTransform ScaleY="1" ScaleX="1"/>
+		</Ellipse.RenderTransform>
+		<Ellipse.Triggers>
+			<EventTrigger RoutedEvent="MouseEnter">
+				<EventTrigger.Actions>
+					<BeginStoryboard>
+						<Storyboard>
+							<DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX"
+										From="{StaticResource transform_from}" 
+										  To="{StaticResource transform_to}" 
+										  Duration="0:0:0.25">
+							</DoubleAnimation>
+							<DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY"
+										From="{StaticResource transform_from}" 
+										  To="{StaticResource transform_to}" 
+										  Duration="0:0:0.25">
+							</DoubleAnimation>
+						</Storyboard>
+					</BeginStoryboard>
+				</EventTrigger.Actions>
+			</EventTrigger>
+			<EventTrigger RoutedEvent="MouseLeave">
+				<EventTrigger.Actions>
+					<BeginStoryboard>
+						<Storyboard>
+							<DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX"
+									From="{StaticResource transform_to}" 
+									To="{StaticResource transform_from}" 
+									Duration="0:0:0.25">
+							</DoubleAnimation>
+							<DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY"
+									From="{StaticResource transform_to}" 
+									To="{StaticResource transform_from}" 
+									 Duration="0:0:0.25">
+							</DoubleAnimation>
+						</Storyboard>
+					</BeginStoryboard>
+				</EventTrigger.Actions>
+			</EventTrigger>
+		</Ellipse.Triggers>
+	</Ellipse>
 </UserControl>

@@ -66,7 +66,6 @@ namespace QLabel.Scripts.Inference_Machine {
 		}
 
 		public override AnnoData[] RunInference (Bitmap image, HashSet<int> class_filter = null) {
-			eRunBefore?.Invoke(this);
 			var bitmap = ImageUtils.ResizeBitmap(image, width, height);
 			var input_tensor = GetInputTensor(bitmap);
 			var output = Run(input_tensor);
@@ -105,8 +104,6 @@ namespace QLabel.Scripts.Inference_Machine {
 					points, cl, conf: output[i * 7 + 6]
 					));
 			}
-
-			eRunAfter?.Invoke(this);
 			return data.ToArray();
 		}
 		private float ClipX (float x) {

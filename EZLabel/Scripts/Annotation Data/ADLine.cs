@@ -8,9 +8,6 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace QLabel.Scripts.AnnotationData {
-	/// <summary>
-	/// 线
-	/// </summary>
 	public record ADLine : AnnoData {
 		public ADLine
 			(ReadOnlySpan<Vector2> points, ClassLabel clas, float conf = 1.0f) :

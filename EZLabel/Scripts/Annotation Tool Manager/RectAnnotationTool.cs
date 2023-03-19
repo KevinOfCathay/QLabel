@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using QLabel.Scripts.Projects;
+using QLabel.Actions;
 
 namespace QLabel.Scripts.AnnotationToolManager {
 	public class RectAnnotationTool : ToolBase {
@@ -101,7 +102,7 @@ namespace QLabel.Scripts.AnnotationToolManager {
 							);
 						rect.data = data;
 
-						CreateAnnotationElementManual create_rect = new CreateAnnotationElementManual(rect, canvas);
+						AddElementToCanvas create_rect = new AddElementToCanvas(canvas, rect);
 						create_rect.Do();
 
 						ActionManager.PushAction(create_rect);
@@ -120,12 +121,12 @@ namespace QLabel.Scripts.AnnotationToolManager {
 			if ( canvas.can_annotate ) {
 				// 创建一个新的矩形
 				var data = new AnnotationData.ADRect(new ReadOnlySpan<Vector2>(rpoints), clas);
-				DraggableRectangle r = new DraggableRectangle {
+				DraggableRectangle rect = new DraggableRectangle {
 					data = data
 				};
 
-				canvas.annotation_canvas.Children.Add(r);
-				CreateAnnotationElementManual create_rect = new CreateAnnotationElementManual(r, canvas);
+				canvas.annotation_canvas.Children.Add(rect);
+				AddElementToCanvas create_rect = new AddElementToCanvas(canvas, rect);
 				create_rect.Do();
 
 				ActionManager.PushAction(create_rect);

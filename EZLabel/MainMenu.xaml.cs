@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using QLabel.Actions;
 using QLabel.Scripts.Projects;
 using QLabel.Windows.CropWindow;
 using QLabel.Windows.Export_Window;

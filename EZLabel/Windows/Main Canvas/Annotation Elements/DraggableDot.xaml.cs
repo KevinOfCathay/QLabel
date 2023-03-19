@@ -20,6 +20,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		private Vector2 position, mouse_position;
 
 		AnnoData _data;   // 这个点所对应的注释数据
+		public UIElement ui_element => this;
 		public AnnoData data { get { return _data; } set { _data = value; } }
 		public Vector2[] cpoints {
 			get {
@@ -34,15 +35,17 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		/// <summary>
 		/// 这个点相关联的线
 		/// </summary>
-		public List<Line> linked_line;
+		public List<Line> linked_line = new List<Line>();
 
 		public DraggableDot () {
 			InitializeComponent();
 			linked_line = new List<Line>();
 		}
-		public DraggableDot (Line[] lines) {
+		public DraggableDot (Vector2 cpoint, Line[] lines) {
 			InitializeComponent();
-			linked_line = new List<Line>(lines);
+			Canvas.SetLeft(this, cpoint.X);
+			Canvas.SetTop(this, cpoint.Y);
+			if ( lines != null ) { linked_line.AddRange(lines); }
 		}
 		public void Draw (Canvas canvas, Vector2[] points) {
 			if ( points != null ) {

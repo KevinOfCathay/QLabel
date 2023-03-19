@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Media3D;
+using QLabel.Actions;
 
 namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 	/// <summary>
@@ -26,6 +27,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		/// 当长方形被重新绘制时触发
 		/// </summary>
 		public Action<DraggableRectangle, float, float> eDraw;
+		public UIElement ui_element => this;
 		public Dot[] dots = new Dot[5];
 		public Vector2 size {
 			get { return new Vector2(MathF.Abs(bottomright.X - topleft.X), MathF.Abs(bottomright.Y - topleft.Y)); }

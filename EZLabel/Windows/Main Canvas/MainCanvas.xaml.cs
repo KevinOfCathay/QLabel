@@ -200,21 +200,23 @@ namespace QLabel.Windows.Main_Canvas {
 			image_scale = scale;
 			ChangeCanvasSize(new_width, new_height);
 		}
-		public void AddAnnoElements (IAnnotationElement element) {
-			if ( can_annotate ) {          // 只有在画布上有内容时才会加入 element
-				if ( element != null ) {
-					annotation_elements.Add(element);
-					eAnnotationElementAdded?.Invoke(this, element);
+		public void AddAnnoElements (IAnnotationElement element, bool add_ui_element = false) {
+			if ( can_annotate && element != null ) {
+				annotation_elements.Add(element);
+				if ( add_ui_element && element.ui_element != null ) {
+					annotation_canvas.Children.Add(element.ui_element);
 				}
+				eAnnotationElementAdded?.Invoke(this, element);
 			}
 		}
-		public void AddBulkAnnoElements (IAnnotationElement[] elements) {
-			if ( can_annotate ) {          // 只有在画布上有内容时才会加入 element
-				if ( elements != null ) {
-					foreach ( var element in elements ) {
-						annotation_elements.Add(element);
-						eAnnotationElementAdded?.Invoke(this, element);
+		public void AddBulkAnnoElements (IEnumerable<IAnnotationElement> elements, bool add_ui_element = false) {
+			if ( can_annotate && elements != null ) {
+				foreach ( var element in elements ) {
+					annotation_elements.Add(element);
+					if ( add_ui_element && element.ui_element != null ) {
+						annotation_canvas.Children.Add(element.ui_element);
 					}
+					eAnnotationElementAdded?.Invoke(this, element);
 				}
 			}
 		}

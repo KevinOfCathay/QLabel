@@ -8,16 +8,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace QLabel {
-	public class CreateAnnotationElementManual : IAction {
+namespace QLabel.Actions {
+	public class AddElementToCanvas : IAction {
 		private readonly IAnnotationElement element;
 		private readonly MainCanvas canvas;
-		public CreateAnnotationElementManual (IAnnotationElement element, MainCanvas canvas) {
+		private readonly bool add_ui_element_to_canvas;
+		public string name => "Add Element To Canvas";
+		public AddElementToCanvas (MainCanvas canvas, IAnnotationElement element, bool add_ui_element_to_canvas = false) {
 			this.element = element;
 			this.canvas = canvas;
+			this.add_ui_element_to_canvas = add_ui_element_to_canvas;
 		}
 		public void Do () {
-			canvas.AddAnnoElements(element);
+			canvas.AddAnnoElements(element, add_ui_element_to_canvas);
 			ProjectManager.AddAnnoData(ProjectManager.cur_datafile, element.data);
 		}
 		public void Undo () {

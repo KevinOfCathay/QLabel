@@ -26,25 +26,6 @@ namespace QLabel.Scripts {
 		public readonly ClassLabel[] class_labels;
 		public readonly BaseInferenceMachine inf;
 		public string[] tags = new string[0];     // 这个模型的额外标签（用于描述这个模型）
-
-		/// <summary>
-		/// 从 label 中创建 ClassLabel
-		/// </summary>
-		/// <returns></returns>
-		private ClassLabel[] GetClassLabels (string[] labels) {
-			if ( labels == null ) { return new ClassLabel[0]; }
-			ClassLabel[] class_labels = new ClassLabel[labels.Length];
-			int i = 0;
-			foreach ( var label in labels ) {
-				class_labels[i] = new ClassLabel(
-					group: null,
-					name: label) {
-					color = new Color { R = (byte) RNG.rng.Next(100, 250), G = (byte) RNG.rng.Next(100, 250), B = (byte) RNG.rng.Next(100, 250) }
-				};
-				i += 1;
-			}
-			return class_labels;
-		}
 	}
 	internal class HRNetConfig : Config {
 		public HRNetConfig (

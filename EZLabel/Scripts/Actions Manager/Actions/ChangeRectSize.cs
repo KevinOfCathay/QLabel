@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace QLabel {
+namespace QLabel.Actions {
 	public class ChangeRectSize : IAction {
 		public ChangeRectSize (
 			MainCanvas canvas, DraggableRectangle elem,
@@ -24,6 +24,7 @@ namespace QLabel {
 		private readonly MainCanvas canvas;
 		private readonly DraggableRectangle elem;
 		private readonly AnnoData data_before, data_after;
+		public string name => "Change Rectangle Size";
 		public void Do () {
 			// 新的 annodata
 			elem.data = data_after;

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -18,7 +19,9 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 
 		public Vector2[] cpoints { get { return new Vector2[] { new Vector2((float) line.X1, (float) line.Y1), new Vector2((float) line.X2, (float) line.Y2) }; } }
 		public AnnoData data { get => _data; set => _data = value; }
+		public UIElement ui_element => this;
 		public Vector2[] convex_hull { get { return Array.Empty<Vector2>(); } set { } }
+
 
 		public Line () {
 			InitializeComponent();

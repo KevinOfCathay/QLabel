@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
+using QLabel.Actions;
 using static QLabel.Windows.Toolbar_Window.AnnotationToolBar;
 
 namespace QLabel {

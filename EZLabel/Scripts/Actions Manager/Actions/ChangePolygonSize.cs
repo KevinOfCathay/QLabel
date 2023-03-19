@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace QLabel {
+namespace QLabel.Actions {
 	public class ChangePolygonSize : IAction {
 		public ChangePolygonSize (
 			MainCanvas canvas, DraggablePolygon elem,
@@ -24,6 +24,7 @@ namespace QLabel {
 		private readonly MainCanvas canvas;
 		private readonly DraggablePolygon elem;
 		private readonly AnnoData data_before, data_after;
+		public string name => "Change Polygon Size";
 		public void Do () {
 			// 新的 annodata
 			elem.data = data_after;

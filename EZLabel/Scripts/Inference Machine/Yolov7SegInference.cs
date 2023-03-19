@@ -110,8 +110,6 @@ namespace QLabel.Scripts.Inference_Machine {
 			return (ind, final_scores, final_boxes, final_classes);
 		}
 		public override AnnoData[] RunInference (Bitmap image, HashSet<int> class_filter = null) {
-			eRunBefore?.Invoke(this);
-
 			var bitmap = ImageUtils.ResizeBitmap(image, width, height);
 			var input_tensor = GetInputTensor(bitmap);
 			var output = Run(input_tensor);
@@ -144,8 +142,6 @@ namespace QLabel.Scripts.Inference_Machine {
 					points, cl, conf: final_scores[i]
 					));
 			}
-
-			eRunAfter?.Invoke(this);
 			return data.ToArray();
 		}
 	}

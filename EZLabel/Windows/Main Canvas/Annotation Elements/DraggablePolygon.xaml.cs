@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using QLabel.Actions;
 
 namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 	/// <summary>
@@ -18,13 +19,14 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 
 		public event Action<IAnnotationElement> eSelected, eUnselected;
 
+		public UIElement ui_element => this;
 		private Vector2 mouse_down_position, mouse_cur_position;
 		private const float dot_radius = 8f;
 		public DraggablePolygon () {
 			InitializeComponent();
 			dots = Array.Empty<Dot>();
 		}
-		public DraggablePolygon (MainCanvas mc, Span<Vector2> cpoints) {
+		public DraggablePolygon (MainCanvas canvas, Span<Vector2> cpoints) {
 			InitializeComponent();
 			vertex = cpoints.Length;
 

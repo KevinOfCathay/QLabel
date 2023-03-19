@@ -16,7 +16,6 @@ namespace QLabel.Scripts.Inference_Machine {
 		protected string model_path;
 		protected InferenceSession session;
 		protected readonly int[] input_dims, output_dims;
-		public Action<BaseInferenceMachine>? eRunBefore, eRunAfter;
 
 		public BaseInferenceMachine (int[] input_dims, int[] output_dims) {
 			this.input_dims = input_dims;

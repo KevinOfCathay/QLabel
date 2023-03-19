@@ -64,7 +64,6 @@ namespace QLabel.Scripts.Inference_Machine {
 			} else {
 				throw new ApplicationException("Session 未被加载. 无法进行 inference.");
 			}
-			throw new NotImplementedException();
 		}
 
 		private (List<OpenCvSharp.Point[]>, List<float>) GetBoundaries (Tensor<float> output) {

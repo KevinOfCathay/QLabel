@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QLabel {
+namespace QLabel.Actions {
 	public interface IAction {
-		public abstract void Do();
+		public string name { get; }
+		public abstract void Do ();
 		public abstract void Undo ();
 	}
 }

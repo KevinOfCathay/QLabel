@@ -20,6 +20,7 @@ namespace QLabel.Scripts.Inference_Machine {
 		private readonly int in_width, in_height;
 		private readonly int o_width, o_height;
 		private bool post_process = true;
+		private float keypoint_threshold = 0.35f;
 
 		/// <summary>
 		/// 初始化所有参数
@@ -36,6 +37,30 @@ namespace QLabel.Scripts.Inference_Machine {
 			this.in_height = input_dims[2];
 			this.o_width = output_dims[3];
 			this.o_height = output_dims[2];
+		}
+		public override AnnoData[] RunInference (Bitmap image, HashSet<int> class_filter = null) {
+			var bitmap = ImageUtils.ResizeBitmap(image, in_width, in_height);
+			var input = GetInputTensor(bitmap); var input_node = new List<NamedOnnxValue> { NamedOnnxValue.CreateFromTensor<float>("input.1", input) };
+			Vector2 scale = new Vector2(( (float) image.Width ) / ( (float) o_width ), ( (float) image.Height ) / ( (float) o_height ));
+			if ( session != null ) {
+				var run_output = session.Run(input_node);
+				var output = run_output.First().AsTensor<float>();          // 返回 tensor 更加容易 index
+				var (idx, maxvals) = GetMaxPreds(output);
+				int len = maxvals.Length;
+				List<AnnoData> datas = new List<AnnoData>(len);
+				for ( int i = 0; i < len; i += 1 ) {
+					if ( maxvals[i] > keypoint_threshold ) {
+						Vector2 rpoint = new Vector2(idx[i, 0], idx[i, 1]) * scale;
+						ClassLabel cl = new ClassLabel(labels[i]);
+						// 生产 AnnoData
+						ADDot dot = new ADDot(rpoint, cl, maxvals[i]);
+						datas.Add(dot);
+					}
+				}
+				return datas.ToArray();
+			} else {
+				throw new ApplicationException("Session 未被加载. 无法进行 inference.");
+			}
 		}
 		protected override DenseTensor<float> GetInputTensor (Bitmap image) {
 			var input = new DenseTensor<float>(input_dims);
@@ -88,32 +113,6 @@ namespace QLabel.Scripts.Inference_Machine {
 				}
 			}
 			return input;
-		}
-		/// <summary>
-		/// 运行模型并以 Tensor float 形式返回结果
-		/// </summary>
-		public Tensor<float> Run<T> (DenseTensor<T> input) {
-			// 从 Dense Tensor 创建一个 Input
-			var input_node = new List<NamedOnnxValue> { NamedOnnxValue.CreateFromTensor<T>("input.1", input) };
-			if ( session != null ) {
-				var output = session.Run(input_node);
-				return output.First().AsTensor<float>();          // 返回 tensor 更加容易 index
-			} else {
-				throw new ApplicationException("Session 未被加载. 无法进行 inference.");
-			}
-		}
-
-		public override AnnoData[] RunInference (Bitmap image, HashSet<int> class_filter = null) {
-			eRunBefore?.Invoke(this);
-
-			var bitmap = ImageUtils.ResizeBitmap(image, in_width, in_height);
-			var input = GetInputTensor(bitmap);
-			var o = Run(input);
-			var (idx, maxvals) = GetMaxPreds(o);
-
-			throw new NotImplementedException();
-
-			eRunAfter?.Invoke(this);
 		}
 		private (float[,], float[]) GetMaxPreds (Tensor<float> output) {
 			int[,] idx = new int[output_dims[1], 2];

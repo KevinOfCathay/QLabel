@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QLabel {
+namespace QLabel.Actions {
 	public static class ActionManager {
 		private static int cap = 50;
 		static LinkedList<IAction> actions = new LinkedList<IAction>();

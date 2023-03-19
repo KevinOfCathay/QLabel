@@ -12,6 +12,7 @@ using System.Windows;
 using OpenCvSharp;
 using System.Numerics;
 using QLabel.Scripts.Projects;
+using QLabel.Actions;
 
 namespace QLabel.Scripts.AnnotationToolManager {
 	public class DotAnnotationTool : ToolBase {
@@ -34,16 +35,15 @@ namespace QLabel.Scripts.AnnotationToolManager {
 			Canvas.SetTop(dot, p.Y);
 			Canvas.SetZIndex(dot, 10);
 
-			var pos = canvas.RealPosition(new Vector2((float) p.X, (float) p.Y));    // 坐标转换
+			var rpoint = canvas.RealPosition(new Vector2((float) p.X, (float) p.Y));    // 坐标转换
 
 			// 创建 anno 数据
-			var data = new AnnotationData.ADSingleDot(
-				new ReadOnlySpan<Vector2>(pos),
-					ProjectManager.cur_label
+			var data = new AnnotationData.ADDot(
+				rpoint, ProjectManager.cur_label
 				);
 			dot.data = data;
 
-			CreateAnnotationElementManual create_dot = new CreateAnnotationElementManual(dot, canvas);
+			AddElementToCanvas create_dot = new AddElementToCanvas(canvas, dot);
 			create_dot.Do();
 
 			ActionManager.PushAction(create_dot);

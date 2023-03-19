@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using QLabel.Scripts.AnnotationData;
+using System;
+using QLabel.Actions;
 
 namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 	/// <summary>
@@ -18,6 +20,7 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 		private MainCanvas canvas;         // TODO: replace this
 		private HashSet<int> accepted_classes;
 		private CheckboxWithLabel[] cbxlabels;
+		private event Action<BaseInferenceMachine>? eRunBefore, eRunAfter;
 
 		public AutoAnnotatePanel () {
 			InitializeComponent();
@@ -107,12 +110,17 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 				if ( canvas != null && canvas.can_annotate ) {
 					if ( accepted_classes.Count == 0 ) { return; }
 					var bitmap = ImageUtils.GetBitmapFromPath(ProjectManager.cur_datafile.path);
+					eRunBefore?.Invoke(selected_machine);
 					var ads = selected_machine.RunInference(bitmap, accepted_classes);
+					eRunAfter?.Invoke(selected_machine);
+					List<IAnnotationElement> elements = new List<IAnnotationElement>(ads.Length);
 					foreach ( var ad in ads ) {
 						var element = ad.CreateAnnotationElement(canvas);
-						canvas.AddAnnoElements(element);
+						elements.Add(element);
 						ProjectManager.AddAnnoData(ProjectManager.cur_datafile, ad);
 					}
+					BulkAddElementsToCanvas bulk_add_elements = new BulkAddElementsToCanvas(canvas, elements, add_ui_element_to_canvas: true);
+					ActionManager.PushAndExecute(bulk_add_elements);
 				}
 			}
 		}
@@ -124,13 +132,16 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 					foreach ( var data in ProjectManager.project.datas ) {
 						var bitmap = ImageUtils.GetBitmapFromPath(data.path);
 						var ads = selected_machine.RunInference(bitmap, accepted_classes);
+						List<IAnnotationElement> elements = new List<IAnnotationElement>(ads.Length);
 						foreach ( var ad in ads ) {
 							ProjectManager.AddAnnoData(data, ad);
 							if ( data == ProjectManager.cur_datafile ) {
 								var element = ad.CreateAnnotationElement(canvas);
-								canvas.AddAnnoElements(element);
+								elements.Add(element);
 							}
 						}
+						BulkAddElementsToCanvas bulk_add_elements = new BulkAddElementsToCanvas(canvas, elements, add_ui_element_to_canvas: true);
+						ActionManager.PushAndExecute(bulk_add_elements);
 					}
 				}
 			}

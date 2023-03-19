@@ -30,10 +30,6 @@ namespace QLabel.Scripts.AnnotationData {
 			Vector2 tl = canvas.CanvasPosition(rpoints[0]);
 			Vector2 br = canvas.CanvasPosition(rpoints[3]);
 			rect.Draw(canvas.annotation_canvas, new Vector2[] { tl, br });
-
-			// 将新创建的矩形加入到画布中
-			canvas.annotation_canvas.Children.Add(rect);
-
 			return rect;
 		}
 	}

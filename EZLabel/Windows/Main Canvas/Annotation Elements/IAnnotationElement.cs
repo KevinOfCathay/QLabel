@@ -31,6 +31,10 @@ namespace QLabel.Windows.Main_Canvas {
 		#endregion
 
 		/// <summary>
+		/// 这个元素所关联的 UI
+		/// </summary>
+		UIElement ui_element { get; }
+		/// <summary>
 		/// 这个元素所关联的 anno 数据
 		/// </summary>
 		AnnoData data { get; set; }
