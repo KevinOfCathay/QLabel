@@ -25,9 +25,13 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public Line () {
 			InitializeComponent();
 		}
-		public Line (DraggableDot[] dots) {
+		public Line (Vector2 cx, Vector2 cy, IEnumerable<DraggableDot> dots) {
 			InitializeComponent();
-			if ( dots != null && dots.Length != 0 ) {
+			line.X1 = cx.X;
+			line.Y1 = cx.Y;
+			line.X2 = cy.X;
+			line.Y2 = cy.Y;
+			if ( dots != null ) {
 				this.linked_dots.AddRange(dots);
 			}
 		}

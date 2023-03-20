@@ -40,10 +40,11 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public DraggableDot () {
 			InitializeComponent();
 		}
-		public DraggableDot (Vector2 cpoint, Line[] lines) {
+		public DraggableDot (Vector2 cpoint, Line[] lines, float radius = 8f) {
 			InitializeComponent();
-			Canvas.SetLeft(this, cpoint.X);
-			Canvas.SetTop(this, cpoint.Y);
+			Height = radius; Width = radius;
+			Canvas.SetLeft(this, cpoint.X - radius / 2);
+			Canvas.SetTop(this, cpoint.Y - radius / 2);
 			if ( lines != null ) {
 				linked_line.AddRange(lines);
 				foreach ( var line in lines ) { line.AddLink(this); }

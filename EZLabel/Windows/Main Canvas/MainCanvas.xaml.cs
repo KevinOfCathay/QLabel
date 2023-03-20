@@ -220,6 +220,9 @@ namespace QLabel.Windows.Main_Canvas {
 				}
 			}
 		}
+		public IAnnotationElement GetElementByID (Guid guid) {
+			return annotation_elements.Find((x) => { return x.data != null && x.data.guid == guid; });
+		}
 		public void ModifiedAnnoElements (IAnnotationElement element) {
 			if ( element != null && annotation_elements.Contains(element) ) {
 				eAnnotationElementModified?.Invoke(this, element);

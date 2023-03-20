@@ -8,20 +8,56 @@
              d:DesignHeight="130" d:DesignWidth="130">
 	<StackPanel
 		HorizontalAlignment="Center" Name="ViewImageContainer">
-		<Border x:Name="bdr"
+		<StackPanel.Triggers>
+			<EventTrigger RoutedEvent="MouseEnter">
+				<EventTrigger.Actions>
+					<BeginStoryboard>
+						<Storyboard>
+							<ColorAnimation 
+								Storyboard.TargetName="border"
+								Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+									From="LightGray" To="#ffffbe9b" Duration="0:0:0.5"/>
+							<ColorAnimation 
+								Storyboard.TargetName="image_name"
+								Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
+									From="Black" To="Crimson" Duration="0:0:0.5"/>
+						</Storyboard>
+					</BeginStoryboard>
+				</EventTrigger.Actions>
+			</EventTrigger>
+			<EventTrigger RoutedEvent="MouseLeave">
+				<EventTrigger.Actions>
+					<BeginStoryboard>
+						<Storyboard>
+							<ColorAnimation
+								Storyboard.TargetName="border"
+								Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+									From="#ffffbe9b" To="LightGray" Duration="0:0:0.5"/>
+							<ColorAnimation 
+								Storyboard.TargetName="image_name"
+								Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
+									From="Crimson" To="Black" Duration="0:0:0.5"/>
+						</Storyboard>
+					</BeginStoryboard>
+				</EventTrigger.Actions>
+			</EventTrigger>
+		</StackPanel.Triggers>
+		<Border x:Name="border"
 				BorderThickness="2" 
 				BorderBrush="LightGray"
 				Background="Transparent" 
 				Height="100" 
 				Width="100">
 			<Image Name="thumbnail_image"
-				  Height="{Binding ActualHeight, ElementName=bdr, Mode=OneWay}" 
-				  Width="{Binding ActualWidth, ElementName=bdr, Mode=OneWay}"></Image>
+				  Height="{Binding ActualHeight, ElementName=border, Mode=OneWay}" 
+				  Width="{Binding ActualWidth, ElementName=border, Mode=OneWay}"></Image>
 		</Border>
 		<TextBlock 
 				Name="image_name" 
+				Foreground="Black"
 				MaxHeight="25"
 				FontSize="9.5"
+				MaxWidth="{Binding ActualWidth, ElementName=border, Mode=OneWay}"
 				TextWrapping="Wrap">Image Name</TextBlock>
 	</StackPanel>
 </UserControl>

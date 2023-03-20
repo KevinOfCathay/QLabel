@@ -13,7 +13,7 @@ namespace QLabel.Scripts.AnnotationData {
 	public abstract record AnnoData {
 		public enum Type { Dot, Rectangle, Square, Tetragon, Line, Circle, Polygon }
 		/// <summary>
-		/// 从 source 复制所有属性
+		/// Copy Constructor
 		/// </summary>
 		public AnnoData (AnnoData source) {
 			rpoints = source.rpoints;
@@ -22,6 +22,7 @@ namespace QLabel.Scripts.AnnotationData {
 			brect = source.brect;
 			clas = source.clas;
 			createtime = source.createtime;
+			guid = source.guid;
 
 			type = source.type;
 			label = source.label;
@@ -38,6 +39,7 @@ namespace QLabel.Scripts.AnnotationData {
 			this.conf = conf;
 			this.type = type;
 			this.clas = clas;
+			this.guid = Guid.NewGuid();
 			bbox = GetBoundingBox(rpoints);
 			brect = new Int32Rect((int) bbox.tl.X, (int) bbox.tl.Y, (int) ( bbox.br.X - bbox.tl.X ), (int) ( bbox.br.Y - bbox.tl.Y ));
 		}
@@ -57,6 +59,8 @@ namespace QLabel.Scripts.AnnotationData {
 		[JsonProperty] public readonly ClassLabel clas;
 		/// <summary> 这个注释数据被创建的时间，在 AnnoData 初始化时被设置 (readonly) </summary>
 		[JsonProperty] public readonly DateTime createtime;
+		/// <summary>  这个注释数据的 GUID</summary>
+		[JsonProperty] public readonly Guid guid;
 		#endregion
 
 		/// <summary>  这个注释数据的额外标签</summary>
@@ -97,7 +101,6 @@ namespace QLabel.Scripts.AnnotationData {
 					createtime.ToLongTimeString() + clas.ToString() + label.ToString()
 					);
 				byte[] hashBytes = md5.ComputeHash(inputBytes);
-
 				return Convert.ToHexString(hashBytes);
 			}
 		}

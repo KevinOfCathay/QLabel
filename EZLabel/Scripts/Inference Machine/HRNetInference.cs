@@ -12,6 +12,7 @@ using QLabel.Scripts.AnnotationData;
 using System.Threading.Tasks;
 using System.Drawing.Imaging;
 using System.Windows.Media.Media3D;
+using QLabel.Windows.Main_Canvas.Annotation_Elements;
 
 namespace QLabel.Scripts.Inference_Machine {
 	internal sealed class HRNetInference : BaseInferenceMachine {
@@ -50,7 +51,7 @@ namespace QLabel.Scripts.Inference_Machine {
 				var (idx, maxvals) = GetMaxPreds(output);
 				int len = maxvals.Length;
 				List<AnnoData> datas = new List<AnnoData>(len);
-				HashSet<int> keypoints = new HashSet<int>(len);
+				Dictionary<int, ADDot> keypoints = new Dictionary<int, ADDot>(len);
 
 				for ( int i = 0; i < len; i += 1 ) {
 					if ( maxvals[i] > keypoint_threshold ) {
@@ -58,12 +59,18 @@ namespace QLabel.Scripts.Inference_Machine {
 						ClassLabel cl = new ClassLabel(labels[i]);
 						ADDot dot = new ADDot(rpoint, cl, maxvals[i]);    // 生成 AnnoData
 						datas.Add(dot);
-						keypoints.Add(i);
+						keypoints.Add(i, dot);
 					}
 				}
 				foreach ( var (x, y, label) in skeletons ) {
-					if ( keypoints.Contains(x) && keypoints.Contains(y) ) {
+					// 两端都有点时，创建一个线段
+					if ( keypoints.ContainsKey(x) && keypoints.ContainsKey(y) ) {
 						ClassLabel cl = new ClassLabel(label);
+						ADLine line = new ADLine(
+							new Vector2(idx[x, 0], idx[x, 1]) * scale,
+							new Vector2(idx[y, 0], idx[y, 1]) * scale,
+							new ADDot[] { keypoints[x], keypoints[y] }, cl);
+						datas.Add(line);
 					}
 				}
 				return datas.ToArray();

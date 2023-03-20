@@ -43,8 +43,6 @@ namespace QLabel.Custom_Control.Image_View {
 			foreach ( var data in datalist ) {
 				ImageListItem new_item = new ImageListItem();
 				new_item.MouseDown += (object o, MouseButtonEventArgs a) => {
-					old_item?.UnHighlight();
-					new_item.Highlight();
 					eSwitchImage?.Invoke(old_item, new_item);
 					old_item = new_item;
 				};
