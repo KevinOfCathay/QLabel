@@ -17,7 +17,7 @@ namespace QLabel.Scripts.Projects {
 
 		/// <summary> Project 包含的数据源 </summary>
 		private List<ImageData> _datas;
-		public ClassLabel[] label_set { get { return class_label_manager.label_set; } }
+		public HashSet<ClassLabel> label_set { get { return class_label_manager.label_set; } }
 
 		public void AddImageData (ImageData data) {
 			if ( !_datas.Contains(data) ) {          // 不重复添加 image data

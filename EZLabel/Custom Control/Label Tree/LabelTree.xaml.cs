@@ -42,13 +42,18 @@ namespace QLabel.Custom_Control.Label_Tree {
 
 		private List<Node> groups = new List<Node>();
 
-		public void SetUI (ClassLabel[] labels,
+		public void SetUI (IEnumerable<ClassLabel> labels,
 			Action<ClassLabel> check = null,
 			Action<ClassLabel> uncheck = null) {
+			// 清空之前的所有内容
+			labeltree.Items.Clear();
 
+			// 将 ClassLabel 加入到树中
 			foreach ( var data in labels ) {
 				AddElementToTree(data);
 			}
+
+			// 设置 event
 			this.eCheck = check;
 			this.eUncheck = uncheck;
 		}

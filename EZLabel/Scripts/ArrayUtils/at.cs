@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace QLabel {
-	public static partial class ArrayUtils {
+	public static partial class utils {
 		public static ref T at<T> (this T[,] t, int index) where T : INumber<T> {
 			int x = t.GetLength(1);
 			return ref t[index / x, index % x];

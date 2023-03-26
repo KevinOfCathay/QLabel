@@ -6,9 +6,7 @@ using QLabel.Windows.Export_Window;
 using QLabel.Windows.Import_Window;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -106,7 +104,7 @@ namespace QLabel {
 		/// 导出注释数据到其他格式
 		/// </summary>
 		private async void SaveClick (object sender, RoutedEventArgs e) {
-			await ProjectManager.SaveProject();
+			await ProjectManager.SaveProjectAsync();
 		}
 		/// <summary>
 		/// 导出注释数据到其他格式

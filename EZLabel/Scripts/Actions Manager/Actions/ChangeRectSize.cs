@@ -44,7 +44,7 @@ namespace QLabel.Actions {
 			for ( var i = 0; i < data_before.rpoints.Length; i += 1 ) {
 				points_before[i] = canvas.CanvasPosition(data_before.rpoints[i]);
 			}
-			elem.Draw(canvas.canvas, points_before);
+			elem.Draw(canvas, points_before);
 			canvas.ModifiedAnnoElements(elem);
 		}
 	}

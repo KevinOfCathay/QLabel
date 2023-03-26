@@ -25,7 +25,7 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// 从 path 中加载 session
 		/// </summary>
 		/// <param name="model_path"></param>
-		public void BuildSession () {
+		public virtual void BuildSession () {
 			session = new InferenceSession(model_path);
 			if ( session == null ) {
 				Debug.WriteLine("Failed to load session.");

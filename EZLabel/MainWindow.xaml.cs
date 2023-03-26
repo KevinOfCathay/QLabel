@@ -27,22 +27,22 @@ namespace QLabel {
 		}
 		private void RegisterEvents (object? sender, EventArgs e) {
 			// 切换图片时的事件
-			ilw.eSwitchImage += async (ImageListItem old, ImageListItem item) => {
+			ilw.eSwitchImage += async (ImageListItem old, ImageListItem nw) => {
 				// 判断当前点击的文件是否是已经被打开的文件
-				if ( item.data != ProjectManager.cur_datafile ) {
+				if ( nw.data != ProjectManager.cur_datafile ) {
 					// 清空之前图片的注释
 					annolistpanel.annolist.ClearList();
 					// 清除上一张图片在画布上的所有元素
 					main_canvas.ClearCanvas();
 					// 点击 List 中的 image 图像来加载图片
 					// 这个需要 await，所以 img_scale 可以正确被设置
-					Task loadimg = main_canvas.LoadImage(item.data);
+					Task loadimg = main_canvas.LoadImage(nw.data);
 					await loadimg;
-					main_canvas.LoadAnnotations(item.data);
+					main_canvas.LoadAnnotations(nw.data);
 					// 设置图像属性UI
-					misc_panel.image_properties_panel.SetUI(item.data);
+					misc_panel.image_properties_panel.SetUI(nw.data);
 					// 将当前的文件设置为打开的图片文件
-					ProjectManager.cur_datafile = item.data;
+					ProjectManager.cur_datafile = nw.data;
 				};
 			};
 			var canvas = main_canvas;
@@ -111,14 +111,14 @@ namespace QLabel {
 					ActionManager.PopAction();         // 撤销
 				}
 			} else if ( e.Key >= Key.D1 && e.Key <= Key.D8 ) {
-				toolbar.SetCurrentTool((Tool) ( e.Key - Key.D1 ));
+				toolbar.SetCurrentTool((Tool) ( e.Key - Key.D1 ));          // 切换工具
 			} else if ( e.Key == Key.P ) {
 				if ( e.KeyboardDevice.Modifiers == ModifierKeys.Control ) {
-					ToPolygon();
+					ToPolygon();        // 转换为多边形
 				}
 			} else if ( e.Key == Key.D ) {
 				if ( e.KeyboardDevice.Modifiers == ModifierKeys.Control ) {
-					Densify();
+					Densify();          // 增加点密度
 				}
 			}
 		}

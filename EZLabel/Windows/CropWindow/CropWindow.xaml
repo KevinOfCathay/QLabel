@@ -6,67 +6,48 @@
         xmlns:local="clr-namespace:QLabel.Windows.CropWindow"
 	   xmlns:tool="clr-namespace:QLabel.Custom_Control.Small_Tools"
         xmlns:textboxes="clr-namespace:QLabel.Custom_Control.Small_Tools.Textboxes"
-        mc:Ignorable="d"
+	   xmlns:labeltree="clr-namespace:QLabel.Custom_Control.Label_Tree"
+	   mc:Ignorable="d"
 	   Background="AliceBlue"
-	   Height="280" Width="450"
-	   MinHeight="280" MinWidth="450"
+	   xmlns:cvt="clr-namespace:QLabel.Converters"
+	   Height="300" Width="480"
+	   MinHeight="300" MinWidth="480"
         Title="Crop...">
-	<Grid  Margin="10">
+
+	<Window.Resources>
+		<cvt:Percentage x:Key="Percentage"/>
+	</Window.Resources>
+	<Grid Name="grid" Margin="10">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition 
+				MinWidth="150"
+				Width="{Binding 
+                    Converter={StaticResource Percentage}, 
+                    ElementName=grid,  Path=ActualWidth, 
+                    ConverterParameter=0.3}"></ColumnDefinition>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*"></RowDefinition>
 			<RowDefinition Height="auto"></RowDefinition>
 		</Grid.RowDefinitions>
-		<StackPanel Grid.Row="0">
+
+		<DockPanel Grid.Column="0" Grid.Row="0" Margin="0, 0, 8, 0">
+			<Label DockPanel.Dock="Top" FontSize="8.5">Classes:</Label>
+			<labeltree:LabelTree x:Name="labeltree" DockPanel.Dock="Top">
+			</labeltree:LabelTree>
+		</DockPanel>
+
+		<StackPanel Grid.Row="0"  Grid.Column="1">
 			<StackPanel.Resources>
 				<Style TargetType="{x:Type Label}">
-					<Setter Property="FontSize" Value="9"/>
+					<Setter Property="FontSize" Value="8.5"/>
 				</Style>
 			</StackPanel.Resources>
-			<DockPanel>
-				<StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-					<StackPanel.Resources>
-						<Style TargetType="{x:Type Button}">
-							<Setter Property="Margin" Value="2,0"/>
-							<Setter Property="Padding" Value="8,0"/>
-							<Setter Property="Height" Value="18"/>
-							<Setter Property="FontSize" Value="9.5"/>
-						</Style>
-					</StackPanel.Resources>
-					<Button FontSize="9">
-						<Button.Resources>
-							<Style TargetType="Border">
-								<Setter Property="CornerRadius" Value="3"/>
-							</Style>
-						</Button.Resources>
-						All
-					</Button>
-					<Button FontSize="9">
-						<Button.Resources>
-							<Style TargetType="Border">
-								<Setter Property="CornerRadius" Value="3"/>
-							</Style>
-						</Button.Resources>
-						None
-					</Button>
-				</StackPanel>
-				<Label DockPanel.Dock="Right" FontSize="9">Class:</Label>
-			</DockPanel>
-			<ListBox Name="class_listbox" Margin="4,0" MaxHeight="100">
-				<ListBox.Resources>
-					<Style TargetType="Border">
-						<Setter Property="CornerRadius" Value="5"/>
-					</Style>
-				</ListBox.Resources>
-				<ListBox.ItemsPanel>
-					<ItemsPanelTemplate>
-						<UniformGrid Columns="4" />
-					</ItemsPanelTemplate>
-				</ListBox.ItemsPanel>
-			</ListBox>
 
-			<Label FontSize="9">Target:</Label>
+			<Label FontSize="8.5">Target:</Label>
 			<ComboBox 
-				Name="crop_target" FontSize="9" Margin="4,0"
+				Name="crop_target" FontSize="8.5" Margin="4,0"
 				SelectionChanged="crop_target_SelectionChanged"
 				>
 				<ComboBoxItem IsSelected="True">Current File</ComboBoxItem>
@@ -74,7 +55,7 @@
 			</ComboBox>
 
 
-			<Label FontSize="9">Save To:</Label>
+			<Label FontSize="8.5">Save To:</Label>
 			<tool:DirectorySelector x:Name="dir_selector"></tool:DirectorySelector>
 
 			<!-- Preferred Width & Height-->
@@ -94,6 +75,7 @@
 		<StackPanel 
 			Orientation="Horizontal" 
 			HorizontalAlignment="Right"
+			Grid.ColumnSpan="2"
 			Grid.Row="1">
 			<StackPanel.Resources>
 				<Style TargetType="{x:Type Button}">

@@ -32,7 +32,7 @@ namespace QLabel.Scripts.AnnotationToolManager {
 		}
 		public void DrawRectangle (MainCanvas canvas, Vector2 tl, Vector2 br) {
 			rect = new DraggableRectangle();
-			rect.Draw(canvas.annotation_canvas, new Vector2[] { tl, br });
+			rect.Draw(canvas, new Vector2[] { tl, br });
 			canvas.annotation_canvas.Children.Add(rect);
 		}
 		public void CreateNewRectangle (MainCanvas canvas, MouseEventArgs e) {
@@ -67,8 +67,7 @@ namespace QLabel.Scripts.AnnotationToolManager {
 					if ( cur_p.Y < y ) {
 						(top, bottom) = (bottom, top);          // 交换值
 					}
-					rect.Draw(canvas.annotation_canvas,
-						new Vector2[] { new Vector2(left, top), new Vector2(right, bottom) });
+					rect.Draw(canvas, new Vector2[] { new Vector2(left, top), new Vector2(right, bottom) });
 				}
 			}
 		}

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace QLabel {
 	// Some extension methods
-	public static partial class ArrayUtils {
+	public static partial class utils {
 		public static (int, int)[] where<T> (this T[,] t, Predicate<T> p) where T : INumber<T> {
 			ConcurrentStack<(int, int)> where = new ConcurrentStack<(int, int)>();
 			int x = t.GetLength(0);

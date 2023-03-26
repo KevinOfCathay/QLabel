@@ -3,6 +3,7 @@ using QLabel.Windows.Main_Canvas;
 using QLabel.Windows.Main_Canvas.Annotation_Elements;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -11,31 +12,21 @@ using System.Xml.Serialization;
 
 namespace QLabel.Scripts.AnnotationData {
 	public record ADLine : AnnoData {
-		[JsonProperty] private Guid[] dots_ids;
+		[JsonProperty] private Guid dot_a_id, dot_b_id;
 		public ADLine
-			(Vector2 rx, Vector2 ry, ADDot[] linked_dots, ClassLabel clas, float conf = 1.0f) :
+			(Vector2 rx, Vector2 ry, ADDot dot_a, ADDot dot_b, ClassLabel clas, float conf = 1.0f) :
 			base(new ReadOnlySpan<Vector2>(new Vector2[2] { rx, ry }), Type.Line, clas, conf) {
-			if ( linked_dots != null ) {
-				int dots = linked_dots.Length;
-				Guid[] dots_ids = new Guid[dots];
-				for ( int i = 0; i < dots; i += 1 ) {
-					dots_ids[i] = linked_dots[i].guid;
-				}
-				this.dots_ids = dots_ids;
-			}
+			if ( dot_a != null ) { this.dot_a_id = dot_a.guid; }
+			if ( dot_b != null ) { this.dot_b_id = dot_b.guid; }
 		}
 		public override IAnnotationElement CreateAnnotationElement (MainCanvas canvas) {
-			Vector2 cx = canvas.CanvasPosition(this.rpoints[0]);
-			Vector2 cy = canvas.CanvasPosition(this.rpoints[1]);
-			List<DraggableDot> dots = new List<DraggableDot>(dots_ids.Length);
-			foreach ( var id in dots_ids ) {
-				var elem = canvas.GetElementByID(id);
-				if ( elem != null && elem is DraggableDot ) {
-					dots.Add(elem as DraggableDot);
-				}
-			}
-			Line line = new Line(cx, cy, dots) { data = this };
+			var rp = canvas.CanvasPosition(rpoints);
+			DraggableLine line = new DraggableLine(rp[0], rp[1], this.dot_a_id, this.dot_b_id) { data = this };
 			return line;
+		}
+
+		public override void Visualize (Bitmap bitmap, Vector2 scale, Vector2 offset) {
+			throw new NotImplementedException();
 		}
 	}
 }

@@ -44,7 +44,7 @@ namespace QLabel.Windows.Main_Canvas {
 				foreach ( var elem in annotation_elements ) {
 					// 重新绘制元素
 					var cpoints = CanvasPosition(elem.data.rpoints);
-					elem.Draw(this.annotation_canvas, cpoints);
+					elem.Draw(this, cpoints);
 				}
 				eCanvasImageSizeChanged?.Invoke(this);
 			};
@@ -137,7 +137,7 @@ namespace QLabel.Windows.Main_Canvas {
 		public void LoadAnnotations (ImageData data) {
 			foreach ( var anno in data.annodata ) {
 				var elem = anno.CreateAnnotationElement(this);
-				AddAnnoElements(elem);
+				AddAnnoElements(elem, add_ui_element: true);
 			}
 		}
 		/// <summary>

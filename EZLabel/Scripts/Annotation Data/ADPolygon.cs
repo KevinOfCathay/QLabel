@@ -3,6 +3,7 @@ using QLabel.Windows.Main_Canvas;
 using QLabel.Windows.Main_Canvas.Annotation_Elements;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -25,6 +26,10 @@ namespace QLabel.Scripts.AnnotationData {
 			var cpoints = canvas.CanvasPosition(rpoints);
 			DraggablePolygon polygon = new DraggablePolygon(canvas, cpoints) { data = this };
 			return polygon;
+		}
+
+		public override void Visualize (Bitmap bitmap, Vector2 scale, Vector2 offset) {
+			throw new NotImplementedException();
 		}
 	}
 }

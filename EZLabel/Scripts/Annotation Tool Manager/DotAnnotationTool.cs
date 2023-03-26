@@ -39,8 +39,7 @@ namespace QLabel.Scripts.AnnotationToolManager {
 
 			// 创建 anno 数据
 			var data = new AnnotationData.ADDot(
-				rpoint, ProjectManager.cur_label
-				);
+				rpoint, ProjectManager.cur_label, Array.Empty<Guid>(), Array.Empty<Guid>());
 			dot.data = data;
 
 			AddElementToCanvas create_dot = new AddElementToCanvas(canvas, dot);

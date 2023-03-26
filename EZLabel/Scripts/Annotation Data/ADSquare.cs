@@ -1,6 +1,7 @@
 ﻿using QLabel.Windows.Main_Canvas;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -18,6 +19,10 @@ namespace QLabel.Scripts.AnnotationData {
 		}
 
 		public override IAnnotationElement CreateAnnotationElement (MainCanvas canvas) {
+			throw new NotImplementedException();
+		}
+
+		public override void Visualize (Bitmap bitmap, Vector2 scale, Vector2 offset) {
 			throw new NotImplementedException();
 		}
 	}

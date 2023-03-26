@@ -7,6 +7,12 @@ namespace QLabel.Scripts {
 				name = "Manga Object Detection",
 				model_configs = new Config[] {
 								new Yolov7Config (
+										model_name : "v230322",
+										model_path : @"Resources/Models/yolov7-manga-230322.onnx",
+										width : 640, height : 640,
+										class_labels : ModelLabels.manga_v230322
+									){ tags = new string[]{ "yolov7", "640×640", "69.3GFLOPS", "map.5=47.6%", "23-03-22" } },
+								new Yolov7Config (
 										model_name : "v230224",
 										model_path : @"Resources/Models/yolov7-manga-230224.onnx",
 										width : 640, height : 640,
@@ -19,10 +25,10 @@ namespace QLabel.Scripts {
 										class_labels : ModelLabels.manga_v2302
 									){ tags = new string[]{ "yolov7", "640×640", "62 GFlops", "23-02-14" } },
 								new Yolov7Config (
-								model_name : "v230130",
-								model_path : @"Resources/Models/yolov7-manga-230130.onnx",
-								width : 640, height : 640,
-								class_labels : ModelLabels.manga_v2301
+										model_name : "v230130",
+										model_path : @"Resources/Models/yolov7-manga-230130.onnx",
+										width : 640, height : 640,
+										class_labels : ModelLabels.manga_v2301
 									){ tags = new string[]{ "yolov7", "640×640", "62 GFlops", "23-01-30" } },
 				}
 			},
@@ -54,9 +60,17 @@ namespace QLabel.Scripts {
 											new HRNetConfig (
 													model_name : "Keypoint Detection (HRNet)",
 													model_path : @"Resources/Models/topdown_hrnet_w32_coco_384x288_rm_inzr.onnx",
-													width : 640, height : 640,
-													class_labels : ModelLabels.keypoints16,
-													skeletons: ModelLabels.keypoints16_skeleton
+													class_labels : ModelLabels.keypoints17,
+													skeletons: ModelLabels.keypoints17_skeleton
+											){},
+											new HRNetBUConfig (
+													model_name : "Keypoint Detection (HRNet)",
+													model_path : @"Resources/Models/associative_embedding_higher_hrnet_512x512_crowdpose.onnx",
+													post_model_path : @"Resources/Models/associative_embedding_hrnet_post_processing_rmv.onnx",
+													class_labels : ModelLabels.keypoints17,
+													skeletons: ModelLabels.keypoints17_skeleton,
+													input_dims: new int[] { 1, 3, 512, 512 },
+													output_dims: new int[] { 1, 28, 128, 128 }
 											){},
 				}
 			},

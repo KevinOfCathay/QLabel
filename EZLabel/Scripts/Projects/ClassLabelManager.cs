@@ -8,16 +8,17 @@ namespace QLabel.Scripts.Projects {
 	internal class ClassLabelManager {
 		/// <summary> Project 下所有数据的类别标签的个数统计 </summary>
 		private List<ClassLabelStat> label_stats = new List<ClassLabelStat>();
-
-		public ClassLabel[] label_set {
+		/// <summary>
+		/// 返回所有的 Labels
+		/// </summary>
+		public HashSet<ClassLabel> label_set {
 			get {
 				var stats_copy = label_stats.ToList();
 				stats_copy.Sort((a, b) => { return a.index.CompareTo(b.index); });
-				ClassLabel[] labels = new ClassLabel[label_stats.Count];
+				HashSet<ClassLabel> labels = new HashSet<ClassLabel>(label_stats.Count);
 				int index = 0;
 				foreach ( var stat in label_stats ) {
-					labels[index] = stat.label;
-					index += 1;
+					labels.Add(stat.label);
 				}
 				return labels;
 			}

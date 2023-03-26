@@ -16,8 +16,11 @@
     <None Remove="Credit.txt" />
     <None Remove="Resources\Icons\line.png" />
     <None Remove="Resources\Icons\pentagon.png" />
+    <None Remove="Resources\Models\associative_embedding_higher_hrnet_512x512_crowdpose.onnx" />
+    <None Remove="Resources\Models\associative_embedding_hrnet_post_processing_rmv.onnx" />
     <None Remove="Resources\Models\yolov7-manga-230214.onnx" />
     <None Remove="Resources\Models\yolov7-manga-230224.onnx" />
+    <None Remove="Resources\Models\yolov7-manga-230322.onnx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,10 +48,19 @@
     <Content Include="Resources\Icons\Credits.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Models\associative_embedding_higher_hrnet_512x512_crowdpose.onnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Models\associative_embedding_hrnet_post_processing_rmv.onnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Models\yolov7-manga-230214.onnx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Models\yolov7-manga-230224.onnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Models\yolov7-manga-230322.onnx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Resources\Icons\button.png">
@@ -114,10 +126,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Windows\Operations Window\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
@@ -126,7 +134,7 @@
     <Compile Update="Windows\Main Canvas\Annotation Elements\Dot.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Windows\Main Canvas\Annotation Elements\Line.xaml.cs">
+    <Compile Update="Windows\Main Canvas\Annotation Elements\DraggableLine.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

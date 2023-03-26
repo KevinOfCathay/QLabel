@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace QLabel {
-	public static partial class ArrayUtils {
+	public static partial class utils {
 		public static int shape<T> (this T[] t) {
 			return t.Length;
 		}

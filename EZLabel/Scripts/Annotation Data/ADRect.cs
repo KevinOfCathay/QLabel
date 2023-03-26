@@ -2,6 +2,7 @@
 using QLabel.Windows.Main_Canvas.Annotation_Elements;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -29,8 +30,12 @@ namespace QLabel.Scripts.AnnotationData {
 			DraggableRectangle rect = new DraggableRectangle { data = this };
 			Vector2 tl = canvas.CanvasPosition(rpoints[0]);
 			Vector2 br = canvas.CanvasPosition(rpoints[3]);
-			rect.Draw(canvas.annotation_canvas, new Vector2[] { tl, br });
+			rect.Draw(canvas, new Vector2[] { tl, br });
 			return rect;
+		}
+
+		public override void Visualize (Bitmap bitmap, Vector2 scale, Vector2 offset) {
+			throw new NotImplementedException();
 		}
 	}
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QLabel.Scripts {
 	internal static partial class ModelLabels {
-		public static ClassLabel[] keypoints16 = {
+		public static ClassLabel[] keypoints17 = {
 									// group,  name,  supercat
 				new ClassLabel("Keypoints", "nose", "upper"),			     // 0 
 				new ClassLabel("Keypoints", "left eye", "upper"),		     // 1 
@@ -26,7 +26,7 @@ namespace QLabel.Scripts {
 				new ClassLabel("Keypoints", "left ankle", "lower"),			// 15
 				new ClassLabel("Keypoints", "right ankle", "lower"),		// 16
 		};
-		public static (int x, int y, ClassLabel)[] keypoints16_skeleton = {
+		public static (int x, int y, ClassLabel)[] keypoints17_skeleton = {
 				(0, 1, new ClassLabel("Keypoints", "nose-left eye", "skeleton")),
 				(0, 2, new ClassLabel("Keypoints", "nose-right eye", "skeleton")),
 				(1, 2, new ClassLabel("Keypoints", "left eye-right eye", "skeleton")),

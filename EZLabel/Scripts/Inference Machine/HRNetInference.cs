@@ -16,7 +16,6 @@ using QLabel.Windows.Main_Canvas.Annotation_Elements;
 
 namespace QLabel.Scripts.Inference_Machine {
 	internal sealed class HRNetInference : BaseInferenceMachine {
-		private readonly int[] input_dims, output_dims;
 		private readonly ClassLabel[] labels;
 		private readonly (int x, int y, ClassLabel)[] skeletons;
 		private readonly int in_width, in_height;
@@ -29,10 +28,8 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// </summary>
 		/// <param name="path">模型的路径</param>
 		public HRNetInference (string path, ClassLabel[] labels, (int x, int y, ClassLabel)[] skeletons, int[] input_dims, int[] output_dims) :
-			base(input_dims, null) {
+			base(input_dims, output_dims) {
 			model_path = path;
-			this.input_dims = input_dims;
-			this.output_dims = output_dims;
 			this.labels = labels;
 			this.skeletons = skeletons;
 
@@ -57,7 +54,7 @@ namespace QLabel.Scripts.Inference_Machine {
 					if ( maxvals[i] > keypoint_threshold ) {
 						Vector2 rpoint = new Vector2(idx[i, 0], idx[i, 1]) * scale;
 						ClassLabel cl = new ClassLabel(labels[i]);
-						ADDot dot = new ADDot(rpoint, cl, maxvals[i]);    // 生成 AnnoData
+						ADDot dot = new ADDot(rpoint, cl, Array.Empty<Guid>(), Array.Empty<Guid>(), maxvals[i]);    // 生成 AnnoData
 						datas.Add(dot);
 						keypoints.Add(i, dot);
 					}
@@ -69,7 +66,7 @@ namespace QLabel.Scripts.Inference_Machine {
 						ADLine line = new ADLine(
 							new Vector2(idx[x, 0], idx[x, 1]) * scale,
 							new Vector2(idx[y, 0], idx[y, 1]) * scale,
-							new ADDot[] { keypoints[x], keypoints[y] }, cl);
+							 keypoints[x], keypoints[y], cl);
 						datas.Add(line);
 					}
 				}
@@ -86,28 +83,30 @@ namespace QLabel.Scripts.Inference_Machine {
 			int bytesPerPixel = Image.GetPixelFormatSize(bitmap_data.PixelFormat) / 8;
 			int stride = bitmap_data.Stride;
 
+			float[] mean = new float[input_dims[1]];
+			float count = in_width * in_height;
 			unsafe {
 				Parallel.For(0, in_height, (y) => {
 					Parallel.For(0, in_width, (x) => {
 						var rgb = (byte*) ( bitmap_data.Scan0 + y * stride );
+						float R = (float) rgb[x * bytesPerPixel + 0] / 255f;
+						float G = (float) rgb[x * bytesPerPixel + 1] / 255f;
+						float B = (float) rgb[x * bytesPerPixel + 2] / 255f;
+
 						// 这里的顺序应当为 batch, channel, y, x
-						input[0, 0, y, x] = ( (float) ( rgb[x * bytesPerPixel + 0] ) ) / 255f;
-						input[0, 1, y, x] = ( (float) ( rgb[x * bytesPerPixel + 1] ) ) / 255f;
-						input[0, 2, y, x] = ( (float) ( rgb[x * bytesPerPixel + 2] ) ) / 255f;
+						input[0, 0, y, x] = R;
+						input[0, 1, y, x] = G;
+						input[0, 2, y, x] = B;
+
+						mean[0] += R;
+						mean[1] += G;
+						mean[2] += B;
 					});
 				});
 			}
-
-			float[] mean = new float[input_dims[1]];
-			float count = 0;
-			Parallel.For(0, in_width, (w) => {
-				Parallel.For(0, in_height, (h) => {
-					mean[0] = ( mean[0] * count + input[0, 0, h, w] ) / ( count + 1f );
-					mean[1] = ( mean[1] * count + input[0, 1, h, w] ) / ( count + 1f );
-					mean[2] = ( mean[2] * count + input[0, 2, h, w] ) / ( count + 1f );
-					count += 1f;
-				});
-			});
+			mean[0] /= count;
+			mean[1] /= count;
+			mean[2] /= count;
 
 			float[] sum = new float[input_dims[1]];
 			foreach ( var w in Enumerable.Range(0, this.in_width) ) {

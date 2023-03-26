@@ -94,12 +94,20 @@ namespace QLabel.Windows.Export_Window {
 				foreach ( var data in data_array ) {
 					string save_loc = Path.Join(path, data.filename + ".txt");
 					if ( !Path.Exists(save_loc) ) {    // 不要覆盖现有的文件
+						var labelset = ProjectManager.project.label_set;
+						ClassLabel[] label_array = new ClassLabel[labelset.Count];
+
+						int i = 0;
+						foreach ( var label in labelset ) {
+							label_array[i] = label;
+							i += 1;
+						}
 						switch ( format ) {
 							case YOLOFormat.XYWH:
-								data.ToYoloXYWH(save_loc, ProjectManager.project.label_set, percentage);
+								data.ToYoloXYWH(save_loc, label_array, percentage);
 								break;
 							case YOLOFormat.XYs:
-								data.ToYoloXYCoords(save_loc, ProjectManager.project.label_set, percentage);
+								data.ToYoloXYCoords(save_loc, label_array, percentage);
 								break;
 						}
 					}

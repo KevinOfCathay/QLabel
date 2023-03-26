@@ -134,7 +134,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		/// 在画布上绘制/重新绘制
 		/// 矩形区域的大小与位置由左上角的顶点 tl (left, top) 与右下角的顶点 br (bottom, right) 确定
 		/// </summary>
-		public void Draw (Canvas canvas, Vector2[] points) {
+		public void Draw (MainCanvas canvas, Vector2[] points) {
 			// 定义矩形 (左上角，右下角) 的位置 
 			Vector2 tl, br;
 			switch ( points.Length ) {
@@ -191,16 +191,16 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 					Shift(canvas.annotation_canvas, shift);
 					break;
 				case 1:   // Top Left
-					Draw(canvas.annotation_canvas, new Vector2[] { this.topleft + shift, this.bottomright });
+					Draw(canvas, new Vector2[] { this.topleft + shift, this.bottomright });
 					break;
 				case 2:   // Top Right
-					Draw(canvas.annotation_canvas, new Vector2[] { this.topleft + new Vector2(0f, shift.Y), this.bottomright + new Vector2(shift.X, 0f) });
+					Draw(canvas, new Vector2[] { this.topleft + new Vector2(0f, shift.Y), this.bottomright + new Vector2(shift.X, 0f) });
 					break;
 				case 3:   // Bottom Left
-					Draw(canvas.annotation_canvas, new Vector2[] { this.topleft + new Vector2(shift.X, 0), this.bottomright + new Vector2(0f, shift.Y) });
+					Draw(canvas, new Vector2[] { this.topleft + new Vector2(shift.X, 0), this.bottomright + new Vector2(0f, shift.Y) });
 					break;
 				case 4:   // Bottom Right
-					Draw(canvas.annotation_canvas, new Vector2[] { this.topleft, this.bottomright + shift });
+					Draw(canvas, new Vector2[] { this.topleft, this.bottomright + shift });
 					break;
 				default:
 					break;

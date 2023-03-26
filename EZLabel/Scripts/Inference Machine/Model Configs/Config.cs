@@ -29,11 +29,22 @@ namespace QLabel.Scripts {
 	}
 	internal class HRNetConfig : Config {
 		public HRNetConfig (
-			string model_name, string model_path, int width, int height, ClassLabel[] class_labels, (int x, int y, ClassLabel)[] skeletons) :
-			base(model_name, model_path, width, height, class_labels,
+			string model_name, string model_path, ClassLabel[] class_labels, (int x, int y, ClassLabel)[] skeletons) :
+			base(model_name, model_path, 288, 384, class_labels,
 				new HRNetInference(model_path, class_labels, skeletons,
 					input_dims: new int[] { 1, 3, 384, 288 },
 					output_dims: new int[] { 1, 17, 96, 72 })
+			) { }
+	}
+	internal class HRNetBUConfig : Config {
+		public HRNetBUConfig (
+			string model_name, string model_path, string post_model_path,
+			ClassLabel[] class_labels, (int x, int y, ClassLabel)[] skeletons,
+			int[] input_dims, int[] output_dims) :
+			base(model_name, model_path, input_dims[3], input_dims[2], class_labels,
+				new HRNetInferenceBU(model_path, post_model_path, class_labels, skeletons,
+					input_dims: input_dims,
+					output_dims: output_dims)
 			) { }
 	}
 	internal class Yolov5Config : Config {

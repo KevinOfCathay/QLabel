@@ -17,17 +17,15 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public event Action<IAnnotationElement> eSelected, eUnselected;
 		public event Action<DraggableDot, MouseEventArgs> eMouseDown, eMouseMove, eMouseUp;
 		public bool activate { private set; get; } = false;
-		private Vector2 position, mouse_position;
+		private Vector2 mouse_position;
+		private float _radius = 8f;
 
 		AnnoData _data;   // 这个点所对应的注释数据
 		public UIElement ui_element => this;
 		public AnnoData data { get { return _data; } set { _data = value; } }
+		public Vector2 _cpoint;
 		public Vector2[] cpoints {
-			get {
-				float left = (float) Canvas.GetLeft(dot);
-				float top = (float) Canvas.GetTop(dot);
-				return new Vector2[] { new Vector2(left, top) };
-			}
+			get { return new Vector2[] { _cpoint }; }
 		}
 		public Vector2[] convex_hull { get { return cpoints; } }
 		public Color stroke_color { set { dot.Stroke = new SolidColorBrush(value); } }
@@ -35,29 +33,80 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		/// <summary>
 		/// 这个点相关联的线
 		/// </summary>
-		public List<Line> linked_line = new List<Line>();
+		public Dictionary<Guid, DraggableLine> linked_lines_a = new Dictionary<Guid, DraggableLine>();
+		public Dictionary<Guid, DraggableLine> linked_lines_b = new Dictionary<Guid, DraggableLine>();
 
 		public DraggableDot () {
 			InitializeComponent();
 		}
-		public DraggableDot (Vector2 cpoint, Line[] lines, float radius = 8f) {
+		public DraggableDot (Vector2 cpoint, IEnumerable<Guid> line_id_a, IEnumerable<Guid> line_id_b, float radius = 8f) {
 			InitializeComponent();
-			Height = radius; Width = radius;
+			Height = radius; Width = radius; _radius = radius;
+			this._cpoint = cpoint;
+			Canvas.SetLeft(this, cpoint.X - radius / 2);
+			Canvas.SetTop(this, cpoint.Y - radius / 2);
+			foreach ( var id in line_id_a ) {
+				linked_lines_a.Add(id, null);
+			}
+			foreach ( var id in line_id_b ) {
+				linked_lines_b.Add(id, null);
+			}
+		}
+		public DraggableDot (Vector2 cpoint, DraggableLine[] lines, float radius = 8f) {
+			InitializeComponent();
+			Height = radius; Width = radius; _radius = radius;
+			this._cpoint = cpoint;
 			Canvas.SetLeft(this, cpoint.X - radius / 2);
 			Canvas.SetTop(this, cpoint.Y - radius / 2);
 			if ( lines != null ) {
-				linked_line.AddRange(lines);
-				foreach ( var line in lines ) { line.AddLink(this); }
+				foreach ( var line in lines ) {
+					if ( data.guid == line.dot_a_id ) {
+						linked_lines_a.Add(line.data.guid, line);
+					} else if ( data.guid == line.dot_b_id ) {
+						linked_lines_b.Add(line.data.guid, line);
+					}
+				}
 			}
 		}
-		public void Draw (Canvas canvas, Vector2[] points) {
+		public void Draw (MainCanvas canvas, Vector2[] points) {
 			if ( points != null ) {
 				switch ( points.Length ) {
 					case 1:
-						var p = points[0];
-						Canvas.SetLeft(this, p.X);
-						Canvas.SetTop(this, p.Y);
-						position = p;
+						_cpoint = points[0];
+						Canvas.SetLeft(this, _cpoint.X - _radius / 2);
+						Canvas.SetTop(this, _cpoint.Y - _radius / 2);
+						List<(Guid id, DraggableLine line)> temp = new List<(Guid id, DraggableLine line)>(capacity: linked_lines_a.Count);
+						foreach ( var (id, line) in linked_lines_a ) {
+							if ( line != null ) {
+								line.Reposition(_cpoint, DraggableLine.Side.A);
+							} else {
+								var element = canvas.GetElementByID(id);
+								if ( element != null && element is DraggableLine ) {
+									var l = ( element as DraggableLine );
+									l.Reposition(_cpoint, DraggableLine.Side.A);
+									temp.Add((id, l));
+								}
+							}
+						}
+						foreach ( var (id, line) in temp ) {
+							linked_lines_a[id] = line;
+						}
+						temp = new List<(Guid id, DraggableLine line)>(capacity: linked_lines_b.Count);
+						foreach ( var (id, line) in linked_lines_b ) {
+							if ( line != null ) {
+								line.Reposition(_cpoint, DraggableLine.Side.B);
+							} else {
+								var element = canvas.GetElementByID(id);
+								if ( element != null && element is DraggableLine ) {
+									var l = ( element as DraggableLine );
+									l.Reposition(_cpoint, DraggableLine.Side.B);
+									temp.Add((id, l));
+								}
+							}
+						}
+						foreach ( var (id, line) in temp ) {
+							linked_lines_b[id] = line;
+						}
 						break;
 					default:
 						throw new ArgumentException();
@@ -65,9 +114,9 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			}
 		}
 		public void Shift (Canvas canvas, Vector2 shift) {
-			this.position += shift;
-			Canvas.SetLeft(this, this.position.X);
-			Canvas.SetTop(this, this.position.Y);
+			this._cpoint += shift;
+			Canvas.SetLeft(this, this._cpoint.X - _radius / 2);
+			Canvas.SetTop(this, this._cpoint.Y - _radius / 2);
 		}
 		private void dot_PreviewMouseDown (object sender, MouseButtonEventArgs e) {
 			if ( sender == e.OriginalSource ) {

@@ -5,6 +5,7 @@ using QLabel.Windows.Main_Canvas;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Windows;
@@ -78,7 +79,7 @@ namespace QLabel.Scripts.AnnotationData {
 		/// 从这个 AnnoData 中创建 AnnotationElement
 		/// </summary>
 		public abstract IAnnotationElement CreateAnnotationElement (MainCanvas canvas);
-
+		public abstract void Visualize (Bitmap bitmap, Vector2 scale, Vector2 offset);
 		/// <summary>
 		/// 获得约束这个 annotation 的边框
 		/// </summary>

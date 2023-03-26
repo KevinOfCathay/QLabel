@@ -72,7 +72,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Delete (MainCanvas canvas) {
 			canvas.annotation_canvas.Children.Remove(this);
 		}
-		public void Draw (Canvas canvas, Vector2[] cpoints) {
+		public void Draw (MainCanvas canvas, Vector2[] cpoints) {
 			// 绘制多边形的顶点
 			polygon.Points = new PointCollection(cpoints.to_points());
 			vertex = cpoints.Length;
@@ -195,7 +195,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 				new_cpoints.Add(cin);
 			}
 			// 重新绘制 Polygon
-			Draw(canvas.annotation_canvas, new_cpoints.ToArray());
+			Draw(canvas, new_cpoints.ToArray());
 
 			// 变更 AnnoData
 			Vector2[] rpoints = new Vector2[vertex];

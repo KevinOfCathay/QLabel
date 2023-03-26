@@ -56,7 +56,7 @@ namespace QLabel.Windows.Main_Canvas {
 		/// 根据所定义的点，
 		/// 对元素进行绘制 / 重新绘制
 		/// </summary>
-		public void Draw (Canvas canvas, Vector2[] points);
+		public void Draw (MainCanvas canvas, Vector2[] points);
 		/// <summary>
 		/// 平移元素，shift 定义了元素平移量（x, y)
 		/// </summary>

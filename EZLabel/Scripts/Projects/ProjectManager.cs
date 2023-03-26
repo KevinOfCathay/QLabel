@@ -24,14 +24,14 @@ namespace QLabel.Scripts.Projects {
 		public static ImageData cur_datafile;
 		public static ClassLabel cur_label = new ClassLabel("None", "None");
 		public static int cur_label_index = 0;
-		private const string project_name = "project";
+		private const string project_name = "_project";
 
 		public static event Action<ImageData, AnnoData>? eAnnoDataAdded, eAnnoDataRemoved;
 		public static bool NewProject (string directory) {
 			if ( directory != cur_dir ) {
 				if ( cur_dir != null ) {
 					try {
-						SaveProject();      // 保存当前打开的项目
+						SaveProjectAsync();      // 保存当前打开的项目
 					} catch {
 						return false;        // 如果没有保存成功则直接返回
 					}
@@ -58,15 +58,17 @@ namespace QLabel.Scripts.Projects {
 				eAnnoDataRemoved?.Invoke(imgdata, annodata);
 			}
 		}
-		public static async Task SaveProject () {
+		public static async Task SaveProjectAsync () {
 			await Task.Run(() => {
-				foreach ( var data in project.datas ) {
-					JsonSerializer serializer = new JsonSerializer();
-					using ( JsonWriter writer = new JsonTextWriter(
-						new StreamWriter(
-							Path.Join(save_dir, data.filename + ".json"))) ) {
-						serializer.Serialize(writer, data);
-					}
+				JsonSerializer serializer = new JsonSerializer();
+				using ( JsonWriter writer = new JsonTextWriter(
+					new StreamWriter(
+						Path.Join(save_dir, "saved project.json"))) ) {
+					serializer.Serialize(writer, new {
+						datas = project.datas,
+						labels = project.label_set,
+						save_date = DateTime.Now.ToShortDateString()
+					});
 				}
 			});
 		}
