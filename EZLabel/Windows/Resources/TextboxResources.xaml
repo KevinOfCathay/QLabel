@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<Style x:Key="NiceTextBox" TargetType="{x:Type TextBox}">
+		<Setter Property="BorderBrush"  Value="SlateGray"/>
+		<Setter Property="Background"  Value="LightSteelBlue"/>
+		<Setter Property="Foreground"  Value="White"/>
+		<Setter Property="FontWeight"  Value="Bold"/>
+	</Style>
+</ResourceDictionary>

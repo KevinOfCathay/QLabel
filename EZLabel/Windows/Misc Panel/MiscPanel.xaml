@@ -8,12 +8,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="300">
 	<TabControl>
-		<TabItem Header="Autos">
-			<subpanel:AutoAnnotatePanel
-				Margin="10"
-				x:Name="auto_annotate_panel"
-				/>
-		</TabItem>
 		<TabItem Header="Anno">
 			<subpanel:AnnoPropertiesPanel
 				Margin="10"

@@ -48,8 +48,8 @@
 					<Setter Property="FontSize" Value="9"/>
 				</Style>
 			</StackPanel.Resources>
-			<Button Click="UnselectAllClick">Unselect All</Button>
-			<Button Click="SelectAllClick">Select All</Button>
+			<Button Background="CornflowerBlue" Click="SelectAllClick" Style="{StaticResource NiceButton}">Select All</Button>
+			<Button Background="Salmon" Click="UnselectAllClick" Style="{StaticResource NiceButton}">Unselect All</Button>
 		</StackPanel>
 
 		<Separator Margin="8, 5"/>
@@ -62,11 +62,11 @@
 					<Setter Property="FontSize" Value="9"/>
 				</Style>
 			</StackPanel.Resources>
-			<Button
-				Click="ApplyClick"
+			<Button Background="CornflowerBlue" 
+				 Style="{StaticResource NiceButton}" Click="ApplyClick"
 				>Apply</Button>
-			<Button
-				Click="ApplyAllClick"
+			<Button Background="MediumAquamarine" 
+				 Style="{StaticResource NiceButton}" Click="ApplyAllClick"
 				>Apply To All</Button>
 		</StackPanel>
 	</StackPanel>

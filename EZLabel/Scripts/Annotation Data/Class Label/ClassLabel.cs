@@ -36,7 +36,8 @@ namespace QLabel.Scripts {
 			return name.GetHashCode() + group.GetHashCode();
 		}
 		public override bool Equals ([NotNullWhen(true)] object? obj) {
-			var target = (ClassLabel) obj;
+			ClassLabel? target = obj as ClassLabel;
+			if ( target == null ) { return false; }
 			return name.Equals(target.name) && group.Equals(target.group) && supercategory.Equals(target.supercategory);
 		}
 	}

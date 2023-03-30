@@ -1,14 +1,17 @@
 ﻿using Microsoft.Win32;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using QLabel.Actions;
 using QLabel.Scripts.Projects;
 using QLabel.Windows.CropWindow;
 using QLabel.Windows.Export_Window;
 using QLabel.Windows.Import_Window;
+using QLabel.Windows.Popup_Windows.Auto_Window;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Shapes;
 
 namespace QLabel {
 	/// <summary>
@@ -27,60 +30,26 @@ namespace QLabel {
 		public void LoadImageFromData (ImageData[] data_list) {
 
 		}
-		private async void New_Click (object sender, RoutedEventArgs e) {
-			if ( main != null ) {
-				OpenFileDialog openFileDialog = new OpenFileDialog();
-				openFileDialog.Filter = "Image(*.BMP;*.JPG;*.PNG)|*.BMP;*.JPG;*.PNG";
-				if ( openFileDialog.ShowDialog() == true ) {
-					string selected_file = openFileDialog.FileName;
-					main.ilw.Clear();   // 清空上一个 Project 加载的内容
-					try {
-						var directory = Path.GetDirectoryName(selected_file);
-						if ( directory != null ) {
-							// 创建一个新的 project
-							ProjectManager.NewProject(directory);
+		private async void NewClick (object sender, RoutedEventArgs e) {
+			// 打开文件浏览界面，设置 filter
+			OpenFileDialog openFileDialog = new OpenFileDialog();
+			openFileDialog.Filter = "Image(*.BMP;*.JPG;*.PNG)|*.BMP;*.JPG;*.PNG";
 
-							// 读取文件夹下的所有文件
-							// 如果符合图像格式，则将路径加入到 list 中
-							var files = Directory.GetFiles(directory);
+			if ( openFileDialog.ShowDialog() == true ) {
+				string selected_file = openFileDialog.FileName;
+				await NewProject(selected_file);
+			}
+		}
+		private async void LoadClick (object sender, RoutedEventArgs e) {
+			using ( var dialog = new CommonOpenFileDialog() ) {
+				// 设置 dialog 的一些基本参数
+				dialog.IsFolderPicker = true;
+				dialog.Multiselect = false;
+				dialog.EnsureFileExists = true;
+				dialog.EnsurePathExists = true;
 
-							int index = 0;
-							foreach ( var fi in files ) {
-								string ext = System.IO.Path.GetExtension(fi).ToLower();
-								// 如果当前文件属于图片文件，则加载
-								if ( accepted_ext.Contains(ext) ) {
-									// https://stackoverflow.com/a/9687096
-									// Getting image dimensions without reading the entire file
-									using ( FileStream file = new FileStream(fi, FileMode.Open, FileAccess.Read) ) {
-										using ( var tif = System.Drawing.Image.FromStream(stream: file,
-													 useEmbeddedColorManagement: false,
-													 validateImageData: false) ) {
-											var imgdata = new ImageData {
-												path = fi,
-												size = new FileInfo(fi).Length,
-												width = tif.PhysicalDimension.Width,
-												height = tif.PhysicalDimension.Height,
-												format = tif.PixelFormat
-											};
-											ProjectManager.project.AddImageData(imgdata);
-											if ( fi == selected_file ) {
-												// 如果当前被选择的文件属于图像
-												// 则加载该图像
-												// TODO: 移动到 for 循环外面, Async 加载
-												if ( accepted_ext.Contains(Path.GetExtension(selected_file)) ) {
-													await main.main_canvas.LoadImage(imgdata);
-													ProjectManager.cur_datafile = imgdata;
-												}
-											}
-											index += 1;
-										}
-									}
-								}
-							}
-							await main.ilw.SetListUI(ProjectManager.project.datas);
-						}
-					} catch ( Exception ) {
-					}
+				if ( dialog.ShowDialog() == CommonFileDialogResult.Ok ) {
+					await LoadProject(dialog.FileName);
 				}
 			}
 		}
@@ -105,6 +74,15 @@ namespace QLabel {
 		/// </summary>
 		private async void SaveClick (object sender, RoutedEventArgs e) {
 			await ProjectManager.SaveProjectAsync();
+		}
+		/// <summary>
+		/// 导出注释数据到其他格式
+		/// </summary>
+		private void Auto_Click (object sender, RoutedEventArgs e) {
+			AutoWindow window = new AutoWindow(main, main.main_canvas);
+			window.Initialized += (object? _, EventArgs _) => { main.LockWindow(); };
+			window.Closed += (object? _, EventArgs _) => { main.UnlockWindow(); };
+			window.Show();
 		}
 		/// <summary>
 		/// 导出注释数据到其他格式

@@ -39,20 +39,30 @@ namespace QLabel.Custom_Control.Label_Tree {
 			public CheckboxWithLabel checkbox;
 		}
 		#endregion Classes
-
 		private List<Node> groups = new List<Node>();
 
 		public void SetUI (IEnumerable<ClassLabel> labels,
 			Action<ClassLabel> check = null,
-			Action<ClassLabel> uncheck = null) {
+			Action<ClassLabel> uncheck = null,
+			bool expanded = false, bool clear_previous = true) {
 			// 清空之前的所有内容
-			labeltree.Items.Clear();
+			if ( clear_previous ) { labeltree.Items.Clear(); groups.Clear(); }
 
 			// 将 ClassLabel 加入到树中
 			foreach ( var data in labels ) {
 				AddElementToTree(data);
 			}
-
+			if ( expanded ) {
+				foreach ( var group in groups ) {
+					group.node.IsExpanded = true;
+					foreach ( var category in group.children ) {
+						category.node.IsExpanded = true;
+						foreach ( var clas in category.children ) {
+							clas.node.IsExpanded = true;
+						}
+					}
+				}
+			}
 			// 设置 event
 			this.eCheck = check;
 			this.eUncheck = uncheck;

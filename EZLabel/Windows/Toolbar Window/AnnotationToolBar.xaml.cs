@@ -1,4 +1,5 @@
-﻿using QLabel.Scripts.AnnotationToolManager;
+﻿using QLabel.Custom_Control.Small_Tools;
+using QLabel.Scripts.AnnotationToolManager;
 using QLabel.Windows.Main_Canvas;
 using System;
 using System.Collections.Generic;
@@ -24,11 +25,11 @@ namespace QLabel.Windows.Toolbar_Window {
 
 		private static Brush button_background_normal = new SolidColorBrush(Color.FromArgb(255, 221, 221, 211));
 		private static Brush button_background_highlight = new SolidColorBrush(Color.FromArgb(255, 189, 205, 214));
-		private Tool _cur_tool = Tool.Selection;
+		private Tool _cur_tool = Tool.Mouse;
 		private ToolBase selected_tool = null;
 		private MainCanvas mc { get; set; }
 
-		public Button[] button_group;
+		public ButtonWithText[] button_group;
 		/// <summary>
 		/// <para>Get: 返回当前选择的 Tool </para>
 		/// <para>Set: 设置 Tool </para>
@@ -38,15 +39,15 @@ namespace QLabel.Windows.Toolbar_Window {
 		public AnnotationToolBar () {
 			InitializeComponent();
 
-			button_group = new Button[] {
+			button_group = new ButtonWithText[] {
 				Mouse_Button,
 				DotTool_Button,
 				RectangleTool_Button,
-				SquareTool_Button,
-				Tetragon_Button,
-				PolygonTool_Button,
-				Circle_Button,
-				Selection_Button
+				//SquareTool_Button,
+				//Tetragon_Button,
+				//PolygonTool_Button,
+				//Circle_Button,
+				//Selection_Button
 			};
 			cur_tool = Tool.Mouse;        // 设置 default tool 为鼠标
 		}
@@ -56,7 +57,7 @@ namespace QLabel.Windows.Toolbar_Window {
 		public void SetCurrentTool (Tool tool) {
 			if ( tool == _cur_tool ) { return; }
 			NormalButton(button_group[(int) _cur_tool]);
-			Button button = button_group[(int) tool];
+			var button = button_group[(int) tool];
 
 			// 切换 selected_tool
 			SwitchTool(tool);
@@ -88,7 +89,7 @@ namespace QLabel.Windows.Toolbar_Window {
 		}
 		private void ToolClick (object sender, RoutedEventArgs e) {
 			NormalButton(button_group[(int) _cur_tool]);
-			if ( sender is Button button ) {
+			if ( sender is ButtonWithText button ) {
 				var tool_selected = (Tool) Array.IndexOf(button_group, button);
 
 				// 切换 selected_tool
@@ -97,10 +98,10 @@ namespace QLabel.Windows.Toolbar_Window {
 			}
 			e.Handled = true;
 		}
-		private void HighlightButton (Button button) {
+		private void HighlightButton (ButtonWithText button) {
 			button.Background = button_background_highlight;
 		}
-		private void NormalButton (Button button) {
+		private void NormalButton (ButtonWithText button) {
 			button.Background = button_background_normal;
 		}
 	}

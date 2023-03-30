@@ -44,11 +44,13 @@
 
 		<UniformGrid Columns="4" VerticalAlignment="Center">
 			<TextBlock>Occluded</TextBlock>
-			<CheckBox Name="occluded"
-				VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+			<CheckBox
+					Name="occluded"
+					VerticalAlignment="Center" IsEnabled="False"></CheckBox>
 			<TextBlock>Truncated</TextBlock>
-			<CheckBox Name="truncated"
-				VerticalAlignment="Center" IsEnabled="False"></CheckBox>
+			<CheckBox
+					 Name="truncated"
+					VerticalAlignment="Center" IsEnabled="False"></CheckBox>
 		</UniformGrid>
 	</StackPanel>
 </UserControl>

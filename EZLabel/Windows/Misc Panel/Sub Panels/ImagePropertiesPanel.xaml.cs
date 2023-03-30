@@ -23,7 +23,7 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 			InitializeComponent();
 		}
 		/// <summary>
-		/// 设置 UI 上的 text
+		/// 设置 UI 上的 Text
 		/// </summary>
 		public void SetUI (ImageData data) {
 			file_path.Text = data.path;

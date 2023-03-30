@@ -13,8 +13,6 @@ namespace QLabel.Scripts.Projects {
 		private string _path = string.Empty;
 		public string folder { get; private set; }
 		public string filename { get; private set; }
-
-		[XmlIgnore]
 		public string path {
 			get { return _path; }
 			set { _path = value; folder = Directory.GetParent(value).FullName; filename = Path.GetFileName(path); }
@@ -29,8 +27,11 @@ namespace QLabel.Scripts.Projects {
 		public List<AnnoData> annodata { get; private set; } = new List<AnnoData>();
 		private Dictionary<ClassLabel, int> label_counts = new Dictionary<ClassLabel, int>();  // 这个文件所包含的 class label
 
+		public ImageData () { }
+
 		#region Data
 		public void AddAnnoData (AnnoData data) {
+			if ( data == null ) { return; }
 			annodata.Add(data);
 			if ( label_counts.ContainsKey(data.clas) ) {
 				label_counts[data.clas] += 1;

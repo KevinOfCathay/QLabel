@@ -8,9 +8,9 @@
 		   d:DesignWidth="800">
 	<Menu Height="20">
 		<MenuItem Header="_File" >
-			<MenuItem Header="_New Project" Click="New_Click"/>
+			<MenuItem Header="_New Project" Click="NewClick"/>
 			<!-- 打开已保存的文件 -->
-			<MenuItem Header="_Open Project" />
+			<MenuItem Header="_Load Project" Click="LoadClick"/>
 			<!-- 保存工程文件 -->
 			<MenuItem Header="_Save Project"  Click="SaveClick"/>
 			<Separator />
@@ -24,6 +24,7 @@
 			<MenuItem Header="_Undo" Click="Undo_Click"/>
 			<!-- 根据 Class 标签查询元素 -->
 			<MenuItem Header="_Find..."/>
+			<MenuItem Header="_Auto..." Click="Auto_Click"/>
 			<Separator />
 			<MenuItem Header="_Adjustments">
 				<MenuItem Header="Brightness/Contrast" />

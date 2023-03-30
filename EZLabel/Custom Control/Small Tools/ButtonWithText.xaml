@@ -1,4 +1,6 @@
-﻿<UserControl x:Class="QLabel.Custom_Control.Small_Tools.ButtonWithText"
+﻿<UserControl 
+	Name="buttonwithtext"
+	x:Class="QLabel.Custom_Control.Small_Tools.ButtonWithText"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,19 +10,24 @@
 	<StackPanel 
 	    Orientation="Vertical"
 	    HorizontalAlignment="Center">
-
 		<Button 
 			Name="button"
-			Height="26" 
-			Width="26" 
-			BorderBrush="Transparent"
-			Click="button_Click">
-			<Image Source="/Resources/Icons/rhombus.png"/>
+			Height="30" 
+			Width="30" 
+			BorderBrush="Transparent">
+			<Image
+				Height="26"
+				Width="26"
+				Source="{Binding ImgSource, ElementName=buttonwithtext}"/>
+			<Button.Resources>
+				<Style TargetType="Border">
+					<Setter Property="CornerRadius" Value="4"/>
+				</Style>
+			</Button.Resources>
 		</Button>
-
-		<TextBlock Name="text" FontSize="9.5">
-			Text
-		</TextBlock>
-
+		<TextBlock 
+			HorizontalAlignment="Center"
+			Margin="0" Padding="0" Name="text" FontSize="8" 
+				 Text="{Binding Text, ElementName=buttonwithtext}"/>
 	</StackPanel>
 </UserControl>

@@ -81,7 +81,7 @@ namespace QLabel.Scripts.Inference_Machine {
 			for ( int x = 0; x < out_width; x += 1 ) {
 				for ( int y = 0; y < out_height; y += 1 ) {
 					// preds[:2, :, :] = torch.sigmoid(preds[:2, :, :])
-					// text = preds[0] > self.min_text_confidence
+					// Text = preds[0] > self.min_text_confidence
 					var score_temp = output[0, 0, x, y];
 					score[x, y] = 1f / ( 1f + MathF.Exp(-score_temp) );
 					text[x, y] = (byte) ( score[x, y] > 0.5f ? 1 : 0 );
@@ -115,7 +115,7 @@ namespace QLabel.Scripts.Inference_Machine {
 				}
 			}
 			// score, OK
-			// text, OK
+			// Text, OK
 			// embeddings, OK
 			// kernel_labels, OK
 			// kernel_contour, OK

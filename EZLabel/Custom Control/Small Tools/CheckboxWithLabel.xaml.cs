@@ -19,6 +19,16 @@ namespace QLabel.Custom_Control.Small_Tools {
 	/// </summary>
 	public partial class CheckboxWithLabel : UserControl {
 		public event Action<object, RoutedEventArgs> eChecked, eUnchecked;
+		public object Text {
+			get { return GetValue(textproperty); }
+			set { SetValue(textproperty, value); }
+		} 
+		public static readonly DependencyProperty textproperty =
+		    DependencyProperty.Register("Text",
+			    propertyType: typeof(object),
+			    ownerType: typeof(CheckboxWithLabel),
+			    typeMetadata: new PropertyMetadata("text"));
+
 		public CheckboxWithLabel () {
 			InitializeComponent();
 		}

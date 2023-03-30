@@ -12,7 +12,7 @@ using System.Windows;
 
 namespace QLabel.Scripts.AnnotationData {
 	public abstract record AnnoData {
-		public enum Type { Dot, Rectangle, Square, Tetragon, Line, Circle, Polygon }
+		public enum Type { Dot, Rectangle, Tetragon, Line, Circle, Polygon }
 		/// <summary>
 		/// Copy Constructor
 		/// </summary>
@@ -41,6 +41,19 @@ namespace QLabel.Scripts.AnnotationData {
 			this.type = type;
 			this.clas = clas;
 			this.guid = Guid.NewGuid();
+			bbox = GetBoundingBox(rpoints);
+			brect = new Int32Rect((int) bbox.tl.X, (int) bbox.tl.Y, (int) ( bbox.br.X - bbox.tl.X ), (int) ( bbox.br.Y - bbox.tl.Y ));
+		}
+		/// <summary>
+		/// 初始化所有的 readonly 属性
+		/// </summary>
+		public AnnoData (ReadOnlySpan<Vector2> rpoints, Type type, ClassLabel clas, float conf, Guid guid, DateTime createtime) {
+			this.createtime = createtime;
+			this.rpoints = rpoints.ToArray();
+			this.conf = conf;
+			this.type = type;
+			this.clas = clas;
+			this.guid = guid;
 			bbox = GetBoundingBox(rpoints);
 			brect = new Int32Rect((int) bbox.tl.X, (int) bbox.tl.Y, (int) ( bbox.br.X - bbox.tl.X ), (int) ( bbox.br.Y - bbox.tl.Y ));
 		}
