@@ -7,6 +7,7 @@ using QLabel.Scripts.Projects;
 using QLabel.Windows.Main_Canvas;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,7 +27,6 @@ namespace QLabel.Windows.Popup_Windows.Auto_Window {
 		private BaseInferenceMachine selected_machine;
 		private HashSet<int> accepted_classes = new HashSet<int>();
 		private HashSet<ImageData> accepted_files = new HashSet<ImageData>();
-		private CheckboxWithLabel[] cbxlabels;
 		internal event Action<BaseInferenceMachine>? eRunBefore, eRunAfter;
 
 		public AutoWindow () {
@@ -44,6 +44,7 @@ namespace QLabel.Windows.Popup_Windows.Auto_Window {
 				this.eRunAfter += eRunAfter;
 			}
 			confirm_cancel.eConfirmClick += Run;
+			confirm_cancel.eConfirmClick += (_, _) => { this.Close(); };
 			InitializeListItems();
 		}
 
@@ -64,16 +65,18 @@ namespace QLabel.Windows.Popup_Windows.Auto_Window {
 			// 清除之前的内容
 			model_version_list.Items.Clear();
 			bool selected = false;
-			accepted_classes.Clear();
 
 			foreach ( var config in set.model_configs ) {
+				// 针对每个 config, 设置 UI
 				var labels = config.class_labels;
 				var tags = config.tags;
 
 				ComboBoxItem item = new ComboBoxItem();
 				item.Content = config.model_name;
 
-				item.Selected += delegate (object sender, RoutedEventArgs e) {
+				// 选择某个特定的模型时，触发以下事件
+				item.Selected += (object sender, RoutedEventArgs e) => {
+					accepted_classes.Clear();
 					SetTags(tags);
 					labeltree.SetUI(labels,
 						(clabel) => { accepted_classes.Add(Array.IndexOf(labels, clabel)); },
@@ -98,14 +101,17 @@ namespace QLabel.Windows.Popup_Windows.Auto_Window {
 				rlabel.label.Content = tag;
 				tag_list.Children.Add(rlabel);
 			}
-		}/// <summary>
-		 /// 当前的 inference 只适用于当前被打开的图像
-		 /// </summary>
-		private void Run (object sender, RoutedEventArgs e) {
+		}
+		/// <summary>
+		/// 当前的 inference 只适用于当前被打开的图像
+		/// </summary>
+		private async void Run (object sender, RoutedEventArgs e) {
 			if ( selected_machine == null ) { return; }
 
 			selected_machine.BuildSession();
 			if ( canvas != null && canvas.can_annotate ) {
+
+
 				if ( accepted_classes.Count == 0 ) { return; }
 				var bitmap = ImageUtils.GetBitmapFromPath(ProjectManager.cur_datafile.path);
 				eRunBefore?.Invoke(selected_machine);

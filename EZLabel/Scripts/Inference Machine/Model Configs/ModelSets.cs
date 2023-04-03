@@ -62,9 +62,9 @@ namespace QLabel.Scripts {
 													model_path : @"Resources/Models/topdown_hrnet_w32_coco_384x288_rm_inzr.onnx",
 													class_labels : ModelLabels.keypoints17,
 													skeletons: ModelLabels.keypoints17_skeleton
-											){},
+											),
 											new HRNetBUConfig (
-													model_name : "Keypoint Detection (HRNet)",
+													model_name : "Keypoint Detection (HRNet Bottom-up)",
 													model_path : @"Resources/Models/associative_embedding_higher_hrnet_512x512_crowdpose.onnx",
 													post_model_path : @"Resources/Models/associative_embedding_hrnet_post_processing_rmv.onnx",
 													class_labels : ModelLabels.keypoints17,

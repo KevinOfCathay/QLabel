@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static QLabel.Windows.Toolbar_Window.AnnotationToolBar;
 
 namespace QLabel.Windows.Toolbar_Window {
 	/// <summary>
@@ -29,7 +30,7 @@ namespace QLabel.Windows.Toolbar_Window {
 		private ToolBase selected_tool = null;
 		private MainCanvas mc { get; set; }
 
-		public ButtonWithText[] button_group;
+		public Button[] button_group;
 		/// <summary>
 		/// <para>Get: 返回当前选择的 Tool </para>
 		/// <para>Set: 设置 Tool </para>
@@ -39,15 +40,15 @@ namespace QLabel.Windows.Toolbar_Window {
 		public AnnotationToolBar () {
 			InitializeComponent();
 
-			button_group = new ButtonWithText[] {
-				Mouse_Button,
-				DotTool_Button,
-				RectangleTool_Button,
-				//SquareTool_Button,
-				//Tetragon_Button,
-				//PolygonTool_Button,
-				//Circle_Button,
-				//Selection_Button
+			button_group = new Button[] {
+				Mouse_Button.button,
+				DotTool_Button.button,
+				RectangleTool_Button.button,
+				SquareTool_Button.button,
+				Tetragon_Button.button,
+				PolygonTool_Button.button,
+				Circle_Button.button,
+				Selection_Button.button,
 			};
 			cur_tool = Tool.Mouse;        // 设置 default tool 为鼠标
 		}
@@ -89,19 +90,19 @@ namespace QLabel.Windows.Toolbar_Window {
 		}
 		private void ToolClick (object sender, RoutedEventArgs e) {
 			NormalButton(button_group[(int) _cur_tool]);
-			if ( sender is ButtonWithText button ) {
-				var tool_selected = (Tool) Array.IndexOf(button_group, button);
-
+			if ( sender is Button button ) {
+				Tool tool_selected = (Tool) Array.IndexOf(button_group, button);
 				// 切换 selected_tool
 				SwitchTool(tool_selected);
 				HighlightButton(button);
+				_cur_tool = tool_selected;
 			}
 			e.Handled = true;
 		}
-		private void HighlightButton (ButtonWithText button) {
+		private void HighlightButton (Button button) {
 			button.Background = button_background_highlight;
 		}
-		private void NormalButton (ButtonWithText button) {
+		private void NormalButton (Button button) {
 			button.Background = button_background_normal;
 		}
 	}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -8,7 +9,6 @@ namespace QLabel.Custom_Control.Small_Tools {
 			add { this.button.Click += value; }
 			remove { this.button.Click -= value; }
 		}
-
 		public string Text {
 			get { return (string) GetValue(textproperty); }
 			set { SetValue(textproperty, value); }

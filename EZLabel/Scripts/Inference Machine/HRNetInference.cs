@@ -169,7 +169,7 @@ namespace QLabel.Scripts.Inference_Machine {
 				for ( int k = 0; k < output_dims[1]; k += 1 ) {
 					var px = idx[k, 0];
 					var py = idx[k, 1];
-					if ( ( 1 < px && px < this.in_width - 1 ) && ( 1 < py && py < this.in_height - 1 ) ) {
+					if ( ( 1 < px && px < this.o_width - 1 ) && ( 1 < py && py < this.o_height - 1 ) ) {
 						// mmpose\core\evaluation\top_down_eval.py
 						// diff = np.array([
 						// heatmap[py][px + 1] - heatmap[py][px - 1],

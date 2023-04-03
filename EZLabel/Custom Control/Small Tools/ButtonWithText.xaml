@@ -26,8 +26,9 @@
 			</Button.Resources>
 		</Button>
 		<TextBlock 
+			Foreground="#FF787878"
 			HorizontalAlignment="Center"
-			Margin="0" Padding="0" Name="text" FontSize="8" 
+			Margin="-1" Padding="0" Name="text" FontSize="8.5" 
 				 Text="{Binding Text, ElementName=buttonwithtext}"/>
 	</StackPanel>
 </UserControl>

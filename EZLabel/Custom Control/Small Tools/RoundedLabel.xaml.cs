@@ -18,8 +18,23 @@ namespace QLabel.Custom_Control.Small_Tools {
 	/// Interaction logic for RoundedLabel.xaml
 	/// </summary>
 	public partial class RoundedLabel : UserControl {
+		public double FontSize {
+			get { return (double) GetValue(textproperty); }
+			set { SetValue(textproperty, value); }
+		}
+		public static readonly DependencyProperty textproperty =
+		    DependencyProperty.Register("FontSize",
+			    propertyType: typeof(double),
+			    ownerType: typeof(RoundedLabel),
+			    typeMetadata: new PropertyMetadata(9.5));
+
 		public RoundedLabel () {
 			InitializeComponent();
+		}
+		public RoundedLabel (string text, double fontsize = 9.5) {
+			InitializeComponent();
+			this.label.Content = text;
+			this.label.FontSize = fontsize;
 		}
 	}
 }

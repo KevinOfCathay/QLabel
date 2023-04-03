@@ -75,6 +75,8 @@ namespace QLabel.Scripts.Projects {
 				}
 			});
 		}
+
+		#region Load
 		public static async Task LoadProject (string path) {
 			// 清除之前的 Project
 			if ( project != null ) { await SaveProjectAsync(); }
@@ -157,5 +159,6 @@ namespace QLabel.Scripts.Projects {
 			}
 			return annodatas;
 		}
+		#endregion
 	}
 }
