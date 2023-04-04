@@ -8,22 +8,14 @@
 	<StackPanel 
 			Orientation="Horizontal" 
 			HorizontalAlignment="Right">
-		<Button Style="{StaticResource NiceButton}" 
-			   Background="CornflowerBlue" 
-			   Click="Confirm_Click">
-			<Button.Resources>
-				<Style TargetType="Border">
-					<Setter Property="CornerRadius" Value="5"/>
-				</Style>
-			</Button.Resources>
+		<Button 
+			Name="confirm" Style="{StaticResource NiceButton}" 
+		    Background="CornflowerBlue">
 			Confirm
 		</Button>
-		<Button Style="{StaticResource NiceButton}" Background="Gray" Click="Cancel_Click">
-			<Button.Resources>
-				<Style TargetType="Border">
-					<Setter Property="CornerRadius" Value="5"/>
-				</Style>
-			</Button.Resources>
+		<Button 
+			Name="cancel"
+			Style="{StaticResource NiceButton}" Background="Gray">
 			Cancel
 		</Button>
 	</StackPanel>

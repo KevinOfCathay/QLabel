@@ -35,6 +35,7 @@
 			<Label FontSize="8.5">Open From:</Label>
 			<tool:DirectorySelector x:Name="dir_selector"></tool:DirectorySelector>
 		</StackPanel>
-		<tool:ConfirmCancel Grid.Row="1" x:Name="confirm_cancel"/>
+		<tool:ConfirmCancel Grid.Row="1" x:Name="confirm_cancel"
+						ConfirmClick="ConfirmClick" CancelClick="CancelClick"/>
 	</Grid>
 </Window>

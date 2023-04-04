@@ -43,8 +43,8 @@ namespace QLabel.Windows.Popup_Windows.Auto_Window {
 			if ( eRunAfter != null ) {
 				this.eRunAfter += eRunAfter;
 			}
-			confirm_cancel.eConfirmClick += Run;
-			confirm_cancel.eConfirmClick += (_, _) => { this.Close(); };
+			confirm_cancel.ConfirmClick += Run;
+			confirm_cancel.ConfirmClick += (_, _) => { this.Close(); };
 			InitializeListItems();
 		}
 

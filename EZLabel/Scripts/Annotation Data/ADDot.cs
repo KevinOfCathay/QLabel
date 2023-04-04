@@ -10,6 +10,16 @@ using System.Numerics;
 namespace QLabel.Scripts.AnnotationData {
 	public record ADDot : AnnoData {
 		[JsonProperty] private IEnumerable<Guid> line_id_a, line_id_b;
+		/// <summary>
+		/// Deserialize
+		/// </summary>
+		public ADDot
+			(Vector2 point, ClassLabel clas, IEnumerable<Guid> line_id_a, IEnumerable<Guid> line_id_b,
+			Guid id, DateTime createtime, float conf = 1.0f) :
+			base(new ReadOnlySpan<Vector2>(new Vector2[1] { point }), Type.Dot, clas, conf, id, createtime) {
+				this.line_id_a = line_id_a;
+				this.line_id_b = line_id_b;
+		}
 		public ADDot
 			(Vector2 point, ClassLabel clas, IEnumerable<Guid> line_id_a, IEnumerable<Guid> line_id_b, float conf = 1.0f) :
 			base(new ReadOnlySpan<Vector2>(new Vector2[1] { point }), Type.Dot, clas, conf) {

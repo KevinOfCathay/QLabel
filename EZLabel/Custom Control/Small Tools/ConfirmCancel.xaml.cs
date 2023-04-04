@@ -18,15 +18,16 @@ namespace QLabel.Custom_Control.Small_Tools {
 	/// Interaction logic for ConfirmCancel.xaml
 	/// </summary>
 	public partial class ConfirmCancel : UserControl {
-		public event Action<object, RoutedEventArgs> eConfirmClick, eCancelClick;
+		public event RoutedEventHandler ConfirmClick {
+			add { this.confirm.Click += value; }
+			remove { this.confirm.Click -= value; }
+		}
+		public event RoutedEventHandler CancelClick {
+			add { this.cancel.Click += value; }
+			remove { this.cancel.Click -= value; }
+		}
 		public ConfirmCancel () {
 			InitializeComponent();
-		}
-		private void Confirm_Click (object sender, RoutedEventArgs e) {
-			eConfirmClick?.Invoke(sender, e);
-		}
-		private void Cancel_Click (object sender, RoutedEventArgs e) {
-			eCancelClick?.Invoke(sender, e);
 		}
 	}
 }

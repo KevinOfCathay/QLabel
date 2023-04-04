@@ -138,6 +138,12 @@ namespace QLabel.Scripts.Projects {
 				bool occluded = data.occluded.Value;
 				switch ( data.type.Value ) {
 					case "Dot":
+						// 读取点相关联的线 ID
+						var addot = new ADDot(
+							rpoints[0], clabel,
+							Array.Empty<Guid>(), Array.Empty<Guid>(),
+							guid, createtime, conf) { caption = caption, truncated = truncated, occluded = occluded };
+						annodatas.Add(addot);
 						break;
 					case "Rectangle":
 						var adrect = new ADRect(
@@ -150,6 +156,13 @@ namespace QLabel.Scripts.Projects {
 					case "Tetragon":
 						break;
 					case "Line":
+						// 读取线相关联的点 ID
+						Guid dot_a_id = Guid.Parse(data.dot_a_id.Value);
+						Guid dot_b_id = Guid.Parse(data.dot_b_id.Value);
+						var adline = new ADLine(
+							rpoints[0], rpoints[1], dot_a_id, dot_b_id,
+							clabel, guid, createtime, conf) { caption = caption, truncated = truncated, occluded = occluded };
+						annodatas.Add(adline);
 						break;
 					case "Circle":
 						break;

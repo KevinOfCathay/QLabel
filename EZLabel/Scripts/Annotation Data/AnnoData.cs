@@ -63,8 +63,6 @@ namespace QLabel.Scripts.AnnotationData {
 		[JsonProperty][JsonConverter(typeof(StringEnumConverter))] public readonly Type type;
 		/// <summary>  这个注释数据的点的位置 (x, y) (readonly) </summary>
 		[JsonProperty] public readonly Vector2[] rpoints;
-		/// <summary> 这个注释数据的 confidence (readonly) </summary>
-		[JsonProperty] public readonly float conf;
 		/// <summary> 约束这个 annotation 的边框 (readonly) </summary>
 		[JsonProperty] public readonly (Vector2 tl, Vector2 br) bbox;
 		/// <summary> 约束这个 annotation 的边框（以rect的形式） (readonly) </summary>
@@ -77,9 +75,11 @@ namespace QLabel.Scripts.AnnotationData {
 		[JsonProperty] public readonly Guid guid;
 		#endregion
 
-		/// <summary>  这个注释数据的额外标签</summary>
+		/// <summary> 这个注释数据的 confidence </summary>
+		[JsonProperty] public float conf;
+		/// <summary>  这个注释数据的额外标签 </summary>
 		[JsonProperty] public string label = string.Empty;
-		/// <summary>  这个注释数据的描述文字</summary>
+		/// <summary>  这个注释数据的描述文字 </summary>
 		[JsonProperty] public string caption = string.Empty;
 		/// <summary> more than 15-20% of the object lies outside the bounding box</summary>
 		[JsonProperty] public bool truncated = false;

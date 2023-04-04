@@ -28,7 +28,7 @@ namespace QLabel.Windows.CropWindow {
 			var classlabels = ProjectManager.project.label_set;
 			SetClassListbox(classlabels);
 		}
-		private async void ConfirmButton_Click (object sender, RoutedEventArgs e) {
+		private async void ConfirmClick (object sender, RoutedEventArgs e) {
 			// 裁剪并保存图像
 			switch ( target ) {
 				// 只裁剪当前的图像
@@ -46,7 +46,7 @@ namespace QLabel.Windows.CropWindow {
 			}
 			CloseWindow();
 		}
-		private void CancelButton_Click (object sender, RoutedEventArgs e) {
+		private void CancelClick (object sender, RoutedEventArgs e) {
 			CloseWindow();
 		}
 		private void CloseWindow () {

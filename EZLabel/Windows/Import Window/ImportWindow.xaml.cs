@@ -35,9 +35,6 @@ namespace QLabel.Windows.Import_Window {
 		private void RegisterEvents (object? sender, EventArgs e) {
 			this.dir_selector.eDirectorySelected += (path) => { load_dir = path; };
 			this.dir_selector.eDialogClosed += () => { this.Topmost = true; this.Activate(); };
-
-			confirm_cancel.eConfirmClick += ConfirmClick;
-			confirm_cancel.eCancelClick += CancelClick;
 		}
 		private void ConfirmClick (object sender, RoutedEventArgs e) {
 			Import(main);

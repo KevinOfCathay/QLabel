@@ -13,6 +13,7 @@
 	<StackPanel Orientation="Horizontal">
 		<CheckBox 
 			Name="checkbox"
+			BorderBrush="OliveDrab"
 			VerticalAlignment="Center"
 			Checked="CheckBox_Checked"
 			Unchecked="CheckBox_Unchecked">

@@ -72,38 +72,9 @@
 				</StackPanel>
 			</UniformGrid>
 		</StackPanel>
-		<StackPanel 
-			Orientation="Horizontal" 
-			HorizontalAlignment="Right"
-			Grid.ColumnSpan="2"
-			Grid.Row="1">
-			<StackPanel.Resources>
-				<Style TargetType="{x:Type Button}">
-					<Setter Property="Margin" Value="1,0"/>
-					<Setter Property="Width" Value="50"/>
-					<Setter Property="Height" Value="25"/>
-					<Setter Property="FontSize" Value="10.5"/>
-					<Setter Property="FontWeight" Value="Bold"/>
-					<Setter Property="Foreground" Value="White"/>
-					<Setter Property="BorderBrush" Value="Transparent"/>
-				</Style>
-			</StackPanel.Resources>
-			<Button Background="CornflowerBlue" Click="ConfirmButton_Click">
-				<Button.Resources>
-					<Style TargetType="Border">
-						<Setter Property="CornerRadius" Value="5"/>
-					</Style>
-				</Button.Resources>
-				Confirm
-			</Button>
-			<Button Background="Gray" Click="CancelButton_Click">
-				<Button.Resources>
-					<Style TargetType="Border">
-						<Setter Property="CornerRadius" Value="5"/>
-					</Style>
-				</Button.Resources>
-				Cancel
-			</Button>
-		</StackPanel>
+
+		<tool:ConfirmCancel 
+			Grid.ColumnSpan="2" Grid.Row="1" x:Name="confirm_cancel"
+			ConfirmClick="ConfirmClick" CancelClick="CancelClick"/>
 	</Grid>
 </Window>

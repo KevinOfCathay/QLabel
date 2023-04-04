@@ -20,7 +20,7 @@
 						<ControlTemplate TargetType="TreeView">
 							<Border 
 								Name="Border" 
-								CornerRadius="8" 
+								CornerRadius="4" 
 								Background="Transparent"
 								BorderBrush="LightGray"
 								BorderThickness="1" >
