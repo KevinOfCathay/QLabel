@@ -31,6 +31,7 @@
 			</MenuItem>
 			<!-- 裁剪标注 -->
 			<MenuItem Header="_Crop" Click="Crop_Click"/>
+			<MenuItem Header="_Visualize" Click="Visualize_Click"/>
 		</MenuItem>
 		<MenuItem Header="_Shape" >
 			<MenuItem Header="_To Polygon" Click="ToPolygon_Click"/>

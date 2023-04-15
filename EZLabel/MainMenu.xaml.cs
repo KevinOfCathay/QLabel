@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using QLabel.Actions;
+using QLabel.Scripts.AnnotationData;
 using QLabel.Scripts.Projects;
 using QLabel.Windows.CropWindow;
 using QLabel.Windows.Export_Window;
@@ -102,8 +103,12 @@ namespace QLabel {
 				main.LockWindow();
 				window.Closed += (object? sender, EventArgs e) => { main.UnlockWindow(); };
 				window.Show();
-			} else {
-				MessageBox.Show("There is no project opened.", "Error", MessageBoxButton.OK);
+			}
+		}
+		private async void Visualize_Click (object sender, RoutedEventArgs e) {
+			if ( !ProjectManager.empty ) {
+				var cur_img = ProjectManager.cur_datafile;
+				await ProjectManager.VisualizeAsync(cur_img);
 			}
 		}
 		private void ToPolygon_Click (object sender, RoutedEventArgs e) {

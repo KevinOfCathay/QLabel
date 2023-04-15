@@ -14,6 +14,7 @@ namespace QLabel.Scripts.AnnotationData {
 	/// 不检测是否有交叉
 	/// </summary>
 	public record ADTetragon : AnnoData {
+		public override int visualize_priority => 1;
 		public ADTetragon
 			(ReadOnlySpan<Vector2> points, ClassLabel clas, float conf = 1.0f) :
 			base(points, Type.Tetragon, clas, conf) {
@@ -23,7 +24,7 @@ namespace QLabel.Scripts.AnnotationData {
 			throw new NotImplementedException();
 		}
 
-		public override void Visualize (Bitmap bitmap, Vector2 scale, Vector2 offset) {
+		public override void Visualize (Bitmap bitmap, Vector2 img_size, Color color) {
 			throw new NotImplementedException();
 		}
 	}

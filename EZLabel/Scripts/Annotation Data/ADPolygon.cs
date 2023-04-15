@@ -16,6 +16,7 @@ namespace QLabel.Scripts.AnnotationData {
 	/// </summary>
 	public record ADPolygon : AnnoData {
 		[JsonProperty] public int vertex;
+		public override int visualize_priority => 1;
 		public ADPolygon
 			(ReadOnlySpan<Vector2> rpoints, ClassLabel clas, float conf = 1.0f) :
 			base(rpoints, Type.Polygon, clas, conf) {
@@ -28,8 +29,21 @@ namespace QLabel.Scripts.AnnotationData {
 			return polygon;
 		}
 
-		public override void Visualize (Bitmap bitmap, Vector2 scale, Vector2 offset) {
-			throw new NotImplementedException();
+		public override void Visualize (Bitmap bitmap, Vector2 target_size, Color color) {
+			// 获取源图像大小
+			Vector2 size = new Vector2(bitmap.Width, bitmap.Height);
+			Vector2 scale = size / target_size;
+
+			using ( var g = Graphics.FromImage(bitmap) ) {
+				Pen pen = new Pen(color, 3);
+				int len = rpoints.Length;
+				var points = new PointF[len];
+				for ( var i = 0; i < len; i += 1 ) {
+					var p = rpoints[i] / scale;
+					points[i] = new PointF(p.X, p.Y);
+				}
+				g.DrawPolygon(pen, points);
+			}
 		}
 	}
 }

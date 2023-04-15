@@ -69,8 +69,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public Vector2[] convex_hull {
 			get { if ( _convex_hull != null ) { return _convex_hull; } else { throw new NullReferenceException(); } }
 		}
-		public void Delete (MainCanvas canvas) {
-			canvas.annotation_canvas.Children.Remove(this);
+		public void PostDelete (MainCanvas canvas) {
 		}
 		public void Draw (MainCanvas canvas, Vector2[] cpoints) {
 			// 绘制多边形的顶点

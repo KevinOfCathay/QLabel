@@ -32,7 +32,7 @@
 			<RowDefinition Height="auto"></RowDefinition>
 		</Grid.RowDefinitions>
 
-		<DockPanel Grid.Column="0" Grid.Row="0" Margin="0, 0, 8, 0">
+		<DockPanel Grid.Column="0" Grid.Row="0">
 			<Label DockPanel.Dock="Top" FontSize="8.5">Classes:</Label>
 			<labeltree:LabelTree x:Name="labeltree" DockPanel.Dock="Top">
 			</labeltree:LabelTree>
@@ -60,13 +60,13 @@
 
 			<!-- Preferred Width & Height-->
 			<UniformGrid Columns="2">
-				<StackPanel Margin="3">
-					<Label>Width</Label>
+				<StackPanel Margin="4, 0">
+					<Label>Prefer Width:</Label>
 					<textboxes:IntBox x:Name="preferred_width">
 					</textboxes:IntBox>
 				</StackPanel>
-				<StackPanel Margin="3">
-					<Label>Height</Label>
+				<StackPanel Margin="4, 0">
+					<Label>Prefer Height:</Label>
 					<textboxes:IntBox x:Name="preferred_height">
 					</textboxes:IntBox>
 				</StackPanel>

@@ -88,11 +88,13 @@ namespace QLabel.Scripts.AnnotationData {
 		/// <summary>这个 annodata 是否 checked </summary>
 		[JsonProperty] public bool check = true;
 
+		public abstract int visualize_priority { get; }
+
 		/// <summary>
 		/// 从这个 AnnoData 中创建 AnnotationElement
 		/// </summary>
 		public abstract IAnnotationElement CreateAnnotationElement (MainCanvas canvas);
-		public abstract void Visualize (Bitmap bitmap, Vector2 scale, Vector2 offset);
+		public abstract void Visualize (Bitmap bitmap, Vector2 target_size, Color color);
 		/// <summary>
 		/// 获得约束这个 annotation 的边框
 		/// </summary>

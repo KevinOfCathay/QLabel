@@ -127,7 +127,7 @@ namespace QLabel.Windows.Main_Canvas {
 		}
 		public void ClearCanvas () {
 			foreach ( var elem in annotation_elements ) {
-				elem.Delete(this);
+				elem.PostDelete(this);
 			}
 			annotation_elements.Clear();
 		}
@@ -231,8 +231,9 @@ namespace QLabel.Windows.Main_Canvas {
 		public void RemoveAnnoElements (IAnnotationElement element) {
 			if ( element != null && annotation_elements.Contains(element) ) {
 				annotation_elements.Remove(element);
+				canvas.Children.Remove(element.ui_element);         // 从画布上删除 UI
 				eAnnotationElementRemoved?.Invoke(this, element);
-				element.Delete(this);
+				element.PostDelete(this);         // Clean-up
 			}
 		}
 		public void ChangeCanvasSize (double width, double height) {
@@ -284,6 +285,6 @@ namespace QLabel.Windows.Main_Canvas {
 			}
 			button_state = MouseButtonState.Released;
 		}
-		#endregion
+		#endregion MouseEvents
 	}
 }

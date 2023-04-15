@@ -1,18 +1,9 @@
 ﻿using QLabel.Scripts.AnnotationData;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Media3D;
 using QLabel.Actions;
 
 namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
@@ -127,8 +118,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		/// <summary>
 		/// 从画布上移除这个元素
 		/// </summary>
-		public void Delete (MainCanvas canvas) {
-			canvas.annotation_canvas.Children.Remove(this);
+		public void PostDelete (MainCanvas canvas) {
 		}
 		/// <summary>
 		/// 在画布上绘制/重新绘制

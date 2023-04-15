@@ -67,9 +67,9 @@ namespace QLabel.Windows.Main_Canvas {
 		public void Select ();
 		public void Unselect ();
 		/// <summary>
-		/// 从画布上删除元素
+		/// 元素删除之后的一些清理工作
 		/// </summary>
-		public void Delete (MainCanvas canvas);
+		public void PostDelete (MainCanvas canvas);
 		/// <summary>
 		/// 将对象转化为多边形（不是每个物体都可以转化）
 		/// 返回转换后的 element

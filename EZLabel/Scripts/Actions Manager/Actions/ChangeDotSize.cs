@@ -10,17 +10,17 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace QLabel.Actions {
-	internal class ChangeRectSize : ChangeElementSize, IAction {
-		public ChangeRectSize (
-			MainCanvas canvas, DraggableRectangle elem,
+	internal class ChangeDotSize : ChangeElementSize, IAction {
+		public ChangeDotSize (
+			MainCanvas canvas, DraggableDot elem,
 			AnnoData data_before, AnnoData data_after) :
 			base(canvas, data_before, data_after) {
 			this.elem = elem;
 			initialize = true;
 		}
 		private bool initialize;
-		private readonly DraggableRectangle elem;
-		public string name => "Change Rectangle Size";
+		private readonly DraggableDot elem;
+		public string name => "Change Dot Size";
 		public void Do () {
 			// 新的 annodata
 			elem.data = data_after;

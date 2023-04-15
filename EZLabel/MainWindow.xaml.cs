@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
 using QLabel.Actions;
 using static QLabel.Windows.Toolbar_Window.AnnotationToolBar;
+using System.Xml.Linq;
 
 namespace QLabel {
 	public partial class MainWindow : Window {
@@ -120,6 +121,13 @@ namespace QLabel {
 				if ( e.KeyboardDevice.Modifiers == ModifierKeys.Control ) {
 					Densify();          // 增加点密度
 				}
+			} else if ( e.Key == Key.Delete ) {
+				DeleteSelectedElement();
+			}
+		}
+		public void DeleteSelectedElement () {
+			if ( selected_element != null ) {
+				selected_element.PostDelete(main_canvas);
 			}
 		}
 		public void LockWindow () {

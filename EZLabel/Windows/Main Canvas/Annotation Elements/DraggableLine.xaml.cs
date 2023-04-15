@@ -15,12 +15,13 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public event Action<IAnnotationElement> eSelected, eUnselected;
 		public event Action<DraggableLine, MouseEventArgs> eMouseDown, eMouseMove, eMouseUp;
 
-		public Guid dot_a_id, dot_b_id;
+		public readonly Guid dot_a_id, dot_b_id;
+		public DraggableDot dot_a, dot_b;
 		AnnoData _data;   // 这个矩形所对应的注释数据
 
-		public Vector2[] cpoints { get { return new Vector2[] { new Vector2((float) line.X1, (float) line.Y1), new Vector2((float) line.X2, (float) line.Y2) }; } }
-		public AnnoData data { get => _data; set => _data = value; }
 		public UIElement ui_element => this;
+		public AnnoData data { get => _data; set => _data = value; }
+		public Vector2[] cpoints { get { return new Vector2[] { new Vector2((float) line.X1, (float) line.Y1), new Vector2((float) line.X2, (float) line.Y2) }; } }
 		public Vector2[] convex_hull { get { return Array.Empty<Vector2>(); } set { } }
 
 		public DraggableLine () {
@@ -63,13 +64,10 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			}
 		}
 		void IAnnotationElement.MouseDown (MainCanvas canvas, MouseEventArgs e) {
-			throw new NotImplementedException();
 		}
 		public void MouseDrag (MainCanvas canvas, MouseEventArgs e) {
-			throw new NotImplementedException();
 		}
 		void IAnnotationElement.MouseUp (MainCanvas canvas, MouseEventArgs e) {
-			throw new NotImplementedException();
 		}
 		public void Draw (MainCanvas canvas, Vector2[] cpoints) {
 			throw new NotImplementedException();
@@ -83,8 +81,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Unselect () {
 			throw new NotImplementedException();
 		}
-		public void Delete (MainCanvas canvas) {
-			canvas.annotation_canvas.Children.Remove(this);
+		public void PostDelete (MainCanvas canvas) {
 		}
 		public IAnnotationElement ToPolygon (MainCanvas canvas) {
 			throw new NotImplementedException();
@@ -95,11 +92,9 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public void Highlight () {
 			throw new NotImplementedException();
 		}
-
 		public void Show () {
 			throw new NotImplementedException();
 		}
-
 		public void Hide () {
 			throw new NotImplementedException();
 		}

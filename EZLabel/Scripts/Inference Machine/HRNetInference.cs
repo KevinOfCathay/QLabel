@@ -54,7 +54,7 @@ namespace QLabel.Scripts.Inference_Machine {
 					if ( maxvals[i] > keypoint_threshold ) {
 						Vector2 rpoint = new Vector2(idx[i, 0], idx[i, 1]) * scale;
 						ClassLabel cl = new ClassLabel(labels[i]);
-						ADDot dot = new ADDot(rpoint, cl, Array.Empty<Guid>(), Array.Empty<Guid>(), maxvals[i]);    // 生成 AnnoData
+						ADDot dot = new ADDot(rpoint, cl, Array.Empty<Guid>(), maxvals[i]);    // 生成 AnnoData
 						datas.Add(dot);
 						keypoints.Add(i, dot);
 					}
@@ -68,6 +68,10 @@ namespace QLabel.Scripts.Inference_Machine {
 							new Vector2(idx[y, 0], idx[y, 1]) * scale,
 							 keypoints[x], keypoints[y], cl);
 						datas.Add(line);
+
+						// 在 X 和 Y 端加入 line
+						keypoints[x].AddLink(line.guid);
+						keypoints[y].AddLink(line.guid);
 					}
 				}
 				return datas.ToArray();

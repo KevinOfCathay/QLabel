@@ -22,8 +22,8 @@
 		<tools:ButtonWithText x:Name="SquareTool_Button"  Click="ToolClick" ImgSource="/Resources/Icons/square.png" Text="Sqar"/>
 		<tools:ButtonWithText x:Name="Tetragon_Button"  Click="ToolClick" ImgSource="/Resources/Icons/polygon.png" Text="Tetra"/>
 		<tools:ButtonWithText x:Name="PolygonTool_Button"  Click="ToolClick" ImgSource="/Resources/Icons/pentagon.png" Text="Poly"/>
-		<tools:ButtonWithText x:Name="Circle_Button"  Click="ToolClick" ImgSource="/Resources/Icons/circle.png" Text="Circ"/>
-		<tools:ButtonWithText x:Name="Selection_Button"  Click="ToolClick" ImgSource="/Resources/Icons/selection.png" Text="Selec"/>
+		<tools:ButtonWithText x:Name="Circle_Button"  Click="ToolClick" ImgSource="/Resources/Icons/circle.png" Text="Circle"/>
+		<tools:ButtonWithText x:Name="Selection_Button"  Click="ToolClick" ImgSource="/Resources/Icons/selection.png" Text="Select"/>
 
 	</StackPanel>
 </UserControl>

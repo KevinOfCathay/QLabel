@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Drawing.Imaging;
 using System.Numerics;
+using System.Drawing;
 
 namespace QLabel.Scripts.Projects {
 	internal static class ProjectManager {
@@ -26,7 +27,8 @@ namespace QLabel.Scripts.Projects {
 		public static ImageData cur_datafile;
 		public static ClassLabel cur_label = new ClassLabel("None", "None");
 		public static int cur_label_index = 0;
-		public const string PROJECT_NAME = "_project";
+		public const string PROJECT_DIR_NAME = "_project";
+		public const string VISUAL_DIR_NAME = "_vis";
 		public const string SAVE_JSON_NAME = "_saved_project";
 
 		public static event Action<ImageData, AnnoData>? eAnnoDataAdded, eAnnoDataRemoved;
@@ -41,7 +43,7 @@ namespace QLabel.Scripts.Projects {
 				}
 				cur_dir = directory;
 				project = new Project(); // 创建一个新的项目
-				save_dir = Path.Join(cur_dir, PROJECT_NAME);
+				save_dir = Path.Join(cur_dir, PROJECT_DIR_NAME);
 				if ( !Path.Exists(save_dir) ) {
 					Directory.CreateDirectory(save_dir);
 				}
@@ -61,6 +63,28 @@ namespace QLabel.Scripts.Projects {
 				eAnnoDataRemoved?.Invoke(imgdata, annodata);
 			}
 		}
+		public static async Task VisualizeAsync (ImageData data) {
+			await Task.Run(async () => {
+				if ( data.annodata.Count == 0 ) { return; }
+				var image = ImageUtils.GetBitmapFromPath(data.path);
+				var dir_path = Path.Join(cur_dir, VISUAL_DIR_NAME);
+				if ( !Path.Exists(dir_path) ) {
+					Directory.CreateDirectory(dir_path);
+				}
+				var save_path = Path.Join(dir_path, data.filename + ".png");
+				// 首先对所有的 anno 排序
+				var annos = data.annodata.ToArray();
+				Array.Sort(annos, (a, b) => {
+					if ( a.visualize_priority > b.visualize_priority ) { return 1; } else if ( a.visualize_priority == b.visualize_priority ) { return 0; } else { return -1; }
+				});
+				foreach ( var anno in annos ) {
+					anno.Visualize(image, new Vector2(image.Width, image.Height), Color.Chocolate);
+				}
+				await ImageUtils.SaveBitmapAsync(image, save_path);
+				image.Dispose();
+			});
+		}
+
 		public static async Task SaveProjectAsync () {
 			await Task.Run(() => {
 				JsonSerializer serializer = new JsonSerializer();
@@ -140,8 +164,7 @@ namespace QLabel.Scripts.Projects {
 					case "Dot":
 						// 读取点相关联的线 ID
 						var addot = new ADDot(
-							rpoints[0], clabel,
-							Array.Empty<Guid>(), Array.Empty<Guid>(),
+							rpoints[0], clabel, new List<Guid>(),
 							guid, createtime, conf) { caption = caption, truncated = truncated, occluded = occluded };
 						annodatas.Add(addot);
 						break;

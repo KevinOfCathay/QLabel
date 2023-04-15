@@ -10,20 +10,16 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace QLabel.Actions {
-	public class ChangePolygonSize : IAction {
+	internal class ChangePolygonSize : ChangeElementSize, IAction {
 		public ChangePolygonSize (
 			MainCanvas canvas, DraggablePolygon elem,
-			AnnoData data_before, AnnoData data_after) {
-			this.canvas = canvas;
+			AnnoData data_before, AnnoData data_after) :
+			base(canvas, data_before, data_after) {
 			this.elem = elem;
-			this.data_before = data_before;
-			this.data_after = data_after;
 			initialize = true;
 		}
 		private bool initialize;
-		private readonly MainCanvas canvas;
 		private readonly DraggablePolygon elem;
-		private readonly AnnoData data_before, data_after;
 		public string name => "Change Polygon Size";
 		public void Do () {
 			// 新的 annodata

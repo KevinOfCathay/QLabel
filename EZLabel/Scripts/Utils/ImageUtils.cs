@@ -70,7 +70,7 @@ namespace QLabel {
 		/// <summary>
 		/// Async 将 BitmapImage 转化为 byte 数组
 		/// </summary>
-		public static async Task<byte[]> BitmapToByteArray (BitmapImage image) {
+		public static async Task<byte[]> BitmapToByteArrayAsync (BitmapImage image) {
 			return await Task.Run(
 				() => {
 					int w = image.PixelWidth;
@@ -88,7 +88,12 @@ namespace QLabel {
 					return pixels;
 				});
 		}
-		public static async Task SaveCroppedImage (CroppedBitmap cropped_image, string save_path) {
+		public static async Task SaveBitmapAsync (Bitmap bitmap, string save_path) {
+			await Task.Run(
+			    () => { bitmap.Save(save_path); }
+			);
+		}
+		public static async Task SaveCroppedImageAsync (CroppedBitmap cropped_image, string save_path) {
 			await Task.Run(
 			    () => {
 				    BitmapEncoder encoder = new PngBitmapEncoder();

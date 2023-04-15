@@ -17,6 +17,7 @@ namespace QLabel.Scripts.AnnotationData {
 	/// </summary>
 	public record ADLine : AnnoData {
 		[JsonProperty] private Guid dot_a_id, dot_b_id;
+		public override int visualize_priority => 0;
 
 		/// <summary> Deserialize </summary>
 		public ADLine
@@ -37,9 +38,17 @@ namespace QLabel.Scripts.AnnotationData {
 			DraggableLine line = new DraggableLine(rp[0], rp[1], this.dot_a_id, this.dot_b_id) { data = this };
 			return line;
 		}
+		public override void Visualize (Bitmap bitmap, Vector2 target_size, Color color) {
+			// 获取源图像大小
+			Vector2 size = new Vector2(bitmap.Width, bitmap.Height);
+			Vector2 scale = size / target_size;
+			var p0 = this.rpoints[0] / scale;
+			var p1 = this.rpoints[1] / scale;
 
-		public override void Visualize (Bitmap bitmap, Vector2 scale, Vector2 offset) {
-			throw new NotImplementedException();
+			using ( var g = Graphics.FromImage(bitmap) ) {
+				Pen pen = new Pen(color, 3);
+				g.DrawLine(pen, p0.X, p0.Y, p1.X, p1.Y);
+			}
 		}
 	}
 }

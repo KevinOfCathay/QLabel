@@ -26,20 +26,16 @@ namespace QLabel.Scripts.AnnotationToolManager {
 		}
 
 		public void CreateNewDot (MainCanvas canvas, MouseEventArgs e) {
-			dot = new DraggableDot { Width = 8, Height = 8 };      // 初始化大小（否则不会在画布上显示）
-
 			// 在鼠标的位置放置点
 			var p = e.GetPosition(canvas.annotation_canvas);
-
-			Canvas.SetLeft(dot, p.X);
-			Canvas.SetTop(dot, p.Y);
+			Vector2 cpoint = new Vector2((float) p.X, (float) p.Y);
+			dot = new DraggableDot(cpoint, null);      // 初始化大小（否则不会在画布上显示）
 			Canvas.SetZIndex(dot, 10);
 
 			var rpoint = canvas.RealPosition(new Vector2((float) p.X, (float) p.Y));    // 坐标转换
 
 			// 创建 anno 数据
-			var data = new AnnotationData.ADDot(
-				rpoint, ProjectManager.cur_label, Array.Empty<Guid>(), Array.Empty<Guid>());
+			var data = new AnnotationData.ADDot(rpoint, ProjectManager.cur_label, Array.Empty<Guid>());
 			dot.data = data;
 
 			AddElementToCanvas create_dot = new AddElementToCanvas(canvas, dot);

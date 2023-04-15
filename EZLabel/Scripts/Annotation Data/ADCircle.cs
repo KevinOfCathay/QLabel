@@ -12,6 +12,8 @@ using System.Xml.Serialization;
 namespace QLabel.Scripts.AnnotationData {
 	public record ADCircle : AnnoData {
 		[JsonProperty] public float radius = 0f;
+		public override int visualize_priority => 1;
+
 		public ADCircle
 			(ReadOnlySpan<Vector2> points, ClassLabel clas, float conf = 1.0f, float radius = 0f) :
 			base(points, Type.Circle, clas, conf) {
@@ -22,7 +24,7 @@ namespace QLabel.Scripts.AnnotationData {
 			throw new NotImplementedException();
 		}
 
-		public override void Visualize (Bitmap bitmap, Vector2 scale, Vector2 offset) {
+		public override void Visualize (Bitmap bitmap, Vector2 img_size, Color color) {
 			throw new NotImplementedException();
 		}
 	}

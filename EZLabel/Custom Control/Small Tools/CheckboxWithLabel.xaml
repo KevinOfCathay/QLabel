@@ -9,12 +9,14 @@
              mc:Ignorable="d">
 	<!-- Dependency properties -->
 	<!-- Text : label.Content -->
-	
+
 	<StackPanel Orientation="Horizontal">
 		<CheckBox 
 			Name="checkbox"
 			BorderBrush="OliveDrab"
 			VerticalAlignment="Center"
+			Width="{Binding BoxSize, ElementName=checkboxwithlabel }"
+			Height="{Binding BoxSize, ElementName=checkboxwithlabel }"
 			Checked="CheckBox_Checked"
 			Unchecked="CheckBox_Unchecked">
 		</CheckBox>

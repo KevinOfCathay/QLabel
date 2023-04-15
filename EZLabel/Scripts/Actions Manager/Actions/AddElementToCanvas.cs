@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 
 namespace QLabel.Actions {
-	public class AddElementToCanvas : IAction {
+	internal class AddElementToCanvas : IAction {
 		private readonly IAnnotationElement element;
 		private readonly MainCanvas canvas;
 		private readonly bool add_ui_element_to_canvas;

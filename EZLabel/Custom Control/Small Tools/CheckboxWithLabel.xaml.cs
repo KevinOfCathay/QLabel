@@ -22,12 +22,22 @@ namespace QLabel.Custom_Control.Small_Tools {
 		public object Text {
 			get { return GetValue(textproperty); }
 			set { SetValue(textproperty, value); }
-		} 
+		}
 		public static readonly DependencyProperty textproperty =
 		    DependencyProperty.Register("Text",
 			    propertyType: typeof(object),
 			    ownerType: typeof(CheckboxWithLabel),
 			    typeMetadata: new PropertyMetadata("text"));
+
+		public double BoxSize {
+			get { return (double) GetValue(boxsize_property); }
+			set { SetValue(boxsize_property, value); }
+		}
+		public static readonly DependencyProperty boxsize_property =
+		    DependencyProperty.Register("BoxSize",
+			    propertyType: typeof(double),
+			    ownerType: typeof(CheckboxWithLabel),
+			    typeMetadata: new PropertyMetadata(16.0));
 
 		public CheckboxWithLabel () {
 			InitializeComponent();

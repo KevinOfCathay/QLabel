@@ -1,4 +1,5 @@
 ﻿using OpenCvSharp;
+using QLabel.Actions;
 using QLabel.Scripts.AnnotationData;
 using System;
 using System.Collections.Generic;
@@ -17,49 +18,43 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public event Action<IAnnotationElement> eSelected, eUnselected;
 		public event Action<DraggableDot, MouseEventArgs> eMouseDown, eMouseMove, eMouseUp;
 		public bool activate { private set; get; } = false;
-		private Vector2 mouse_position;
+		private Vector2 mouse_down_position;
 		private float _radius = 8f;
 
 		AnnoData _data;   // 这个点所对应的注释数据
 		public UIElement ui_element => this;
 		public AnnoData data { get { return _data; } set { _data = value; } }
 		public Vector2 _cpoint;
-		public Vector2[] cpoints {
-			get { return new Vector2[] { _cpoint }; }
-		}
+		public Vector2[] cpoints { get { return new Vector2[] { _cpoint }; } }
 		public Vector2[] convex_hull { get { return cpoints; } }
 		public Color stroke_color { set { dot.Stroke = new SolidColorBrush(value); } }
 		public Color fill_color { set { dot.Fill = new SolidColorBrush(value); } }
+
 		/// <summary>
 		/// 这个点相关联的线
 		/// </summary>
+		private IEnumerable<Guid> links_id = new List<Guid>();
 		public Dictionary<Guid, DraggableLine> linked_lines_a = new Dictionary<Guid, DraggableLine>();
 		public Dictionary<Guid, DraggableLine> linked_lines_b = new Dictionary<Guid, DraggableLine>();
 
 		public DraggableDot () {
 			InitializeComponent();
 		}
-		public DraggableDot (Vector2 cpoint, IEnumerable<Guid> line_id_a, IEnumerable<Guid> line_id_b, float radius = 8f) {
+		public DraggableDot (Vector2 cpoint, IEnumerable<Guid> lines, float radius = 8f) {
 			InitializeComponent();
 			Height = radius; Width = radius; _radius = radius;
 			this._cpoint = cpoint;
 			Canvas.SetLeft(this, cpoint.X - radius / 2);
 			Canvas.SetTop(this, cpoint.Y - radius / 2);
-			foreach ( var id in line_id_a ) {
-				linked_lines_a.Add(id, null);
-			}
-			foreach ( var id in line_id_b ) {
-				linked_lines_b.Add(id, null);
-			}
+			links_id = lines;
 		}
-		public DraggableDot (Vector2 cpoint, DraggableLine[] lines, float radius = 8f) {
-			InitializeComponent();
-			Height = radius; Width = radius; _radius = radius;
-			this._cpoint = cpoint;
-			Canvas.SetLeft(this, cpoint.X - radius / 2);
-			Canvas.SetTop(this, cpoint.Y - radius / 2);
-			if ( lines != null ) {
-				foreach ( var line in lines ) {
+		public void LinkLines (MainCanvas canvas, IEnumerable<Guid> line_ids) {
+			foreach ( var id in line_ids ) {
+				if ( linked_lines_a.ContainsKey(id) || linked_lines_b.ContainsKey(id) ) {
+					continue;
+				}
+				var line = canvas.GetElementByID(id) as DraggableLine;
+				if ( line != null ) {
 					if ( data.guid == line.dot_a_id ) {
 						linked_lines_a.Add(line.data.guid, line);
 					} else if ( data.guid == line.dot_b_id ) {
@@ -69,12 +64,14 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			}
 		}
 		public void Draw (MainCanvas canvas, Vector2[] points) {
+			LinkLines(canvas, links_id);
 			if ( points != null ) {
 				switch ( points.Length ) {
 					case 1:
 						_cpoint = points[0];
 						Canvas.SetLeft(this, _cpoint.X - _radius / 2);
 						Canvas.SetTop(this, _cpoint.Y - _radius / 2);
+
 						List<(Guid id, DraggableLine line)> temp = new List<(Guid id, DraggableLine line)>(capacity: linked_lines_a.Count);
 						foreach ( var (id, line) in linked_lines_a ) {
 							if ( line != null ) {
@@ -131,8 +128,13 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			activate = false;
 			eMouseDown?.Invoke(this, e);
 		}
-		public void Delete (MainCanvas canvas) {
-			canvas.annotation_canvas.Children.Remove(this);
+		public void PostDelete (MainCanvas canvas) {
+			// 删除和这个点相关联的所有线段
+			// (线段必须要拥有2个端点)
+			foreach ( var id in links_id ) {
+				var element = canvas.GetElementByID(id);
+				canvas.RemoveAnnoElements(element);
+			}
 		}
 		public void Show () {
 			Visibility = Visibility.Visible;
@@ -147,22 +149,33 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public new void MouseDown (MainCanvas canvas, MouseEventArgs e) {
 			// 记录按下时的鼠标位置
 			var position = e.GetPosition(canvas);
-			mouse_position = new Vector2((float) position.X, (float) position.Y);
+			mouse_down_position = new Vector2((float) position.X, (float) position.Y);
 		}
 		/// <summary>
 		/// 拖动点将会移动点的位置
 		/// </summary>
 		public void MouseDrag (MainCanvas canvas, MouseEventArgs e) {
-			throw new NotImplementedException();
+			// 记录按下时的鼠标位置
+			var eposition = e.GetPosition(canvas);
+			var mouse_current_position = new Vector2((float) eposition.X, (float) eposition.Y);
+			var shift = mouse_current_position - mouse_down_position;
+
+			Draw(canvas, new Vector2[] { this.cpoints[0] + shift });
+			mouse_down_position = mouse_current_position;
 		}
 		public new void MouseUp (MainCanvas canvas, MouseEventArgs e) {
-			throw new NotImplementedException();
+			// 创建新的 AnnoData
+			List<Guid> link_ids = new List<Guid>();
+			link_ids.AddRange(linked_lines_a.Keys);
+			link_ids.AddRange(linked_lines_b.Keys);
+			ADDot new_data = new ADDot(canvas.RealPosition(cpoints[0]), data.clas, link_ids, data.conf);
+			ChangeDotSize changesize = new ChangeDotSize(canvas, this, data, new_data);
+			ActionManager.PushAndExecute(changesize);
 		}
 		public void Highlight () {
 			throw new NotImplementedException();
 		}
 		public void Densify (MainCanvas canvas) {
-
 		}
 		public IAnnotationElement ToPolygon (MainCanvas canvas) {
 			return this;
