@@ -18,7 +18,14 @@ namespace QLabel.Custom_Control.Small_Tools {
 	/// Interaction logic for CheckboxWithLabel.xaml
 	/// </summary>
 	public partial class CheckboxWithLabel : UserControl {
-		public event Action<object, RoutedEventArgs> eChecked, eUnchecked;
+		public event RoutedEventHandler eChecked {
+			add { checkbox.Checked += value; }
+			remove { checkbox.Checked -= value; }
+		}
+		public event RoutedEventHandler eUnchecked {
+			add { checkbox.Unchecked += value; }
+			remove { checkbox.Unchecked -= value; }
+		}
 		public object Text {
 			get { return GetValue(textproperty); }
 			set { SetValue(textproperty, value); }
@@ -42,10 +49,15 @@ namespace QLabel.Custom_Control.Small_Tools {
 		public CheckboxWithLabel () {
 			InitializeComponent();
 		}
-		public CheckboxWithLabel (string text, bool check, bool enable_checkbox = true) : base() {
+		public CheckboxWithLabel (string text, bool is_checked,
+			bool enable_checkbox = true, RoutedEventHandler check_event = null, RoutedEventHandler uncheck_event = null
+			) : base() {
 			InitializeComponent();
+			if ( check_event != null ) { eChecked += check_event; }
+			if ( uncheck_event != null ) { eUnchecked += uncheck_event; }
+
 			label.Content = text;
-			this.checkbox.IsChecked = check;
+			this.checkbox.IsChecked = is_checked;
 			if ( !enable_checkbox ) { checkbox.IsEnabled = false; }
 		}
 		public void SetLabel (string text) {
@@ -56,12 +68,6 @@ namespace QLabel.Custom_Control.Small_Tools {
 		}
 		public void Uncheck () {
 			this.checkbox.IsChecked = false;
-		}
-		private void CheckBox_Checked (object sender, RoutedEventArgs e) {
-			eChecked?.Invoke(sender, e);
-		}
-		private void CheckBox_Unchecked (object sender, RoutedEventArgs e) {
-			eUnchecked?.Invoke(sender, e);
 		}
 	}
 }

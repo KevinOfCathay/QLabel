@@ -12,8 +12,8 @@
 		DockPanel.Dock="Left" 
 		HorizontalAlignment="Stretch">
 		<StackPanel.Resources>
-			<Style TargetType="{x:Type Button}">
-				<Setter Property="Margin" Value="0"/>
+			<Style TargetType="{x:Type tools:ButtonWithText}">
+				<Setter Property="Margin" Value="1"/>
 			</Style>
 		</StackPanel.Resources>
 		<tools:ButtonWithText x:Name="Mouse_Button" Click="ToolClick" ImgSource="/Resources/Icons/mouse.png" Text="Mouse"/>

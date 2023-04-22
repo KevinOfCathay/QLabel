@@ -15,9 +15,6 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public bool activate { private set; get; } = false;
 		private Vector2 position;
 
-		AnnoData _data;   // 这个点所对应的注释数据
-		public AnnoData data { get { return _data; } set { _data = value; } }
-
 		public Dot () {
 			InitializeComponent();
 		}

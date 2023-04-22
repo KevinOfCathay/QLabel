@@ -20,6 +20,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		public event Action<IAnnotationElement> eSelected, eUnselected;
 
 		public UIElement ui_element => this;
+		public string name => "Polygon";
 		private Vector2 mouse_down_position, mouse_cur_position;
 		private const float dot_radius = 8f;
 		public DraggablePolygon () {

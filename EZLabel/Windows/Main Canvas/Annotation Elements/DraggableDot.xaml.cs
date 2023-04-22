@@ -23,6 +23,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 
 		AnnoData _data;   // 这个点所对应的注释数据
 		public UIElement ui_element => this;
+		public string name => "Dot";
 		public AnnoData data { get { return _data; } set { _data = value; } }
 		public Vector2 _cpoint;
 		public Vector2[] cpoints { get { return new Vector2[] { _cpoint }; } }

@@ -64,7 +64,7 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 			if ( !groups.ContainsKey(group_name) ) {
 				// 创建一个新的 group node
 				TreeViewItem group_item = new TreeViewItem();
-				CheckboxWithLabel cbxlbl = new CheckboxWithLabel(group_name, check: true);
+				CheckboxWithLabel cbxlbl = new CheckboxWithLabel(group_name, is_checked: true);
 				group_item.Header = cbxlbl;
 				annotree.Items.Add(group_item);
 				var new_group_node = new GroupNode {
@@ -89,7 +89,7 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 			if ( category_node == null ) {
 				// 创建一个新的 supercategory node
 				TreeViewItem category_item = new TreeViewItem();
-				CheckboxWithLabel cbxlbl = new CheckboxWithLabel(category_name, check: true);
+				CheckboxWithLabel cbxlbl = new CheckboxWithLabel(category_name, is_checked: true);
 				category_item.Header = cbxlbl;
 				category_node = new SuperCategoryNode {
 					name = category_name, node = category_item, classes = new List<ClassNode>(), checkbox = cbxlbl
@@ -112,7 +112,7 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 			if ( class_node == null ) {
 				// 在 supercategory 下创建一个新的 class node
 				TreeViewItem class_item = new TreeViewItem();
-				CheckboxWithLabel c_cbxlbl = new CheckboxWithLabel(class_name, check: true);
+				CheckboxWithLabel c_cbxlbl = new CheckboxWithLabel(class_name, is_checked: true);
 				class_item.Header = c_cbxlbl;
 				class_node = new ClassNode() {
 					name = class_name, node = class_item, items = new List<ItemNode>(), checkbox = c_cbxlbl
@@ -131,7 +131,7 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 			// 在 class 下面添加一行
 			TreeViewItem item_item = new TreeViewItem();
 			CheckboxWithLabel i_cbxlbl = new CheckboxWithLabel(
-				string.Join(" ", class_name, data.rpoints.to_shortstring()), check: elem.data.check);
+				string.Join(" ", class_name, data.rpoints.to_shortstring()), is_checked: elem.data.check);
 			item_item.Header = i_cbxlbl;
 			ItemNode item_node = new ItemNode {
 				data = data, node = item_item, checkbox = i_cbxlbl

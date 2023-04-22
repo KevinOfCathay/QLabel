@@ -24,11 +24,9 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 
 		public AutoAnnotatePanel () {
 			InitializeComponent();
-
 			if ( App.main != null ) {     // TODO: replace this
 				canvas = App.main.main_canvas;
 			}
-
 			InitializeListItems();
 		}
 		/// <summary>

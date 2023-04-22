@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace QLabel.Custom_Control.Label_Tree {
@@ -12,6 +13,23 @@ namespace QLabel.Custom_Control.Label_Tree {
 	/// Interaction logic for FileTree.xaml
 	/// </summary>
 	public partial class FileTree : UserControl {
+		public string MainText {
+			get { return (string) GetValue(maintextproperty); }
+			set { SetValue(maintextproperty, value); }
+		}
+		public static readonly DependencyProperty maintextproperty =
+		    DependencyProperty.Register("MainText",
+			    propertyType: typeof(string), ownerType: typeof(FileTree),
+			    typeMetadata: new PropertyMetadata("main text"));
+		public string SubText {
+			get { return (string) GetValue(subtextproperty); }
+			set { SetValue(subtextproperty, value); }
+		}
+		public static readonly DependencyProperty subtextproperty =
+		    DependencyProperty.Register("SubText",
+			    propertyType: typeof(string), ownerType: typeof(FileTree),
+			    typeMetadata: new PropertyMetadata("sub text"));
+
 		#region Classes
 		private class Node {
 			public string name;
@@ -22,6 +40,7 @@ namespace QLabel.Custom_Control.Label_Tree {
 		#endregion
 
 		private List<Node> top = new List<Node>();
+
 		public FileTree () {
 			InitializeComponent();
 		}
@@ -44,7 +63,11 @@ namespace QLabel.Custom_Control.Label_Tree {
 			}
 		}
 		private void AddElementToTree (ImageData data) {
-
+			string filename = data.filename;
+			Node file_node = top.Find((g) => { return g.name == filename; });
+			if ( file_node == null ) {
+				TreeViewItem file_item = new TreeViewItem();
+			}
 		}
 	}
 }

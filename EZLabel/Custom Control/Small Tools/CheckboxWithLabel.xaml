@@ -7,8 +7,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QLabel.Custom_Control.Small_Tools"
              mc:Ignorable="d">
-	<!-- Dependency properties -->
-	<!-- Text : label.Content -->
 
 	<StackPanel Orientation="Horizontal">
 		<CheckBox 
@@ -16,9 +14,7 @@
 			BorderBrush="OliveDrab"
 			VerticalAlignment="Center"
 			Width="{Binding BoxSize, ElementName=checkboxwithlabel }"
-			Height="{Binding BoxSize, ElementName=checkboxwithlabel }"
-			Checked="CheckBox_Checked"
-			Unchecked="CheckBox_Unchecked">
+			Height="{Binding BoxSize, ElementName=checkboxwithlabel }">
 		</CheckBox>
 		<Label 
 			Name="label" 

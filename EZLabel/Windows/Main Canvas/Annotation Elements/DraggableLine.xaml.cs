@@ -20,6 +20,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		AnnoData _data;   // 这个矩形所对应的注释数据
 
 		public UIElement ui_element => this;
+		public string name => "Line";
 		public AnnoData data { get => _data; set => _data = value; }
 		public Vector2[] cpoints { get { return new Vector2[] { new Vector2((float) line.X1, (float) line.Y1), new Vector2((float) line.X2, (float) line.Y2) }; } }
 		public Vector2[] convex_hull { get { return Array.Empty<Vector2>(); } set { } }

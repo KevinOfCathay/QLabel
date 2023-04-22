@@ -39,16 +39,12 @@
 		</Grid.RowDefinitions>
 
 		<!-- 选择要识别的 class -->
-		<DockPanel Grid.Column="0" Margin="3, 0">
-			<Label DockPanel.Dock="Top">Classes:</Label>
-			<tree:LabelTree x:Name="labeltree" DockPanel.Dock="Top"></tree:LabelTree>
-		</DockPanel>
+		<tree:LabelTree Margin="5" x:Name="labeltree" DockPanel.Dock="Top"
+					 MainText="Classes" SubText="Choose target classes"/>
 
 		<!-- 选择要识别的文件 -->
-		<DockPanel Grid.Column="1" Margin="3, 0" >
-			<Label  DockPanel.Dock="Top">File:</Label>
-			<tree:FileTree  DockPanel.Dock="Top"></tree:FileTree>
-		</DockPanel>
+		<tree:FileTree Margin="5" DockPanel.Dock="Top" Grid.Column="1"
+					MainText="Files" SubText="Choose target files"/>
 
 		<StackPanel Grid.Column="2">
 			<StackPanel Orientation="Horizontal">
@@ -71,8 +67,6 @@
 							Orientation="Horizontal"
 							Margin="5">
 			</WrapPanel>
-
-			<Separator Margin="8, 3"/>
 
 			<StackPanel HorizontalAlignment="Right"  Orientation="Horizontal">
 				<StackPanel.Resources>

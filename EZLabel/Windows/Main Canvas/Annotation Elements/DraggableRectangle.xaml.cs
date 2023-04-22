@@ -18,6 +18,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 		/// 当长方形被重新绘制时触发
 		/// </summary>
 		public Action<DraggableRectangle, float, float> eDraw;
+		public string name => "Rectangle";
 		public UIElement ui_element => this;
 		public Dot[] dots = new Dot[5];
 		public Vector2 size {

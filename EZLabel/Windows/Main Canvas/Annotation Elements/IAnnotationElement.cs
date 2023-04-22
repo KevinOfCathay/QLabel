@@ -30,6 +30,7 @@ namespace QLabel.Windows.Main_Canvas {
 		protected static Brush brush_label_text_background_transparent = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
 		#endregion
 
+		string name { get; }
 		/// <summary>
 		/// 这个元素所关联的 UI
 		/// </summary>

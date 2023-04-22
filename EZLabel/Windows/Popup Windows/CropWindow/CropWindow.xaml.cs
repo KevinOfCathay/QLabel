@@ -21,9 +21,8 @@ namespace QLabel.Windows.CropWindow {
 		private string save_dir = "";
 		public CropWindow () {
 			InitializeComponent();
-
-			this.dir_selector.eDirectorySelected += (path) => { save_dir = path; };
-			this.dir_selector.eDialogClosed += () => { this.Topmost = true; this.Activate(); };
+			this.crop_target.InitializeCombobox(new string[] { "Current File", "All Files" });
+			this.dir_selector.eDirectorySelected += (path) => { save_dir = path; this.Topmost = true; };
 
 			var classlabels = ProjectManager.project.label_set;
 			SetClassListbox(classlabels);
@@ -86,8 +85,8 @@ namespace QLabel.Windows.CropWindow {
 		}
 		private Bitmap CropBitmap (Bitmap source_image, AnnoData data) {
 			// 读取前端 preferred_width, preferred_height 参数
-			bool has_width = IsValidateUint(this.preferred_width.textbox.Text);
-			bool has_height = IsValidateUint(this.preferred_height.textbox.Text);
+			bool has_width = IsValidateUint(this.preferred_width.GetInput());
+			bool has_height = IsValidateUint(this.preferred_height.GetInput());
 
 			int bbox_width = data.brect.Width, bbox_height = data.brect.Height;
 			int bbox_x = data.brect.X, bbox_y = data.brect.Y;
@@ -96,8 +95,8 @@ namespace QLabel.Windows.CropWindow {
 			if ( has_width && has_height ) {
 				// 同时拥有 width, height
 				// 设置宽和高为目标宽、高
-				target_width = int.Parse(this.preferred_width.textbox.Text);
-				target_height = int.Parse(this.preferred_height.textbox.Text);
+				target_width = int.Parse(this.preferred_width.GetInput());
+				target_height = int.Parse(this.preferred_height.GetInput());
 
 				// 计算比例
 				// 如果 20×10 的 source 图像目标为 10×8 target
@@ -126,7 +125,7 @@ namespace QLabel.Windows.CropWindow {
 						cropped_width, cropped_height), GraphicsUnit.Pixel);
 				return cropped_bitmap;
 			} else if ( has_width ) {
-				target_width = int.Parse(this.preferred_width.textbox.Text);
+				target_width = int.Parse(this.preferred_width.GetInput());
 				// 计算比例
 				// 如果 20×10 的 bbox 图像目标为 10×. target
 				// 则裁剪 20×10 的区域并缩放为 10×5
@@ -143,7 +142,7 @@ namespace QLabel.Windows.CropWindow {
 						cropped_width, cropped_height), GraphicsUnit.Pixel);
 				return cropped_bitmap;
 			} else if ( has_height ) {
-				target_height = int.Parse(this.preferred_height.textbox.Text);
+				target_height = int.Parse(this.preferred_height.GetInput());
 				float h_ratio = (float) bbox_width / (float) target_height;
 				float cropped_width = bbox_width / h_ratio;
 				float cropped_height = target_height;

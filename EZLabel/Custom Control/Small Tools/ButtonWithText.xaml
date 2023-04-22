@@ -14,16 +14,12 @@
 			Name="button"
 			Height="30" 
 			Width="30" 
-			BorderBrush="Transparent">
+			BorderBrush="DarkCyan" Background="Transparent">
 			<Image
 				Height="26"
 				Width="26"
 				Source="{Binding ImgSource, ElementName=buttonwithtext}"/>
-			<Button.Resources>
-				<Style TargetType="Border">
-					<Setter Property="CornerRadius" Value="4"/>
-				</Style>
-			</Button.Resources>
+
 		</Button>
 		<TextBlock 
 			Foreground="#FF787878"

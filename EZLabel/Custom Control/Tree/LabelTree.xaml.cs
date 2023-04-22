@@ -1,4 +1,5 @@
 ﻿using QLabel.Custom_Control.Small_Tools;
+using QLabel.Custom_Control.Small_Tools.Option_Box;
 using QLabel.Scripts;
 using QLabel.Scripts.AnnotationData;
 using QLabel.Scripts.Utils;
@@ -22,6 +23,23 @@ using System.Windows.Shapes;
 
 namespace QLabel.Custom_Control.Label_Tree {
 	public partial class LabelTree : UserControl {
+		public string MainText {
+			get { return (string) GetValue(maintextproperty); }
+			set { SetValue(maintextproperty, value); }
+		}
+		public static readonly DependencyProperty maintextproperty =
+		    DependencyProperty.Register("MainText",
+			    propertyType: typeof(string), ownerType: typeof(LabelTree),
+			    typeMetadata: new PropertyMetadata("main text"));
+		public string SubText {
+			get { return (string) GetValue(subtextproperty); }
+			set { SetValue(subtextproperty, value); }
+		}
+		public static readonly DependencyProperty subtextproperty =
+		    DependencyProperty.Register("SubText",
+			    propertyType: typeof(string), ownerType: typeof(LabelTree),
+			    typeMetadata: new PropertyMetadata("sub text"));
+
 		public bool checkbox_active = true;
 		public event Action<ClassLabel> eCheck, eUncheck;
 		public LabelTree () {
@@ -40,6 +58,8 @@ namespace QLabel.Custom_Control.Label_Tree {
 		}
 		#endregion Classes
 		private List<Node> groups = new List<Node>();
+		private List<ClassLabel> _selected_labels = new List<ClassLabel>();
+		public IEnumerable<ClassLabel> selected_labels { get => selected_labels; }
 
 		public void SetUI (IEnumerable<ClassLabel> labels,
 			Action<ClassLabel> check = null,
@@ -86,7 +106,7 @@ namespace QLabel.Custom_Control.Label_Tree {
 				// 如果 group child 为空（未找到）
 				// 创建一个新的 group child
 				TreeViewItem group_item = new TreeViewItem();
-				CheckboxWithLabel cbxlbl = new CheckboxWithLabel(group_name, check: is_checked, enable_checkbox: checkbox_active);
+				CheckboxWithLabel cbxlbl = new CheckboxWithLabel(group_name, is_checked: is_checked, enable_checkbox: checkbox_active);
 				group_item.Header = cbxlbl;
 
 				labeltree.Items.Add(group_item);
@@ -97,12 +117,8 @@ namespace QLabel.Custom_Control.Label_Tree {
 				groups.Add(group_node);
 
 				//  eCheck/eUncheck 事件
-				cbxlbl.eChecked += (_, _) => {
-					foreach ( var child in group_node.children ) { child.checkbox.Check(); }
-				};
-				cbxlbl.eUnchecked += (_, _) => {
-					foreach ( var child in group_node.children ) { child.checkbox.Uncheck(); }
-				};
+				cbxlbl.eChecked += (_, _) => { foreach ( var child in group_node.children ) { child.checkbox.Check(); } };
+				cbxlbl.eUnchecked += (_, _) => { foreach ( var child in group_node.children ) { child.checkbox.Uncheck(); } };
 			}
 
 			// 搜寻当前 group child 下是否含有 supercategory
@@ -110,7 +126,7 @@ namespace QLabel.Custom_Control.Label_Tree {
 			if ( category_node == null ) {
 				// 创建一个新的 supercategory child
 				TreeViewItem category_item = new TreeViewItem();
-				CheckboxWithLabel cbxlbl = new CheckboxWithLabel(category_name, check: is_checked, enable_checkbox: checkbox_active);
+				CheckboxWithLabel cbxlbl = new CheckboxWithLabel(category_name, is_checked: is_checked, enable_checkbox: checkbox_active);
 				category_item.Header = cbxlbl;
 				category_node = new Node {
 					name = category_name, node = category_item,
@@ -130,19 +146,20 @@ namespace QLabel.Custom_Control.Label_Tree {
 			if ( class_node == null ) {
 				// 在 supercategory 下创建一个新的 class child
 				TreeViewItem class_item = new TreeViewItem();
-				CheckboxWithLabel c_cbxlbl = new CheckboxWithLabel(class_name, check: is_checked, enable_checkbox: checkbox_active);
+				CheckboxWithLabel c_cbxlbl = new CheckboxWithLabel(
+					class_name, is_checked: is_checked, enable_checkbox: checkbox_active,
+					delegate (object _, RoutedEventArgs _) { eCheck?.Invoke(label); _selected_labels.Add(label); },
+					delegate (object _, RoutedEventArgs _) { eUncheck?.Invoke(label); _selected_labels.Remove(label); }
+					);
 				class_item.Header = c_cbxlbl;
 				class_node = new Node() {
 					name = class_name, node = class_item,
 					children = new List<Node>(), checkbox = c_cbxlbl
 				};
 				category_node.children.Add(class_node);
-
-				c_cbxlbl.eChecked += (_, _) => { eCheck?.Invoke(label); };
-				c_cbxlbl.eUnchecked += (_, _) => { eUncheck?.Invoke(label); };
+				category_node.node.Items.Add(class_item);
 
 				if ( is_checked ) { c_cbxlbl.Check(); }
-				category_node.node.Items.Add(class_item);
 			}
 		}
 	}

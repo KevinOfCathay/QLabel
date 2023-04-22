@@ -127,7 +127,7 @@ namespace QLabel.Windows.Main_Canvas {
 		}
 		public void ClearCanvas () {
 			foreach ( var elem in annotation_elements ) {
-				elem.PostDelete(this);
+				annotation_canvas.Children.Remove(elem.ui_element);
 			}
 			annotation_elements.Clear();
 		}
