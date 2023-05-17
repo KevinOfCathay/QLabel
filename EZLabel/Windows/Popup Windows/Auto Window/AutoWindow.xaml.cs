@@ -24,10 +24,10 @@ namespace QLabel.Windows.Popup_Windows.Auto_Window {
 	public partial class AutoWindow : Window {
 		private MainWindow main;
 		private MainCanvas canvas;
-		private BaseInferenceMachine selected_machine;
+		private InferenceBase selected_machine;
 		private HashSet<int> accepted_classes = new HashSet<int>();
-		private HashSet<ImageData> accepted_files = new HashSet<ImageData>();
-		internal event Action<BaseInferenceMachine>? eRunBefore, eRunAfter;
+		private HashSet<ImageData> accepted_image_datas = new HashSet<ImageData>();
+		internal event Action<InferenceBase>? eRunBefore, eRunAfter;
 
 		public AutoWindow () {
 			InitializeComponent();
@@ -35,8 +35,9 @@ namespace QLabel.Windows.Popup_Windows.Auto_Window {
 		}
 		internal AutoWindow (
 			MainWindow main, MainCanvas canvas,
-			Action<BaseInferenceMachine>? eRunBefore = null, Action<BaseInferenceMachine>? eRunAfter = null) {
+			Action<InferenceBase>? eRunBefore = null, Action<InferenceBase>? eRunAfter = null) {
 			InitializeComponent();
+
 			this.main = main;
 			this.canvas = canvas;
 			if ( eRunBefore != null ) { this.eRunBefore += eRunBefore; }
@@ -46,6 +47,17 @@ namespace QLabel.Windows.Popup_Windows.Auto_Window {
 			confirm_cancel.ConfirmClick += Run;
 			confirm_cancel.ConfirmClick += (_, _) => { this.Close(); };
 			InitializeListItems();
+			InitializeFileTree();
+		}
+
+		/// <summary>
+		/// 初始化文件树
+		/// </summary>
+		private void InitializeFileTree () {
+			filetree.SetUI(ProjectManager.project.datas,
+				check: delegate (ImageData data) { accepted_image_datas.Add(data); },
+				uncheck: delegate (ImageData data) { accepted_image_datas.Remove(data); }
+			);
 		}
 
 		/// <summary>
@@ -110,21 +122,22 @@ namespace QLabel.Windows.Popup_Windows.Auto_Window {
 
 			selected_machine.BuildSession();
 			if ( canvas != null && canvas.can_annotate ) {
-
-
 				if ( accepted_classes.Count == 0 ) { return; }
-				var bitmap = ImageUtils.GetBitmapFromPath(ProjectManager.cur_datafile.path);
-				eRunBefore?.Invoke(selected_machine);
-				var ads = selected_machine.RunInference(bitmap, accepted_classes);
-				eRunAfter?.Invoke(selected_machine);
-				List<IAnnotationElement> elements = new List<IAnnotationElement>(ads.Length);
-				foreach ( var ad in ads ) {
-					var element = ad.CreateAnnotationElement(canvas);
-					elements.Add(element);
-					ProjectManager.AddAnnoData(ProjectManager.cur_datafile, ad);
+				foreach ( var image_data in accepted_image_datas ) {
+					var bitmap = ImageUtils.GetBitmapFromPath(image_data.path);
+					eRunBefore?.Invoke(selected_machine);
+					var ads = selected_machine.RunInference(bitmap, accepted_classes);
+					eRunAfter?.Invoke(selected_machine);
+					List<IAnnotationElement> elements = new List<IAnnotationElement>(ads.Length);
+					foreach ( var ad in ads ) {
+						var element = ad.CreateAnnotationElement(canvas);
+						elements.Add(element);
+						ProjectManager.AddAnnoData(image_data, ad);
+					}
+					bool add_to_canvas = ( image_data == ProjectManager.cur_datafile );
+					BulkAddElementsToCanvas bulk_add_elements = new BulkAddElementsToCanvas(canvas, elements, add_ui_element_to_canvas: add_to_canvas);
+					ActionManager.PushAndExecute(bulk_add_elements);
 				}
-				BulkAddElementsToCanvas bulk_add_elements = new BulkAddElementsToCanvas(canvas, elements, add_ui_element_to_canvas: true);
-				ActionManager.PushAndExecute(bulk_add_elements);
 			}
 		}
 	}

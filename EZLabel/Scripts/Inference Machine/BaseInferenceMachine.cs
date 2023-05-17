@@ -12,12 +12,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace QLabel.Scripts.Inference_Machine {
-	internal abstract class BaseInferenceMachine {
+	internal abstract class InferenceBase {
 		protected string model_path;
 		protected InferenceSession session;
 		protected readonly int[] input_dims, output_dims;
 
-		public BaseInferenceMachine (int[] input_dims, int[] output_dims) {
+		public InferenceBase (int[] input_dims, int[] output_dims) {
 			this.input_dims = input_dims;
 			this.output_dims = output_dims;
 		}

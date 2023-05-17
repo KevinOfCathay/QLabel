@@ -15,7 +15,7 @@ using System.Windows.Media.Media3D;
 using QLabel.Windows.Main_Canvas.Annotation_Elements;
 
 namespace QLabel.Scripts.Inference_Machine {
-	internal sealed class HRNetInference : BaseInferenceMachine {
+	internal sealed class HRNetInference : InferenceBase {
 		private readonly ClassLabel[] labels;
 		private readonly (int x, int y, ClassLabel)[] skeletons;
 		private readonly int in_width, in_height;

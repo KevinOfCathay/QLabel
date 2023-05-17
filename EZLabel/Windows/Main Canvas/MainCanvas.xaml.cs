@@ -14,6 +14,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
+using QLabel.Windows.Main_Canvas.Objects;
 
 namespace QLabel.Windows.Main_Canvas {
 	public partial class MainCanvas : UserControl {
@@ -34,6 +35,7 @@ namespace QLabel.Windows.Main_Canvas {
 		public event Action<MainCanvas> eCanvasImageSizeChanged;      // 画布改变大小（影响画布上所有元素的大小和位置）
 		public event Action<MainCanvas, Vector2> eCanvasSizeChanged;
 		public List<IAnnotationElement> annotation_elements = new List<IAnnotationElement>();        // 用于存放所有 annotation 的地方
+		public AnnoLabel annolabel = null;
 
 		public MainCanvas () {
 			InitializeComponent();
@@ -137,7 +139,7 @@ namespace QLabel.Windows.Main_Canvas {
 		public void LoadAnnotations (ImageData data) {
 			foreach ( var anno in data.annodata ) {
 				var elem = anno.CreateAnnotationElement(this);
-				AddAnnoElements(elem, add_ui_element: true);
+				AddAnnoElement(elem, add_ui_element: true);
 			}
 		}
 		/// <summary>
@@ -200,16 +202,32 @@ namespace QLabel.Windows.Main_Canvas {
 			image_scale = scale;
 			ChangeCanvasSize(new_width, new_height);
 		}
-		public void AddAnnoElements (IAnnotationElement element, bool add_ui_element = false) {
+		public void AddAnnoElement (IAnnotationElement element, bool add_ui_element = false) {
 			if ( can_annotate && element != null ) {
 				annotation_elements.Add(element);
-				if ( add_ui_element && element.ui_element != null ) {
-					annotation_canvas.Children.Add(element.ui_element);
+				if ( element.ui_element != null ) {
+					var ui_element = element.ui_element;
+					ui_element.MouseEnter += delegate (object sender, MouseEventArgs e) {
+						annolabel = new AnnoLabel(new Point(Canvas.GetLeft(ui_element), Canvas.GetTop(ui_element) - 20.0), element.data.clas.name);
+						annotation_canvas.Children.Add(annolabel);
+					};
+					ui_element.MouseLeave += HideLabel;
+					if ( add_ui_element ) {
+						annotation_canvas.Children.Add(element.ui_element);
+					}
 				}
 				eAnnotationElementAdded?.Invoke(this, element);
 			}
 		}
-		public void AddBulkAnnoElements (IEnumerable<IAnnotationElement> elements, bool add_ui_element = false) {
+
+		private void HideLabel (object sender, MouseEventArgs e) {
+			if ( annolabel != null ) {
+				annotation_canvas.Children.Remove(annolabel);
+			}
+		}
+
+
+		public void AddAnnoElements (IEnumerable<IAnnotationElement> elements, bool add_ui_element = false) {
 			if ( can_annotate && elements != null ) {
 				foreach ( var element in elements ) {
 					annotation_elements.Add(element);

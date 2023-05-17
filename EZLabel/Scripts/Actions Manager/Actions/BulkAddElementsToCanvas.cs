@@ -24,7 +24,7 @@ namespace QLabel.Actions {
 
 		public void Do () {
 			foreach ( var element in elements ) {
-				canvas.AddAnnoElements(element, add_ui_element_to_canvas);
+				canvas.AddAnnoElement(element, add_ui_element_to_canvas);
 				ProjectManager.AddAnnoData(ProjectManager.cur_datafile, element.data);
 			}
 		}

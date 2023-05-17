@@ -50,7 +50,8 @@ namespace QLabel.Custom_Control.Small_Tools {
 			InitializeComponent();
 		}
 		public CheckboxWithLabel (string text, bool is_checked,
-			bool enable_checkbox = true, RoutedEventHandler check_event = null, RoutedEventHandler uncheck_event = null
+			bool enable_checkbox = true, 
+			RoutedEventHandler check_event = null, RoutedEventHandler uncheck_event = null
 			) : base() {
 			InitializeComponent();
 			if ( check_event != null ) { eChecked += check_event; }

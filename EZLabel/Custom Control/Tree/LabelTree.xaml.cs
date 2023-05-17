@@ -135,7 +135,7 @@ namespace QLabel.Custom_Control.Label_Tree {
 				// 在 group child 下创建
 				group_node.children.Add(category_node);
 
-				//  eCheck/eUncheck 事件
+				//  eCheck / eUncheck 事件
 				cbxlbl.eChecked += (_, _) => { foreach ( var child in category_node.children ) { child.checkbox.Check(); } };
 				cbxlbl.eUnchecked += (_, _) => { foreach ( var child in category_node.children ) { child.checkbox.Uncheck(); } };
 				group_node.node.Items.Add(category_item);

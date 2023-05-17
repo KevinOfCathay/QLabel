@@ -16,7 +16,7 @@ using QLabel.Windows.Main_Canvas.Annotation_Elements;
 using System.Diagnostics;
 
 namespace QLabel.Scripts.Inference_Machine {
-	internal sealed class HRNetInferenceBU : BaseInferenceMachine {
+	internal sealed class HRNetInferenceBU : InferenceBase {
 		private readonly ClassLabel[] labels;
 		private readonly (int x, int y, ClassLabel)[] skeletons;
 		private readonly int num_joints;

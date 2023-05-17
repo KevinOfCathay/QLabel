@@ -85,6 +85,19 @@ namespace QLabel.Scripts {
 											){},
 				}
 			},
+			new ModelSet {
+				name = "Text Recognition",
+				model_configs = new Config[] {
+											new PaddleRecConfig (
+													model_name : "PaddleOCR Recognition",
+													model_path : @"Resources/Models/paddle_rec_jp.onnx",
+													charset: ModelLabels.jp_charset,
+													class_labels : ModelLabels.textdet,
+													input_dims: new int[] { 1, 3, 48, -1 },
+													output_dims: new int[] { 1, -1, 4401 }
+											){},
+				}
+			},
 		};
 	}
 }

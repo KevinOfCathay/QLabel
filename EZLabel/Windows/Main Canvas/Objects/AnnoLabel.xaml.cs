@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,9 +18,16 @@ namespace QLabel.Windows.Main_Canvas.Objects {
 	/// <summary>
 	/// Interaction logic for LabelRectangle.xaml
 	/// </summary>
-	public partial class LabelRectangle : UserControl {
-		public LabelRectangle () {
+	public partial class AnnoLabel : UserControl {
+		public AnnoLabel () {
 			InitializeComponent();
+		}
+		public AnnoLabel (Point cpoint, string text) {
+			InitializeComponent();
+
+			this.text.Text = text;
+			Canvas.SetLeft(this, cpoint.X);
+			Canvas.SetTop(this, cpoint.Y);
 		}
 	}
 }

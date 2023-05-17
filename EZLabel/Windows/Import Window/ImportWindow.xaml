@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QLabel.Windows.Import_Window"
 	    xmlns:tool="clr-namespace:QLabel.Custom_Control.Small_Tools"
+	    xmlns:option="clr-namespace:QLabel.Custom_Control.Small_Tools.Option_Box"
         mc:Ignorable="d"
 	   Background="AliceBlue"
         Title="Import From..." 
@@ -33,7 +34,7 @@
 			</ComboBox>
 
 			<Label FontSize="8.5">Open From:</Label>
-			<tool:DirectorySelector x:Name="dir_selector"></tool:DirectorySelector>
+			<option:OptionDirSelector x:Name="dir_selector"></option:OptionDirSelector>
 		</StackPanel>
 		<tool:ConfirmCancel Grid.Row="1" x:Name="confirm_cancel"
 						ConfirmClick="ConfirmClick" CancelClick="CancelClick"/>

@@ -9,12 +9,10 @@
              d:DesignHeight="450" d:DesignWidth="200">
 
 	<StackPanel>
-		<TextBlock FontSize="9.5" Margin="2">Labels</TextBlock>
-
 		<!-- 这里将显示所有的 label 信息 -->
 		<tree:LabelTree x:Name="labeltree" 
-					 MinHeight="200"
-					 MaxHeight="300"></tree:LabelTree>
+					 MainText="Labels" SubText="List of all class labels"
+					 MinHeight="200"></tree:LabelTree>
 
 		<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 			<StackPanel.Resources>

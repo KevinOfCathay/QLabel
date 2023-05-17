@@ -11,7 +11,7 @@ namespace QLabel.Scripts {
 	internal class Config {
 		public Config (
 			string model_name, string model_path,
-			int width, int height, ClassLabel[] class_labels, BaseInferenceMachine inf) {
+			int width, int height, ClassLabel[] class_labels, InferenceBase inf) {
 
 			this.model_name = model_name;
 			this.model_path = model_path;
@@ -24,7 +24,7 @@ namespace QLabel.Scripts {
 		public readonly string model_path;
 		public readonly int width, height;
 		public readonly ClassLabel[] class_labels;
-		public readonly BaseInferenceMachine inf;
+		public readonly InferenceBase inf;
 		public string[] tags = new string[0];     // 这个模型的额外标签（用于描述这个模型）
 	}
 	internal class HRNetConfig : Config {
@@ -67,5 +67,13 @@ namespace QLabel.Scripts {
 			base(model_name, model_path, width, height, class_labels,
 				new PANetInference(model_path, class_labels, width, height, class_labels.Length)
 				) { }
+	}
+	internal class PaddleRecConfig : Config {
+		public PaddleRecConfig (
+			string model_name, string model_path, ClassLabel[] class_labels, string charset,
+			int[] input_dims, int[] output_dims) :
+			base(model_name, model_path, input_dims[3], input_dims[2], class_labels,
+				new PaddleRecInference(model_path, class_labels, charset, input_dims: input_dims, output_dims: output_dims)
+			) { }
 	}
 }

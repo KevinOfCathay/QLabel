@@ -231,7 +231,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			ADPolygon polydata = new ADPolygon(data.rpoints, data.clas, data.conf);  // 复制数据
 			polygon.data = polydata;
 			canvas.annotation_canvas.Children.Add(polygon);
-			canvas.AddAnnoElements(polygon);
+			canvas.AddAnnoElement(polygon);
 			canvas.RemoveAnnoElements(this);
 			return polygon;
 		}

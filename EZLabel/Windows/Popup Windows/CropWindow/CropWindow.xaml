@@ -9,7 +9,6 @@
         xmlns:textboxes="clr-namespace:QLabel.Custom_Control.Small_Tools.Textboxes"
 	   xmlns:labeltree="clr-namespace:QLabel.Custom_Control.Label_Tree"
 	   mc:Ignorable="d"
-	   Background="AliceBlue"
 	   xmlns:cvt="clr-namespace:QLabel.Converters"
 	   Height="300" Width="480"
 	   MinHeight="300" MinWidth="480"

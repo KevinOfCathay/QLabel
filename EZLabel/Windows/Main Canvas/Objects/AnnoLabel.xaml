@@ -1,15 +1,14 @@
-﻿<UserControl x:Class="QLabel.Windows.Main_Canvas.Objects.LabelRectangle"
+﻿<UserControl x:Class="QLabel.Windows.Main_Canvas.Objects.AnnoLabel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QLabel.Windows.Main_Canvas.Objects"
              mc:Ignorable="d">
-	<Grid>
+	<Border BorderThickness="1" BorderBrush="#7FA7A7A7">
 		<TextBlock 
-			Name="text"
-			FontSize="8.5" Background="#7FD3D3D3">
-			LABEL-TEXT
+			Name="text" FontSize="8.5" Background="#7FD3D3D3">
+			[ LABEL ]
 		</TextBlock>
-	</Grid>
+	</Border>
 </UserControl>

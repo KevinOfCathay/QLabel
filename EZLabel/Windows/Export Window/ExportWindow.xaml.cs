@@ -40,7 +40,7 @@ namespace QLabel.Windows.Export_Window {
 		private void RegisterEvents (object? sender, EventArgs e) {
 			// Register Events
 			this.dir_selector.eDirectorySelected += (path) => { save_dir = path; };
-			this.dir_selector.eDialogClosed += () => { this.Topmost = true; this.Activate(); };
+			this.dir_selector.eDirectoryClosed += () => { this.Topmost = true; this.Activate(); };
 		}
 		private void ConfirmClick (object sender, RoutedEventArgs e) {
 			List<ImageData> datalist = new List<ImageData>();

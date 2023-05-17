@@ -62,7 +62,7 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 			string category_name = clas.supercategory;
 			GroupNode group_node;
 			if ( !groups.ContainsKey(group_name) ) {
-				// 创建一个新的 group node
+				// 创建一个新的 group item
 				TreeViewItem group_item = new TreeViewItem();
 				CheckboxWithLabel cbxlbl = new CheckboxWithLabel(group_name, is_checked: true);
 				group_item.Header = cbxlbl;
@@ -81,13 +81,13 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 					foreach ( var cat in new_group_node.categories ) { cat.checkbox.Uncheck(); }
 				};
 			}
-			// 获取 group node
+			// 获取 group item
 			group_node = groups[group_name];
 
-			// 搜寻当前 group node 下是否含有 supercategory
+			// 搜寻当前 group item 下是否含有 supercategory
 			var category_node = group_node.categories.Find((c) => { return c.name == category_name; });
 			if ( category_node == null ) {
-				// 创建一个新的 supercategory node
+				// 创建一个新的 supercategory item
 				TreeViewItem category_item = new TreeViewItem();
 				CheckboxWithLabel cbxlbl = new CheckboxWithLabel(category_name, is_checked: true);
 				category_item.Header = cbxlbl;
@@ -110,7 +110,7 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 			var class_node = category_node.classes.Find((c) => { return c.name == class_name; });
 
 			if ( class_node == null ) {
-				// 在 supercategory 下创建一个新的 class node
+				// 在 supercategory 下创建一个新的 class item
 				TreeViewItem class_item = new TreeViewItem();
 				CheckboxWithLabel c_cbxlbl = new CheckboxWithLabel(class_name, is_checked: true);
 				class_item.Header = c_cbxlbl;

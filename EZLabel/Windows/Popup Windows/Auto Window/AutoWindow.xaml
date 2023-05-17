@@ -9,7 +9,6 @@
 	   xmlns:cvt="clr-namespace:QLabel.Converters"
 	   mc:Ignorable="d"
         Title="Auto..." 
-	   Background="AliceBlue"
 	   Height="400" Width="600"
 	   MinHeight="400" MinWidth="600">
 
@@ -39,11 +38,11 @@
 		</Grid.RowDefinitions>
 
 		<!-- 选择要识别的 class -->
-		<tree:LabelTree Margin="5" x:Name="labeltree" DockPanel.Dock="Top"
+		<tree:LabelTree  x:Name="labeltree" Margin="5" DockPanel.Dock="Top"
 					 MainText="Classes" SubText="Choose target classes"/>
 
 		<!-- 选择要识别的文件 -->
-		<tree:FileTree Margin="5" DockPanel.Dock="Top" Grid.Column="1"
+		<tree:FileTree x:Name="filetree" Margin="5" DockPanel.Dock="Top" Grid.Column="1"
 					MainText="Files" SubText="Choose target files"/>
 
 		<StackPanel Grid.Column="2">

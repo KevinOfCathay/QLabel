@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using System.Drawing.Imaging;
 
 namespace QLabel.Scripts.Inference_Machine {
-	internal sealed class Yolov7Inference : BaseInferenceMachine {
+	internal sealed class Yolov7Inference : InferenceBase {
 		public readonly int width, height, classes;
 		private readonly ClassLabel[] labels;
 

@@ -1,5 +1,4 @@
-﻿using Microsoft.WindowsAPICodePack.Dialogs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,19 +15,16 @@ using System.Windows.Shapes;
 
 namespace QLabel.Custom_Control.Small_Tools.Option_Box {
 	/// <summary>
-	/// Interaction logic for OptionDirSelector.xaml
+	/// Interaction logic for OptionCombobox.xaml
 	/// </summary>
-	public partial class OptionDirSelector : UserControl {
-		public string directory { get => this.path.Text; }
-		public event Action<string> eDirectorySelected;
-		public event Action eDirectoryClosed;
+	public partial class OptionTextblock : UserControl {
 		public string MainText {
 			get { return (string) GetValue(maintextproperty); }
 			set { SetValue(maintextproperty, value); }
 		}
 		public static readonly DependencyProperty maintextproperty =
 		    DependencyProperty.Register("MainText",
-			    propertyType: typeof(string), ownerType: typeof(OptionDirSelector),
+			    propertyType: typeof(string), ownerType: typeof(OptionTextblock),
 			    typeMetadata: new PropertyMetadata("main text"));
 		public string SubText {
 			get { return (string) GetValue(subtextproperty); }
@@ -36,25 +32,14 @@ namespace QLabel.Custom_Control.Small_Tools.Option_Box {
 		}
 		public static readonly DependencyProperty subtextproperty =
 		    DependencyProperty.Register("SubText",
-			    propertyType: typeof(string), ownerType: typeof(OptionDirSelector),
+			    propertyType: typeof(string), ownerType: typeof(OptionTextblock),
 			    typeMetadata: new PropertyMetadata("sub text"));
 
-		public OptionDirSelector () {
+		public OptionTextblock () {
 			InitializeComponent();
 		}
-		private void SelectDirectoryClick (object sender, RoutedEventArgs e) {
-			using ( var dialog = new CommonOpenFileDialog() ) {
-				dialog.IsFolderPicker = true;
-				dialog.EnsureFileExists = true;
-				dialog.EnsurePathExists = true;
-
-				if ( dialog.ShowDialog() == CommonFileDialogResult.Ok ) {
-					var path = dialog.FileName;
-					this.path.Text = path;
-					eDirectorySelected?.Invoke(path);
-				}
-			}
-			eDirectoryClosed?.Invoke();
+		public OptionTextblock (IEnumerable<string> options) {
+			InitializeComponent();
 		}
 	}
 }

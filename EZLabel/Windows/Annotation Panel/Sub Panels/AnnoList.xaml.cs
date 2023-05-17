@@ -158,7 +158,7 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 		}
 		private void ListViewItemSelected (object sender, RoutedEventArgs e) {
 			var item = sender as ListViewItem;
-			if ( item != null && item.DataContext != null ) {       // node 本身不为 null, node 所关联的 datacontext 不为 null
+			if ( item != null && item.DataContext != null ) {       // item 本身不为 null, item 所关联的 datacontext 不为 null
 				var context = item.DataContext as Row;
 				if ( context != null ) {
 					eItemSelected?.Invoke(context.elem);

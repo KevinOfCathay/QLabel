@@ -20,7 +20,7 @@ namespace QLabel.Actions {
 			this.add_ui_element_to_canvas = add_ui_element_to_canvas;
 		}
 		public void Do () {
-			canvas.AddAnnoElements(element, add_ui_element_to_canvas);
+			canvas.AddAnnoElement(element, add_ui_element_to_canvas);
 			ProjectManager.AddAnnoData(ProjectManager.cur_datafile, element.data);
 		}
 		public void Undo () {

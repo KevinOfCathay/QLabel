@@ -7,7 +7,6 @@
 	    xmlns:tool="clr-namespace:QLabel.Custom_Control.Small_Tools"
 	   xmlns:cvt="clr-namespace:QLabel.Converters"
         mc:Ignorable="d"
-	   Background="AliceBlue"
 	   Height="300" Width="480"
 	   MinHeight="300" MinWidth="480">
 
