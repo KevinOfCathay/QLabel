@@ -10,7 +10,6 @@
 	   xmlns:cvt="clr-namespace:QLabel.Converters"
         mc:Ignorable="d"
         Title="Export To..." 
-	   Background="AliceBlue"
 	   Height="280" Width="450"
 	   MinHeight="280" MinWidth="450"
 	   Initialized="RegisterEvents"
@@ -34,8 +33,8 @@
 			<RowDefinition Height="auto"></RowDefinition>
 		</Grid.RowDefinitions>
 		<DockPanel Grid.Column="0" Grid.Row="0" Margin="0, 0, 8, 0">
-			<Label DockPanel.Dock="Top" FontSize="8.5">Export Classes:</Label>
-			<labeltree:LabelTree x:Name="labeltree" DockPanel.Dock="Top">
+			<labeltree:LabelTree x:Name="labeltree" DockPanel.Dock="Top"
+							 MainText="Export Classes" SubText="Choose classes you want to export">
 			</labeltree:LabelTree>
 		</DockPanel>
 		<StackPanel Grid.Column="1" Grid.Row="0">
@@ -74,8 +73,8 @@
 				</ComboBox>
 			</StackPanel>
 
-			<Label FontSize="8.5">Save To:</Label>
-			<option:OptionDirSelector x:Name="dir_selector"></option:OptionDirSelector>
+			<option:OptionDirSelector x:Name="dir_selector" 
+								 MainText="Save To" SubText="Choose a directory for saving"/>
 		</StackPanel>
 		<tool:ConfirmCancel 
 			Grid.ColumnSpan="2" Grid.Row="1" x:Name="confirm_cancel"

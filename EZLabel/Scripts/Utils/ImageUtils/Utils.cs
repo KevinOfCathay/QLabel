@@ -4,17 +4,11 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Numerics;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
-using static OpenCvSharp.LineIterator;
 
 namespace QLabel {
-	internal static class ImageUtils {
+	internal static partial class ImageUtils {
 		public static Bitmap ToBitmap (this BitmapImage bitmapImage) {
 			// https://stackoverflow.com/a/6484754
 			using MemoryStream outStream = new();
@@ -24,25 +18,7 @@ namespace QLabel {
 			Bitmap bitmap = new Bitmap(outStream);
 			return new Bitmap(bitmap);
 		}
-		/// <summary>
-		/// Async 从文件路径中读取图片
-		/// </summary>
-		public static async Task<BitmapImage> ReadImageFromFileAsync (
-			string path, int decode_width = -1, int decode_height = -1) {
-			return await Task.Run(
-				() => {
-					BitmapImage image = new BitmapImage();
-					image.BeginInit();
-					image.UriSource = new Uri(path);
-					if ( decode_width > 0 ) { image.DecodePixelWidth = decode_width; }
-					if ( decode_height > 0 ) { image.DecodePixelHeight = decode_height; }
-					image.CacheOption = BitmapCacheOption.OnLoad;
-					image.EndInit();
-					image.Freeze();
-					return image;
-				}
-			);
-		}
+
 		/// <summary>
 		/// Async 从文件路径中读取图片
 		/// </summary>
@@ -88,11 +64,6 @@ namespace QLabel {
 					return pixels;
 				});
 		}
-		public static async Task SaveBitmapAsync (Bitmap bitmap, string save_path) {
-			await Task.Run(
-			    () => { bitmap.Save(save_path); }
-			);
-		}
 		public static async Task SaveCroppedImageAsync (CroppedBitmap cropped_image, string save_path) {
 			await Task.Run(
 			    () => {
@@ -104,36 +75,6 @@ namespace QLabel {
 				    }
 			    }
 			);
-		}
-		public static Bitmap GetBitmapFromPath (string path) {
-			return new Bitmap(Image.FromFile(path));
-		}
-		public static Bitmap ResizeBitmap (
-			Bitmap source, int target_width, int target_height,
-			InterpolationMode interp = InterpolationMode.Bilinear) {
-			if ( source != null ) {
-				var result = new Bitmap(target_width, target_height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-				using ( Graphics g = Graphics.FromImage(result) ) {
-					g.InterpolationMode = interp;
-					g.DrawImage(source, 0, 0, target_width, target_height);
-				}
-				return result;
-			} else {
-				throw new ArgumentNullException("当前没有任何图片");
-			}
-		}
-		public static Bitmap CropBitmap (Bitmap source, Vector2 xy, Vector2 wh,
-			InterpolationMode interp = InterpolationMode.Bilinear) {
-			int width = (int) ( wh.X );
-			int height = (int) ( wh.Y );
-
-			Bitmap target = new Bitmap(width, height);
-			using ( Graphics g = Graphics.FromImage(target) ) {
-				g.InterpolationMode = interp;
-				g.DrawImage(source, new Rectangle(0, 0, width, height),
-				   new Rectangle((int) xy.X, (int) xy.Y, width, height), GraphicsUnit.Pixel);
-			}
-			return target;
 		}
 	}
 }

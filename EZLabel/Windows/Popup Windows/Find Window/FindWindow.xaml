@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QLabel.Windows.Popup_Windows"
-	    xmlns:tool="clr-namespace:QLabel.Custom_Control.Small_Tools"
+	   xmlns:tool="clr-namespace:QLabel.Custom_Control.Small_Tools"
 	   xmlns:cvt="clr-namespace:QLabel.Converters"
         mc:Ignorable="d"
 	   Height="300" Width="480"

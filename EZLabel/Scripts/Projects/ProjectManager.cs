@@ -66,7 +66,7 @@ namespace QLabel.Scripts.Projects {
 		public static async Task VisualizeAsync (ImageData data) {
 			await Task.Run(async () => {
 				if ( data.annodata.Count == 0 ) { return; }
-				var image = ImageUtils.GetBitmapFromPath(data.path);
+				var imagetask = ImageUtils.ReadBitmapAsync(data.path);
 				var dir_path = Path.Join(cur_dir, VISUAL_DIR_NAME);
 				if ( !Path.Exists(dir_path) ) {
 					Directory.CreateDirectory(dir_path);
@@ -77,10 +77,12 @@ namespace QLabel.Scripts.Projects {
 				Array.Sort(annos, (a, b) => {
 					if ( a.visualize_priority > b.visualize_priority ) { return 1; } else if ( a.visualize_priority == b.visualize_priority ) { return 0; } else { return -1; }
 				});
+
+				var image = await imagetask;
 				foreach ( var anno in annos ) {
 					anno.Visualize(image, new Vector2(image.Width, image.Height), Color.Chocolate);
 				}
-				await ImageUtils.SaveBitmapAsync(image, save_path);
+				await ImageUtils.WriteBitmapAsync(image, save_path);
 				image.Dispose();
 			});
 		}

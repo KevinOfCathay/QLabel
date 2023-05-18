@@ -146,7 +146,7 @@ namespace QLabel.Windows.Main_Canvas {
 		/// 将图片加载到画布上
 		/// </summary>
 		public async Task LoadImage (ImageData data) {
-			BitmapImage image = await ImageUtils.ReadImageFromFileAsync(data.path);
+			BitmapImage image = await ImageUtils.ReadBitmapImageAsync(data.path);
 
 			// 获取图像尺寸
 			double image_height = image.PixelHeight;

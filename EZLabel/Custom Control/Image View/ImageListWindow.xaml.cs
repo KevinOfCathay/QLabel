@@ -46,7 +46,7 @@ namespace QLabel.Custom_Control.Image_View {
 					eSwitchImage?.Invoke(old_item, new_item);
 					old_item = new_item;
 				};
-				Task<BitmapImage> readimagethumbnail = ImageUtils.ReadImageFromFileAsync(data.path, decode_width: 100);
+				Task<BitmapImage> readimagethumbnail = ImageUtils.ReadBitmapImageAsync(data.path, decode_width: 100);
 				new_item.data = data;
 				new_item.image_name.Text = data.filename;
 

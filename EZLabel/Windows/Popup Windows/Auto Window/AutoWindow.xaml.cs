@@ -1,5 +1,4 @@
 ﻿using QLabel.Actions;
-using QLabel.Custom_Control.Label_Tree;
 using QLabel.Custom_Control.Small_Tools;
 using QLabel.Scripts;
 using QLabel.Scripts.Inference_Machine;
@@ -7,18 +6,8 @@ using QLabel.Scripts.Projects;
 using QLabel.Windows.Main_Canvas;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace QLabel.Windows.Popup_Windows.Auto_Window {
 	public partial class AutoWindow : Window {
@@ -124,8 +113,9 @@ namespace QLabel.Windows.Popup_Windows.Auto_Window {
 			if ( canvas != null && canvas.can_annotate ) {
 				if ( accepted_classes.Count == 0 ) { return; }
 				foreach ( var image_data in accepted_image_datas ) {
-					var bitmap = ImageUtils.GetBitmapFromPath(image_data.path);
+					var bitmaptask = ImageUtils.ReadBitmapAsync(image_data.path);
 					eRunBefore?.Invoke(selected_machine);
+					var bitmap = await bitmaptask;
 					var ads = selected_machine.RunInference(bitmap, accepted_classes);
 					eRunAfter?.Invoke(selected_machine);
 					List<IAnnotationElement> elements = new List<IAnnotationElement>(ads.Length);

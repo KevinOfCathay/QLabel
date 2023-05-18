@@ -19,8 +19,20 @@ namespace QLabel.Scripts.Inference_Machine {
 		private readonly ClassLabel[] labels;
 		private readonly int input_channels, input_height;
 		private readonly int output_chars;
+
+		/// <summary>
+		/// 文字识别模型使用的字符集
+		/// </summary>
 		private readonly string charset;
-		private bool post_process = true;
+
+		/// <summary>
+		/// 最大的高宽比，
+		/// 当输入图像的宽高比 r 大于这个值 max_wh_ratio 时，
+		/// 将宽高比 max_wh_ratio 设置为 r，
+		/// 否则图像的宽高比为 max_wh_ratio，即设置宽为  320f
+		/// </summary>
+		private const float _max_wh_ratio = 320f / 48f;
+		private float max_wh_ratio = _max_wh_ratio;
 
 		/// <summary>
 		/// 初始化所有参数
@@ -40,10 +52,16 @@ namespace QLabel.Scripts.Inference_Machine {
 			throw new NotImplementedException();
 		}
 		protected override DenseTensor<float> GetInputTensor (Bitmap image) {
-			var input = new DenseTensor<float>(input_dims);
-			int image_width = 0;
+			max_wh_ratio = _max_wh_ratio;
 
-			// https://stackoverflow.com/a/74337947
+			// 首先确定输入尺寸（宽）
+			int image_width = 0;
+			float wh_ratio = ( (float) image.Width ) / ( (float) image.Height );
+			if ( wh_ratio > max_wh_ratio ) {
+				max_wh_ratio = wh_ratio;
+			}
+			var input = new DenseTensor<float>(input_dims);
+
 			BitmapData bitmap_data = image.LockBits(new Rectangle(0, 0, image_width, input_height), ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
 			int bytesPerPixel = Image.GetPixelFormatSize(bitmap_data.PixelFormat) / 8;
 			int stride = bitmap_data.Stride;
@@ -65,6 +83,9 @@ namespace QLabel.Scripts.Inference_Machine {
 				});
 			}
 			throw new NotImplementedException();
+		}
+		private void ResizeNormImg () {
+
 		}
 	}
 }

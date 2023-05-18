@@ -38,7 +38,7 @@ namespace QLabel.Scripts.Inference_Machine {
 		}
 
 		public override AnnoData[] RunInference (Bitmap image, HashSet<int> class_filter = null) {
-			var resized = ImageUtils.ResizeBitmap(image, width, height);
+			var resized = ImageUtils.ResizeBitmap(image, new OpenCvSharp.Size(width, height));
 			var input_tensor = GetInputTensor(resized);
 			var input = new List<NamedOnnxValue> { NamedOnnxValue.CreateFromTensor<float>("input", input_tensor) };
 			Vector2 scale = new Vector2(( (float) image.Width ) / ( (float) width ), ( (float) image.Height ) / ( (float) height ));
