@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace QLabel.Scripts.Projects {
 	internal class ClassLabelManager {
-		/// <summary> Project 下所有数据的类别标签的个数统计 </summary>
+		/// <summary> Project 下所有数据的类别标签统计 </summary>
 		private List<ClassLabelStat> label_stats = new List<ClassLabelStat>();
 
-		public ICollection<ClassTemplate> label_set {
-			get {
-				return Utils.GetLabelSet(label_stats);
-			}
+		public ICollection<ClassTemplate> label_set { get { return Utils.GetLabelSet(label_stats); } }
+
+		/// <summary> 刷新 / 创建一个新的 Manager </summary>
+		public void New () {
+			label_stats = new List<ClassLabelStat>();
 		}
 
 		public void AddClassLabels (ClassTemplate[] templates) {

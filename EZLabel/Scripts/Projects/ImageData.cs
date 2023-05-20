@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Xml;
-using System.Xml.Serialization;
 
 namespace QLabel.Scripts.Projects {
 	public class ImageData {

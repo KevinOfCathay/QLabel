@@ -1,30 +1,29 @@
-﻿using OpenCvSharp;
+﻿using Newtonsoft.Json;
 using QLabel.Scripts.AnnotationData;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json;
-using System.Threading.Tasks;
-using System.Drawing.Imaging;
-using System.Numerics;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Numerics;
+using System.Threading.Tasks;
 
 namespace QLabel.Scripts.Projects {
 	internal static class ProjectManager {
-		public static Project project { get; private set; }
-
-		/// <summary>
-		/// 当前是否有项目被加载
-		/// </summary>
+		// properties
+		/// <summary> 当前是否有项目被加载 </summary>
 		public static bool empty { get { return project == null; } }
-		/// <summary>
-		/// 当前打开的文件夹的路径
-		/// </summary>
+
+		// fields
+		/// <summary>  当前打开的 project  </summary>
+		public static Project project { get; private set; }
+		/// <summary>  当前 project 的 class labels 管理 </summary>
+		public static ClassLabelManager class_label_manager = new ClassLabelManager();
+		/// <summary>  当前打开的文件夹的路径 </summary>
 		private static string cur_dir = null;
 		private static string save_dir = null;
 		public static ImageData cur_datafile;
+
 		public static ClassTemplate cur_label = new ClassTemplate("None", "None");
 		public static int cur_label_index = 0;
 		public const string PROJECT_DIR_NAME = "_project";
@@ -43,6 +42,8 @@ namespace QLabel.Scripts.Projects {
 				}
 				cur_dir = directory;
 				project = new Project(); // 创建一个新的项目
+				class_label_manager.New();
+
 				save_dir = Path.Join(cur_dir, PROJECT_DIR_NAME);
 				if ( !Path.Exists(save_dir) ) {
 					Directory.CreateDirectory(save_dir);
@@ -53,7 +54,7 @@ namespace QLabel.Scripts.Projects {
 		public static void AddAnnoData (ImageData imgdata, AnnoData annodata) {
 			if ( imgdata != null && annodata != null && !imgdata.annodata.Contains(annodata) ) {
 				imgdata.AddAnnoData(annodata);   // 加入到 annodata 中
-				project.class_label_manager.AddClassLabel(annodata.class_label);
+				class_label_manager.AddClassLabel(annodata.class_label);
 				eAnnoDataAdded?.Invoke(imgdata, annodata);
 			}
 		}
@@ -95,7 +96,7 @@ namespace QLabel.Scripts.Projects {
 						Path.Join(save_dir, SAVE_JSON_NAME + ".json"))) ) {
 					serializer.Serialize(writer, new {
 						datas = project.datas,
-						labels = project.label_set,
+						labels = class_label_manager.label_set,
 						save_date = DateTime.Now.ToShortDateString()
 					});
 				}

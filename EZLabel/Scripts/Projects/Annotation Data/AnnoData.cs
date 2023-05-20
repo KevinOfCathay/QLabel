@@ -3,10 +3,7 @@ using Newtonsoft.Json.Converters;
 using QLabel.Scripts.Projects;
 using QLabel.Windows.Main_Canvas;
 using System;
-using System.Collections.Generic;
-using System.Data.SqlTypes;
 using System.Drawing;
-using System.Linq;
 using System.Numerics;
 using System.Windows;
 
@@ -99,18 +96,6 @@ namespace QLabel.Scripts.AnnotationData {
 				if ( point.Y > right ) { right = point.Y; }
 			}
 			return (new Vector2(top, left), new Vector2(bottom, right));
-		}
-		/// <summary>
-		/// 获取 ID （目前没有任何用处）
-		/// </summary>
-		public string ID () {
-			using ( System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create() ) {
-				byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(
-					createtime.ToLongTimeString() + class_label.ToString()
-					);
-				byte[] hashBytes = md5.ComputeHash(inputBytes);
-				return Convert.ToHexString(hashBytes);
-			}
 		}
 	}
 }

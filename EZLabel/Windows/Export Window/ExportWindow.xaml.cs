@@ -1,20 +1,8 @@
-﻿using QLabel.Scripts;
-using QLabel.Scripts.AnnotationData;
-using QLabel.Scripts.Projects;
+﻿using QLabel.Scripts.Projects;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace QLabel.Windows.Export_Window {
 	public partial class ExportWindow : Window {
@@ -33,7 +21,7 @@ namespace QLabel.Windows.Export_Window {
 		public ExportWindow () {
 			InitializeComponent();
 			labeltree.SetUI(
-				ProjectManager.project.label_set,
+				ProjectManager.class_label_manager.label_set,
 				(label) => { exported_classes.Add(label); },
 				(label) => { exported_classes.Remove(label); });
 		}
