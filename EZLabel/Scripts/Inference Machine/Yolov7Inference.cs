@@ -74,7 +74,7 @@ namespace QLabel.Scripts.Inference_Machine {
 
 			List<AnnoData> data = new List<AnnoData>();
 			Vector2 scale = new Vector2(( (float) image.Width ) / ( (float) width ), ( (float) image.Height ) / ( (float) height ));
-			// 根据 result 建立 annodata
+			// 根据 result 建立 annodatas
 			for ( int i = 0; i < len / 7; i += 1 ) {
 				float x = ClipX(output[i * 7 + 1]);
 				float y = ClipY(output[i * 7 + 2]);

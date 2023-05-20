@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using OpenCvSharp.Aruco;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace QLabel.Scripts.Projects {
 	internal class Project {
@@ -12,7 +14,7 @@ namespace QLabel.Scripts.Projects {
 		}
 
 		/// <summary> Project 包含的数据源 </summary>
-		private List<ImageData> _datas;
+		private List<ImageData> _datas = new List<ImageData>();
 		/// <summary> 所有的 data（只能获取不能变更） </summary>
 		public ICollection<ImageData> datas { get { return _datas; } }
 
@@ -20,6 +22,18 @@ namespace QLabel.Scripts.Projects {
 			if ( !_datas.Contains(data) ) {          // 不重复添加 image data
 				_datas.Add(data);
 			}
+		}
+		public async Task SaveProjectAsync (string save_path) {
+			await Task.Run(() => {
+				JsonSerializer serializer = new JsonSerializer();
+				using ( JsonWriter writer = new JsonTextWriter(
+					new StreamWriter(save_path)) ) {
+					serializer.Serialize(writer, new {
+						datas = this._datas,
+						save_date = DateTime.Now.ToShortDateString()
+					});
+				}
+			});
 		}
 	}
 }

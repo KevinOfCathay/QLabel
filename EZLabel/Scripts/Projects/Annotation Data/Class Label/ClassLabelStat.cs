@@ -8,5 +8,6 @@ namespace QLabel.Scripts.Projects {
 	internal class ClassLabelStat {
 		public int index;
 		public ClassTemplate template;
+		public int counts;
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QLabel.Scripts.Projects;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -11,6 +12,7 @@ namespace QLabel {
 	/// Interaction logic for App.xaml
 	/// </summary>
 	public partial class App : Application {
+		internal static ProjectManager project_manager = new ProjectManager();
 		public static MainWindow main;
 	}
 }

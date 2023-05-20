@@ -74,7 +74,7 @@ namespace QLabel.Scripts.AnnotationData {
 		[JsonProperty] public bool truncated = false;
 		/// <summary> more than 5% of the object lies outside the bounding box</summary>
 		[JsonProperty] public bool occluded = false;
-		/// <summary>这个 annodata 是否 checked </summary>
+		/// <summary>这个 annodatas 是否 checked </summary>
 		[JsonProperty] public bool check = true;
 
 		public abstract int visualize_priority { get; }

@@ -119,7 +119,7 @@ namespace QLabel.Scripts.Inference_Machine {
 			int len = ind.Length;
 			List<AnnoData> data = new List<AnnoData>();
 			Vector2 scale = new Vector2(( (float) image.Width ) / ( (float) width ), ( (float) image.Height ) / ( (float) height ));
-			// 根据 result 建立 annodata
+			// 根据 result 建立 annodatas
 			for ( int i = 0; i < len; i += 1 ) {
 				ReadOnlySpan<Vector2> points = new ReadOnlySpan<Vector2>(
 					new[]{

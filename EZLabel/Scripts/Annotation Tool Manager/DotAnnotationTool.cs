@@ -35,7 +35,7 @@ namespace QLabel.Scripts.AnnotationToolManager {
 			var rpoint = canvas.RealPosition(new Vector2((float) p.X, (float) p.Y));    // 坐标转换
 
 			// 创建 anno 数据
-			ClassLabel label = new ClassLabel(ProjectManager.cur_label);
+			ClassLabel label = new ClassLabel(App.project_manager.cur_label);
 			var data = new AnnotationData.ADDot(rpoint, label, Array.Empty<Guid>());
 			dot.data = data;
 

@@ -24,7 +24,7 @@ namespace QLabel.Windows.CropWindow {
 			this.crop_target.InitializeCombobox(new string[] { "Current File", "All Files" });
 			this.dir_selector.eDirectorySelected += (path) => { save_dir = path; this.Topmost = true; };
 
-			var classlabels = ProjectManager.class_label_manager.label_set;
+			var classlabels = App.project_manager.class_label_manager.label_set;
 			SetClassListbox(classlabels);
 		}
 		private async void ConfirmClick (object sender, RoutedEventArgs e) {
@@ -32,11 +32,11 @@ namespace QLabel.Windows.CropWindow {
 			switch ( target ) {
 				// 只裁剪当前的图像
 				case Target.Current:
-					await CropSaveAsync(ProjectManager.cur_datafile, save_dir);
+					await CropSaveAsync(App.project_manager.cur_datafile, save_dir);
 					break;
 				// 裁剪所有的图像
 				case Target.All:
-					foreach ( var datafile in ProjectManager.project.datas ) {
+					foreach ( var datafile in App.project_manager.datas ) {
 						await CropSaveAsync(datafile, save_dir);
 					}
 					break;
@@ -65,10 +65,10 @@ namespace QLabel.Windows.CropWindow {
 			if ( Path.Exists(path) ) {
 				// 读取图片
 				var load_bitmap_task = ImageUtils.ReadBitmapFromFileAsync(path);
-				var ads = data.annodata;
+				var ads = data.annodatas;
 				int index = 0;
 				foreach ( var ad in ads ) {
-					if ( !accepted_labels.Contains(ad.class_label) ) { continue; }
+					if ( !accepted_labels.Contains(ad.class_label.template) ) { continue; }
 					var cropped_bitmap = CropBitmap(await load_bitmap_task, ad);
 					try {
 						cropped_bitmap.Save(Path.Join(top_dir,

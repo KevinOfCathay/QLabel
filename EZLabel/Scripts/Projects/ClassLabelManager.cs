@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,20 +15,20 @@ namespace QLabel.Scripts.Projects {
 
 		/// <summary> 刷新 / 创建一个新的 Manager </summary>
 		public void New () {
-			label_stats = new List<ClassLabelStat>();
+			label_stats.Clear();
 		}
 
-		public void AddClassLabels (ClassTemplate[] templates) {
+		public void AddClassTemplates (ClassTemplate[] templates) {
 			foreach ( var label in templates ) {
-				AddClassLabel(label);
+				AddClassTemplate(label);
 			}
 		}
 		/// <summary>
 		/// 增加一个类别标签
-		/// 这个类别标签可以是使用过/出现过的（即，作为 annodata 的 classlabel 加入到 imagedata 中）
+		/// 这个类别标签可以是使用过/出现过的（即，作为 annodatas 的 classlabel 加入到 imagedata 中）
 		/// 也可以是未使用的（例如，自动识别时，一些类从来都没有被使用过，或者用户自己加入到类别集合中）
 		/// </summary>
-		public void AddClassLabel (ClassTemplate template) {
+		public void AddClassTemplate (ClassTemplate template) {
 			var labelstat = label_stats.Find((x) => { return x.template == template; });
 			if ( labelstat == null ) {
 				label_stats.Add(
@@ -39,11 +41,27 @@ namespace QLabel.Scripts.Projects {
 		/// <summary>
 		/// 去除一个类别标签
 		/// </summary>
-		public void RemoveLabel (ClassLabel label) {
+		public void RemoveClassTemplate (ClassTemplate label) {
 			var labelstat = label_stats.Find((x) => { return x.template == label; });
 			if ( labelstat != null ) {
 				label_stats.Remove(labelstat);
 			}
+		}
+		/// <summary>
+		/// 以 Json 的形式保存所有的标签
+		/// </summary>
+		public async Task SaveLabelStatisticsAsync (string save_path) {
+			await Task.Run(
+			    delegate () {
+				    JsonSerializer serializer = new JsonSerializer();
+				    using ( JsonWriter writer = new JsonTextWriter(new StreamWriter(save_path)) ) {
+					    serializer.Serialize(writer, new {
+						    labels = label_stats,
+						    save_date = DateTime.Now.ToShortDateString()
+					    });
+				    }
+			    }
+		    );
 		}
 	}
 }

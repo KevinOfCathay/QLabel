@@ -9,33 +9,36 @@ using System.Numerics;
 using System.Threading.Tasks;
 
 namespace QLabel.Scripts.Projects {
-	internal static class ProjectManager {
-		// properties
+	internal class ProjectManager {
 		/// <summary> 当前是否有项目被加载 </summary>
-		public static bool empty { get { return project == null; } }
+		public bool empty { get { return project == null; } }
+		/// <summary> 当前被加载项目的所有 image data </summary>
+		public ICollection<ImageData>? datas { get { if ( !empty ) { return project.datas; } else { return null; } } }
 
-		// fields
-		/// <summary>  当前打开的 project  </summary>
-		public static Project project { get; private set; }
+
+		/// <summary>  当前打开的 project
+		/// 这个 project 不应该被直接操作 (即，有关的操作应该在 manager 内部完成)  </summary>
+		protected Project project { get; private set; }
 		/// <summary>  当前 project 的 class labels 管理 </summary>
-		public static ClassLabelManager class_label_manager = new ClassLabelManager();
+		public ClassLabelManager class_label_manager = new ClassLabelManager();
 		/// <summary>  当前打开的文件夹的路径 </summary>
-		private static string cur_dir = null;
-		private static string save_dir = null;
-		public static ImageData cur_datafile;
+		private string cur_dir = null;
+		private string save_dir = null;
+		public ImageData cur_datafile;
 
-		public static ClassTemplate cur_label = new ClassTemplate("None", "None");
-		public static int cur_label_index = 0;
-		public const string PROJECT_DIR_NAME = "_project";
-		public const string VISUAL_DIR_NAME = "_vis";
-		public const string SAVE_JSON_NAME = "_saved_project";
+		public ClassTemplate cur_label = new ClassTemplate("None", "None");
+		public int cur_label_index = 0;
+		public string PROJECT_DIR_NAME = "_project";
+		public string VISUAL_DIR_NAME = "_vis";
+		public string SAVE_JSON_NAME = "_saved_project";
+		public string SAVE_CLASS_STATS_NAME = "_saved_classes";
 
-		public static event Action<ImageData, AnnoData>? eAnnoDataAdded, eAnnoDataRemoved;
-		public static bool NewProject (string directory) {
+		public event Action<ImageData, AnnoData>? eAnnoDataAdded, eAnnoDataRemoved;
+		public bool NewProject (string directory) {
 			if ( directory != cur_dir ) {
-				if ( cur_dir != null && project != null ) {
+				if ( cur_dir != null && empty ) {
 					try {
-						SaveProjectAsync();      // 保存当前打开的项目
+						project.SaveProjectAsync(Path.Join(save_dir, SAVE_JSON_NAME + ".json"));      // 保存当前打开的项目
 					} catch {
 						return false;        // 如果没有保存成功则直接返回
 					}
@@ -51,22 +54,30 @@ namespace QLabel.Scripts.Projects {
 			}
 			return true;
 		}
-		public static void AddAnnoData (ImageData imgdata, AnnoData annodata) {
-			if ( imgdata != null && annodata != null && !imgdata.annodata.Contains(annodata) ) {
-				imgdata.AddAnnoData(annodata);   // 加入到 annodata 中
-				class_label_manager.AddClassLabel(annodata.class_label);
+		public void AddImageData (ImageData data) {
+			if ( !empty ) {
+				project.AddImageData(data);
+				foreach ( var anno in data.annodatas ) {
+					class_label_manager.AddClassTemplate(anno.class_label.template);
+				}
+			}
+		}
+		public void AddAnnoData (ImageData imgdata, AnnoData annodata) {
+			if ( imgdata != null && annodata != null && !imgdata.annodatas.Contains(annodata) ) {
+				imgdata.AddAnnoData(annodata);   // 加入到 annodatas 中
+				class_label_manager.AddClassTemplate(annodata.class_label.template);
 				eAnnoDataAdded?.Invoke(imgdata, annodata);
 			}
 		}
-		public static void RemoveAnnoData (ImageData imgdata, AnnoData annodata) {
-			if ( imgdata != null && annodata != null && imgdata.annodata.Contains(annodata) ) {
-				imgdata.RemoveAnnoData(annodata);   // 加入到 annodata 中
+		public void RemoveAnnoData (ImageData imgdata, AnnoData annodata) {
+			if ( imgdata != null && annodata != null && imgdata.annodatas.Contains(annodata) ) {
+				imgdata.RemoveAnnoData(annodata);   // 加入到 annodatas 中
 				eAnnoDataRemoved?.Invoke(imgdata, annodata);
 			}
 		}
-		public static async Task VisualizeAsync (ImageData data) {
+		public async Task VisualizeAsync (ImageData data) {
 			await Task.Run(async () => {
-				if ( data.annodata.Count == 0 ) { return; }
+				if ( data.annodatas.Count == 0 ) { return; }
 				var imagetask = ImageUtils.ReadBitmapAsync(data.path);
 				var dir_path = Path.Join(cur_dir, VISUAL_DIR_NAME);
 				if ( !Path.Exists(dir_path) ) {
@@ -74,7 +85,7 @@ namespace QLabel.Scripts.Projects {
 				}
 				var save_path = Path.Join(dir_path, data.filename + ".png");
 				// 首先对所有的 anno 排序
-				var annos = data.annodata.ToArray();
+				var annos = data.annodatas.ToArray();
 				Array.Sort(annos, (a, b) => {
 					if ( a.visualize_priority > b.visualize_priority ) { return 1; } else if ( a.visualize_priority == b.visualize_priority ) { return 0; } else { return -1; }
 				});
@@ -88,25 +99,20 @@ namespace QLabel.Scripts.Projects {
 			});
 		}
 
-		public static async Task SaveProjectAsync () {
-			await Task.Run(() => {
-				JsonSerializer serializer = new JsonSerializer();
-				using ( JsonWriter writer = new JsonTextWriter(
-					new StreamWriter(
-						Path.Join(save_dir, SAVE_JSON_NAME + ".json"))) ) {
-					serializer.Serialize(writer, new {
-						datas = project.datas,
-						labels = class_label_manager.label_set,
-						save_date = DateTime.Now.ToShortDateString()
-					});
-				}
-			});
+		#region Save
+		public async Task SaveProjectAsync () {
+			Task save_proj_task = project.SaveProjectAsync(Path.Join(save_dir, SAVE_JSON_NAME + ".json"));
+			Task save_class_stats_task = class_label_manager.SaveLabelStatisticsAsync(Path.Join(save_dir, SAVE_CLASS_STATS_NAME + ".json"));
+
+			await save_proj_task;
+			await save_class_stats_task;
 		}
+		#endregion Save
 
 		#region Load
-		public static async Task LoadProject (string path) {
+		public async Task LoadProjectAsync (string path) {
 			// 清除之前的 Project
-			if ( project != null ) { await SaveProjectAsync(); }
+			if ( project != null ) { await project.SaveProjectAsync(Path.Join(save_dir, SAVE_JSON_NAME + ".json")); }
 
 			// 建立一个 string --> Enum 的表格
 			Dictionary<string, PixelFormat> table = new Dictionary<string, PixelFormat>();
@@ -144,7 +150,7 @@ namespace QLabel.Scripts.Projects {
 				}
 			});
 		}
-		private static IEnumerable<AnnoData> MakeAnnoData (dynamic datas) {
+		private IEnumerable<AnnoData> MakeAnnoData (dynamic datas) {
 			if ( datas.Count == 0 ) { return Array.Empty<AnnoData>(); }
 			List<AnnoData> annodatas = new List<AnnoData>();
 
@@ -196,6 +202,6 @@ namespace QLabel.Scripts.Projects {
 			}
 			return annodatas;
 		}
-		#endregion
+		#endregion Load
 	}
 }

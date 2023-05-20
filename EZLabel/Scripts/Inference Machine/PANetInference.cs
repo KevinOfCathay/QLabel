@@ -49,7 +49,7 @@ namespace QLabel.Scripts.Inference_Machine {
 				var len = boundaries.Count;
 				AnnoData[] data = new AnnoData[len];
 				for ( int i = 0; i < len; i += 1 ) {
-					// 创建 annodata
+					// 创建 annodatas
 					ClassTemplate cl = new ClassTemplate(labels[0]);
 
 					var boundary = boundaries[i];

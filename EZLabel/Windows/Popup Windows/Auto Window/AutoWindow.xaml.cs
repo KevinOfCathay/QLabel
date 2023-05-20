@@ -44,7 +44,7 @@ namespace QLabel.Windows.Popup_Windows.Auto_Window {
 		/// 初始化文件树
 		/// </summary>
 		private void InitializeFileTree () {
-			filetree.SetUI(ProjectManager.project.datas,
+			filetree.SetUI(App.project_manager.datas,
 				check: delegate (ImageData data) { accepted_image_datas.Add(data); },
 				uncheck: delegate (ImageData data) { accepted_image_datas.Remove(data); }
 			);
@@ -123,9 +123,9 @@ namespace QLabel.Windows.Popup_Windows.Auto_Window {
 					foreach ( var ad in ads ) {
 						var element = ad.CreateAnnotationElement(canvas);
 						elements.Add(element);
-						ProjectManager.AddAnnoData(image_data, ad);
+						App.project_manager.AddAnnoData(image_data, ad);
 					}
-					bool add_to_canvas = ( image_data == ProjectManager.cur_datafile );
+					bool add_to_canvas = ( image_data == App.project_manager.cur_datafile );
 					BulkAddElementsToCanvas bulk_add_elements = new BulkAddElementsToCanvas(canvas, elements, add_ui_element_to_canvas: add_to_canvas);
 					ActionManager.PushAndExecute(bulk_add_elements);
 				}

@@ -95,7 +95,7 @@ namespace QLabel.Scripts.AnnotationToolManager {
 						var br_real = canvas.RealPosition(new Vector2(left + w, top + h));     // 右下角
 
 						// 从 class template 中创建 class label 并创建 anno 数据
-						ClassLabel label = new ClassLabel(ProjectManager.cur_label);
+						ClassLabel label = new ClassLabel(App.project_manager.cur_label);
 						var data = new AnnotationData.ADRect(
 							new ReadOnlySpan<Vector2>(new Vector2[] { tl_real, tr_real, bl_real, br_real }), label);
 						rect.data = data;

@@ -30,12 +30,12 @@ namespace QLabel {
 			// 切换图片时的事件
 			ilw.eSwitchImage += async (ImageListItem old, ImageListItem nw) => {
 				// 判断当前点击的文件是否是已经被打开的文件
-				if ( nw.data != ProjectManager.cur_datafile ) {
+				if ( nw.data != App.project_manager.cur_datafile ) {
 					// 点击 List 中的 image 图像来加载图片
 					// 需要 await，所以 img_scale 可以正确被设置
 					Task loadimg = main_canvas.LoadImage(nw.data);
 					// 将当前的文件设置为打开的图片文件
-					ProjectManager.cur_datafile = nw.data;
+					App.project_manager.cur_datafile = nw.data;
 					// 清空之前图片的注释
 					annolistpanel.annolist.ClearList();
 					// 清除上一张图片在画布上的所有元素

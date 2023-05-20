@@ -21,7 +21,7 @@ namespace QLabel.Windows.Export_Window {
 		public ExportWindow () {
 			InitializeComponent();
 			labeltree.SetUI(
-				ProjectManager.class_label_manager.label_set,
+				App.project_manager.class_label_manager.label_set,
 				(label) => { exported_classes.Add(label); },
 				(label) => { exported_classes.Remove(label); });
 		}
@@ -34,10 +34,10 @@ namespace QLabel.Windows.Export_Window {
 			List<ImageData> datalist = new List<ImageData>();
 			switch ( tar ) {
 				case Target.Current:
-					datalist.Add(ProjectManager.cur_datafile);
+					datalist.Add(App.project_manager.cur_datafile);
 					break;
 				case Target.All:
-					foreach ( var datafile in ProjectManager.project.datas ) {
+					foreach ( var datafile in App.project_manager.datas ) {
 						datalist.Add(datafile);
 					}
 					break;

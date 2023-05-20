@@ -22,7 +22,7 @@ namespace QLabel.Actions {
 		private readonly DraggablePolygon elem;
 		public string name => "Change Polygon Size";
 		public void Do () {
-			// 新的 annodata
+			// 新的 annodatas
 			elem.data = data_after;
 			if ( !initialize ) {
 				var points_after = new Vector2[data_after.rpoints.Length];
@@ -34,7 +34,7 @@ namespace QLabel.Actions {
 			canvas.ModifiedAnnoElements(elem);
 		}
 		public void Undo () {
-			// 还原旧的 annodata
+			// 还原旧的 annodatas
 			elem.data = data_before;
 			var points_before = new Vector2[data_before.rpoints.Length];
 			for ( var i = 0; i < data_before.rpoints.Length; i += 1 ) {

@@ -38,7 +38,7 @@ namespace QLabel {
 
 			if ( openFileDialog.ShowDialog() == true ) {
 				string selected_file = openFileDialog.FileName;
-				await NewProject(selected_file);
+				await NewProjectAsync(selected_file);
 			}
 		}
 		private async void LoadClick (object sender, RoutedEventArgs e) {
@@ -61,7 +61,7 @@ namespace QLabel {
 		/// 导出注释数据到其他格式
 		/// </summary>
 		private void ExportClick (object sender, RoutedEventArgs e) {
-			if ( !ProjectManager.empty ) {
+			if ( !App.project_manager.empty ) {
 				ExportWindow window = new ExportWindow();
 				main.LockWindow();
 				window.Closed += (object? _, EventArgs _) => { main.UnlockWindow(); };
@@ -74,7 +74,7 @@ namespace QLabel {
 		/// 导出注释数据到其他格式
 		/// </summary>
 		private async void SaveClick (object sender, RoutedEventArgs e) {
-			await ProjectManager.SaveProjectAsync();
+			await App.project_manager.SaveProjectAsync();
 		}
 		/// <summary>
 		/// 导出注释数据到其他格式
@@ -98,7 +98,7 @@ namespace QLabel {
 		/// 打开裁剪窗口，裁剪注释并保存
 		/// </summary>
 		private void Crop_Click (object sender, RoutedEventArgs e) {
-			if ( !ProjectManager.empty ) {
+			if ( !App.project_manager.empty ) {
 				CropWindow window = new CropWindow();
 				main.LockWindow();
 				window.Closed += (object? sender, EventArgs e) => { main.UnlockWindow(); };
@@ -106,9 +106,9 @@ namespace QLabel {
 			}
 		}
 		private async void Visualize_Click (object sender, RoutedEventArgs e) {
-			if ( !ProjectManager.empty ) {
-				var cur_img = ProjectManager.cur_datafile;
-				await ProjectManager.VisualizeAsync(cur_img);
+			if ( !App.project_manager.empty ) {
+				var cur_img = App.project_manager.cur_datafile;
+				await App.project_manager.VisualizeAsync(cur_img);
 			}
 		}
 		private void ToPolygon_Click (object sender, RoutedEventArgs e) {

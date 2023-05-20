@@ -25,14 +25,14 @@ namespace QLabel.Actions {
 		public void Do () {
 			foreach ( var element in elements ) {
 				canvas.AddAnnoElement(element, add_ui_element_to_canvas);
-				ProjectManager.AddAnnoData(ProjectManager.cur_datafile, element.data);
+				App.project_manager.AddAnnoData(App.project_manager.cur_datafile, element.data);
 			}
 		}
 
 		public void Undo () {
 			foreach ( var element in elements ) {
 				canvas.RemoveAnnoElements(element);
-				ProjectManager.RemoveAnnoData(ProjectManager.cur_datafile, element.data);
+				App.project_manager.RemoveAnnoData(App.project_manager.cur_datafile, element.data);
 			}
 		}
 	}

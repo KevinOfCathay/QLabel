@@ -26,18 +26,18 @@ namespace QLabel.Scripts.Projects {
 		[JsonConverter(typeof(StringEnumConverter))] public PixelFormat format { get; set; }
 
 		public long size { get; set; }     // 文件大小
-		public List<AnnoData> annodata { get; private set; } = new List<AnnoData>();
+		public List<AnnoData> annodatas { get; private set; } = new List<AnnoData>();
 
 		public ImageData () { }
 
 		#region Data
 		public void AddAnnoData (AnnoData data) {
 			if ( data != null ) {
-				annodata.Add(data);
+				annodatas.Add(data);
 			}
 		}
 		public void RemoveAnnoData (AnnoData data) {
-			annodata.Remove(data);
+			annodatas.Remove(data);
 		}
 		#endregion
 
@@ -51,7 +51,7 @@ namespace QLabel.Scripts.Projects {
 			writer.WriteStartElement("object");
 
 			writer.WriteStartElement("name");
-			writer.WriteString(data.class_label.name);
+			writer.WriteString(data.class_label.template.name);
 			writer.WriteEndElement();
 
 			WriteXMLAttr(writer, "truncated", data.truncated.ToString());
@@ -68,10 +68,10 @@ namespace QLabel.Scripts.Projects {
 		}
 		public void ToYoloXYWH (string save_path, ClassTemplate[] labelset, bool percentage = true) {
 			using ( StreamWriter sw = new StreamWriter(save_path) ) {
-				foreach ( var data in annodata ) {
+				foreach ( var data in annodatas ) {
 					var bbox = data.bbox;
 					var label = data.class_label;
-					int class_index = Array.FindIndex(labelset, (t) => { return label.name == t.name && label.group == t.group && label.supercategory == t.supercategory; });
+					int class_index = Array.FindIndex(labelset, (temp) => { return label.template == temp; });
 					if ( percentage ) {
 						sw.WriteLine(string.Join(" ", class_index.ToString(),
 							( ( ( bbox.br.X + bbox.tl.X ) / 2f ) / width ).ToString(), ( ( ( bbox.br.Y + bbox.tl.Y ) / 2f ) / height ).ToString(),
@@ -88,9 +88,9 @@ namespace QLabel.Scripts.Projects {
 		}
 		public void ToYoloXYCoords (string save_path, ClassTemplate[] labelset, bool percentage = true) {
 			using ( StreamWriter sw = new StreamWriter(save_path) ) {
-				foreach ( var data in annodata ) {
+				foreach ( var data in annodatas ) {
 					var label = data.class_label;
-					int class_index = Array.FindIndex(labelset, (t) => { return label.name == t.name && label.group == t.group && label.supercategory == t.supercategory; });
+					int class_index = Array.FindIndex(labelset, (temp) => { return label.template == temp; });
 					int len = data.rpoints.Length;
 					string[] str = new string[len * 2 + 1]; str[0] = class_index.ToString();
 					if ( percentage ) {
@@ -123,7 +123,7 @@ namespace QLabel.Scripts.Projects {
 			WriteXMLAttr(writer, "depth", depth.ToString());
 			writer.WriteEndElement();
 
-			foreach ( var ad in annodata ) {
+			foreach ( var ad in annodatas ) {
 				WriteVOCObject(writer, ad);
 			}
 
