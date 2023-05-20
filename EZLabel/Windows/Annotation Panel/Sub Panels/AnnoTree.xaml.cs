@@ -57,7 +57,7 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 
 			// 将数据加入到 Tree 中
 			// 结构：GroupNode Name -- Class Name -- Item Name
-			var clas = data.clas;
+			var clas = data.class_label;
 			string group_name = clas.group;
 			string category_name = clas.supercategory;
 			GroupNode group_node;

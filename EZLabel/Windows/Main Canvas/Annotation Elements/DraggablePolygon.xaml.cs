@@ -149,7 +149,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 				var p = polygon.Points[i];
 				rpoints[i] = canvas.RealPosition(new Vector2((float) p.X, (float) p.Y));
 			}
-			ADPolygon new_data = new ADPolygon(rpoints, data.clas, data.conf);
+			ADPolygon new_data = new ADPolygon(rpoints, data.class_label);
 			ChangePolygonSize change_size = new ChangePolygonSize(canvas, this, data, new_data);
 			ActionManager.PushAndExecute(change_size);
 		}
@@ -203,7 +203,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 				var p = polygon.Points[i];
 				rpoints[i] = canvas.RealPosition(new Vector2((float) p.X, (float) p.Y));
 			}
-			ADPolygon new_data = new ADPolygon(rpoints, data.clas, data.conf);
+			ADPolygon new_data = new ADPolygon(rpoints, data.class_label);
 			ChangePolygonSize change_size = new ChangePolygonSize(canvas, this, data, new_data);
 			ActionManager.PushAndExecute(change_size);
 		}

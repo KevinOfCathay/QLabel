@@ -6,7 +6,7 @@ using OpenCvSharp;
 
 namespace QLabel {
 	internal static partial class ImageUtils {
-		public static Bitmap ResizeBitmap (Bitmap source, OpenCvSharp.Size size, InterpolationMode interp = InterpolationMode.Bilinear) {
+		public static Bitmap ResizeBitmap (Bitmap source, in OpenCvSharp.Size size, InterpolationMode interp = InterpolationMode.Bilinear) {
 			var result = new Bitmap(size.Width, size.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 			using ( Graphics g = Graphics.FromImage(result) ) {
 				g.InterpolationMode = interp;

@@ -8,57 +8,41 @@ namespace QLabel.Scripts.Projects {
 	internal class ClassLabelManager {
 		/// <summary> Project 下所有数据的类别标签的个数统计 </summary>
 		private List<ClassLabelStat> label_stats = new List<ClassLabelStat>();
-		/// <summary>
-		/// 返回所有的 Labels
-		/// </summary>
-		public HashSet<ClassLabel> label_set {
+
+		public ICollection<ClassTemplate> label_set {
 			get {
-				var stats_copy = label_stats.ToList();
-				stats_copy.Sort((a, b) => { return a.index.CompareTo(b.index); });
-				HashSet<ClassLabel> labels = new HashSet<ClassLabel>(label_stats.Count);
-				int index = 0;
-				foreach ( var stat in label_stats ) {
-					labels.Add(stat.label);
-				}
-				return labels;
+				return Utils.GetLabelSet(label_stats);
 			}
 		}
-		public event Action<ClassLabel> eAddLabel, eRemoveLabel;
 
-		public void AddClassLabels (ClassLabel[] labels) {
-			foreach ( var label in labels ) {
+		public void AddClassLabels (ClassTemplate[] templates) {
+			foreach ( var label in templates ) {
 				AddClassLabel(label);
 			}
 		}
 		/// <summary>
 		/// 增加一个类别标签
+		/// 这个类别标签可以是使用过/出现过的（即，作为 annodata 的 classlabel 加入到 imagedata 中）
+		/// 也可以是未使用的（例如，自动识别时，一些类从来都没有被使用过，或者用户自己加入到类别集合中）
 		/// </summary>
-		public void AddClassLabel (ClassLabel label) {
-			var labelstat = label_stats.Find((x) => { return x.label == label; });
-			if ( labelstat != null ) {
-				labelstat.count += 1;
-			} else {
+		public void AddClassLabel (ClassTemplate template) {
+			var labelstat = label_stats.Find((x) => { return x.template == template; });
+			if ( labelstat == null ) {
 				label_stats.Add(
 					new ClassLabelStat {
-						label = label,
-						count = 1,
+						template = template,
 						index = label_stats.Count
 					}); ;
 			}
-			eAddLabel?.Invoke(label);
 		}
 		/// <summary>
 		/// 去除一个类别标签
 		/// </summary>
 		public void RemoveLabel (ClassLabel label) {
-			var labelstat = label_stats.Find((x) => { return x.label == label; });
+			var labelstat = label_stats.Find((x) => { return x.template == label; });
 			if ( labelstat != null ) {
-				labelstat.count -= 1;
-				if ( labelstat.count == 0 ) {
-					label_stats.Remove(labelstat);
-				}
+				label_stats.Remove(labelstat);
 			}
-			eRemoveLabel?.Invoke(label);
 		}
 	}
 }

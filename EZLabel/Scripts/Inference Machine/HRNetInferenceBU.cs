@@ -17,8 +17,8 @@ using System.Diagnostics;
 
 namespace QLabel.Scripts.Inference_Machine {
 	internal sealed class HRNetInferenceBU : InferenceBase {
-		private readonly ClassLabel[] labels;
-		private readonly (int x, int y, ClassLabel)[] skeletons;
+		private readonly ClassTemplate[] labels;
+		private readonly (int x, int y, ClassTemplate)[] skeletons;
 		private readonly int num_joints;
 		private readonly int in_width, in_height;
 		private readonly int o_width, o_height;
@@ -29,12 +29,11 @@ namespace QLabel.Scripts.Inference_Machine {
 		private float keypoint_threshold = 0.35f;
 
 		/// <summary>
-		/// 初始化所有参数
+		/// 初始化参数
 		/// </summary>
-		/// <param name="model_path">模型的路径</param>
 		public HRNetInferenceBU (
 			string model_path, string post_model_path,
-			ClassLabel[] labels, (int x, int y, ClassLabel)[] skeletons, int[] input_dims, int[] output_dims) :
+			ClassTemplate[] labels, (int x, int y, ClassTemplate)[] skeletons, int[] input_dims, int[] output_dims) :
 			base(input_dims, output_dims) {
 			base.model_path = model_path;
 			base.model_path = model_path;
@@ -49,6 +48,7 @@ namespace QLabel.Scripts.Inference_Machine {
 			this.o_height = output_dims[2];
 
 		}
+
 		public override void BuildSession () {
 			session = new InferenceSession(model_path);
 			session_postprocessing = new InferenceSession(post_model_path);
@@ -56,7 +56,7 @@ namespace QLabel.Scripts.Inference_Machine {
 				Debug.WriteLine("Failed to load session.");
 			}
 		}
-		public override AnnoData[] RunInference (Bitmap image, HashSet<int> class_filter = null) {
+		protected override AnnoData[] RunInference (Bitmap image, HashSet<int> class_filter = null) {
 			var bitmap = ImageUtils.ResizeBitmap(image, new OpenCvSharp.Size(in_width, in_height));
 			var input_tensor = GetInputTensor(bitmap);
 			var input_node = new List<NamedOnnxValue> { NamedOnnxValue.CreateFromTensor<float>("input.1", input_tensor) };

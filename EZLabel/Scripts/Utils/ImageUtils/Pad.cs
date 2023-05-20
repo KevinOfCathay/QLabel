@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace QLabel {
 	internal static partial class ImageUtils {
-		public static Bitmap Pad (Bitmap source, OpenCvSharp.Size size) {
+		public static Bitmap Pad (Bitmap source, in OpenCvSharp.Size size) {
 			Bitmap target = new Bitmap(size.Width, size.Height);
 			using ( Graphics g = Graphics.FromImage(target) ) {
 				g.DrawImage(source, new Rectangle(0, 0, size.Width, size.Height),

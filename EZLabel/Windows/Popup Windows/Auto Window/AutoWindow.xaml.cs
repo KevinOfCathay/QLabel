@@ -6,6 +6,7 @@ using QLabel.Scripts.Projects;
 using QLabel.Windows.Main_Canvas;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -116,7 +117,7 @@ namespace QLabel.Windows.Popup_Windows.Auto_Window {
 					var bitmaptask = ImageUtils.ReadBitmapAsync(image_data.path);
 					eRunBefore?.Invoke(selected_machine);
 					var bitmap = await bitmaptask;
-					var ads = selected_machine.RunInference(bitmap, accepted_classes);
+					var ads = selected_machine.Run(new List<Bitmap> { bitmap }, accepted_classes)[0];
 					eRunAfter?.Invoke(selected_machine);
 					List<IAnnotationElement> elements = new List<IAnnotationElement>(ads.Length);
 					foreach ( var ad in ads ) {

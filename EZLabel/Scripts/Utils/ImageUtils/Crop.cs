@@ -11,7 +11,7 @@ namespace QLabel {
 		/// 根据给出的方框 box（顶点位置tl，长宽wh）
 		/// 裁剪 bitmap
 		/// </summary>
-		public static Bitmap CropBitmap (Bitmap source, Rect box, InterpolationMode interp = InterpolationMode.Bilinear) {
+		public static Bitmap CropBitmap (Bitmap source, in Rect box, InterpolationMode interp = InterpolationMode.Bilinear) {
 			Bitmap target = new Bitmap(box.Width, box.Height);
 			using ( Graphics g = Graphics.FromImage(target) ) {
 				g.InterpolationMode = interp;
@@ -24,7 +24,7 @@ namespace QLabel {
 		/// <summary>
 		/// 在一个 Bitmap 上裁剪下多个方框
 		/// </summary>
-		public static List<Bitmap> CropBitmap (Bitmap source, ICollection<Rect> boxes, InterpolationMode interp = InterpolationMode.Bilinear) {
+		public static List<Bitmap> CropBitmap (Bitmap source, in ICollection<Rect> boxes, InterpolationMode interp = InterpolationMode.Bilinear) {
 			List<Bitmap> res = new List<Bitmap>(boxes.Count);
 			foreach ( var box in boxes ) {
 				Bitmap target = new Bitmap(box.Width, box.Height);

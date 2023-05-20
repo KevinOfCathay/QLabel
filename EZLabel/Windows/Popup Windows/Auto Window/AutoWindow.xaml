@@ -10,8 +10,8 @@
 	   xmlns:cvt="clr-namespace:QLabel.Converters"
 	   mc:Ignorable="d"
         Title="Auto..." 
-	   Height="420" Width="680"
-	   MinHeight="420" MinWidth="680">
+	   Height="420" Width="900"
+	   MinHeight="420" MinWidth="900">
 
 	<Window.Resources>
 		<cvt:Percentage x:Key="Percentage"/>

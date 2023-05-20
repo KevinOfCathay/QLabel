@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using QLabel.Scripts.Projects;
 using QLabel.Windows.Main_Canvas;
 using QLabel.Windows.Main_Canvas.Annotation_Elements;
 using System;
@@ -16,13 +17,13 @@ namespace QLabel.Scripts.AnnotationData {
 		/// Deserialize
 		/// </summary>
 		public ADDot
-			(Vector2 point, ClassLabel clas, List<Guid> line_ids, Guid id, DateTime createtime, float conf = 1.0f) :
-			base(new ReadOnlySpan<Vector2>(new Vector2[1] { point }), Type.Dot, clas, conf, id, createtime) {
+			(Vector2 point, ClassLabel clas, List<Guid> line_ids, Guid id, DateTime createtime) :
+			base(new ReadOnlySpan<Vector2>(new Vector2[1] { point }), Type.Dot, clas, id, createtime) {
 			this.line_ids = line_ids;
 		}
 		public ADDot
-			(Vector2 point, ClassLabel clas, IEnumerable<Guid> line_ids, float conf = 1.0f) :
-			base(new ReadOnlySpan<Vector2>(new Vector2[1] { point }), Type.Dot, clas, conf) {
+			(Vector2 point, ClassLabel clas, IEnumerable<Guid> line_ids) :
+			base(new ReadOnlySpan<Vector2>(new Vector2[1] { point }), Type.Dot, clas) {
 			this.line_ids = line_ids.ToList();
 		}
 		public void AddLink (Guid guid) { line_ids.Add(guid); }

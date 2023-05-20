@@ -208,7 +208,7 @@ namespace QLabel.Windows.Main_Canvas {
 				if ( element.ui_element != null ) {
 					var ui_element = element.ui_element;
 					ui_element.MouseEnter += delegate (object sender, MouseEventArgs e) {
-						annolabel = new AnnoLabel(new Point(Canvas.GetLeft(ui_element), Canvas.GetTop(ui_element) - 20.0), element.data.clas.name);
+						annolabel = new AnnoLabel(new Point(Canvas.GetLeft(ui_element), Canvas.GetTop(ui_element) - 20.0), element.data.class_label.name);
 						annotation_canvas.Children.Add(annolabel);
 					};
 					ui_element.MouseLeave += HideLabel;

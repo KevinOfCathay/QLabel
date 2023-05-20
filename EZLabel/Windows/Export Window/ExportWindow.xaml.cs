@@ -29,7 +29,7 @@ namespace QLabel.Windows.Export_Window {
 		private Format fmt = Format.VOC;
 		private Target tar = Target.Current;
 		private string save_dir = "";
-		private HashSet<ClassLabel> exported_classes = new HashSet<ClassLabel>();
+		private HashSet<ClassTemplate> exported_classes = new HashSet<ClassTemplate>();
 		public ExportWindow () {
 			InitializeComponent();
 			labeltree.SetUI(

@@ -15,7 +15,7 @@ using System.Drawing.Imaging;
 namespace QLabel.Scripts.Inference_Machine {
 	internal sealed class Yolov7SegInference : InferenceBase {
 		public int width, height, classes;
-		private readonly ClassLabel[] labels;
+		private readonly ClassTemplate[] labels;
 		private float conf_threshold = 0.35f;
 		private float score_threshold = 0.5f;
 
@@ -23,7 +23,7 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// 初始化所有参数
 		/// </summary>
 		/// <param name="path">模型的路径</param>
-		public Yolov7SegInference (string path, ClassLabel[] labels, int width = 640, int height = 640, int classes = 80) :
+		public Yolov7SegInference (string path, ClassTemplate[] labels, int width = 640, int height = 640, int classes = 80) :
 			base(new[] { 1, 3, height, width }, new[] { 25200, classes + 5 }) {
 			model_path = path;
 			this.width = width;
@@ -109,7 +109,7 @@ namespace QLabel.Scripts.Inference_Machine {
 			}
 			return (ind, final_scores, final_boxes, final_classes);
 		}
-		public override AnnoData[] RunInference (Bitmap image, HashSet<int> class_filter = null) {
+		protected override AnnoData[] RunInference (Bitmap image, HashSet<int> class_filter = null) {
 			var bitmap = ImageUtils.ResizeBitmap(image, new OpenCvSharp.Size(width, height));
 			var input_tensor = GetInputTensor(bitmap);
 			var output = Run(input_tensor);
@@ -137,10 +137,8 @@ namespace QLabel.Scripts.Inference_Machine {
 						continue;
 					}
 				}
-				ClassLabel cl = new ClassLabel(labels[c]);
-				data.Add(new ADRect(
-					points, cl, conf: final_scores[i]
-					));
+				ClassLabel cl = new ClassLabel(labels[c]) { confidence = final_scores[i] };
+				data.Add(new ADRect(points, cl));
 			}
 			return data.ToArray();
 		}

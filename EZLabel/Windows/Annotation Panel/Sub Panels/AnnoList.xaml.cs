@@ -81,11 +81,10 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 			var row = new Row {
 				Index = this.listview.Items.Count,
 				Type = data.type,
-				Class = data.clas.name,
-				Group = data.clas.group,
-				Supercategory = data.clas.supercategory,
+				Class = data.class_label.name,
+				Group = data.class_label.group,
+				Supercategory = data.class_label.supercategory,
 				Points = data.rpoints.to_string(),
-				Label = data.label,
 				elem = elem
 			};
 			int new_index = 0;
@@ -104,10 +103,9 @@ namespace QLabel.Windows.Annotation_Panel.Sub_Panels {
 					var data = elem.data;
 					if ( data != null ) {
 						if ( data.type != rows[i].Type ) { rows[i].Type = data.type; }
-						if ( data.clas.name != rows[i].Class ) { rows[i].Class = data.clas.name; }
-						if ( data.clas.group != rows[i].Group ) { rows[i].Group = data.clas.group; }
-						if ( data.clas.supercategory != rows[i].Supercategory ) { rows[i].Supercategory = data.clas.supercategory; }
-						if ( data.label != rows[i].Label ) { rows[i].Label = data.label; }
+						if ( data.class_label.name != rows[i].Class ) { rows[i].Class = data.class_label.name; }
+						if ( data.class_label.group != rows[i].Group ) { rows[i].Group = data.class_label.group; }
+						if ( data.class_label.supercategory != rows[i].Supercategory ) { rows[i].Supercategory = data.class_label.supercategory; }
 						if ( data.truncated != rows[i].Truncated ) { rows[i].Truncated = data.truncated; }
 						if ( data.occluded != rows[i].Occluded ) { rows[i].Occluded = data.occluded; }
 						rows[i].Points = data.rpoints.to_string();

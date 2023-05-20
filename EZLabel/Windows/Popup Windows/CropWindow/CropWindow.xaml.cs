@@ -17,7 +17,7 @@ namespace QLabel.Windows.CropWindow {
 	public partial class CropWindow : Window {
 		private enum Target { Current, All };
 		private Target target = Target.Current;
-		private List<ClassLabel> accepted_labels = new List<ClassLabel>();
+		private List<ClassTemplate> accepted_labels = new List<ClassTemplate>();
 		private string save_dir = "";
 		public CropWindow () {
 			InitializeComponent();
@@ -51,13 +51,13 @@ namespace QLabel.Windows.CropWindow {
 		private void CloseWindow () {
 			this.Close();
 		}
-		private void SetClassListbox (IEnumerable<ClassLabel> labels) {
+		private void SetClassListbox (IEnumerable<ClassTemplate> labels) {
 			// 首先清除 accepted_labels 中的全部内容
 			accepted_labels.Clear();
 
 			labeltree.SetUI(labels,
-				check: (ClassLabel cl) => { accepted_labels.Add(cl); },
-				uncheck: (ClassLabel cl) => { accepted_labels.Remove(cl); }
+				check: (ClassTemplate cl) => { accepted_labels.Add(cl); },
+				uncheck: (ClassTemplate cl) => { accepted_labels.Remove(cl); }
 				);
 		}
 		private async Task CropSaveAsync (ImageData data, string top_dir) {
@@ -68,11 +68,11 @@ namespace QLabel.Windows.CropWindow {
 				var ads = data.annodata;
 				int index = 0;
 				foreach ( var ad in ads ) {
-					if ( !accepted_labels.Contains(ad.clas) ) { continue; }
+					if ( !accepted_labels.Contains(ad.class_label) ) { continue; }
 					var cropped_bitmap = CropBitmap(await load_bitmap_task, ad);
 					try {
 						cropped_bitmap.Save(Path.Join(top_dir,
-							string.Join("_", data.filename, ad.clas.group, ad.clas.name, index.ToString()) + ".png"));
+							string.Join("_", data.filename, ad.class_label.group, ad.class_label.name, index.ToString()) + ".png"));
 						index += 1;
 					} catch { }
 				}

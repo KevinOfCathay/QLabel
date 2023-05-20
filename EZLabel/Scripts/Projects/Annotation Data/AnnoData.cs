@@ -18,15 +18,13 @@ namespace QLabel.Scripts.AnnotationData {
 		/// </summary>
 		public AnnoData (AnnoData source) {
 			rpoints = source.rpoints;
-			conf = source.conf;
 			bbox = source.bbox;
 			brect = source.brect;
-			clas = source.clas;
 			createtime = source.createtime;
 			guid = source.guid;
 
 			type = source.type;
-			label = source.label;
+			class_label = source.class_label;
 			caption = source.caption;
 			truncated = source.truncated;
 			occluded = source.occluded;
@@ -34,12 +32,11 @@ namespace QLabel.Scripts.AnnotationData {
 		/// <summary>
 		/// 初始化所有的 readonly 属性
 		/// </summary>
-		public AnnoData (ReadOnlySpan<Vector2> rpoints, Type type, ClassLabel clas, float conf) {
+		public AnnoData (ReadOnlySpan<Vector2> rpoints, Type type, ClassLabel class_label) {
 			createtime = DateTime.Now;
 			this.rpoints = rpoints.ToArray();
-			this.conf = conf;
 			this.type = type;
-			this.clas = clas;
+			this.class_label = class_label;
 			this.guid = Guid.NewGuid();
 			bbox = GetBoundingBox(rpoints);
 			brect = new Int32Rect((int) bbox.tl.X, (int) bbox.tl.Y, (int) ( bbox.br.X - bbox.tl.X ), (int) ( bbox.br.Y - bbox.tl.Y ));
@@ -47,12 +44,11 @@ namespace QLabel.Scripts.AnnotationData {
 		/// <summary>
 		/// 初始化所有的 readonly 属性
 		/// </summary>
-		public AnnoData (ReadOnlySpan<Vector2> rpoints, Type type, ClassLabel clas, float conf, Guid guid, DateTime createtime) {
+		public AnnoData (ReadOnlySpan<Vector2> rpoints, Type type, ClassLabel class_label, Guid guid, DateTime createtime) {
 			this.createtime = createtime;
 			this.rpoints = rpoints.ToArray();
-			this.conf = conf;
 			this.type = type;
-			this.clas = clas;
+			this.class_label = class_label;
 			this.guid = guid;
 			bbox = GetBoundingBox(rpoints);
 			brect = new Int32Rect((int) bbox.tl.X, (int) bbox.tl.Y, (int) ( bbox.br.X - bbox.tl.X ), (int) ( bbox.br.Y - bbox.tl.Y ));
@@ -68,17 +64,13 @@ namespace QLabel.Scripts.AnnotationData {
 		/// <summary> 约束这个 annotation 的边框（以rect的形式） (readonly) </summary>
 		[JsonProperty] public readonly Int32Rect brect;
 		/// <summary> 这个注释数据的类 (readonly) </summary>
-		[JsonProperty] public readonly ClassLabel clas;
+		[JsonProperty] public readonly ClassLabel class_label;
 		/// <summary> 这个注释数据被创建的时间，在 AnnoData 初始化时被设置 (readonly) </summary>
 		[JsonProperty] public readonly DateTime createtime;
 		/// <summary>  这个注释数据的 GUID</summary>
 		[JsonProperty] public readonly Guid guid;
 		#endregion
 
-		/// <summary> 这个注释数据的 confidence </summary>
-		[JsonProperty] public float conf;
-		/// <summary>  这个注释数据的额外标签 </summary>
-		[JsonProperty] public string label = string.Empty;
 		/// <summary>  这个注释数据的描述文字 </summary>
 		[JsonProperty] public string caption = string.Empty;
 		/// <summary> more than 15-20% of the object lies outside the bounding box</summary>
@@ -114,7 +106,7 @@ namespace QLabel.Scripts.AnnotationData {
 		public string ID () {
 			using ( System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create() ) {
 				byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(
-					createtime.ToLongTimeString() + clas.ToString() + label.ToString()
+					createtime.ToLongTimeString() + class_label.ToString()
 					);
 				byte[] hashBytes = md5.ComputeHash(inputBytes);
 				return Convert.ToHexString(hashBytes);

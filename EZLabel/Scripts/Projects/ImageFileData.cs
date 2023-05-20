@@ -10,13 +10,16 @@ using System.Xml.Serialization;
 
 namespace QLabel.Scripts.Projects {
 	public class ImageData {
-		private string _path = string.Empty;
-		public string folder { get; private set; }
-		public string filename { get; private set; }
+		// ImageData 相关 Properties
 		public string path {
 			get { return _path; }
 			set { _path = value; folder = Directory.GetParent(value).FullName; filename = Path.GetFileName(path); }
 		}
+
+		// ImageData 相关属性 
+		private string _path = string.Empty;
+		public string folder { get; private set; }
+		public string filename { get; private set; }
 
 		public double width { get; set; }
 		public double height { get; set; }
@@ -25,29 +28,17 @@ namespace QLabel.Scripts.Projects {
 
 		public long size { get; set; }     // 文件大小
 		public List<AnnoData> annodata { get; private set; } = new List<AnnoData>();
-		private Dictionary<ClassLabel, int> label_counts = new Dictionary<ClassLabel, int>();  // 这个文件所包含的 class label
 
 		public ImageData () { }
 
 		#region Data
 		public void AddAnnoData (AnnoData data) {
-			if ( data == null ) { return; }
-			annodata.Add(data);
-			if ( label_counts.ContainsKey(data.clas) ) {
-				label_counts[data.clas] += 1;
-			} else {
-				label_counts[data.clas] = 1;
+			if ( data != null ) {
+				annodata.Add(data);
 			}
 		}
 		public void RemoveAnnoData (AnnoData data) {
 			annodata.Remove(data);
-			if ( label_counts.ContainsKey(data.clas) ) {
-				label_counts[data.clas] -= 1;
-				if ( label_counts[data.clas] <= 0 ) { label_counts.Remove(data.clas); }
-			}
-		}
-		public Dictionary<ClassLabel, int> GetLabelCounts () {
-			return label_counts;
 		}
 		#endregion
 
@@ -61,7 +52,7 @@ namespace QLabel.Scripts.Projects {
 			writer.WriteStartElement("object");
 
 			writer.WriteStartElement("name");
-			writer.WriteString(data.clas.name);
+			writer.WriteString(data.class_label.name);
 			writer.WriteEndElement();
 
 			WriteXMLAttr(writer, "truncated", data.truncated.ToString());
@@ -76,11 +67,12 @@ namespace QLabel.Scripts.Projects {
 
 			writer.WriteEndElement();
 		}
-		public void ToYoloXYWH (string save_path, ClassLabel[] labelset, bool percentage = true) {
+		public void ToYoloXYWH (string save_path, ClassTemplate[] labelset, bool percentage = true) {
 			using ( StreamWriter sw = new StreamWriter(save_path) ) {
 				foreach ( var data in annodata ) {
 					var bbox = data.bbox;
-					int class_index = Array.IndexOf(labelset, data.clas);
+					var label = data.class_label;
+					int class_index = Array.FindIndex(labelset, (t) => { return label.name == t.name && label.group == t.group && label.supercategory == t.supercategory; });
 					if ( percentage ) {
 						sw.WriteLine(string.Join(" ", class_index.ToString(),
 							( ( ( bbox.br.X + bbox.tl.X ) / 2f ) / width ).ToString(), ( ( ( bbox.br.Y + bbox.tl.Y ) / 2f ) / height ).ToString(),
@@ -95,10 +87,11 @@ namespace QLabel.Scripts.Projects {
 				}
 			}
 		}
-		public void ToYoloXYCoords (string save_path, ClassLabel[] labelset, bool percentage = true) {
+		public void ToYoloXYCoords (string save_path, ClassTemplate[] labelset, bool percentage = true) {
 			using ( StreamWriter sw = new StreamWriter(save_path) ) {
 				foreach ( var data in annodata ) {
-					int class_index = Array.IndexOf(labelset, data.clas);
+					var label = data.class_label;
+					int class_index = Array.FindIndex(labelset, (t) => { return label.name == t.name && label.group == t.group && label.supercategory == t.supercategory; });
 					int len = data.rpoints.Length;
 					string[] str = new string[len * 2 + 1]; str[0] = class_index.ToString();
 					if ( percentage ) {

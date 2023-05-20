@@ -15,13 +15,13 @@ using System.Drawing.Imaging;
 namespace QLabel.Scripts.Inference_Machine {
 	internal sealed class Yolov7Inference : InferenceBase {
 		public readonly int width, height, classes;
-		private readonly ClassLabel[] labels;
+		private readonly ClassTemplate[] labels;
 
 		/// <summary>
 		/// 初始化所有参数
 		/// </summary>
 		/// <param name="path">模型的路径</param>
-		public Yolov7Inference (string path, ClassLabel[] labels, int width = 640, int height = 640) :
+		public Yolov7Inference (string path, ClassTemplate[] labels, int width = 640, int height = 640) :
 			base(new[] { 1, 3, height, width }, null) {
 			model_path = path;
 			this.width = width;
@@ -54,7 +54,7 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// <summary>
 		/// 运行模型并以 float[] 形式返回结果
 		/// </summary>
-		public float[] Run<T> (DenseTensor<T> input) {
+		private float[] Run<T> (DenseTensor<T> input) {
 			// 从 Dense Tensor 创建一个 Input
 			var input_node = new List<NamedOnnxValue> { NamedOnnxValue.CreateFromTensor<T>("images", input) };
 			if ( session != null ) {
@@ -65,7 +65,7 @@ namespace QLabel.Scripts.Inference_Machine {
 			}
 		}
 
-		public override AnnoData[] RunInference (Bitmap image, HashSet<int> class_filter = null) {
+		protected override AnnoData[] RunInference (Bitmap image, HashSet<int> class_filter = null) {
 			var bitmap = ImageUtils.ResizeBitmap(image, new OpenCvSharp.Size(width, height));
 			var input_tensor = GetInputTensor(bitmap);
 			var output = Run(input_tensor);
@@ -99,9 +99,9 @@ namespace QLabel.Scripts.Inference_Machine {
 						continue;
 					}
 				}
-				ClassLabel cl = new ClassLabel(labels[c]);
+				ClassTemplate cl = new ClassTemplate(labels[c]);
 				data.Add(new ADRect(
-					points, cl, conf: output[i * 7 + 6]
+					points, new ClassLabel(cl) { confidence = output[i * 7 + 6] }
 					));
 			}
 			return data.ToArray();

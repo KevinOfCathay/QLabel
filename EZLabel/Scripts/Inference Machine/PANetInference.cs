@@ -22,13 +22,12 @@ namespace QLabel.Scripts.Inference_Machine {
 		public int width, height, classes;
 		private const int out_width = 160, out_height = 160;
 		public float downsample_ratio = 0.25f;
-		private readonly ClassLabel[] labels;
+		private readonly ClassTemplate[] labels;
 
 		/// <summary>
-		/// 初始化所有参数
+		/// 初始化参数
 		/// </summary>
-		/// <param name="path">模型的路径</param>
-		public PANetInference (string path, ClassLabel[] labels, int width = 640, int height = 640, int classes = 80) :
+		public PANetInference (string path, ClassTemplate[] labels, int width = 640, int height = 640, int classes = 80) :
 			base(new int[] { 1, 3, width, height }, new int[] { 1, 6, width / 4, height / 4 }) {
 			model_path = path;
 			this.width = width;
@@ -37,7 +36,7 @@ namespace QLabel.Scripts.Inference_Machine {
 			this.labels = labels;
 		}
 
-		public override AnnoData[] RunInference (Bitmap image, HashSet<int> class_filter = null) {
+		protected override AnnoData[] RunInference (Bitmap image, HashSet<int> class_filter = null) {
 			var resized = ImageUtils.ResizeBitmap(image, new OpenCvSharp.Size(width, height));
 			var input_tensor = GetInputTensor(resized);
 			var input = new List<NamedOnnxValue> { NamedOnnxValue.CreateFromTensor<float>("input", input_tensor) };
@@ -51,14 +50,14 @@ namespace QLabel.Scripts.Inference_Machine {
 				AnnoData[] data = new AnnoData[len];
 				for ( int i = 0; i < len; i += 1 ) {
 					// 创建 annodata
-					ClassLabel cl = new ClassLabel(labels[0]);
+					ClassTemplate cl = new ClassTemplate(labels[0]);
 
 					var boundary = boundaries[i];
 					Vector2[] rpoints = new Vector2[boundary.Length];
 					Parallel.For(0, boundary.Length, (index) => {
 						rpoints[index] = new Vector2(boundary[index].X, boundary[index].Y) * scale;
 					});
-					data[i] = new ADPolygon(rpoints, cl, conf: scores[i]);
+					data[i] = new ADPolygon(rpoints, new ClassLabel(cl));
 				}
 				return data;
 			} else {

@@ -169,7 +169,7 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 			List<Guid> link_ids = new List<Guid>();
 			link_ids.AddRange(linked_lines_a.Keys);
 			link_ids.AddRange(linked_lines_b.Keys);
-			ADDot new_data = new ADDot(canvas.RealPosition(cpoints[0]), data.clas, link_ids, data.conf);
+			ADDot new_data = new ADDot(canvas.RealPosition(cpoints[0]), data.class_label, link_ids);
 			ChangeDotSize changesize = new ChangeDotSize(canvas, this, data, new_data);
 			ActionManager.PushAndExecute(changesize);
 		}

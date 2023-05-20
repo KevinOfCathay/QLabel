@@ -12,9 +12,9 @@ namespace QLabel.Windows.Export_Window {
 	public partial class ExportWindow : Window {
 		private async Task ExportToCoco (ImageData[] data_array, string path) {
 			string save_loc = Path.Join(path, "coco.json");
-			var class_labels = ProjectManager.project.label_set;     // categories
+			var class_labels = ProjectManager.project.label_set;
 
-			var categories_task = ClassLabelsToCategoryAsync(class_labels);
+			var categories_task = ClassTemplatesToCategoryAsync(class_labels);
 			var image_task = ImageDatasToImageAsync(ProjectManager.project.datas);
 
 			if ( !Path.Exists(save_loc) ) {    // 不要覆盖现有的文件
@@ -38,10 +38,11 @@ namespace QLabel.Windows.Export_Window {
 				} catch ( Exception ) { }
 			}
 		}
-		private async Task<List<Dictionary<string, string>>> ClassLabelsToCategoryAsync (IEnumerable<ClassLabel> class_labels) {
-			return await Task.Run(() => ClassLabelsToCategory(class_labels));
+		/// <summary>  将 class template 转换为 coco categories 的格式 </summary>
+		private async Task<List<Dictionary<string, string>>> ClassTemplatesToCategoryAsync (IEnumerable<ClassTemplate> class_labels) {
+			return await Task.Run(() => ClassTemplatesToCategory(class_labels));
 		}
-		private List<Dictionary<string, string>> ClassLabelsToCategory (IEnumerable<ClassLabel> class_labels) {
+		private List<Dictionary<string, string>> ClassTemplatesToCategory (IEnumerable<ClassTemplate> class_labels) {
 			List<Dictionary<string, string>> categories = new List<Dictionary<string, string>>();
 			int id = 0;
 			foreach ( var label in class_labels ) {
@@ -89,25 +90,19 @@ namespace QLabel.Windows.Export_Window {
 				}
 			});
 		}
-		private async Task ExportToYolo (ImageData[] data_array, string path, YOLOFormat format, bool percentage) {
+		private async Task ExportToYolo (ImageData[] datas, string path, YOLOFormat format, bool percentage) {
 			await Task.Run(() => {
-				foreach ( var data in data_array ) {
+				foreach ( var data in datas ) {
 					string save_loc = Path.Join(path, data.filename + ".txt");
 					if ( !Path.Exists(save_loc) ) {    // 不要覆盖现有的文件
-						var labelset = ProjectManager.project.label_set;
-						ClassLabel[] label_array = new ClassLabel[labelset.Count];
-
-						int i = 0;
-						foreach ( var label in labelset ) {
-							label_array[i] = label;
-							i += 1;
-						}
+						ClassTemplate[] label_templates = new ClassTemplate[ProjectManager.project.label_set.Count];
+						ProjectManager.project.label_set.CopyTo(label_templates, 0);
 						switch ( format ) {
 							case YOLOFormat.XYWH:
-								data.ToYoloXYWH(save_loc, label_array, percentage);
+								data.ToYoloXYWH(save_loc, label_templates, percentage);
 								break;
 							case YOLOFormat.XYs:
-								data.ToYoloXYCoords(save_loc, label_array, percentage);
+								data.ToYoloXYCoords(save_loc, label_templates, percentage);
 								break;
 						}
 					}

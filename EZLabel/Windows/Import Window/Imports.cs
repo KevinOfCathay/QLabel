@@ -107,7 +107,11 @@ namespace QLabel.Windows.Import_Window {
 									}
 								}
 								if ( has_element[0] && has_element[1] && has_element[2] && has_element[3] ) {
-									ADRect rect = new ADRect(xmin, ymin, xmax, ymax, new Scripts.ClassLabel("None", box_name));
+									// 创建一个新的 Class Template
+									ClassTemplate template = new ClassTemplate("None", box_name);
+
+									// 从新创建的 Class Template 中创建 AnnoData 并加入到 data 中
+									ADRect rect = new ADRect(xmin, ymin, xmax, ymax, new ClassLabel(template));
 									data.AddAnnoData(rect);
 								}
 							}

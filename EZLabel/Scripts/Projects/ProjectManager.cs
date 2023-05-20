@@ -25,7 +25,7 @@ namespace QLabel.Scripts.Projects {
 		private static string cur_dir = null;
 		private static string save_dir = null;
 		public static ImageData cur_datafile;
-		public static ClassLabel cur_label = new ClassLabel("None", "None");
+		public static ClassTemplate cur_label = new ClassTemplate("None", "None");
 		public static int cur_label_index = 0;
 		public const string PROJECT_DIR_NAME = "_project";
 		public const string VISUAL_DIR_NAME = "_vis";
@@ -53,7 +53,7 @@ namespace QLabel.Scripts.Projects {
 		public static void AddAnnoData (ImageData imgdata, AnnoData annodata) {
 			if ( imgdata != null && annodata != null && !imgdata.annodata.Contains(annodata) ) {
 				imgdata.AddAnnoData(annodata);   // 加入到 annodata 中
-				project.class_label_manager.AddClassLabel(annodata.clas);
+				project.class_label_manager.AddClassLabel(annodata.class_label);
 				eAnnoDataAdded?.Invoke(imgdata, annodata);
 			}
 		}
@@ -117,7 +117,7 @@ namespace QLabel.Scripts.Projects {
 				using ( JsonReader reader = new JsonTextReader(new StreamReader(path)) ) {
 					dynamic json_obj = serializer.Deserialize<dynamic>(reader);
 					if ( json_obj == null ) { return; }
-					var datas = json_obj.datas; var labels = json_obj.labels;        // 读取 datas 和 labels
+					var datas = json_obj.datas; var labels = json_obj.labels;        // 读取 datas 和 templates
 					List<ImageData> image_datas = new List<ImageData>(datas.Count);
 					foreach ( var data in datas ) {
 						// 从 json 中复原 ImageData 并加入到 list 中
@@ -155,7 +155,7 @@ namespace QLabel.Scripts.Projects {
 					rpoints[i] = new Vector2((float) p.X.Value, (float) p.Y.Value);
 				}
 				var clas = data.clas;
-				ClassLabel clabel = new ClassLabel(clas.group.Value, clas.name.Value, clas.supercategory.Value);
+				ClassTemplate clabel = new ClassTemplate(clas.group.Value, clas.name.Value, clas.supercategory.Value);
 				string caption = data.caption.Value;
 				Guid guid = Guid.Parse(data.guid.Value);
 				DateTime createtime = data.createtime.Value;
@@ -166,19 +166,17 @@ namespace QLabel.Scripts.Projects {
 					case "Dot":
 						// 读取点相关联的线 ID
 						var addot = new ADDot(
-							rpoints[0], clabel, new List<Guid>(),
-							guid, createtime, conf) { caption = caption, truncated = truncated, occluded = occluded };
+							rpoints[0], new ClassLabel(clabel) { confidence = conf }, new List<Guid>(),
+							guid, createtime) { caption = caption, truncated = truncated, occluded = occluded };
 						annodatas.Add(addot);
 						break;
 					case "Rectangle":
 						var adrect = new ADRect(
 							new ReadOnlySpan<Vector2>(rpoints),
-							clabel, conf, guid, createtime, false) { caption = caption, truncated = truncated, occluded = occluded };
+							new ClassLabel(clabel) { confidence = conf }, guid, createtime, false) { caption = caption, truncated = truncated, occluded = occluded };
 						annodatas.Add(adrect);
 						break;
 					case "Polygon":
-						break;
-					case "Tetragon":
 						break;
 					case "Line":
 						// 读取线相关联的点 ID
@@ -186,7 +184,7 @@ namespace QLabel.Scripts.Projects {
 						Guid dot_b_id = Guid.Parse(data.dot_b_id.Value);
 						var adline = new ADLine(
 							rpoints[0], rpoints[1], dot_a_id, dot_b_id,
-							clabel, guid, createtime, conf) { caption = caption, truncated = truncated, occluded = occluded };
+							new ClassLabel(clabel) { confidence = conf }, guid, createtime) { caption = caption, truncated = truncated, occluded = occluded };
 						annodatas.Add(adline);
 						break;
 					case "Circle":

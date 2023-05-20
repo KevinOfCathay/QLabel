@@ -33,10 +33,6 @@
 				<GridViewColumn Header="Class"  DisplayMemberBinding="{Binding Path=Class}">
 				</GridViewColumn>
 
-				<!-- 标记的标签 -->
-				<GridViewColumn Header="Label" DisplayMemberBinding="{Binding Path=Label}">
-				</GridViewColumn>
-
 				<!-- 标记的组别 -->
 				<GridViewColumn Header="Group" DisplayMemberBinding="{Binding Path=Group}">
 				</GridViewColumn>

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using QLabel.Scripts.Projects;
 using QLabel.Windows.Main_Canvas;
 using QLabel.Windows.Main_Canvas.Annotation_Elements;
 using System;
@@ -18,8 +19,8 @@ namespace QLabel.Scripts.AnnotationData {
 		[JsonProperty] public int vertex;
 		public override int visualize_priority => 1;
 		public ADPolygon
-			(ReadOnlySpan<Vector2> rpoints, ClassLabel clas, float conf = 1.0f) :
-			base(rpoints, Type.Polygon, clas, conf) {
+			(ReadOnlySpan<Vector2> rpoints, ClassLabel clas) :
+			base(rpoints, Type.Polygon, clas) {
 			vertex = rpoints.Length;
 		}
 

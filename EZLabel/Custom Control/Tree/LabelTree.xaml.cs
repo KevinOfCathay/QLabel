@@ -1,25 +1,9 @@
 ﻿using QLabel.Custom_Control.Small_Tools;
-using QLabel.Custom_Control.Small_Tools.Option_Box;
-using QLabel.Scripts;
-using QLabel.Scripts.AnnotationData;
-using QLabel.Scripts.Utils;
-using QLabel.Windows.Annotation_Panel.Sub_Panels;
-using QLabel.Windows.Main_Canvas;
+using QLabel.Scripts.Projects;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace QLabel.Custom_Control.Label_Tree {
 	public partial class LabelTree : UserControl {
@@ -41,7 +25,7 @@ namespace QLabel.Custom_Control.Label_Tree {
 			    typeMetadata: new PropertyMetadata("sub text"));
 
 		public bool checkbox_active = true;
-		public event Action<ClassLabel> eCheck, eUncheck;
+		public event Action<ClassTemplate> eCheck, eUncheck;
 		public LabelTree () {
 			InitializeComponent();
 		}
@@ -58,12 +42,12 @@ namespace QLabel.Custom_Control.Label_Tree {
 		}
 		#endregion Classes
 		private List<Node> groups = new List<Node>();
-		private List<ClassLabel> _selected_labels = new List<ClassLabel>();
-		public IEnumerable<ClassLabel> selected_labels { get => selected_labels; }
+		private List<ClassTemplate> _selected_labels = new List<ClassTemplate>();
+		public IEnumerable<ClassTemplate> selected_labels { get => selected_labels; }
 
-		public void SetUI (IEnumerable<ClassLabel> labels,
-			Action<ClassLabel> check = null,
-			Action<ClassLabel> uncheck = null,
+		public void SetUI (IEnumerable<ClassTemplate> labels,
+			Action<ClassTemplate> check = null,
+			Action<ClassTemplate> uncheck = null,
 			bool expanded = false,
 			bool clear_previous = true,
 			bool is_checked = true) {
@@ -78,7 +62,7 @@ namespace QLabel.Custom_Control.Label_Tree {
 			this.eCheck += check;
 			this.eUncheck += uncheck;
 
-			// 将 ClassLabel 加入到树中
+			// 将 ClassTemplate 加入到树中
 			foreach ( var data in labels ) {
 				AddElementToTree(data, is_checked);
 			}
@@ -94,7 +78,7 @@ namespace QLabel.Custom_Control.Label_Tree {
 				}
 			}
 		}
-		private void AddElementToTree (ClassLabel label, bool is_checked) {
+		private void AddElementToTree (ClassTemplate label, bool is_checked) {
 			// 将数据加入到 Tree 中
 			// 结构：GroupNode  -- ClassNode -- ItemNode --> Item
 			string class_name = label.name;

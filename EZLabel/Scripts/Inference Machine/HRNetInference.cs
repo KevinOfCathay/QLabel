@@ -16,8 +16,8 @@ using QLabel.Windows.Main_Canvas.Annotation_Elements;
 
 namespace QLabel.Scripts.Inference_Machine {
 	internal sealed class HRNetInference : InferenceBase {
-		private readonly ClassLabel[] labels;
-		private readonly (int x, int y, ClassLabel)[] skeletons;
+		private readonly ClassTemplate[] templates;
+		private readonly (int x, int y, ClassTemplate)[] skeletons;
 		private readonly int in_width, in_height;
 		private readonly int o_width, o_height;
 		private bool post_process = true;
@@ -27,10 +27,10 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// 初始化所有参数
 		/// </summary>
 		/// <param name="path">模型的路径</param>
-		public HRNetInference (string path, ClassLabel[] labels, (int x, int y, ClassLabel)[] skeletons, int[] input_dims, int[] output_dims) :
+		public HRNetInference (string path, ClassTemplate[] templates, (int x, int y, ClassTemplate)[] skeletons, int[] input_dims, int[] output_dims) :
 			base(input_dims, output_dims) {
 			model_path = path;
-			this.labels = labels;
+			this.templates = templates;
 			this.skeletons = skeletons;
 
 			this.in_width = input_dims[3];
@@ -38,7 +38,7 @@ namespace QLabel.Scripts.Inference_Machine {
 			this.o_width = output_dims[3];
 			this.o_height = output_dims[2];
 		}
-		public override AnnoData[] RunInference (Bitmap image, HashSet<int> class_filter = null) {
+		protected override AnnoData[] RunInference (Bitmap image, HashSet<int> class_filter = null) {
 			var bitmap = ImageUtils.ResizeBitmap(image, new OpenCvSharp.Size(in_width, in_height));
 			var input = GetInputTensor(bitmap); var input_node = new List<NamedOnnxValue> { NamedOnnxValue.CreateFromTensor<float>("input.1", input) };
 			Vector2 scale = new Vector2(( (float) image.Width ) / ( (float) o_width ), ( (float) image.Height ) / ( (float) o_height ));
@@ -53,8 +53,8 @@ namespace QLabel.Scripts.Inference_Machine {
 				for ( int i = 0; i < len; i += 1 ) {
 					if ( maxvals[i] > keypoint_threshold ) {
 						Vector2 rpoint = new Vector2(idx[i, 0], idx[i, 1]) * scale;
-						ClassLabel cl = new ClassLabel(labels[i]);
-						ADDot dot = new ADDot(rpoint, cl, Array.Empty<Guid>(), maxvals[i]);    // 生成 AnnoData
+						ClassLabel cl = new ClassLabel(templates[i]) { confidence = maxvals[i] };
+						ADDot dot = new ADDot(rpoint, cl, Array.Empty<Guid>());    // 生成 AnnoData
 						datas.Add(dot);
 						keypoints.Add(i, dot);
 					}

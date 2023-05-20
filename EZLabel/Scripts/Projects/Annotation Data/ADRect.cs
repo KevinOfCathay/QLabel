@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using QLabel.Scripts.Projects;
 using QLabel.Windows.Main_Canvas;
 using QLabel.Windows.Main_Canvas.Annotation_Elements;
 using System;
@@ -6,11 +7,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Xml.Serialization;
-using static Microsoft.WindowsAPICodePack.Shell.PropertySystem.SystemProperties.System;
 
 namespace QLabel.Scripts.AnnotationData {
 	/// <summary>
@@ -23,23 +19,23 @@ namespace QLabel.Scripts.AnnotationData {
 		/// <summary>
 		/// Deserialization
 		/// </summary>
-		public ADRect (ReadOnlySpan<Vector2> rpoints, ClassLabel clabel, float conf, Guid guid, DateTime createtime, bool is_square) :
-			base(rpoints, Type.Rectangle, clabel, conf, guid, createtime) {
+		public ADRect (ReadOnlySpan<Vector2> rpoints, ClassLabel clabel, Guid guid, DateTime createtime, bool is_square) :
+			base(rpoints, Type.Rectangle, clabel, guid, createtime) {
 			this.is_square = is_square;
 			this.tl = rpoints[0];
 			this.br = rpoints[3];
 		}
 		public ADRect
-			(ReadOnlySpan<Vector2> points, ClassLabel clas, float conf = 1.0f, bool is_square = false) :
-			base(points, Type.Rectangle, clas, conf) {
+			(ReadOnlySpan<Vector2> points, ClassLabel clas, bool is_square = false) :
+			base(points, Type.Rectangle, clas) {
 			this.is_square = is_square;
 			this.tl = rpoints[0];
 			this.br = rpoints[3];
 		}
 		public ADRect
-			(float xmin, float ymin, float xmax, float ymax, ClassLabel clas, float conf = 1.0f, bool is_square = false) :
+			(float xmin, float ymin, float xmax, float ymax, ClassLabel clas, bool is_square = false) :
 			base(new ReadOnlySpan<Vector2>(new Vector2[] { new Vector2(xmin, ymin), new Vector2(xmax, ymin), new Vector2(xmin, ymax), new Vector2(xmax, ymax) }),
-				Type.Rectangle, clas, conf) {
+				Type.Rectangle, clas) {
 			this.is_square = is_square;
 			this.tl = new Vector2(xmin, ymin);
 			this.br = new Vector2(xmax, ymax);
