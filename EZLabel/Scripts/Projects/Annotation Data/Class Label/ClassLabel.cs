@@ -9,6 +9,9 @@ using System.Drawing;
 
 namespace QLabel.Scripts.Projects {
 	public class ClassLabel {
+		[JsonConstructor]
+		private ClassLabel () { }
+
 		/// <summary>从 template 中创建一个 class template </summary>
 		public ClassLabel (ClassTemplate template) {
 			this.template = template;

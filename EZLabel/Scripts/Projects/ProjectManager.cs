@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using QLabel.Scripts.AnnotationData;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,12 @@ namespace QLabel.Scripts.Projects {
 		/// <summary> 当前是否有项目被加载 </summary>
 		public bool empty { get { return project == null; } }
 		/// <summary> 当前被加载项目的所有 image data </summary>
-		public ICollection<ImageData>? datas { get { if ( !empty ) { return project.datas; } else { return null; } } }
+		public ICollection<ImageData> datas { get { if ( !empty ) { return project.datas; } else { return new List<ImageData>(0); } } }
 
 
 		/// <summary>  当前打开的 project
 		/// 这个 project 不应该被直接操作 (即，有关的操作应该在 manager 内部完成)  </summary>
-		protected Project project { get; private set; }
+		private Project project = new Project();
 		/// <summary>  当前 project 的 class labels 管理 </summary>
 		public ClassLabelManager class_label_manager = new ClassLabelManager();
 		/// <summary>  当前打开的文件夹的路径 </summary>
@@ -28,23 +29,23 @@ namespace QLabel.Scripts.Projects {
 
 		public ClassTemplate cur_label = new ClassTemplate("None", "None");
 		public int cur_label_index = 0;
-		public string PROJECT_DIR_NAME = "_project";
-		public string VISUAL_DIR_NAME = "_vis";
-		public string SAVE_JSON_NAME = "_saved_project";
-		public string SAVE_CLASS_STATS_NAME = "_saved_classes";
+		public const string PROJECT_DIR_NAME = "_project";
+		public const string VISUAL_DIR_NAME = "_vis";
+		public const string SAVE_JSON_NAME = "_saved_project";
+		public const string SAVE_CLASS_STATS_NAME = "_saved_classes";
 
 		public event Action<ImageData, AnnoData>? eAnnoDataAdded, eAnnoDataRemoved;
 		public bool NewProject (string directory) {
 			if ( directory != cur_dir ) {
 				if ( cur_dir != null && empty ) {
 					try {
-						project.SaveProjectAsync(Path.Join(save_dir, SAVE_JSON_NAME + ".json"));      // 保存当前打开的项目
+						SaveProjectAsync();      // 保存当前打开的项目
 					} catch {
 						return false;        // 如果没有保存成功则直接返回
 					}
 				}
 				cur_dir = directory;
-				project = new Project(); // 创建一个新的项目
+				project.New(); // 创建一个新的项目
 				class_label_manager.New();
 
 				save_dir = Path.Join(cur_dir, PROJECT_DIR_NAME);
@@ -136,7 +137,7 @@ namespace QLabel.Scripts.Projects {
 							depth = data.depth,
 							format = table[data.format.Value]
 						};
-						IEnumerable<AnnoData> annodatas = MakeAnnoData(data.annodata);
+						IEnumerable<AnnoData> annodatas = DecodeAnnoData(data.annodatas);
 						if ( annodatas != null ) {
 							foreach ( var annodata in annodatas ) {
 								imgdata.AddAnnoData(annodata);
@@ -150,37 +151,36 @@ namespace QLabel.Scripts.Projects {
 				}
 			});
 		}
-		private IEnumerable<AnnoData> MakeAnnoData (dynamic datas) {
+		private IEnumerable<AnnoData> DecodeAnnoData (dynamic datas) {
 			if ( datas.Count == 0 ) { return Array.Empty<AnnoData>(); }
 			List<AnnoData> annodatas = new List<AnnoData>();
 
 			foreach ( var data in datas ) {
-				var rps = data.rpoints;
-				Vector2[] rpoints = new Vector2[rps.Count];
-				for ( int i = 0; i < rps.Count; i += 1 ) {
-					var p = rps[i];
-					rpoints[i] = new Vector2((float) p.X.Value, (float) p.Y.Value);
-				}
-				var clas = data.clas;
-				ClassTemplate clabel = new ClassTemplate(clas.group.Value, clas.name.Value, clas.supercategory.Value);
+				var rps = data.rpoints; int length = rps.Count;
+				Vector2[] rpoints = new Vector2[length];
+				Parallel.For(0, length, (i) => {
+					var p = rps[i]; rpoints[i] = new Vector2((float) p.X.Value, (float) p.Y.Value);
+				});
+				var class_label = data.class_label;
+
+				// 直接从 JObject 转化为 ClassLabel, 避免创建多余的内容
+				ClassLabel label = ( (JObject) class_label ).ToObject<ClassLabel>();
 				string caption = data.caption.Value;
 				Guid guid = Guid.Parse(data.guid.Value);
 				DateTime createtime = data.createtime.Value;
-				float conf = (float) data.conf.Value;
 				bool truncated = data.truncated.Value;
 				bool occluded = data.occluded.Value;
 				switch ( data.type.Value ) {
 					case "Dot":
 						// 读取点相关联的线 ID
-						var addot = new ADDot(
-							rpoints[0], new ClassLabel(clabel) { confidence = conf }, new List<Guid>(),
+						var addot = new ADDot(rpoints[0], label, new List<Guid>(),
 							guid, createtime) { caption = caption, truncated = truncated, occluded = occluded };
 						annodatas.Add(addot);
 						break;
 					case "Rectangle":
 						var adrect = new ADRect(
 							new ReadOnlySpan<Vector2>(rpoints),
-							new ClassLabel(clabel) { confidence = conf }, guid, createtime, false) { caption = caption, truncated = truncated, occluded = occluded };
+							label, guid, createtime, false) { caption = caption, truncated = truncated, occluded = occluded };
 						annodatas.Add(adrect);
 						break;
 					case "Polygon":
@@ -191,7 +191,7 @@ namespace QLabel.Scripts.Projects {
 						Guid dot_b_id = Guid.Parse(data.dot_b_id.Value);
 						var adline = new ADLine(
 							rpoints[0], rpoints[1], dot_a_id, dot_b_id,
-							new ClassLabel(clabel) { confidence = conf }, guid, createtime) { caption = caption, truncated = truncated, occluded = occluded };
+							label, guid, createtime) { caption = caption, truncated = truncated, occluded = occluded };
 						annodatas.Add(adline);
 						break;
 					case "Circle":

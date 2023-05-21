@@ -68,7 +68,7 @@ namespace QLabel {
 		}
 		private async Task LoadProject (string dir_path) {
 			// 检查文件夹下面是否含有 saved project.json
-			string project_loc = Path.Join(dir_path, App.project_manager.SAVE_JSON_NAME + ".json");
+			string project_loc = Path.Join(dir_path, ProjectManager.SAVE_JSON_NAME + ".json");
 			if ( !Path.Exists(project_loc) ) { return; }
 
 			await App.project_manager.LoadProjectAsync(project_loc);

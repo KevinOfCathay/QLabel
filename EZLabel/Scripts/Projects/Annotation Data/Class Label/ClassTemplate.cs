@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,13 +12,16 @@ namespace QLabel.Scripts.Projects {
 	/// </summary>
 	public class ClassTemplate {
 		/// <summary> 组 </summary>
-		public readonly Guid guid;
+		[JsonProperty] public readonly Guid guid;
 		/// <summary> 组 </summary>
-		public readonly string group;
+		[JsonProperty] public readonly string group;
 		/// <summary> 上级标签 </summary>
-		public readonly string supercategory;
+		[JsonProperty] public readonly string supercategory;
 		/// <summary> 标签名 </summary>
-		public readonly string name;
+		[JsonProperty] public readonly string name;
+
+		[JsonConstructor]
+		private ClassTemplate () { }
 
 		/// <summary> Copy Constructor </summary>
 		public ClassTemplate (ClassTemplate source) {
