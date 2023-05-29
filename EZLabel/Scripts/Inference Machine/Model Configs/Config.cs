@@ -1,12 +1,5 @@
 ﻿using QLabel.Scripts.Inference_Machine;
 using QLabel.Scripts.Projects;
-using QLabel.Scripts.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
 
 namespace QLabel.Scripts {
 	internal class Config {
@@ -30,11 +23,11 @@ namespace QLabel.Scripts {
 	}
 	internal class HRNetConfig : Config {
 		public HRNetConfig (
-			string model_name, string model_path, ClassTemplate[] class_labels, (int x, int y, ClassTemplate)[] skeletons) :
-			base(model_name, model_path, 288, 384, class_labels,
+			string model_name, string model_path, int[] input_dims, int[] output_dims,
+			ClassTemplate[] class_labels, (int x, int y, ClassTemplate)[] skeletons) :
+			base(model_name, model_path, input_dims[3], input_dims[2], class_labels,
 				new HRNetInference(model_path, class_labels, skeletons,
-					input_dims: new int[] { 1, 3, 384, 288 },
-					output_dims: new int[] { 1, 17, 96, 72 })
+					input_dims, output_dims)
 			) { }
 	}
 	internal class HRNetBUConfig : Config {
@@ -57,9 +50,9 @@ namespace QLabel.Scripts {
 	}
 	internal class Yolov7Config : Config {
 		public Yolov7Config (
-			string model_name, string model_path, int width, int height, ClassTemplate[] class_labels) :
-			base(model_name, model_path, width, height, class_labels,
-				new Yolov7Inference(model_path, class_labels, width, height)
+			string model_name, string model_path, int[] input_dims, int[] output_dims, ClassTemplate[] class_labels) :
+			base(model_name, model_path, input_dims[3], input_dims[2], class_labels,
+				new Yolov7Inference(model_path, class_labels, input_dims, output_dims)
 				) { }
 	}
 	internal class PANetConfig : Config {

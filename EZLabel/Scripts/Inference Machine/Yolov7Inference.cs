@@ -15,19 +15,17 @@ using System.Drawing.Imaging;
 namespace QLabel.Scripts.Inference_Machine {
 	internal sealed class Yolov7Inference : InferenceBase {
 		public readonly int width, height, classes;
-		private readonly ClassTemplate[] labels;
 
 		/// <summary>
 		/// 初始化所有参数
 		/// </summary>
 		/// <param name="path">模型的路径</param>
-		public Yolov7Inference (string path, ClassTemplate[] labels, int width = 640, int height = 640) :
-			base(new[] { 1, 3, height, width }, null) {
+		public Yolov7Inference (string path, ClassTemplate[] labels, int[] input_dims, int[] output_dims) :
+			base(input_dims, output_dims, labels) {
 			model_path = path;
-			this.width = width;
-			this.height = height;
+			this.height = input_dims[2];
+			this.width = input_dims[3];
 			this.classes = labels.Length;
-			this.labels = labels;
 		}
 		protected override DenseTensor<float> GetInputTensor (Bitmap image) {
 			var input = new DenseTensor<float>(input_dims);
@@ -99,7 +97,7 @@ namespace QLabel.Scripts.Inference_Machine {
 						continue;
 					}
 				}
-				ClassTemplate cl = new ClassTemplate(labels[c]);
+				ClassTemplate cl = new ClassTemplate(templates[c]);
 				data.Add(new ADRect(
 					points, new ClassLabel(cl) { confidence = output[i * 7 + 6] }
 					));

@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using QLabel.Scripts.AnnotationData;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -13,6 +14,8 @@ namespace QLabel.Scripts.Projects {
 	internal class ProjectManager {
 		/// <summary> 当前是否有项目被加载 </summary>
 		public bool empty { get { return project == null; } }
+		/// <summary> 返回当前所有项目下的所有 label </summary>
+		public ICollection<ClassTemplate> label_set { get { return class_label_manager.label_set_full; } }
 		/// <summary> 当前被加载项目的所有 image data </summary>
 		public ICollection<ImageData> datas { get { if ( !empty ) { return project.datas; } else { return new List<ImageData>(0); } } }
 

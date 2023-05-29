@@ -58,10 +58,10 @@ namespace QLabel.Scripts.Projects {
 			WriteXMLAttr(writer, "occluded", data.occluded.ToString());
 
 			writer.WriteStartElement("bndbox");
-			WriteXMLAttr(writer, "xmin", data.bbox.tl.X.ToString());
-			WriteXMLAttr(writer, "ymin", data.bbox.tl.Y.ToString());
-			WriteXMLAttr(writer, "xmax", data.bbox.br.X.ToString());
-			WriteXMLAttr(writer, "ymax", data.bbox.br.Y.ToString());
+			WriteXMLAttr(writer, "xmin", data.bbox.Left.ToString());
+			WriteXMLAttr(writer, "ymin", data.bbox.Top.ToString());
+			WriteXMLAttr(writer, "xmax", data.bbox.Right.ToString());
+			WriteXMLAttr(writer, "ymax", data.bbox.Bottom.ToString());
 			writer.WriteEndElement();
 
 			writer.WriteEndElement();
@@ -74,13 +74,13 @@ namespace QLabel.Scripts.Projects {
 					int class_index = Array.FindIndex(labelset, (temp) => { return label.template == temp; });
 					if ( percentage ) {
 						sw.WriteLine(string.Join(" ", class_index.ToString(),
-							( ( ( bbox.br.X + bbox.tl.X ) / 2f ) / width ).ToString(), ( ( ( bbox.br.Y + bbox.tl.Y ) / 2f ) / height ).ToString(),
-							( ( bbox.br.X - bbox.tl.X ) / width ).ToString(), ( ( bbox.br.Y - bbox.tl.Y ) / height ).ToString()
+							( ( ( bbox.Width ) / 2f ) / width ).ToString(), ( ( ( bbox.Height ) / 2f ) / height ).ToString(),
+							( ( bbox.Width ) / width ).ToString(), ( ( bbox.Height ) / height ).ToString()
 							));
 					} else {
 						sw.WriteLine(string.Join(" ", class_index.ToString(),
-							( ( bbox.br.X + bbox.tl.X ) / 2f ).ToString(), ( ( bbox.br.Y + bbox.tl.Y ) / 2f ).ToString(),
-							( bbox.br.X - bbox.tl.X ).ToString(), ( bbox.br.Y - bbox.tl.Y ).ToString()
+							( ( bbox.Width ) / 2f ).ToString(), ( ( bbox.Height ) / 2f ).ToString(),
+							( bbox.Width ).ToString(), ( bbox.Height ).ToString()
 							));
 					}
 				}

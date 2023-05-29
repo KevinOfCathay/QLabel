@@ -15,7 +15,6 @@ using System.Drawing.Imaging;
 namespace QLabel.Scripts.Inference_Machine {
 	internal sealed class Yolov7SegInference : InferenceBase {
 		public int width, height, classes;
-		private readonly ClassTemplate[] labels;
 		private float conf_threshold = 0.35f;
 		private float score_threshold = 0.5f;
 
@@ -24,12 +23,11 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// </summary>
 		/// <param name="path">模型的路径</param>
 		public Yolov7SegInference (string path, ClassTemplate[] labels, int width = 640, int height = 640, int classes = 80) :
-			base(new[] { 1, 3, height, width }, new[] { 25200, classes + 5 }) {
+			base(new[] { 1, 3, height, width }, new[] { 25200, classes + 5 }, labels) {
 			model_path = path;
 			this.width = width;
 			this.height = height;
 			this.classes = classes;
-			this.labels = labels;
 		}
 		protected override DenseTensor<float> GetInputTensor (Bitmap image) {
 			var input = new DenseTensor<float>(input_dims);
@@ -137,7 +135,7 @@ namespace QLabel.Scripts.Inference_Machine {
 						continue;
 					}
 				}
-				ClassLabel cl = new ClassLabel(labels[c]) { confidence = final_scores[i] };
+				ClassLabel cl = new ClassLabel(templates[c]) { confidence = final_scores[i] };
 				data.Add(new ADRect(points, cl));
 			}
 			return data.ToArray();

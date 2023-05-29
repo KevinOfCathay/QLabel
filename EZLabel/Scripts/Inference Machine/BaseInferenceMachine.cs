@@ -6,17 +6,20 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Threading.Tasks;
 
 namespace QLabel.Scripts.Inference_Machine {
 	internal abstract class InferenceBase {
 		protected InferenceSession session;
+		protected readonly ClassTemplate[] templates;
 		protected string model_path;
 		protected bool use_gpu;
 		protected readonly int[] input_dims, output_dims;
 
-		public InferenceBase (int[] input_dims, int[] output_dims, bool use_gpu = false) {
+		public InferenceBase (int[] input_dims, int[] output_dims, ClassTemplate[] templates, bool use_gpu = false) {
 			this.input_dims = input_dims;
 			this.output_dims = output_dims;
+			this.templates = templates;
 			this.use_gpu = use_gpu;
 		}
 
@@ -35,15 +38,33 @@ namespace QLabel.Scripts.Inference_Machine {
 		}
 
 		/// <summary>
-		/// 输入多张图片，执行模型并返回多张图片的结果
+		/// 输入图片，执行模型并返回多张图片的结果
+		/// class_filter: 模型识别时，仅输出一部分的 class 的结果
+		/// target_class: 识别图片中目标 class 边界框中的内容
 		/// </summary>
-		public AnnoData[][] Run (ICollection<Bitmap> images, HashSet<int> class_filter = null) {
-			AnnoData[][] res = new AnnoData[images.Count][];
-			int index = 0;
-			foreach ( var image in images ) {
-				res[index] = RunInference(image, class_filter);
+		public async Task<AnnoData[]> Run (ImageData data, HashSet<int> class_filter = null, ClassTemplate target_class = null) {
+			var bitmap = await ImageUtils.ReadBitmapAsync(data.path);
+			if ( target_class != null ) {
+				return await Task<AnnoData[]>.Run(
+					delegate () {
+						// 截取 bitmap 中的所有 class
+						List<AnnoData> datas = new List<AnnoData>();
+						var target_annodatas = data.annodatas.FindAll((x) => { return x.class_label.template.guid == target_class.guid; });
+						if ( target_annodatas != null ) {
+							foreach ( var data in target_annodatas ) {
+								var cropped = ImageUtils.CropBitmap(bitmap, data.bbox);
+								var res = RunInference(cropped, class_filter);
+								datas.AddRange(res);
+							}
+						}
+						return datas.ToArray();
+					}
+				);
+			} else {
+				return await Task<AnnoData[]>.Run(
+					delegate () { return RunInference(bitmap, class_filter); }
+				);
 			}
-			return res;
 		}
 
 		/// <summary>

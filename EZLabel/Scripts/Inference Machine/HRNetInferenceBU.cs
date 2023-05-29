@@ -17,7 +17,6 @@ using System.Diagnostics;
 
 namespace QLabel.Scripts.Inference_Machine {
 	internal sealed class HRNetInferenceBU : InferenceBase {
-		private readonly ClassTemplate[] labels;
 		private readonly (int x, int y, ClassTemplate)[] skeletons;
 		private readonly int num_joints;
 		private readonly int in_width, in_height;
@@ -34,10 +33,9 @@ namespace QLabel.Scripts.Inference_Machine {
 		public HRNetInferenceBU (
 			string model_path, string post_model_path,
 			ClassTemplate[] labels, (int x, int y, ClassTemplate)[] skeletons, int[] input_dims, int[] output_dims) :
-			base(input_dims, output_dims) {
+			base(input_dims, output_dims, labels) {
 			base.model_path = model_path;
 			base.model_path = model_path;
-			this.labels = labels;
 			this.skeletons = skeletons;
 			this.post_model_path = post_model_path;
 			this.num_joints = labels.Length;

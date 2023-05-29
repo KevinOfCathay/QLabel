@@ -10,8 +10,8 @@
 	   xmlns:cvt="clr-namespace:QLabel.Converters"
 	   mc:Ignorable="d"
         Title="Auto..." 
-	   Height="420" Width="900"
-	   MinHeight="420" MinWidth="900">
+	   Height="420" Width="720"
+	   MinHeight="420" MinWidth="720">
 
 	<Window.Resources>
 		<cvt:Percentage x:Key="Percentage"/>
@@ -39,11 +39,11 @@
 		</Grid.RowDefinitions>
 
 		<!-- 选择要识别的 class -->
-		<tree:LabelTree  x:Name="labeltree" Margin="5" DockPanel.Dock="Top"
+		<tree:LabelTree  x:Name="labeltree" Margin="3" DockPanel.Dock="Top"
 					 MainText="Classes" SubText="Choose target classes"/>
 
 		<!-- 选择要识别的文件 -->
-		<tree:FileTree x:Name="filetree" Margin="5" DockPanel.Dock="Top" Grid.Column="1"
+		<tree:FileTree x:Name="filetree" Margin="3" DockPanel.Dock="Top" Grid.Column="1"
 					MainText="Files" SubText="Choose target files"/>
 
 		<StackPanel Grid.Column="2">

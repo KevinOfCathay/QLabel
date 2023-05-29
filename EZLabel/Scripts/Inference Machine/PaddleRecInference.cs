@@ -16,7 +16,6 @@ using QLabel.Windows.Main_Canvas.Annotation_Elements;
 
 namespace QLabel.Scripts.Inference_Machine {
 	internal sealed class PaddleRecInference : InferenceBase {
-		private readonly ClassTemplate[] labels;
 		private readonly int input_channels, input_height;
 		private readonly int output_chars;
 
@@ -38,9 +37,8 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// 初始化所有参数
 		/// </summary>
 		public PaddleRecInference (string model_path, ClassTemplate[] labels, string charset, int[] input_dims, int[] output_dims) :
-			base(input_dims, output_dims) {
+			base(input_dims, output_dims, labels) {
 			base.model_path = model_path;
-			this.labels = labels;
 			this.charset = charset;
 
 			// 输入中，只有高是固定的，宽可变

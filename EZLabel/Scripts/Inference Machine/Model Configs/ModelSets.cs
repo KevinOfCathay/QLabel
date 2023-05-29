@@ -9,25 +9,29 @@ namespace QLabel.Scripts {
 								new Yolov7Config (
 										model_name : "v230322",
 										model_path : @"Resources/Models/yolov7-manga-230322.onnx",
-										width : 640, height : 640,
+										input_dims: new int[4]{1,3,640,640},
+										output_dims: new int[2]{-1, 7},
 										class_labels : ModelLabels.manga_v230322
 									){ tags = new string[]{ "yolov7", "640×640", "69.3GFLOPS", "map.5=47.6%", "23-03-22" } },
 								new Yolov7Config (
 										model_name : "v230224",
 										model_path : @"Resources/Models/yolov7-manga-230224.onnx",
-										width : 640, height : 640,
+										input_dims: new int[4]{1,3,640,640},
+										output_dims: new int[2]{-1, 7},
 										class_labels : ModelLabels.manga_v230224
 									){ tags = new string[]{ "yolov7", "640×640", "75.5 GFlops", "map.5=50.4%", "23-02-24" } },
 								new Yolov7Config (
 										model_name : "v230214",
 										model_path : @"Resources/Models/yolov7-manga-230214.onnx",
-										width : 640, height : 640,
+										input_dims: new int[4]{1,3,640,640},
+										output_dims: new int[2]{-1, 7},
 										class_labels : ModelLabels.manga_v2302
 									){ tags = new string[]{ "yolov7", "640×640", "62 GFlops", "23-02-14" } },
 								new Yolov7Config (
 										model_name : "v230130",
 										model_path : @"Resources/Models/yolov7-manga-230130.onnx",
-										width : 640, height : 640,
+										input_dims: new int[4]{1,3,640,640},
+										output_dims: new int[2]{-1, 7},
 										class_labels : ModelLabels.manga_v2301
 									){ tags = new string[]{ "yolov7", "640×640", "62 GFlops", "23-01-30" } },
 				}
@@ -61,7 +65,9 @@ namespace QLabel.Scripts {
 													model_name : "Keypoint Detection (HRNet)",
 													model_path : @"Resources/Models/topdown_hrnet_w32_coco_384x288_rm_inzr.onnx",
 													class_labels : ModelLabels.keypoints17,
-													skeletons: ModelLabels.keypoints17_skeleton
+													skeletons: ModelLabels.keypoints17_skeleton,
+													input_dims: new int[] { 1, 3, 384, 288 },
+													output_dims: new int[] { 1, 17, 96, 72 }
 											),
 											new HRNetBUConfig (
 													model_name : "Keypoint Detection (HRNet Bottom-up)",

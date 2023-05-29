@@ -13,4 +13,5 @@ namespace QLabel.Custom_Control.Label_Tree {
 		public List<Node<T>> children = null;
 		public CheckboxWithLabel checkbox;
 	}
+
 }

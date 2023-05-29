@@ -45,7 +45,9 @@ namespace QLabel.Scripts.AnnotationData {
 
 		#region Properties
 		/// <summary> 约束这个 annotation 的边框（以rect的形式）</summary>
-		public Int32Rect brect { get { return new Int32Rect((int) bbox.tl.X, (int) bbox.tl.Y, (int) ( bbox.br.X - bbox.tl.X ), (int) ( bbox.br.Y - bbox.tl.Y )); } }
+		public Int32Rect brect {
+			get { return new Int32Rect((int) bbox.X, (int) bbox.Y, (int) bbox.Width, (int) bbox.Height); }
+		}
 		#endregion
 
 		#region Read-Only Fields
@@ -56,7 +58,7 @@ namespace QLabel.Scripts.AnnotationData {
 		/// <summary>  这个注释数据的点的位置 (x, y) (readonly) </summary>
 		[JsonProperty] public readonly Vector2[] rpoints;
 		/// <summary> 约束这个 annotation 的边框 (readonly) </summary>
-		[JsonProperty] public readonly (Vector2 tl, Vector2 br) bbox;
+		[JsonProperty] public readonly OpenCvSharp.Rect2f bbox;
 		/// <summary> 这个注释数据的类 (readonly) </summary>
 		[JsonProperty] public readonly ClassLabel class_label;
 		/// <summary> 这个注释数据被创建的时间，在 AnnoData 初始化时被设置 (readonly) </summary>
@@ -82,7 +84,7 @@ namespace QLabel.Scripts.AnnotationData {
 		/// <summary>
 		/// 获得约束这个 annotation 的边框
 		/// </summary>
-		protected virtual (Vector2 tl, Vector2 br) GetBoundingBox (ReadOnlySpan<Vector2> rpoints) {
+		protected virtual OpenCvSharp.Rect2f GetBoundingBox (ReadOnlySpan<Vector2> rpoints) {
 			float top = float.MaxValue, left = float.MaxValue, bottom = float.MinValue, right = float.MinValue;
 			foreach ( var point in rpoints ) {
 				if ( point.X < top ) { top = point.X; }
@@ -90,7 +92,7 @@ namespace QLabel.Scripts.AnnotationData {
 				if ( point.Y < left ) { left = point.Y; }
 				if ( point.Y > right ) { right = point.Y; }
 			}
-			return (new Vector2(top, left), new Vector2(bottom, right));
+			return new OpenCvSharp.Rect2f(top, left, right - left, bottom - top);
 		}
 	}
 }

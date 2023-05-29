@@ -11,7 +11,7 @@ namespace QLabel.Scripts.Projects {
 		/// <summary> Project 下所有数据的类别标签统计 </summary>
 		private List<ClassLabelStat> label_stats = new List<ClassLabelStat>();
 
-		public ICollection<ClassTemplate> label_set { get { return Utils.GetLabelSet(label_stats); } }
+		public ICollection<ClassTemplate> label_set_full { get { return Utils.GetLabelSet(label_stats); } }
 
 		/// <summary> 刷新 / 创建一个新的 Manager </summary>
 		public void New () {
@@ -29,13 +29,16 @@ namespace QLabel.Scripts.Projects {
 		/// 也可以是未使用的（例如，自动识别时，一些类从来都没有被使用过，或者用户自己加入到类别集合中）
 		/// </summary>
 		public void AddClassTemplate (ClassTemplate template) {
-			var labelstat = label_stats.Find((x) => { return x.template == template; });
+			var labelstat = label_stats.Find((x) => { return x.template.guid == template.guid; });
 			if ( labelstat == null ) {
 				label_stats.Add(
 					new ClassLabelStat {
 						template = template,
-						index = label_stats.Count
+						index = label_stats.Count,
+						counts = 1
 					}); ;
+			} else {
+				labelstat.counts += 1;
 			}
 		}
 		/// <summary>

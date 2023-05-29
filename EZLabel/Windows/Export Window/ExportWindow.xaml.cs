@@ -21,7 +21,7 @@ namespace QLabel.Windows.Export_Window {
 		public ExportWindow () {
 			InitializeComponent();
 			labeltree.SetUI(
-				App.project_manager.class_label_manager.label_set,
+				App.project_manager.class_label_manager.label_set_full,
 				(label) => { exported_classes.Add(label); },
 				(label) => { exported_classes.Remove(label); });
 		}

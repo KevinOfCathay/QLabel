@@ -16,7 +16,6 @@ using QLabel.Windows.Main_Canvas.Annotation_Elements;
 
 namespace QLabel.Scripts.Inference_Machine {
 	internal sealed class HRNetInference : InferenceBase {
-		private readonly ClassTemplate[] templates;
 		private readonly (int x, int y, ClassTemplate)[] skeletons;
 		private readonly int in_width, in_height;
 		private readonly int o_width, o_height;
@@ -28,9 +27,8 @@ namespace QLabel.Scripts.Inference_Machine {
 		/// </summary>
 		/// <param name="path">模型的路径</param>
 		public HRNetInference (string path, ClassTemplate[] templates, (int x, int y, ClassTemplate)[] skeletons, int[] input_dims, int[] output_dims) :
-			base(input_dims, output_dims) {
+			base(input_dims, output_dims, templates) {
 			model_path = path;
-			this.templates = templates;
 			this.skeletons = skeletons;
 
 			this.in_width = input_dims[3];

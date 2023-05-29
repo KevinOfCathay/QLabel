@@ -24,7 +24,7 @@ namespace QLabel.Windows.CropWindow {
 			this.crop_target.InitializeCombobox(new string[] { "Current File", "All Files" });
 			this.dir_selector.eDirectorySelected += (path) => { save_dir = path; this.Topmost = true; };
 
-			var classlabels = App.project_manager.class_label_manager.label_set;
+			var classlabels = App.project_manager.class_label_manager.label_set_full;
 			SetClassListbox(classlabels);
 		}
 		private async void ConfirmClick (object sender, RoutedEventArgs e) {

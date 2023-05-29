@@ -26,8 +26,8 @@ namespace QLabel.Scripts.Projects {
 		/// <summary> Copy Constructor </summary>
 		public ClassTemplate (ClassTemplate source) {
 			this.guid = source.guid;
-			this.group = ( source.group != null && source.group != "" ) ? source.group : "None";
-			this.name = ( source.name != null && source.name != "" ) ? source.name : "None";
+			this.group = source.group;
+			this.name = source.name;
 			this.supercategory = source.supercategory;
 		}
 		/// <summary>
@@ -40,7 +40,6 @@ namespace QLabel.Scripts.Projects {
 			this.name = ( name != null && name != "" ) ? name : "None";
 			this.supercategory = ( supercategory != null && supercategory != "" ) ? supercategory : name;
 		}
-
 		public string GetName () {
 			return ( ( group != null && group != "" ) ? group : "" ) + ( ( name != null && name != "" ) ? name : "" );
 		}

@@ -21,7 +21,7 @@ namespace QLabel.Windows.Popup_Windows.Auto_Window {
 
 		public AutoWindow () {
 			InitializeComponent();
-			InitializeListItems();
+			SetListItems();
 		}
 		internal AutoWindow (
 			MainWindow main, MainCanvas canvas,
@@ -36,14 +36,13 @@ namespace QLabel.Windows.Popup_Windows.Auto_Window {
 			}
 			confirm_cancel.ConfirmClick += Run;
 			confirm_cancel.ConfirmClick += (_, _) => { this.Close(); };
-			InitializeListItems();
-			InitializeFileTree();
+			SetListItems(); SetFileTree();
 		}
 
 		/// <summary>
 		/// 初始化文件树
 		/// </summary>
-		private void InitializeFileTree () {
+		private void SetFileTree () {
 			filetree.SetUI(App.project_manager.datas,
 				check: delegate (ImageData data) { accepted_image_datas.Add(data); },
 				uncheck: delegate (ImageData data) { accepted_image_datas.Remove(data); }
@@ -53,7 +52,7 @@ namespace QLabel.Windows.Popup_Windows.Auto_Window {
 		/// <summary>
 		/// 动态的初始化列表中的所有元素
 		/// </summary>
-		private void InitializeListItems () {
+		private void SetListItems () {
 			// 读取所有的 model sets
 			foreach ( var set in ModelSets.sets ) {
 				ListBoxItem item = new ListBoxItem();
@@ -102,33 +101,6 @@ namespace QLabel.Windows.Popup_Windows.Auto_Window {
 				RoundedLabel rlabel = new RoundedLabel();
 				rlabel.label.Content = tag;
 				tag_list.Children.Add(rlabel);
-			}
-		}
-		/// <summary>
-		/// 当前的 inference 只适用于当前被打开的图像
-		/// </summary>
-		private async void Run (object sender, RoutedEventArgs e) {
-			if ( selected_machine == null ) { return; }
-
-			selected_machine.BuildSession();
-			if ( canvas != null && canvas.can_annotate ) {
-				if ( accepted_classes.Count == 0 ) { return; }
-				foreach ( var image_data in accepted_image_datas ) {
-					var bitmaptask = ImageUtils.ReadBitmapAsync(image_data.path);
-					eRunBefore?.Invoke(selected_machine);
-					var bitmap = await bitmaptask;
-					var ads = selected_machine.Run(new List<Bitmap> { bitmap }, accepted_classes)[0];
-					eRunAfter?.Invoke(selected_machine);
-					List<IAnnotationElement> elements = new List<IAnnotationElement>(ads.Length);
-					foreach ( var ad in ads ) {
-						var element = ad.CreateAnnotationElement(canvas);
-						elements.Add(element);
-						App.project_manager.AddAnnoData(image_data, ad);
-					}
-					bool add_to_canvas = ( image_data == App.project_manager.cur_datafile );
-					BulkAddElementsToCanvas bulk_add_elements = new BulkAddElementsToCanvas(canvas, elements, add_ui_element_to_canvas: add_to_canvas);
-					ActionManager.PushAndExecute(bulk_add_elements);
-				}
 			}
 		}
 	}

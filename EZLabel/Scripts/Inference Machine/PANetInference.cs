@@ -22,18 +22,16 @@ namespace QLabel.Scripts.Inference_Machine {
 		public int width, height, classes;
 		private const int out_width = 160, out_height = 160;
 		public float downsample_ratio = 0.25f;
-		private readonly ClassTemplate[] labels;
 
 		/// <summary>
 		/// 初始化参数
 		/// </summary>
 		public PANetInference (string path, ClassTemplate[] labels, int width = 640, int height = 640, int classes = 80) :
-			base(new int[] { 1, 3, width, height }, new int[] { 1, 6, width / 4, height / 4 }) {
+			base(new int[] { 1, 3, width, height }, new int[] { 1, 6, width / 4, height / 4 }, labels) {
 			model_path = path;
 			this.width = width;
 			this.height = height;
 			this.classes = classes;
-			this.labels = labels;
 		}
 
 		protected override AnnoData[] RunInference (Bitmap image, HashSet<int> class_filter = null) {
@@ -50,7 +48,7 @@ namespace QLabel.Scripts.Inference_Machine {
 				AnnoData[] data = new AnnoData[len];
 				for ( int i = 0; i < len; i += 1 ) {
 					// 创建 annodatas
-					ClassTemplate cl = new ClassTemplate(labels[0]);
+					ClassTemplate cl = new ClassTemplate(templates[0]);
 
 					var boundary = boundaries[i];
 					Vector2[] rpoints = new Vector2[boundary.Length];
@@ -113,12 +111,6 @@ namespace QLabel.Scripts.Inference_Machine {
 					kernel_contour[x, y] = mat_kernel_contour.At<byte>(x, y);
 				}
 			}
-			// score, OK
-			// Text, OK
-			// embeddings, OK
-			// kernel_labels, OK
-			// kernel_contour, OK
-			// region_nums OK
 			var text_points = PixelGroup(score, text, embeddings, kernel_labels, kernel_contour, region_nums);
 
 			// boundaries = []
