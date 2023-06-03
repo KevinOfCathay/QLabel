@@ -27,17 +27,11 @@
 							    MainText="Points" SubText="Points of annotation"/>
 			<option:OptionTextBox x:Name="caption"
 							   MainText="Caption" SubText="Caption text" />
-			
-			<UniformGrid Columns="4" VerticalAlignment="Center">
-				<TextBlock>Occluded</TextBlock>
-				<CheckBox
-					Name="occluded"
-					VerticalAlignment="Center" IsEnabled="False"></CheckBox>
-				<TextBlock>Truncated</TextBlock>
-				<CheckBox
-					 Name="truncated"
-					VerticalAlignment="Center" IsEnabled="False"></CheckBox>
-			</UniformGrid>
+			<option:OptionCheckbox x:Name="occluded"
+							   MainText="Occluded" SubText="Is annotation occluded" />
+			<option:OptionCheckbox x:Name="truncated"
+							   MainText="Truncated" SubText="Is annotation truncated" />
+
 		</StackPanel>
 	</ScrollViewer>
 </UserControl>

@@ -100,7 +100,7 @@
 					<BeginStoryboard>
 						<Storyboard>
 							<ColorAnimation Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)"
-									From="Transparent" To="#BFF0F8FF" Duration="0:0:0.5"/>
+									 To="{StaticResource B100C}" Duration="0:0:0.5"/>
 						</Storyboard>
 					</BeginStoryboard>
 				</EventTrigger.Actions>
@@ -110,7 +110,7 @@
 					<BeginStoryboard>
 						<Storyboard>
 							<ColorAnimation Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)"
-									From="#BFF0F8FF" To="Transparent" Duration="0:0:0.5"/>
+									 To="Transparent" Duration="0:0:0.5"/>
 						</Storyboard>
 					</BeginStoryboard>
 				</EventTrigger.Actions>

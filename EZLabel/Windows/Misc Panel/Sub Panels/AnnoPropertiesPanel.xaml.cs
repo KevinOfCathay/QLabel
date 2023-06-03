@@ -24,6 +24,8 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 		public AnnoPropertiesPanel () {
 			InitializeComponent();
 			caption.IsEnabled = false;
+			truncated.IsEnabled = false;
+			occluded.IsEnabled = false;
 		}
 		public void SetUI (IAnnotationElement elem) {
 			if ( elem != null ) {
