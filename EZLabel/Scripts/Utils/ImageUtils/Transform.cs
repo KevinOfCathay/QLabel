@@ -20,30 +20,6 @@ namespace QLabel {
 		}
 
 		/// <summary>
-		/// Async 从文件路径中读取图片
-		/// </summary>
-		public static async Task<Bitmap> ReadBitmapFromFileAsync (
-			string path, int decode_width = -1, int decode_height = -1) {
-			return await Task.Run(
-				() => {
-					Bitmap bitmap = new Bitmap(path);
-					if ( decode_width > 0 && decode_height > 0 ) {
-						var new_bitmap = new Bitmap(decode_width, decode_height);
-						using ( var graphics = Graphics.FromImage(new_bitmap) ) {
-							graphics.InterpolationMode = InterpolationMode.Bilinear;
-							graphics.DrawImage(
-								bitmap,
-								new Rectangle(0, 0, decode_width, decode_height),
-								0, 0, bitmap.Width, bitmap.Height, GraphicsUnit.Pixel);
-						}
-						bitmap = new_bitmap;
-					}
-					return bitmap;
-				}
-			);
-		}
-
-		/// <summary>
 		/// Async 将 BitmapImage 转化为 byte 数组
 		/// </summary>
 		public static async Task<byte[]> BitmapToByteArrayAsync (BitmapImage image) {
@@ -63,18 +39,6 @@ namespace QLabel {
 
 					return pixels;
 				});
-		}
-		public static async Task SaveCroppedImageAsync (CroppedBitmap cropped_image, string save_path) {
-			await Task.Run(
-			    () => {
-				    BitmapEncoder encoder = new PngBitmapEncoder();
-				    var frame = BitmapFrame.Create(cropped_image);
-				    encoder.Frames.Add(frame);
-				    using ( FileStream fs = File.Create(save_path) ) {
-					    encoder.Save(fs);
-				    }
-			    }
-			);
 		}
 	}
 }

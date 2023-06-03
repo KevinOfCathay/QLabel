@@ -7,9 +7,6 @@ using System.Windows;
 
 namespace QLabel.Windows.Popup_Windows.Auto_Window {
 	public partial class AutoWindow : Window {
-		/// <summary>
-		/// 当前的 inference 只适用于当前被打开的图像
-		/// </summary>
 		private async void Run (object sender, RoutedEventArgs e) {
 			if ( selected_machine == null ) { return; }
 
@@ -18,6 +15,9 @@ namespace QLabel.Windows.Popup_Windows.Auto_Window {
 				if ( accepted_classes.Count == 0 ) { return; }
 				foreach ( var image_data in accepted_image_datas ) {
 					eRunBefore?.Invoke(selected_machine);
+					// 将深度模型内置的所有 class 加入到 project 中
+					App.project_manager.class_label_manager.AddClassTemplates(selected_machine.templates);
+
 					var run_task = selected_machine.Run(image_data, accepted_classes);
 					eRunAfter?.Invoke(selected_machine);
 

@@ -32,8 +32,8 @@
 	</UserControl.Triggers>
 
 	<DockPanel Margin="8">
-		<TextBlock DockPanel.Dock="Top" Text="{Binding MainText, ElementName=userlabeltree}" FontSize="9.5" FontWeight="DemiBold"/>
-		<TextBlock DockPanel.Dock="Top" Text="{Binding SubText, ElementName=userlabeltree}" FontSize="7"/>
+		<TextBlock DockPanel.Dock="Top" Text="{Binding MainText, ElementName=userlabeltree}" FontSize="{StaticResource TextMid}" FontWeight="DemiBold"/>
+		<TextBlock DockPanel.Dock="Top" Text="{Binding SubText, ElementName=userlabeltree}" FontSize="{StaticResource TextSmall}"/>
 
 		<TreeView DockPanel.Dock="Top" Margin="0, 5, 0, 0" Name="labeltree">
 			<TreeView.Resources>

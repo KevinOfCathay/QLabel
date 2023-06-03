@@ -15,15 +15,18 @@ namespace QLabel.Windows.Export_Window {
 		private enum Target { Current, All };
 
 		private Format fmt = Format.VOC;
-		private Target tar = Target.Current;
 		private string save_dir = "";
 		private HashSet<ClassTemplate> exported_classes = new HashSet<ClassTemplate>();
 		public ExportWindow () {
 			InitializeComponent();
 			labeltree.SetUI(
-				App.project_manager.class_label_manager.label_set_full,
+				App.project_manager.class_label_manager.label_set_used,
 				(label) => { exported_classes.Add(label); },
 				(label) => { exported_classes.Remove(label); });
+			filetree.SetUI(App.project_manager.datas);
+			format.SetUI(new string[] { "VOC", "COCO", "YOLO" });
+			yolo_format_combobox.SetUI(new string[] { "XYWH", "XYXY" });
+			yolo_scale_combobox.SetUI(new string[] { "Percentage", "Pixel" });
 		}
 		private void RegisterEvents (object? sender, EventArgs e) {
 			// Register Events
@@ -32,18 +35,7 @@ namespace QLabel.Windows.Export_Window {
 		}
 		private void ConfirmClick (object sender, RoutedEventArgs e) {
 			List<ImageData> datalist = new List<ImageData>();
-			switch ( tar ) {
-				case Target.Current:
-					datalist.Add(App.project_manager.cur_datafile);
-					break;
-				case Target.All:
-					foreach ( var datafile in App.project_manager.datas ) {
-						datalist.Add(datafile);
-					}
-					break;
-				default:
-					break;
-			}
+			datalist.AddRange(filetree.selected_files);
 			Export(datalist.ToArray(), fmt, save_dir);
 			CloseWindow();
 		}
@@ -55,6 +47,7 @@ namespace QLabel.Windows.Export_Window {
 		}
 		private async void Export (ImageData[] data, Format fmt, string path) {
 			switch ( fmt ) {
+				default:
 				case Format.VOC:
 					await ExportToVOC(data, path);
 					break;
@@ -67,33 +60,26 @@ namespace QLabel.Windows.Export_Window {
 						yolo_scale_combobox.SelectedIndex == 0 ? true : false
 						);
 					break;
-				default:
-					break;
 			}
 		}
 		private void FormatSelectionChanged (object sender, SelectionChangedEventArgs e) {
 			if ( format.SelectedItem != null ) {
 				fmt = (Format) format.SelectedIndex;
 				if ( fmt == Format.YOLO ) {
-					if ( yolo_format_label != null ) {
-						yolo_format_label.Visibility = Visibility.Visible;
+					if ( yolo_format_combobox != null ) {
+						yolo_format_combobox.Visibility = Visibility.Visible;
 					}
-					if ( yolo_scale_label != null ) {
-						yolo_scale_label.Visibility = Visibility.Visible;
+					if ( yolo_scale_combobox != null ) {
+						yolo_scale_combobox.Visibility = Visibility.Visible;
 					}
 				} else {
-					if ( yolo_format_label != null ) {
-						yolo_format_label.Visibility = Visibility.Collapsed;
+					if ( yolo_format_combobox != null ) {
+						yolo_format_combobox.Visibility = Visibility.Collapsed;
 					}
-					if ( yolo_scale_label != null ) {
-						yolo_scale_label.Visibility = Visibility.Collapsed;
+					if ( yolo_scale_combobox != null ) {
+						yolo_scale_combobox.Visibility = Visibility.Collapsed;
 					}
 				}
-			}
-		}
-		private void TargetSelectionChanged (object sender, SelectionChangedEventArgs e) {
-			if ( target.SelectedItem != null ) {
-				tar = (Target) target.SelectedIndex;
 			}
 		}
 	}

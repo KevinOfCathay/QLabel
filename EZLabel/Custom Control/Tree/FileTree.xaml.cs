@@ -31,7 +31,8 @@ namespace QLabel.Custom_Control.Label_Tree {
 			    typeMetadata: new PropertyMetadata("sub text"));
 
 		private Node<TreeViewItem> top = new Node<TreeViewItem>();
-		private List<ImageData> _selected_data = new List<ImageData>();
+		private List<ImageData> _selected_datas = new List<ImageData>();
+		public ICollection<ImageData> selected_files { get { return _selected_datas; } }
 
 		public FileTree () {
 			InitializeComponent();
@@ -81,8 +82,8 @@ namespace QLabel.Custom_Control.Label_Tree {
 			if ( file_node == null ) {
 				CheckboxWithLabel c_cbxlbl = new CheckboxWithLabel(
 						filename, is_checked: is_checked, enable_checkbox: true,
-						delegate (object _, RoutedEventArgs _) { eCheck?.Invoke(data); _selected_data.Add(data); },
-						delegate (object _, RoutedEventArgs _) { eUncheck?.Invoke(data); _selected_data.Remove(data); }
+						delegate (object _, RoutedEventArgs _) { eCheck?.Invoke(data); _selected_datas.Add(data); },
+						delegate (object _, RoutedEventArgs _) { eUncheck?.Invoke(data); _selected_datas.Remove(data); }
 						);
 				TreeViewItem file_item = new TreeViewItem() { Header = c_cbxlbl };
 				top.item.Items.Add(file_item);

@@ -10,8 +10,8 @@
 	   xmlns:cvt="clr-namespace:QLabel.Converters"
 	   mc:Ignorable="d"
         Title="Auto..." 
-	   Height="420" Width="720"
-	   MinHeight="420" MinWidth="720">
+	   Height="480" Width="720"
+	   MinHeight="480" MinWidth="720">
 
 	<Window.Resources>
 		<cvt:Percentage x:Key="Percentage"/>
@@ -47,19 +47,17 @@
 					MainText="Files" SubText="Choose target files"/>
 
 		<StackPanel Grid.Column="2">
-			<StackPanel Orientation="Horizontal">
-				<Label>Model:</Label>
-				<Label Name="model_name"></Label>
-			</StackPanel>
-
-			<!-- 模型列表 50% 的整体高度-->
-			<ListBox Name="model_list" MaxHeight="{Binding Converter={StaticResource Percentage}, 
-                    ElementName=grid,  Path=ActualHeight, ConverterParameter=0.4}">
-			</ListBox>
+			<option:OptionListBoxVertical x:Name="model_list"
+				MaxHeight="{Binding Converter={StaticResource Percentage}, ElementName=grid,  Path=ActualHeight, ConverterParameter=0.4}"
+				MainText="Models" SubText="Choose deep learning model"/>
 
 			<!-- 模型 Version 列表 -->
 			<option:OptionComboboxVertical x:Name="model_version_list"
-									  MainText="Model Version"  SubText="Select model's version"/>
+									  MainText="Model Version"  SubText="Choose model's version"/>
+
+			<!-- 模型 target class 列表 -->
+			<option:OptionComboboxVertical x:Name="target_class_combobox"
+									  MainText="Target"  SubText="Choose model's target"/>
 
 			<!-- 模型对应的 tag 列表 -->
 			<WrapPanel Name="tag_list" 
@@ -67,17 +65,9 @@
 							Margin="5">
 			</WrapPanel>
 
-			<StackPanel HorizontalAlignment="Right"  Orientation="Horizontal">
-				<StackPanel.Resources>
-					<Style TargetType="{x:Type Button}">
-						<Setter Property="Margin" Value="1"/>
-						<Setter Property="Padding" Value="2"/>
-						<Setter Property="FontSize" Value="9"/>
-					</Style>
-				</StackPanel.Resources>
-			</StackPanel>
-
-			<tool:ConfirmCancel  Grid.ColumnSpan="2" Grid.Row="1" x:Name="confirm_cancel"/>
+			<tool:ConfirmCancel  
+				Grid.ColumnSpan="2" Grid.Row="1" x:Name="confirm_cancel"
+				/>
 		</StackPanel>
 	</Grid>
 </Window>

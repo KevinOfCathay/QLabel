@@ -15,7 +15,7 @@ namespace QLabel.Scripts.Projects {
 		/// <summary> 当前是否有项目被加载 </summary>
 		public bool empty { get { return project == null; } }
 		/// <summary> 返回当前所有项目下的所有 label </summary>
-		public ICollection<ClassTemplate> label_set { get { return class_label_manager.label_set_full; } }
+		public ICollection<ClassTemplate> label_set { get { return class_label_manager.label_set_used; } }
 		/// <summary> 当前被加载项目的所有 image data </summary>
 		public ICollection<ImageData> datas { get { if ( !empty ) { return project.datas; } else { return new List<ImageData>(0); } } }
 
@@ -62,14 +62,14 @@ namespace QLabel.Scripts.Projects {
 			if ( !empty ) {
 				project.AddImageData(data);
 				foreach ( var anno in data.annodatas ) {
-					class_label_manager.AddClassTemplate(anno.class_label.template);
+					class_label_manager.AddClassLabel(anno.class_label);
 				}
 			}
 		}
 		public void AddAnnoData (ImageData imgdata, AnnoData annodata) {
 			if ( imgdata != null && annodata != null && !imgdata.annodatas.Contains(annodata) ) {
 				imgdata.AddAnnoData(annodata);   // 加入到 annodatas 中
-				class_label_manager.AddClassTemplate(annodata.class_label.template);
+				class_label_manager.AddClassLabel(annodata.class_label);
 				eAnnoDataAdded?.Invoke(imgdata, annodata);
 			}
 		}

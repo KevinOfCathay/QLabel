@@ -14,17 +14,18 @@
 			Name="button"
 			Height="30" 
 			Width="30" 
-			BorderBrush="DarkCyan" Background="Transparent">
+			BorderThickness="2"
+			BorderBrush="{StaticResource B600SCB}" Background="Transparent">
 			<Image
-				Height="26"
-				Width="26"
+				Height="24"
+				Width="24"
 				Source="{Binding ImgSource, ElementName=buttonwithtext}"/>
 
 		</Button>
 		<TextBlock 
-			Foreground="#FF787878"
+			Foreground="{StaticResource B800SCB}"
 			HorizontalAlignment="Center"
-			Margin="-1" Padding="0" Name="text" FontSize="8.5" 
+			Margin="-1" Padding="0" Name="text" FontSize="{StaticResource TextSmall}" 
 				 Text="{Binding Text, ElementName=buttonwithtext}"/>
 	</StackPanel>
 </UserControl>

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QLabel.Windows.Misc_Panel.Sub_Panels"
              xmlns:tree="clr-namespace:QLabel.Custom_Control.Label_Tree"
+             xmlns:tool="clr-namespace:QLabel.Custom_Control.Small_Tools"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="200">
 
@@ -15,12 +16,7 @@
 					 MinHeight="200"></tree:LabelTree>
 
 		<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-			<StackPanel.Resources>
-				<Style TargetType="{x:Type Button}">
-				</Style>
-			</StackPanel.Resources>
-			<Button Background="CornflowerBlue" Style="{StaticResource NiceButton}">Add</Button>
-			<Button Background="Salmon" Style="{StaticResource NiceButton}">Remove</Button>
+			<tool:DualButton TextA="Add" TextB="Remove"/>
 		</StackPanel>
 	</StackPanel>
 </UserControl>

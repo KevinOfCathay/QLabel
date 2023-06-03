@@ -7,8 +7,8 @@
              mc:Ignorable="d" >
 	<ListBoxItem>
 		<StackPanel Orientation="Horizontal">
-			<Border Name="rect" Width="10" Height="10" Background="AliceBlue"></Border>
-			<Label Name="label" FontSize="9">text</Label>
+			<Border Name="rect" Width="10" Height="10" Background="{StaticResource B100SCB}"/>
+			<Label Name="label" FontSize="{StaticResource TextSmall}">text</Label>
 		</StackPanel>
 	</ListBoxItem>
 </UserControl>

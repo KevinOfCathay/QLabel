@@ -15,13 +15,13 @@
 		</Grid.ColumnDefinitions>
 
 		<StackPanel VerticalAlignment="Center" Margin="8">
-			<TextBlock Text="{Binding MainText, ElementName=optiontextbox}" FontSize="9.5" FontWeight="DemiBold"/>
-			<TextBlock Text="{Binding SubText, ElementName=optiontextbox}" FontSize="7"/>
+			<TextBlock Text="{Binding MainText, ElementName=optiontextbox}" FontSize="{StaticResource TextMid}" FontWeight="DemiBold"/>
+			<TextBlock Text="{Binding SubText, ElementName=optiontextbox}" FontSize="{StaticResource TextSmall}"/>
 		</StackPanel>
 
 		<StackPanel  Grid.Column="1" VerticalAlignment="Center" Margin="8">
 			<TextBox Name="inputbox" 
-				    FontSize="9.5" Padding="2" TextChanged="InputboxTextChanged"></TextBox>
+				    FontSize="{StaticResource TextMid}" Padding="2" TextChanged="InputboxTextChanged"></TextBox>
 		</StackPanel>
 
 		<Grid.Triggers>

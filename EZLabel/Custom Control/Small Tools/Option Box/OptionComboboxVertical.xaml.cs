@@ -18,16 +18,26 @@ namespace QLabel.Custom_Control.Small_Tools.Option_Box {
 	/// Interaction logic for OptionCombobox.xaml
 	/// </summary>
 	public partial class OptionComboboxVertical : UserControl {
+
 		public event SelectionChangedEventHandler SelectionChanged {
 			add { this.combobox.SelectionChanged += value; }
 			remove { this.combobox.SelectionChanged -= value; }
 		}
-		public string MainText {
-			get { return (string) GetValue(maintextproperty); }
-			set { SetValue(maintextproperty, value); }
+
+		public List<string> ComboList {
+			get { return (List<string>) GetValue(combolist_property); }
+			set { SetValue(maintext_property, value); SetUI(value); }
 		}
-		public static readonly DependencyProperty maintextproperty =
-		    DependencyProperty.Register("MainText",
+		private static readonly DependencyProperty combolist_property = DependencyProperty.Register(
+			 name: "ComboList",
+			 propertyType: typeof(List<string>),
+			 ownerType: typeof(OptionComboboxVertical)
+		    );
+		public string MainText {
+			get { return (string) GetValue(maintext_property); }
+			set { SetValue(maintext_property, value); }
+		}
+		public static readonly DependencyProperty maintext_property = DependencyProperty.Register("MainText",
 			    propertyType: typeof(string), ownerType: typeof(OptionComboboxVertical),
 			    typeMetadata: new PropertyMetadata("main text"));
 		public string SubText {
@@ -38,8 +48,9 @@ namespace QLabel.Custom_Control.Small_Tools.Option_Box {
 		    DependencyProperty.Register("SubText",
 			    propertyType: typeof(string), ownerType: typeof(OptionComboboxVertical),
 			    typeMetadata: new PropertyMetadata("sub text"));
-		public int SelectedIndex { get => combobox.SelectedIndex; }
+
 		public ItemCollection Items { get => combobox.Items; }
+		public int SelectedIndex { get => combobox.SelectedIndex; }
 		public object SelectedItem { get => combobox.SelectedItem; }
 
 
@@ -48,9 +59,9 @@ namespace QLabel.Custom_Control.Small_Tools.Option_Box {
 		}
 		public OptionComboboxVertical (IEnumerable<string> options) {
 			InitializeComponent();
-			InitializeCombobox(options);
+			SetUI(options);
 		}
-		public void InitializeCombobox (IEnumerable<string> options) {
+		public void SetUI (IEnumerable<string> options) {
 			bool first_item = true;
 			foreach ( var option in options ) {
 				ComboBoxItem item = new ComboBoxItem();

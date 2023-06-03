@@ -21,26 +21,25 @@
                   Grid.ColumnSpan="2"
                   CornerRadius="0"
                   Background="Transparent"
-                  BorderBrush="CadetBlue"
+                  BorderBrush="{StaticResource B600SCB}"
                   BorderThickness="1" />
 				<Border 
                   Grid.Column="0"
                   CornerRadius="0" 
                   Margin="1" 
                   Background="Transparent" 
-                  BorderBrush="CadetBlue"
+                  BorderBrush="{StaticResource B600SCB}"
                   BorderThickness="0,0,1,0" />
 				<Path 
                   x:Name="Arrow"
                   Grid.Column="1"     
-                  Fill="DarkGreen"
+                  Fill="{StaticResource G700SCB}"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center"
                   Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"
                 />
 			</Grid>
 		</ControlTemplate>
-
 		<ControlTemplate x:Key="ComboBoxTextBox" TargetType="{x:Type TextBox}">
 			<Border x:Name="PART_ContentHost" Focusable="False" Background="{TemplateBinding Background}" />
 		</ControlTemplate>
@@ -53,7 +52,9 @@
 			<Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
 			<Setter Property="MinWidth" Value="120"/>
 			<Setter Property="FontWeight" Value="DemiBold"/>
-			<Setter Property="Foreground" Value="DarkCyan"/>
+			<Setter Property="FontSize" Value="{StaticResource TextMid}"/>
+			<!-- 在窗口上显示的文字颜色 -->
+			<Setter Property="Foreground" Value="{StaticResource B700SCB}"/>
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type ComboBox}">
@@ -72,6 +73,7 @@
                             Margin="3,3,23,3"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Left" />
+
 							<TextBox x:Name="PART_EditableTextBox"
                             Style="{x:Null}" 
                             Template="{StaticResource ComboBoxTextBox}" 
@@ -92,15 +94,15 @@
                             PopupAnimation="Slide">
 
 								<Grid Name="DropDown"
-                              SnapsToDevicePixels="True"                
-                              MinWidth="{TemplateBinding ActualWidth}"
-                              MaxHeight="{TemplateBinding MaxDropDownHeight}">
+										SnapsToDevicePixels="True"                
+										MinWidth="{TemplateBinding ActualWidth}"
+										MaxHeight="{TemplateBinding MaxDropDownHeight}">
+									<!-- 下拉窗口的颜色 -->
 									<Border 
-                                x:Name="DropDownBorder"
-                                Background="#FF3F3F3F"
-
-                                BorderThickness="1"
-                                BorderBrush="#888888"/>
+											  x:Name="DropDownBorder"
+											  Background="white"
+											  BorderThickness="1"
+											  BorderBrush="#888888"/>
 									<ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
 										<StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
 									</ScrollViewer>
@@ -137,7 +139,9 @@
 		<!-- SimpleStyles: ComboBoxItem -->
 		<Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
 			<Setter Property="SnapsToDevicePixels" Value="true"/>
-			<Setter Property="Foreground" Value="White"/>
+			<!-- 在下拉框中显示的文字颜色 -->
+			<Setter Property="Foreground" Value="{StaticResource B700SCB}"/>
+			<Setter Property="FontSize" Value="{StaticResource TextMid}"/>
 			<Setter Property="OverridesDefaultStyle" Value="true"/>
 			<Setter Property="Template">
 				<Setter.Value>
@@ -148,8 +152,9 @@
 							<ContentPresenter />
 						</Border>
 						<ControlTemplate.Triggers>
+							<!-- 鼠标移动到 item 上时的 Highlight 颜色 -->
 							<Trigger Property="IsHighlighted" Value="true">
-								<Setter TargetName="Border" Property="Background" Value="#FF4F4F4F"/>
+								<Setter TargetName="Border" Property="Background" Value="{StaticResource B200SCB}"/>
 							</Trigger>
 							<Trigger Property="IsEnabled" Value="false">
 								<Setter Property="Foreground" Value="#888888"/>
@@ -161,21 +166,19 @@
 		</Style>
 	</UserControl.Resources>
 
-	<Grid Background="#BFFFFFFF">
+	<Grid Background="Transparent">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
 
 		<StackPanel VerticalAlignment="Center" Margin="8, 8, 8, 2" Grid.Row="0">
-			<TextBlock Text="{Binding MainText, ElementName=optioncomboboxvertical}" FontSize="9.5" FontWeight="DemiBold"/>
-			<TextBlock Text="{Binding SubText, ElementName=optioncomboboxvertical}" FontSize="7"/>
+			<TextBlock Text="{Binding MainText, ElementName=optioncomboboxvertical}" FontSize="{StaticResource TextMid}" FontWeight="DemiBold"/>
+			<TextBlock Text="{Binding SubText, ElementName=optioncomboboxvertical}" FontSize="{StaticResource TextSmall}"/>
 		</StackPanel>
 
-		<StackPanel VerticalAlignment="Center" Margin="8, 2, 8, 8" Grid.Row="1">
-			<ComboBox Name="combobox">
-			</ComboBox>
-		</StackPanel>
+		<ComboBox Name="combobox" VerticalAlignment="Center" Margin="8, 2, 8, 8" Grid.Row="1">
+		</ComboBox>
 
 		<Grid.Triggers>
 			<EventTrigger RoutedEvent="MouseEnter">
@@ -183,7 +186,7 @@
 					<BeginStoryboard>
 						<Storyboard>
 							<ColorAnimation Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)"
-									From="#BFFFFFFF" To="#BFF0F8FF" Duration="0:0:0.5"/>
+									From="Transparent" To="{StaticResource B100C}" Duration="0:0:0.5"/>
 						</Storyboard>
 					</BeginStoryboard>
 				</EventTrigger.Actions>
@@ -193,7 +196,7 @@
 					<BeginStoryboard>
 						<Storyboard>
 							<ColorAnimation Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)"
-									From="#BFF0F8FF" To="#BFFFFFFF" Duration="0:0:0.5"/>
+									From="{StaticResource B100C}" To="Transparent" Duration="0:0:0.5"/>
 						</Storyboard>
 					</BeginStoryboard>
 				</EventTrigger.Actions>

@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace QLabel.Scripts.Inference_Machine {
 	internal abstract class InferenceBase {
+		internal readonly ClassTemplate[] templates;
 		protected InferenceSession session;
-		protected readonly ClassTemplate[] templates;
 		protected string model_path;
 		protected bool use_gpu;
 		protected readonly int[] input_dims, output_dims;
@@ -24,7 +24,7 @@ namespace QLabel.Scripts.Inference_Machine {
 		}
 
 		/// <summary>
-		/// 从 path 中加载 session
+		/// 从路径（model_path）中加载 session
 		/// </summary>
 		public virtual void BuildSession () {
 			if ( use_gpu ) {

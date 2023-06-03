@@ -8,12 +8,13 @@
              xmlns:local="clr-namespace:QLabel.Custom_Control.Small_Tools"
              mc:Ignorable="d">
 	<Label Name="label" 
-		  BorderThickness="1" BorderBrush="Gray"
-		  Padding="5, 1"  
-		  FontSize="{Binding FontSize, ElementName=roundedlabel}" >
+		  BorderThickness="1" BorderBrush="{StaticResource P600SCB}"
+		  Foreground="{StaticResource P700SCB}"
+		  Padding="4, 1"  
+		  FontSize="{StaticResource TextSmall}" >
 		<Label.Resources>
 			<Style TargetType="Border">
-				<Setter Property="CornerRadius" Value="4"/>
+				<Setter Property="CornerRadius" Value="2"/>
 			</Style>
 		</Label.Resources>
 		text

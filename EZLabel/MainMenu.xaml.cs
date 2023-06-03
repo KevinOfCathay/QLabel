@@ -80,7 +80,7 @@ namespace QLabel {
 		/// 导出注释数据到其他格式
 		/// </summary>
 		private void Auto_Click (object sender, RoutedEventArgs e) {
-			AutoWindow window = new AutoWindow(main, main.main_canvas);
+			AutoWindow window = new AutoWindow(main.main_canvas);
 			window.Initialized += (object? _, EventArgs _) => { main.LockWindow(); };
 			window.Closed += (object? _, EventArgs _) => { main.UnlockWindow(); };
 			window.Show();

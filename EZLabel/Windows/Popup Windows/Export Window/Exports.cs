@@ -12,7 +12,7 @@ namespace QLabel.Windows.Export_Window {
 	public partial class ExportWindow : Window {
 		private async Task ExportToCoco (ImageData[] data_array, string path) {
 			string save_loc = Path.Join(path, "coco.json");
-			var class_labels = App.project_manager.class_label_manager.label_set_full;
+			var class_labels = App.project_manager.class_label_manager.label_set_used;
 
 			var categories_task = ClassTemplatesToCategoryAsync(class_labels);
 			var image_task = ImageDatasToImageAsync(App.project_manager.datas);
@@ -95,8 +95,8 @@ namespace QLabel.Windows.Export_Window {
 				foreach ( var data in datas ) {
 					string save_loc = Path.Join(path, data.filename + ".txt");
 					if ( !Path.Exists(save_loc) ) {    // 不要覆盖现有的文件
-						ClassTemplate[] label_templates = new ClassTemplate[App.project_manager.class_label_manager.label_set_full.Count];
-						App.project_manager.class_label_manager.label_set_full.CopyTo(label_templates, 0);
+						ClassTemplate[] label_templates = new ClassTemplate[App.project_manager.class_label_manager.label_set_used.Count];
+						App.project_manager.class_label_manager.label_set_used.CopyTo(label_templates, 0);
 						switch ( format ) {
 							case YOLOFormat.XYWH:
 								data.ToYoloXYWH(save_loc, label_templates, percentage);

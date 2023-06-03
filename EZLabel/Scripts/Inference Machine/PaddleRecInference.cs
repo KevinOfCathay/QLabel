@@ -11,10 +11,12 @@ using QLabel.Scripts.Projects;
 using QLabel.Scripts.AnnotationData;
 using System.Threading.Tasks;
 using System.Drawing.Imaging;
-using System.Windows.Media.Media3D;
-using QLabel.Windows.Main_Canvas.Annotation_Elements;
 
 namespace QLabel.Scripts.Inference_Machine {
+	/// <summary>
+	///  paddle ocr 的 recognition 的模型
+	///  不包含
+	/// </summary>
 	internal sealed class PaddleRecInference : InferenceBase {
 		private readonly int input_channels, input_height;
 		private readonly int output_chars;

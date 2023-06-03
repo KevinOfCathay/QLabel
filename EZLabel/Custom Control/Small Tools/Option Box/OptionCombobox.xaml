@@ -40,11 +40,9 @@
                 />
 			</Grid>
 		</ControlTemplate>
-
 		<ControlTemplate x:Key="ComboBoxTextBox" TargetType="{x:Type TextBox}">
 			<Border x:Name="PART_ContentHost" Focusable="False" Background="{TemplateBinding Background}" />
 		</ControlTemplate>
-
 		<Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}">
 			<Setter Property="SnapsToDevicePixels" Value="true"/>
 			<Setter Property="OverridesDefaultStyle" Value="true"/>
@@ -53,7 +51,7 @@
 			<Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
 			<Setter Property="MinWidth" Value="120"/>
 			<Setter Property="FontWeight" Value="DemiBold"/>
-			<Setter Property="Foreground" Value="DarkCyan"/>
+			<Setter Property="Foreground" Value="{StaticResource B700SCB}"/>
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type ComboBox}">
@@ -83,8 +81,7 @@
                             Foreground="Green"
                             Visibility="Hidden"
                             IsReadOnly="{TemplateBinding IsReadOnly}"/>
-							<Popup 
-                            Name="Popup"
+							<Popup  Name="Popup"
                             Placement="Bottom"
                             IsOpen="{TemplateBinding IsDropDownOpen}"
                             AllowsTransparency="True" 
@@ -95,10 +92,8 @@
                               SnapsToDevicePixels="True"                
                               MinWidth="{TemplateBinding ActualWidth}"
                               MaxHeight="{TemplateBinding MaxDropDownHeight}">
-									<Border 
-                                x:Name="DropDownBorder"
-                                Background="#FF3F3F3F"
-
+									<Border  x:Name="DropDownBorder"
+                                Background="white"
                                 BorderThickness="1"
                                 BorderBrush="#888888"/>
 									<ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
@@ -137,7 +132,7 @@
 		<!-- SimpleStyles: ComboBoxItem -->
 		<Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
 			<Setter Property="SnapsToDevicePixels" Value="true"/>
-			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="Foreground" Value="{StaticResource B700SCB}"/>
 			<Setter Property="OverridesDefaultStyle" Value="true"/>
 			<Setter Property="Template">
 				<Setter.Value>
@@ -149,7 +144,7 @@
 						</Border>
 						<ControlTemplate.Triggers>
 							<Trigger Property="IsHighlighted" Value="true">
-								<Setter TargetName="Border" Property="Background" Value="#FF4F4F4F"/>
+								<Setter TargetName="Border" Property="Background" Value="{StaticResource B200SCB}"/>
 							</Trigger>
 							<Trigger Property="IsEnabled" Value="false">
 								<Setter Property="Foreground" Value="#888888"/>
@@ -161,15 +156,15 @@
 		</Style>
 	</UserControl.Resources>
 
-	<Grid Background="#BFFFFFFF">
+	<Grid Background="Transparent">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*"></ColumnDefinition>
 			<ColumnDefinition Width="*"></ColumnDefinition>
 		</Grid.ColumnDefinitions>
 
 		<StackPanel VerticalAlignment="Center" Margin="8">
-			<TextBlock Text="{Binding MainText, ElementName=optioncombobox}" FontSize="9.5" FontWeight="DemiBold"/>
-			<TextBlock Text="{Binding SubText, ElementName=optioncombobox}" FontSize="7"/>
+			<TextBlock Text="{Binding MainText, ElementName=optioncombobox}" FontSize="{StaticResource TextMid}" FontWeight="DemiBold"/>
+			<TextBlock Text="{Binding SubText, ElementName=optioncombobox}" FontSize="{StaticResource TextSmall}"/>
 		</StackPanel>
 
 		<StackPanel VerticalAlignment="Center" Margin="8" Grid.Column="1">
@@ -184,7 +179,7 @@
 					<BeginStoryboard>
 						<Storyboard>
 							<ColorAnimation Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)"
-									From="#BFFFFFFF" To="#BFF0F8FF" Duration="0:0:0.5"/>
+									From="Transparent" To="{StaticResource B100C}" Duration="0:0:0.5"/>
 						</Storyboard>
 					</BeginStoryboard>
 				</EventTrigger.Actions>
@@ -194,7 +189,7 @@
 					<BeginStoryboard>
 						<Storyboard>
 							<ColorAnimation Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)"
-									From="#BFF0F8FF" To="#BFFFFFFF" Duration="0:0:0.5"/>
+									From="{StaticResource B100C}" To="Transparent" Duration="0:0:0.5"/>
 						</Storyboard>
 					</BeginStoryboard>
 				</EventTrigger.Actions>

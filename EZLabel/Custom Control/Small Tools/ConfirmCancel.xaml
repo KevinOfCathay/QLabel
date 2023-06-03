@@ -10,7 +10,7 @@
 			HorizontalAlignment="Right">
 		<Button 
 			Name="confirm" Style="{StaticResource NiceButton}" 
-		    Background="CornflowerBlue">
+		    Background="{StaticResource B600SCB}">
 			Confirm
 		</Button>
 		<Button 

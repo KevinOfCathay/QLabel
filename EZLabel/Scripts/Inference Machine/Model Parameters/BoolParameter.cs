@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace QLabel.Scripts.Inference_Machine {
-	class BoolParameter : ModelParameter {
+	internal class BoolParameter : ModelParameter {
 		public BoolParameter (string name, object value, bool editable) : base(name, typeof(bool), value, editable) {
 		}
 	}

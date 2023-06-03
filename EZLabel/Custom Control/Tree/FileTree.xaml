@@ -32,8 +32,8 @@
 	</UserControl.Triggers>
 
 	<DockPanel Margin="8">
-		<TextBlock DockPanel.Dock="Top" Text="{Binding MainText, ElementName=userfiletree}" FontSize="9.5" FontWeight="DemiBold"/>
-		<TextBlock DockPanel.Dock="Top" Text="{Binding SubText, ElementName=userfiletree}" FontSize="7"/>
+		<TextBlock DockPanel.Dock="Top" Text="{Binding MainText, ElementName=userfiletree}" FontSize="{StaticResource TextMid}" FontWeight="DemiBold"/>
+		<TextBlock DockPanel.Dock="Top" Text="{Binding SubText, ElementName=userfiletree}" FontSize="{StaticResource TextSmall}"/>
 
 		<TreeView Name="filetree"  Margin="0, 5, 0, 0" >
 			<TreeView.Resources>

@@ -16,7 +16,7 @@
 			<Style TargetType="{x:Type TextBlock}">
 				<Setter Property="Margin" Value="1"/>
 				<Setter Property="Padding" Value="2"/>
-				<Setter Property="FontSize" Value="10.5"/>
+				<Setter Property="FontSize" Value="{StaticResource TextMid}"/>
 			</Style>
 		</StackPanel.Resources>
 

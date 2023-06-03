@@ -11,8 +11,10 @@ using System.Windows;
 using System.Windows.Controls;
 
 namespace QLabel.Windows.Popup_Windows.Auto_Window {
+	/// <summary>
+	/// 深度学习模型半自动识别窗口
+	/// </summary>
 	public partial class AutoWindow : Window {
-		private MainWindow main;
 		private MainCanvas canvas;
 		private InferenceBase selected_machine;
 		private HashSet<int> accepted_classes = new HashSet<int>();
@@ -24,11 +26,10 @@ namespace QLabel.Windows.Popup_Windows.Auto_Window {
 			SetListItems();
 		}
 		internal AutoWindow (
-			MainWindow main, MainCanvas canvas,
+			MainCanvas canvas,
 			Action<InferenceBase>? eRunBefore = null, Action<InferenceBase>? eRunAfter = null) {
 			InitializeComponent();
 
-			this.main = main;
 			this.canvas = canvas;
 			if ( eRunBefore != null ) { this.eRunBefore += eRunBefore; }
 			if ( eRunAfter != null ) {
@@ -36,6 +37,8 @@ namespace QLabel.Windows.Popup_Windows.Auto_Window {
 			}
 			confirm_cancel.ConfirmClick += Run;
 			confirm_cancel.ConfirmClick += (_, _) => { this.Close(); };
+			confirm_cancel.CancelClick += (_, _) => { this.Close(); };
+			target_class_combobox.SetUI(new string[] { "Full Image" });
 			SetListItems(); SetFileTree();
 		}
 

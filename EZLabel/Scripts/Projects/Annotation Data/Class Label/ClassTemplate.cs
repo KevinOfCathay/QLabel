@@ -43,6 +43,9 @@ namespace QLabel.Scripts.Projects {
 		public string GetName () {
 			return ( ( group != null && group != "" ) ? group : "" ) + ( ( name != null && name != "" ) ? name : "" );
 		}
+		public override int GetHashCode () {
+			return guid.GetHashCode();
+		}
 		public override bool Equals (object? obj) {
 			ClassTemplate? target = obj as ClassTemplate;
 			if ( target == null ) { return false; }

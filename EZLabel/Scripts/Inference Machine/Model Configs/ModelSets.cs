@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using QLabel.Scripts.Inference_Machine;
+using System.Collections.Generic;
 
 namespace QLabel.Scripts {
 	internal static class ModelSets {
@@ -12,14 +13,14 @@ namespace QLabel.Scripts {
 										input_dims: new int[4]{1,3,640,640},
 										output_dims: new int[2]{-1, 7},
 										class_labels : ModelLabels.manga_v230322
-									){ tags = new string[]{ "yolov7", "640×640", "69.3GFLOPS", "map.5=47.6%", "23-03-22" } },
+									){ tags = new string[]{ "yolov7", "640×640", "69.3GFLOPS", "map.5=47.6%", "23-03-22" }},
 								new Yolov7Config (
 										model_name : "v230224",
 										model_path : @"Resources/Models/yolov7-manga-230224.onnx",
 										input_dims: new int[4]{1,3,640,640},
 										output_dims: new int[2]{-1, 7},
 										class_labels : ModelLabels.manga_v230224
-									){ tags = new string[]{ "yolov7", "640×640", "75.5 GFlops", "map.5=50.4%", "23-02-24" } },
+									){ tags = new string[]{ "yolov7", "640×640", "75.5 GFlops", "map.5=50.4%", "23-02-24" }},
 								new Yolov7Config (
 										model_name : "v230214",
 										model_path : @"Resources/Models/yolov7-manga-230214.onnx",

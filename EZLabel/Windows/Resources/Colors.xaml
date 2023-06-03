@@ -1,0 +1,89 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<!-- Blue Color From Light To Dark -->
+	<Color x:Key="B100C">#E7F6FF</Color>
+	<Color x:Key="B200C">#CFECFF</Color>
+	<Color x:Key="B300C">#B7DFFF</Color>
+	<Color x:Key="B400C">#A5D3FF</Color>
+	<Color x:Key="B500C">#88BFFF</Color>
+	<Color x:Key="B600C">#6395DB</Color>
+	<Color x:Key="B700C">#446FB7</Color>
+	<Color x:Key="B800C">#2B4D93</Color>
+	<Color x:Key="B900C">#1A347A</Color>
+
+	<SolidColorBrush x:Key="B100SCB" Color="{StaticResource B100C}"/>
+	<SolidColorBrush x:Key="B200SCB" Color="{StaticResource B200C}"/>
+	<SolidColorBrush x:Key="B300SCB" Color="{StaticResource B300C}"/>
+	<SolidColorBrush x:Key="B400SCB" Color="{StaticResource B400C}"/>
+	<SolidColorBrush x:Key="B500SCB" Color="{StaticResource B500C}"/>
+	<SolidColorBrush x:Key="B600SCB" Color="{StaticResource B600C}"/>
+	<SolidColorBrush x:Key="B700SCB" Color="{StaticResource B700C}"/>
+	<SolidColorBrush x:Key="B800SCB" Color="{StaticResource B800C}"/>
+	<SolidColorBrush x:Key="B900SCB" Color="{StaticResource B900C}"/>
+
+	<!-- Red/Coral Color From Light To Dark -->
+	<Color x:Key="R100C">#FFE8D9</Color>
+	<Color x:Key="R200C">#FFCBB4</Color>
+	<Color x:Key="R300C">#FFA98E</Color>
+	<Color x:Key="R400C">#FF8872</Color>
+	<Color x:Key="R500C">#FF5144</Color>
+	<Color x:Key="R600C">#DB3133</Color>
+	<Color x:Key="R700C">#B72230</Color>
+	<Color x:Key="R800C">#93152C</Color>
+	<Color x:Key="R900C">#7A0D29</Color>
+
+	<SolidColorBrush x:Key="R100SCB" Color="{StaticResource R100C}"/>
+	<SolidColorBrush x:Key="R200SCB" Color="{StaticResource R200C}"/>
+	<SolidColorBrush x:Key="R300SCB" Color="{StaticResource R300C}"/>
+	<SolidColorBrush x:Key="R400SCB" Color="{StaticResource R400C}"/>
+	<SolidColorBrush x:Key="R500SCB" Color="{StaticResource R500C}"/>
+	<SolidColorBrush x:Key="R600SCB" Color="{StaticResource R600C}"/>
+	<SolidColorBrush x:Key="R700SCB" Color="{StaticResource R700C}"/>
+	<SolidColorBrush x:Key="R800SCB" Color="{StaticResource R800C}"/>
+	<SolidColorBrush x:Key="R900SCB" Color="{StaticResource R900C}"/>
+
+
+	<!-- Green Color From Light To Dark -->
+	<Color x:Key="G100C">#F3FBCE</Color>
+	<Color x:Key="G200C">#E6F89F</Color>
+	<Color x:Key="G300C">#CEEC6C</Color>
+	<Color x:Key="G400C">#B2D946</Color>
+	<Color x:Key="G500C">#8DC113</Color>
+	<Color x:Key="G600C">#73A50D</Color>
+	<Color x:Key="G700C">#5C8A09</Color>
+	<Color x:Key="G800C">#466F06</Color>
+	<Color x:Key="G900C">#375C03</Color>
+
+	<SolidColorBrush x:Key="G100SCB" Color="{StaticResource G100C}"/>
+	<SolidColorBrush x:Key="G200SCB" Color="{StaticResource G200C}"/>
+	<SolidColorBrush x:Key="G300SCB" Color="{StaticResource G300C}"/>
+	<SolidColorBrush x:Key="G400SCB" Color="{StaticResource G400C}"/>
+	<SolidColorBrush x:Key="G500SCB" Color="{StaticResource G500C}"/>
+	<SolidColorBrush x:Key="G600SCB" Color="{StaticResource G600C}"/>
+	<SolidColorBrush x:Key="G700SCB" Color="{StaticResource G700C}"/>
+	<SolidColorBrush x:Key="G800SCB" Color="{StaticResource G800C}"/>
+	<SolidColorBrush x:Key="G900SCB" Color="{StaticResource G900C}"/>
+
+	<!-- Pink/Purple Color From Light To Dark -->
+	<Color x:Key="P100C">#FDEAFF</Color>
+	<Color x:Key="P200C">#F9D6FF</Color>
+	<Color x:Key="P300C">#F2C1FF</Color>
+	<Color x:Key="P400C">#EAB2FF</Color>
+	<Color x:Key="P500C">#DD99FF</Color>
+	<Color x:Key="P600C">#B06FDB</Color>
+	<Color x:Key="P700C">#864DB7</Color>
+	<Color x:Key="P800C">#5F3093</Color>
+	<Color x:Key="P900C">#431D7A</Color>
+
+	<SolidColorBrush x:Key="P100SCB" Color="{StaticResource P100C}"/>
+	<SolidColorBrush x:Key="P200SCB" Color="{StaticResource P200C}"/>
+	<SolidColorBrush x:Key="P300SCB" Color="{StaticResource P300C}"/>
+	<SolidColorBrush x:Key="P400SCB" Color="{StaticResource P400C}"/>
+	<SolidColorBrush x:Key="P500SCB" Color="{StaticResource P500C}"/>
+	<SolidColorBrush x:Key="P600SCB" Color="{StaticResource P600C}"/>
+	<SolidColorBrush x:Key="P700SCB" Color="{StaticResource P700C}"/>
+	<SolidColorBrush x:Key="P800SCB" Color="{StaticResource P800C}"/>
+	<SolidColorBrush x:Key="P900SCB" Color="{StaticResource P900C}"/>
+
+</ResourceDictionary>

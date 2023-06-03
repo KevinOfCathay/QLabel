@@ -52,5 +52,22 @@ namespace QLabel {
 			}
 			return res;
 		}
+
+		/// <summary>
+		/// 在一个 Bitmap 上裁剪下多个方框
+		/// </summary>
+		public static List<Bitmap> CropBitmap (Bitmap source, in ICollection<Rect2f> boxes, InterpolationMode interp = InterpolationMode.Bilinear) {
+			List<Bitmap> res = new List<Bitmap>(boxes.Count);
+			foreach ( var box in boxes ) {
+				Bitmap target = new Bitmap((int) box.Width, (int) box.Height);
+				using ( Graphics g = Graphics.FromImage(target) ) {
+					g.InterpolationMode = interp;
+					g.DrawImage(source, new Rectangle(0, 0, (int) box.Width, (int) box.Height),
+					   new Rectangle((int) box.X, (int) box.Y, (int) box.Width, (int) box.Height), GraphicsUnit.Pixel);
+				}
+				res.Add(target);
+			}
+			return res;
+		}
 	}
 }

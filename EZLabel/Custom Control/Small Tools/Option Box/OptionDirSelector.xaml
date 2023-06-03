@@ -15,8 +15,8 @@
 		</Grid.ColumnDefinitions>
 
 		<StackPanel VerticalAlignment="Center" Margin="8">
-			<TextBlock Text="{Binding MainText, ElementName=optiondirselector}" FontSize="9.5" FontWeight="DemiBold"/>
-			<TextBlock Text="{Binding SubText, ElementName=optiondirselector}" FontSize="7"/>
+			<TextBlock Text="{Binding MainText, ElementName=optiondirselector}" FontSize="{StaticResource TextMid}" FontWeight="DemiBold"/>
+			<TextBlock Text="{Binding SubText, ElementName=optiondirselector}" FontSize="{StaticResource TextSmall}"/>
 		</StackPanel>
 
 		<DockPanel Grid.Column="1" Margin="8">
@@ -32,7 +32,7 @@
 					    BorderBrush="LightGray" BorderThickness="1" >
 				<TextBlock 
 					VerticalAlignment="Center" Name="path"
-					DockPanel.Dock="Top" FontSize="9.5" Foreground="#FF797979"></TextBlock>
+					DockPanel.Dock="Top" FontSize="{StaticResource TextMid}" Foreground="#FF797979"></TextBlock>
 			</Border>
 		</DockPanel>
 

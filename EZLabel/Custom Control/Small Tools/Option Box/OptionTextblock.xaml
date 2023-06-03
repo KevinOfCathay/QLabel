@@ -16,8 +16,8 @@
 		</Grid.ColumnDefinitions>
 
 		<StackPanel VerticalAlignment="Center" Margin="8">
-			<TextBlock Text="{Binding MainText, ElementName=optiontextblock}" FontSize="9.5" FontWeight="DemiBold"/>
-			<TextBlock Text="{Binding SubText, ElementName=optiontextblock}" FontSize="7"/>
+			<TextBlock Text="{Binding MainText, ElementName=optiontextblock}" FontSize="{StaticResource TextMid}" FontWeight="DemiBold"/>
+			<TextBlock Text="{Binding SubText, ElementName=optiontextblock}" FontSize="{StaticResource TextSmall}"/>
 		</StackPanel>
 
 		<StackPanel VerticalAlignment="Center" Margin="8" Grid.Column="1">

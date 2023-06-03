@@ -24,7 +24,7 @@ namespace QLabel.Windows.CropWindow {
 			this.crop_target.InitializeCombobox(new string[] { "Current File", "All Files" });
 			this.dir_selector.eDirectorySelected += (path) => { save_dir = path; this.Topmost = true; };
 
-			var classlabels = App.project_manager.class_label_manager.label_set_full;
+			var classlabels = App.project_manager.class_label_manager.label_set_used;
 			SetClassListbox(classlabels);
 		}
 		private async void ConfirmClick (object sender, RoutedEventArgs e) {
@@ -64,7 +64,7 @@ namespace QLabel.Windows.CropWindow {
 			string path = data.path;
 			if ( Path.Exists(path) ) {
 				// 读取图片
-				var load_bitmap_task = ImageUtils.ReadBitmapFromFileAsync(path);
+				var load_bitmap_task = ImageUtils.ReadBitmapAsync(path);
 				var ads = data.annodatas;
 				int index = 0;
 				foreach ( var ad in ads ) {

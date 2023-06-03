@@ -8,6 +8,8 @@
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="Windows/Resources/ButtonResources.xaml"/>
 				<ResourceDictionary Source="Windows/Resources/TextboxResources.xaml"/>
+				<ResourceDictionary Source="Windows/Resources/Colors.xaml"/>
+				<ResourceDictionary Source="Windows/Resources/TextSize.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Application.Resources>
