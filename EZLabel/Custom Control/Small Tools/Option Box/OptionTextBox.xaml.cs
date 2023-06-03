@@ -49,7 +49,11 @@ namespace QLabel.Custom_Control.Small_Tools.Option_Box {
 		public OptionTextBox () {
 			InitializeComponent();
 		}
-		public string GetInput () { return inputbox.Text; }
+
+		public string Text { get { return inputbox.Text; } set { inputbox.Text = value; } }
+		public int CaretIndex { get { return inputbox.CaretIndex; } set { inputbox.CaretIndex = value; } }
+		public new bool IsEnabled { get { return inputbox.IsEnabled; } set { inputbox.IsEnabled = value; } }
+
 		private void InputboxTextChanged (object sender, TextChangedEventArgs e) {
 			int cursoridex;
 			string previous_input, new_input;

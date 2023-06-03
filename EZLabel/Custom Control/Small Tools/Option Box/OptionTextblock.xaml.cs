@@ -30,6 +30,9 @@ namespace QLabel.Custom_Control.Small_Tools.Option_Box {
 			get { return (string) GetValue(subtextproperty); }
 			set { SetValue(subtextproperty, value); }
 		}
+
+		public string Text { get { return textblock.Text; } set { textblock.Text = value; } }
+
 		public static readonly DependencyProperty subtextproperty =
 		    DependencyProperty.Register("SubText",
 			    propertyType: typeof(string), ownerType: typeof(OptionTextblock),

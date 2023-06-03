@@ -23,6 +23,7 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 	public partial class AnnoPropertiesPanel : UserControl {
 		public AnnoPropertiesPanel () {
 			InitializeComponent();
+			caption.IsEnabled = false;
 		}
 		public void SetUI (IAnnotationElement elem) {
 			if ( elem != null ) {

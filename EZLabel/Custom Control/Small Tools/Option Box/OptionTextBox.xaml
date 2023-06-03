@@ -7,8 +7,8 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 	xmlns:local="clr-namespace:QLabel.Custom_Control.Small_Tools.Option_Box"
 	mc:Ignorable="d" 
-	d:DesignHeight="50" d:DesignWidth="400">
-	<Grid Background="#BFFFFFFF">
+	d:DesignWidth="400">
+	<Grid Background="Transparent">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*"></ColumnDefinition>
 			<ColumnDefinition Width="*"></ColumnDefinition>
@@ -19,10 +19,10 @@
 			<TextBlock Text="{Binding SubText, ElementName=optiontextbox}" FontSize="{StaticResource TextSmall}"/>
 		</StackPanel>
 
-		<StackPanel  Grid.Column="1" VerticalAlignment="Center" Margin="8">
-			<TextBox Name="inputbox" 
-				    FontSize="{StaticResource TextMid}" Padding="2" TextChanged="InputboxTextChanged"></TextBox>
-		</StackPanel>
+		<TextBox  Name="inputbox"  Grid.Column="1" 
+				 VerticalAlignment="Center" Margin="8" Foreground="{StaticResource B700SCB}"
+				    FontSize="{StaticResource TextMid}" Padding="2"
+				    TextChanged="InputboxTextChanged"></TextBox>
 
 		<Grid.Triggers>
 			<EventTrigger RoutedEvent="MouseEnter">
@@ -30,7 +30,7 @@
 					<BeginStoryboard>
 						<Storyboard>
 							<ColorAnimation Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)"
-									From="#BFFFFFFF" To="#BFF0F8FF" Duration="0:0:0.5"/>
+									From="Transparent" To="{StaticResource B100C}" Duration="0:0:0.5"/>
 						</Storyboard>
 					</BeginStoryboard>
 				</EventTrigger.Actions>
@@ -40,7 +40,7 @@
 					<BeginStoryboard>
 						<Storyboard>
 							<ColorAnimation Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)"
-									From="#BFF0F8FF" To="#BFFFFFFF" Duration="0:0:0.5"/>
+									From="{StaticResource B100C}" To="Transparent" Duration="0:0:0.5"/>
 						</Storyboard>
 					</BeginStoryboard>
 				</EventTrigger.Actions>

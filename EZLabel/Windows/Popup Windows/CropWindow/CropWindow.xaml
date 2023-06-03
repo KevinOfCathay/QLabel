@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:QLabel.Windows.CropWindow"
 	   xmlns:tool="clr-namespace:QLabel.Custom_Control.Small_Tools"
 	   xmlns:option="clr-namespace:QLabel.Custom_Control.Small_Tools.Option_Box"
-        xmlns:textboxes="clr-namespace:QLabel.Custom_Control.Small_Tools.Textboxes"
 	   xmlns:labeltree="clr-namespace:QLabel.Custom_Control.Label_Tree"
 	   mc:Ignorable="d"
 	   xmlns:cvt="clr-namespace:QLabel.Converters"

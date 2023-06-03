@@ -19,6 +19,9 @@ namespace QLabel.Windows.Misc_Panel.Sub_Panels {
 	/// Interaction logic for LabelsPanel.xaml
 	/// </summary>
 	public partial class LabelsPanel : UserControl {
-		public LabelsPanel () { InitializeComponent(); }
+		public LabelsPanel () {
+			InitializeComponent();
+		}
+
 	}
 }
