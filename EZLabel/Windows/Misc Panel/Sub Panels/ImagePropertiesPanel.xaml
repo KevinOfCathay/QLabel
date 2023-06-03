@@ -3,35 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+		   xmlns:option="clr-namespace:QLabel.Custom_Control.Small_Tools.Option_Box" 
              xmlns:local="clr-namespace:QLabel.Windows.Misc_Panel.Sub_Panels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="300">
 	<StackPanel>
-		<Expander Header="Properties" IsExpanded="True">
-			<StackPanel Margin="20,4,0,0">
-				<StackPanel.Resources>
-					<Style TargetType="{x:Type TextBlock}">
-						<Setter Property="FontSize" Value="9.5"/>
-						<Setter Property="Margin" Value="1"/>
-					</Style>
-				</StackPanel.Resources>
-				<TextBlock>
-							<Run>File Path:</Run>
-							<Run Name="file_path"></Run>
-				</TextBlock>
-				<TextBlock>
-							<Run>File Name:</Run>
-							<Run Name="file_name"></Run>
-				</TextBlock>
-				<TextBlock>
-							<Run>Dimension:</Run>
-							<Run Name="dimension"></Run>
-				</TextBlock>
-				<TextBlock>
-							<Run>File Size:</Run>
-							<Run Name="file_size"></Run>
-				</TextBlock>
-			</StackPanel>
-		</Expander>
+		<option:OptionTextblock x:Name="file_path" MainText="File Path" SubText="Absolute file path"/>
+		<option:OptionTextblock x:Name="file_name" MainText="File Name" SubText="File name"/>
+		<option:OptionTextblock x:Name="dimension" MainText="Dimension" SubText="Image dimension"/>
+		<option:OptionTextblock x:Name="file_size" MainText="File Size" SubText="File size"/>
 	</StackPanel>
 </UserControl>

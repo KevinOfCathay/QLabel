@@ -15,14 +15,6 @@
 	<!-- 显示所有的 Anno 信息 -->
 	<ScrollViewer VerticalScrollBarVisibility="Auto">
 		<StackPanel Name="panel">
-			<StackPanel.Resources>
-				<Style TargetType="{x:Type TextBlock}">
-					<Setter Property="Padding" Value="3"/>
-					<Setter Property="FontSize" Value="{StaticResource TextMid}"/>
-				</Style>
-			</StackPanel.Resources>
-
-			<TextBlock>Annotation</TextBlock>
 			<option:OptionTextblock x:Name="points" 
 							    MainText="Points" SubText="Points of annotation"/>
 			<option:OptionTextBox x:Name="caption"
@@ -31,7 +23,6 @@
 							   MainText="Occluded" SubText="Is annotation occluded" />
 			<option:OptionCheckbox x:Name="truncated"
 							   MainText="Truncated" SubText="Is annotation truncated" />
-
 		</StackPanel>
 	</ScrollViewer>
 </UserControl>
