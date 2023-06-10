@@ -13,7 +13,6 @@ namespace QLabel.Windows.Main_Canvas.Annotation_Elements {
 	public partial class Dot : UserControl {
 		public event Action<Dot, EventArgs> eMouseEnter, eMouseLeave;
 		public bool activate { private set; get; } = false;
-		private Vector2 position;
 
 		public Dot () {
 			InitializeComponent();

@@ -19,7 +19,7 @@ namespace QLabel.Windows.Popup_Windows.Resize_Window {
 	public partial class ResizeWindow : Window {
 		public ResizeWindow () {
 			InitializeComponent();
-			scale.InitializeCombobox(new string[] { "Pixel", "Percentage" });
+			scale.SetCombobox(new string[] { "Pixel", "Percentage" });
 		}
 		private void scale_SelectionChanged (object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
 			if ( scale.SelectedItem != null ) {

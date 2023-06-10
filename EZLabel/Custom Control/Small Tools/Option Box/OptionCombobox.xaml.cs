@@ -46,9 +46,9 @@ namespace QLabel.Custom_Control.Small_Tools.Option_Box {
 		}
 		public OptionCombobox (IEnumerable<string> options) {
 			InitializeComponent();
-			InitializeCombobox(options);
+			SetCombobox(options);
 		}
-		public void InitializeCombobox (IEnumerable<string> options) {
+		public void SetCombobox (IEnumerable<string> options) {
 			bool first_item = true;
 			foreach ( var option in options ) {
 				ComboBoxItem item = new ComboBoxItem();

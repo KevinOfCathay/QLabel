@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace QLabel {
 	internal static partial class ImageUtils {
-		public enum Align { Left, Right }
+		internal enum Align { Left, Right }
 
 		/// <param name="align"> 左对齐或者右对齐，左对齐时，原图像贴着左侧边界，右侧补0；右对齐同理 </param>
 		public static Bitmap Pad (Bitmap source, in OpenCvSharp.Size size, Align align = Align.Left) {

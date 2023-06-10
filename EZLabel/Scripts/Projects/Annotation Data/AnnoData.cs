@@ -87,12 +87,12 @@ namespace QLabel.Scripts.AnnotationData {
 		protected virtual OpenCvSharp.Rect2f GetBoundingBox (ReadOnlySpan<Vector2> rpoints) {
 			float top = float.MaxValue, left = float.MaxValue, bottom = float.MinValue, right = float.MinValue;
 			foreach ( var point in rpoints ) {
-				if ( point.X < top ) { top = point.X; }
-				if ( point.X > bottom ) { bottom = point.X; }
-				if ( point.Y < left ) { left = point.Y; }
-				if ( point.Y > right ) { right = point.Y; }
+				if ( point.X < left ) { left = point.X; }
+				if ( point.X > right ) { right = point.X; }
+				if ( point.Y < top ) { top = point.Y; }
+				if ( point.Y > bottom ) { bottom = point.Y; }
 			}
-			return new OpenCvSharp.Rect2f(top, left, right - left, bottom - top);
+			return new OpenCvSharp.Rect2f(left, top, right - left, bottom - top);
 		}
 	}
 }

@@ -9,13 +9,14 @@
 	   xmlns:labeltree="clr-namespace:QLabel.Custom_Control.Label_Tree"
 	   mc:Ignorable="d"
 	   xmlns:cvt="clr-namespace:QLabel.Converters"
-	   Height="300" Width="480"
-	   MinHeight="300" MinWidth="480"
+	   Height="480" Width="720"
+	   MinHeight="480" MinWidth="720"
         Title="Crop...">
 
 	<Window.Resources>
 		<cvt:Percentage x:Key="Percentage"/>
 	</Window.Resources>
+
 	<Grid Name="grid" Margin="10">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition 
@@ -23,7 +24,13 @@
 				Width="{Binding 
                     Converter={StaticResource Percentage}, 
                     ElementName=grid,  Path=ActualWidth, 
-                    ConverterParameter=0.3}"></ColumnDefinition>
+                    ConverterParameter=0.25}"></ColumnDefinition>
+			<ColumnDefinition 
+				MinWidth="150"
+				Width="{Binding 
+                    Converter={StaticResource Percentage}, 
+                    ElementName=grid,  Path=ActualWidth, 
+                    ConverterParameter=0.25}"></ColumnDefinition>
 			<ColumnDefinition Width="*"></ColumnDefinition>
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
@@ -36,10 +43,14 @@
 						 Margin="5"
 						 MainText="Classes" SubText="Select crop target classes"/>
 
-		<StackPanel Grid.Row="0"  Grid.Column="1"  Margin="5">
+		<labeltree:FileTree x:Name="filetree" 
+						 Grid.Column="1" Grid.Row="0" 
+						 Margin="5"
+						 MainText="Files" SubText="Select files"/>
+
+		<StackPanel Grid.Row="0"  Grid.Column="2"  Margin="5">
 			<!-- Preferred Width & Height-->
-			<option:OptionCombobox x:Name="crop_target" 
-							  SelectionChanged="crop_target_SelectionChanged"
+			<option:OptionCombobox x:Name="crop_target"
 							   MainText="Target" SubText="Choose target files"></option:OptionCombobox>
 			<option:OptionDirSelector x:Name="dir_selector"
 					Height="50" MainText="Directory" SubText="Choose where you want to save images"></option:OptionDirSelector>
@@ -47,10 +58,14 @@
 					Height="50" MainText="Prefer Width" SubText="The width of the output image"></option:OptionTextBox>
 			<option:OptionTextBox   x:Name="preferred_height"
 					Height="50" MainText="Prefer Height" SubText="The height of the output image"></option:OptionTextBox>
+			<option:OptionCombobox x:Name="crop_align" 
+							   MainText="Align" SubText="Choose cropped image alignment"></option:OptionCombobox>
+			<option:OptionTextBox x:Name="add_margin" 
+							   MainText="Margin" SubText="Add margin to bounding box"></option:OptionTextBox>
 		</StackPanel>
 
 		<tool:ConfirmCancel 
-			Grid.ColumnSpan="2" Grid.Row="1" x:Name="confirm_cancel"
+			Grid.ColumnSpan="3" Grid.Row="1" x:Name="confirm_cancel"
 			ConfirmClick="ConfirmClick" CancelClick="CancelClick"/>
 	</Grid>
 </Window>
