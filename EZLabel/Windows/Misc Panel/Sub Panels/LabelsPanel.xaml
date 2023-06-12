@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:QLabel.Windows.Misc_Panel.Sub_Panels"
              xmlns:tree="clr-namespace:QLabel.Custom_Control.Label_Tree"
              xmlns:tool="clr-namespace:QLabel.Custom_Control.Small_Tools"
+             xmlns:option="clr-namespace:QLabel.Custom_Control.Small_Tools.Option_Box"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="200">
 
@@ -14,9 +15,11 @@
 		<tree:LabelTree x:Name="labeltree" 
 					 MainText="Labels" SubText="List of all class labels"
 					 MinHeight="200"></tree:LabelTree>
+		<option:OptionCollapse x:Name="label_collapse" HeaderText="Add Remove Label">
+			<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+				<tool:DualButton TextA="Add" TextB="Remove"/>
+			</StackPanel>
+		</option:OptionCollapse>
 
-		<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-			<tool:DualButton TextA="Add" TextB="Remove"/>
-		</StackPanel>
 	</StackPanel>
 </UserControl>

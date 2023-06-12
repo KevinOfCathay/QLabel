@@ -53,8 +53,10 @@
 		</Grid.ColumnDefinitions>
 
 		<StackPanel VerticalAlignment="Center" Margin="8">
-			<TextBlock Text="{Binding MainText, ElementName=optioncheckbox}" FontSize="{StaticResource TextMid}" FontWeight="DemiBold"/>
-			<TextBlock Text="{Binding SubText, ElementName=optioncheckbox}" FontSize="{StaticResource TextSmall}"/>
+			<TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=MainText}" 
+					 FontSize="{StaticResource TextMid}" FontWeight="DemiBold"/>
+			<TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=SubText}" 
+					 FontSize="{StaticResource TextSmall}"/>
 		</StackPanel>
 
 		<CheckBox Grid.Column="1" Margin="8"

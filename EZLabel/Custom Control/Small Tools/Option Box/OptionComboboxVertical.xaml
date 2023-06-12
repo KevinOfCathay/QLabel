@@ -43,7 +43,6 @@
 		<ControlTemplate x:Key="ComboBoxTextBox" TargetType="{x:Type TextBox}">
 			<Border x:Name="PART_ContentHost" Focusable="False" Background="{TemplateBinding Background}" />
 		</ControlTemplate>
-
 		<Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}">
 			<Setter Property="SnapsToDevicePixels" Value="true"/>
 			<Setter Property="OverridesDefaultStyle" Value="true"/>
@@ -135,8 +134,6 @@
 			<Style.Triggers>
 			</Style.Triggers>
 		</Style>
-
-		<!-- SimpleStyles: ComboBoxItem -->
 		<Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
 			<Setter Property="SnapsToDevicePixels" Value="true"/>
 			<!-- 在下拉框中显示的文字颜色 -->
